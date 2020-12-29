@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">MyDiabetes</string>
+    <string name="home_navigation">home navigation</string>
+    <string name="settings_navigation">settings_navigation</string>
+    <string name="Add">Dodaj</string>
+    <string name="Settings">Ustawienia</string>
+    <string name="Home_page">Strona główna</string>
 </resources>
