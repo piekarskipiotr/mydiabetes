@@ -4,69 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-        <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <com.google.android.material.appbar.MaterialToolbar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:layout_gravity="top"
-                app:layout_scrollFlags="scroll|enterAlways">
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:paddingTop="20dp"
-                        android:paddingBottom="20dp"
-                        android:layout_centerHorizontal="true"
-                        android:text="MyDiabetes"
-                        android:textSize="22sp"
-                        android:textStyle="bold"/>
-
-                    <ImageView
-                        android:id="@+id/searchForProduct"
-                        android:contentDescription="searchForProduct"
-                        android:layout_centerVertical="true"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerHorizontal="true"
-                        android:src="@drawable/ic_round_search"/>
-
-                    <ImageView
-                        android:id="@+id/foodPlate"
-                        android:contentDescription="foodPlate"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="0dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentEnd="true"
-                        android:src="@drawable/ic_round_food_bank"/>
-
-                </RelativeLayout>
-            </com.google.android.material.appbar.MaterialToolbar>
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:tabTextColor="@color/tab_layout_items"
-                app:tabIndicator="@drawable/custom_indicator"
-                app:tabIndicatorFullWidth="false"
-                app:tabIndicatorHeight="2dp"
-                app:tabIndicatorColor="@color/strong_yellow"
-                app:tabIndicatorAnimationDuration="200"
-                app:tabMode="scrollable"/>
-
-        </com.google.android.material.appbar.AppBarLayout>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            android:layout_height="match_parent"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
