@@ -27,7 +27,7 @@
                     android:paddingEnd="16dp"
                     android:paddingBottom="20dp"
                     android:layout_centerHorizontal="true"
-                    android:text="AppBarText"
+                    android:text="MyDiabetes"
                     android:textSize="22sp"
                     android:textStyle="bold"/>
 

@@ -6,7 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SaveProductActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
+        android:layout_above="@+id/saveButton"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="25dp"
@@ -222,7 +226,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
+            android:layout_marginTop="0dp"
             android:layout_marginEnd="15dp"
+            android:layout_marginBottom="30dp"
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -297,10 +303,7 @@
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="bottom">
+
         <com.google.android.material.circularreveal.cardview.CircularRevealCardView
             android:id="@+id/saveButton"
             android:foreground="?android:attr/selectableItemBackground"
@@ -309,6 +312,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="-5dp"
+            android:layout_alignParentBottom="true"
             app:cardBackgroundColor="@color/green">
             <TextView
                 android:layout_width="match_parent"
@@ -322,6 +326,5 @@
                 android:textStyle="bold"/>
         </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
-    </LinearLayout>
-
+    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
