@@ -19,23 +19,17 @@ class HomeActivity : AppCompatActivity() {
         binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
             when(item.itemId){
                 R.id.home_nav -> {
-                    binding.tabLayout.visibility = View.VISIBLE
-                    binding.appBarText.text = "MyDiabetes"
-                    changeFragment(HomeFragment())
+                    changeFragment(HomeFragment(), "MyDiabetes", View.VISIBLE)
                     true
                 }
 
                 R.id.add_nav -> {
-                    binding.tabLayout.visibility = View.GONE
-                    binding.appBarText.text = "Kalkulacja wartości"
-                    changeFragment(AddProductFragment())
+                    changeFragment(AddProductFragment(), "Kalkulacja wartości", View.GONE)
                     true
                 }
 
                 R.id.settings_nav -> {
-                    binding.tabLayout.visibility = View.GONE
-                    binding.appBarText.text = "Ustawienia"
-                    changeFragment(SettingsFragment())
+                    changeFragment(SettingsFragment(), "Ustawienia", View.GONE)
                     true
                 }
 
@@ -57,10 +51,13 @@ class HomeActivity : AppCompatActivity() {
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Sample6"))
     }
 
-    private fun changeFragment(fragment: Fragment){
+    private fun changeFragment(fragment: Fragment, fragmentTitle: String, visibility: Int){
+        binding.appBarText.text = fragmentTitle
+        binding.tabLayout.visibility = visibility
         supportFragmentManager.beginTransaction()
                 .setTransition(TRANSIT_FRAGMENT_FADE)
                 .replace(binding.fragmentContainer.id, fragment)
                 .commit()
+
     }
 }
