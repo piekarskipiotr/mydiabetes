@@ -37,6 +37,7 @@
                             android:textSize="24sp"
                             android:textStyle="bold"/>
                         <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/measureSwitch"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
@@ -115,7 +116,7 @@
                             android:layout_weight="0.5"
                             android:layout_marginEnd="5dp"
                             app:errorEnabled="true"
-                            app:suffixText="g/ml"
+                            app:suffixText="szt."
                             android:hint="1 Sztuka"
                             app:boxStrokeColor="@color/rose_dust"
                             app:hintTextColor="@color/rose_dust"
@@ -125,7 +126,7 @@
                                 android:id="@+id/pieceTextInput"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="numberDecimal"
+                                android:inputType="number"
                                 android:imeOptions="actionNext"
                                 />
 
@@ -140,7 +141,7 @@
                             app:endIconMode="custom"
                             app:endIconDrawable="@drawable/ic_round_help_center"
                             app:endIconContentDescription="helpIcon"
-                            app:suffixText="g/ml"
+                            app:suffixText="szt."
                             android:hint="Ilość sztuk"
                             app:boxStrokeColor="@color/rose_dust"
                             app:hintTextColor="@color/rose_dust"
@@ -150,7 +151,7 @@
                                 android:id="@+id/correctPieceTextInput"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="numberDecimal"
+                                android:inputType="number"
                                 android:imeOptions="actionNext"
                                 />
 
@@ -167,7 +168,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="5dp">
                             <TextView
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentStart="true"
                                 android:layout_centerVertical="true"
@@ -175,6 +176,7 @@
                                 android:textSize="24sp"
                                 android:textStyle="bold"/>
                             <com.google.android.material.switchmaterial.SwitchMaterial
+                                android:id="@+id/valuesSwitch"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"

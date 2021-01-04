@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE
-import androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN
 import com.apps.bacon.mydiabetes.databinding.ActivityHomeBinding
 
 class HomeActivity : AppCompatActivity() {

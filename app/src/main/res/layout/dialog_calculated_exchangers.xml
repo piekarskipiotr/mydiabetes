@@ -29,6 +29,7 @@
             android:textStyle="bold"/>
 
         <TextView
+            android:id="@+id/measureText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
@@ -49,6 +50,7 @@
             android:orientation="horizontal">
             <ProgressBar
                 style="?android:attr/progressBarStyleHorizontal"
+                android:id="@+id/carbohydrateExchangersBar"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -57,6 +59,7 @@
                 android:layout_marginEnd="15dp"
                 android:progress="10"/>
             <TextView
+                android:id="@+id/carbohydrateExchangers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2.0"
@@ -77,6 +80,7 @@
             android:orientation="horizontal">
             <ProgressBar
                 style="?android:attr/progressBarStyleHorizontal"
+                android:id="@+id/proteinFatExchangersBar"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -85,6 +89,7 @@
                 android:layout_marginEnd="15dp"
                 android:progress="60"/>
             <TextView
+                android:id="@+id/proteinFatExchangers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="8.8"
