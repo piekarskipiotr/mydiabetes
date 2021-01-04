@@ -8,9 +8,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyDiabetes">
-        <activity android:name=".SaveProductActivity"></activity>
-        <activity android:name=".HomeActivity"
-            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".ProductActivity"></activity>
+        <activity android:name=".SaveProductActivity" />
+        <activity
+            android:name=".HomeActivity"
+            android:configChanges="orientation|screenSize" />
         <activity
             android:name=".MainActivity"
             android:theme="@style/SplashScreen">
