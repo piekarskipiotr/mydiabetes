@@ -52,6 +52,7 @@ class AddProductFragment : Fragment() {
             if(!checkForEmptyFields()){
                 bottomSheetDialog.setContentView(bottomSheetDialogViewBinding.root)
                 bottomSheetDialog.show()
+                val intent = Intent (activity, SaveProductActivity::class.java)
                 val weight: Double
                 val correctWeight: Double
                 val pieces: Int
@@ -66,17 +67,24 @@ class AddProductFragment : Fragment() {
                 val proteinFatExchangersFinal: Double
                 val maxSizeOfProgress: Double
 
+                intent.putExtra("CARBOHYDRATE", carbohydrate)
                 if(measureStatus){
                     pieces = binding.pieceTextInput.text.toString().toInt()
                     correctPieces = binding.correctPieceTextInput.text.toString().toInt()
+                    intent.putExtra("PIECES", pieces)
+                    intent.putExtra("CORRECT_PIECES", correctPieces)
                     bottomSheetDialogViewBinding.measureText.text = "dla $correctPieces szt. produktu"
+
                     if(valueStatus){
                         calories = binding.caloriesTextInput.text.toString().toDouble()
+                        intent.putExtra("CALORIES", calories)
                         proteinFatExchangers = Calculations().proteinFatExchangersByCal(calories, carbohydrate)
 
                     }else{
                         protein = binding.proteinTextInput.text.toString().toDouble()
                         fat = binding.fatTextInput.text.toString().toDouble()
+                        intent.putExtra("PROTEIN", protein)
+                        intent.putExtra("FAT", fat)
                         proteinFatExchangers = Calculations().proteinFatExchangers(protein, fat)
 
                     }
@@ -85,20 +93,29 @@ class AddProductFragment : Fragment() {
                 }else{
                     weight = binding.weightTextInput.text.toString().toDouble()
                     correctWeight = binding.correctWeightTextInput.text.toString().toDouble()
+                    intent.putExtra("WEIGHT", weight)
+                    intent.putExtra("CORRECT_WEIGHT", correctWeight)
                     bottomSheetDialogViewBinding.measureText.text = "dla produktu o masie: $correctWeight g/ml"
+
                     if(valueStatus){
                         calories = binding.caloriesTextInput.text.toString().toDouble()
+                        intent.putExtra("CALORIES", calories)
                         proteinFatExchangers = Calculations().proteinFatExchangersByCal(calories, carbohydrate)
 
                     }else{
                         protein = binding.proteinTextInput.text.toString().toDouble()
                         fat = binding.fatTextInput.text.toString().toDouble()
+                        intent.putExtra("PROTEIN", protein)
+                        intent.putExtra("FAT", fat)
                         proteinFatExchangers = Calculations().proteinFatExchangers(protein, fat)
 
                     }
                     carbohydrateExchangersFinal = Calculations().carbohydrateExchangesByWeight(carbohydrateExchangers, weight, correctWeight)
                     proteinFatExchangersFinal = Calculations().proteinFatExchangersByWeight(proteinFatExchangers, weight, correctWeight)
                 }
+
+                intent.putExtra("CARBOHYDRATE_EXCHANGERS", carbohydrateExchangers)
+                intent.putExtra("PROTEIN_FAT_EXCHANGERS", proteinFatExchangers)
 
                 maxSizeOfProgress = carbohydrateExchangersFinal + proteinFatExchangersFinal
                 bottomSheetDialogViewBinding.carbohydrateExchangersBar.progress = round((carbohydrateExchangersFinal / maxSizeOfProgress) * 100).toInt()
@@ -109,9 +126,6 @@ class AddProductFragment : Fragment() {
 
                 bottomSheetDialogViewBinding.calculateButton.setOnClickListener {
                     bottomSheetDialog.dismiss()
-                    val intent = Intent (activity, SaveProductActivity::class.java)
-                    intent.putExtra("CARBOHYDRATE_EXCHANGERS", carbohydrateExchangersFinal)
-                    intent.putExtra("PROTEIN_FAT_EXCHANGERS", proteinFatExchangersFinal)
                     activity?.startActivity(intent)
                 }
             }else{
@@ -120,7 +134,7 @@ class AddProductFragment : Fragment() {
         }
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentAddProductBinding.inflate(layoutInflater)
+        binding = FragmentAddProductBinding.inflate(inflater)
         return binding.root
     }
 
