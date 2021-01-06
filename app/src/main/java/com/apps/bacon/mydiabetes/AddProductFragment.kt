@@ -62,51 +62,66 @@ class AddProductFragment : Fragment() {
                 val fat: Double
                 val proteinFatExchangers: Double
                 val carbohydrate: Double = binding.carbohydrateTextInput.text.toString().toDouble()
-                val carbohydrateExchangers: Double= Calculations().carbohydrateExchanges(carbohydrate)
+                val carbohydrateExchangers: Double = Calculations().carbohydrateExchanges(carbohydrate)
                 val carbohydrateExchangersFinal: Double
                 val proteinFatExchangersFinal: Double
                 val maxSizeOfProgress: Double
 
-                intent.putExtra("CARBOHYDRATE", carbohydrate)
+                intent.putExtra("CARBOHYDRATES", carbohydrate)
                 if(measureStatus){
                     pieces = binding.pieceTextInput.text.toString().toInt()
                     correctPieces = binding.correctPieceTextInput.text.toString().toInt()
+                    intent.putExtra("MEASURE", measureStatus)
                     intent.putExtra("PIECES", pieces)
                     intent.putExtra("CORRECT_PIECES", correctPieces)
+                    intent.putExtra("CARBOHYDRATES_SECOND", Calculations().carbohydratesByPieces(carbohydrate, pieces, correctPieces))
                     bottomSheetDialogViewBinding.measureText.text = "dla $correctPieces szt. produktu"
 
                     if(valueStatus){
                         calories = binding.caloriesTextInput.text.toString().toDouble()
+                        intent.putExtra("VALUE", valueStatus)
                         intent.putExtra("CALORIES", calories)
+                        intent.putExtra("CALORIES_SECOND", Calculations().caloriesByPieces(calories, pieces, correctPieces))
                         proteinFatExchangers = Calculations().proteinFatExchangersByCal(calories, carbohydrate)
 
                     }else{
                         protein = binding.proteinTextInput.text.toString().toDouble()
                         fat = binding.fatTextInput.text.toString().toDouble()
+                        intent.putExtra("VALUE", valueStatus)
                         intent.putExtra("PROTEIN", protein)
                         intent.putExtra("FAT", fat)
+                        intent.putExtra("PROTEIN_SECOND", Calculations().proteinByPieces(protein, pieces, correctPieces))
+                        intent.putExtra("FAT_SECOND", Calculations().fatByPieces(fat, pieces, correctPieces))
                         proteinFatExchangers = Calculations().proteinFatExchangers(protein, fat)
 
                     }
                     carbohydrateExchangersFinal = Calculations().carbohydrateExchangesByPieces(carbohydrateExchangers, pieces, correctPieces)
                     proteinFatExchangersFinal = Calculations().proteinFatExchangersByPieces(proteinFatExchangers, pieces, correctPieces)
+
                 }else{
                     weight = binding.weightTextInput.text.toString().toDouble()
                     correctWeight = binding.correctWeightTextInput.text.toString().toDouble()
+                    intent.putExtra("MEASURE", measureStatus)
                     intent.putExtra("WEIGHT", weight)
                     intent.putExtra("CORRECT_WEIGHT", correctWeight)
+                    intent.putExtra("CARBOHYDRATES_SECOND", Calculations().carbohydratesByWeight(carbohydrate, weight, correctWeight))
                     bottomSheetDialogViewBinding.measureText.text = "dla produktu o masie: $correctWeight g/ml"
 
                     if(valueStatus){
                         calories = binding.caloriesTextInput.text.toString().toDouble()
+                        intent.putExtra("VALUE", valueStatus)
                         intent.putExtra("CALORIES", calories)
+                        intent.putExtra("CALORIES_SECOND", Calculations().caloriesByWeight(calories, weight, correctWeight))
                         proteinFatExchangers = Calculations().proteinFatExchangersByCal(calories, carbohydrate)
 
                     }else{
                         protein = binding.proteinTextInput.text.toString().toDouble()
                         fat = binding.fatTextInput.text.toString().toDouble()
+                        intent.putExtra("VALUE", valueStatus)
                         intent.putExtra("PROTEIN", protein)
                         intent.putExtra("FAT", fat)
+                        intent.putExtra("PROTEIN_SECOND", Calculations().proteinByWeight(protein, weight, correctWeight))
+                        intent.putExtra("FAT_SECOND", Calculations().fatByWeight(fat, weight, correctWeight))
                         proteinFatExchangers = Calculations().proteinFatExchangers(protein, fat)
 
                     }
@@ -116,6 +131,8 @@ class AddProductFragment : Fragment() {
 
                 intent.putExtra("CARBOHYDRATE_EXCHANGERS", carbohydrateExchangers)
                 intent.putExtra("PROTEIN_FAT_EXCHANGERS", proteinFatExchangers)
+                intent.putExtra("CARBOHYDRATE_EXCHANGERS_SECOND", carbohydrateExchangersFinal)
+                intent.putExtra("PROTEIN_FAT_EXCHANGERS_SECOND", proteinFatExchangersFinal)
 
                 maxSizeOfProgress = carbohydrateExchangersFinal + proteinFatExchangersFinal
                 bottomSheetDialogViewBinding.carbohydrateExchangersBar.progress = round((carbohydrateExchangersFinal / maxSizeOfProgress) * 100).toInt()
@@ -126,7 +143,7 @@ class AddProductFragment : Fragment() {
 
                 bottomSheetDialogViewBinding.calculateButton.setOnClickListener {
                     bottomSheetDialog.dismiss()
-                    activity?.startActivity(intent)
+                    activity!!.startActivity(intent)
                 }
             }else{
                 setError()
