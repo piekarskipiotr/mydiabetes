@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.apps.bacon.mydiabetes.databinding.ActivitySaveProductBinding
+import com.apps.bacon.mydiabetes.databinding.AddTagBinding
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import kotlin.math.round
@@ -116,7 +117,7 @@ class SaveProductActivity : AppCompatActivity() {
             binding.fatContainer.visibility = View.GONE
 
         }else{
-            binding.calories.text = (protein!! * 4 + fat!! * 9 + carbohydrates * 4).toString().trimEnd()
+            binding.calories.text = Calculations().caloriesByValues(carbohydrates, protein!!, fat!!).toString().trimEnd()
             binding.protein.text = protein.toString().trimEnd()
             binding.fat.text = fat.toString().trimEnd()
 
@@ -144,6 +145,8 @@ class SaveProductActivity : AppCompatActivity() {
             binding.tagChipContainer.addChip(context, listOfTags[i], i)
 
         }
+
+
 
     }
 
