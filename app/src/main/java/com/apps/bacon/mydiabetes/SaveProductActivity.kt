@@ -143,14 +143,11 @@ class SaveProductActivity : AppCompatActivity() {
 
         for (i in 0 until listOfTags.size){
             binding.tagChipContainer.addChip(context, listOfTags[i], i)
-
         }
-
-
 
     }
 
-    fun ChipGroup.addChip(context: Context, label: String, ID: Int){
+    private fun ChipGroup.addChip(context: Context, label: String, ID: Int){
         Chip(context).apply {
             id = ID
             text = label
