@@ -26,11 +26,11 @@
                     android:paddingEnd="16dp"
                     android:paddingBottom="20dp"
                     android:layout_centerHorizontal="true"
-                    android:text="Nowy tag"
+                    android:text="Edycja nazwy produktu"
                     android:textSize="22sp"
                     android:textStyle="bold"/>
                 <ImageView
-                    android:id="@+id/backToProductButton"
+                    android:id="@+id/backButton"
                     android:clickable="true"
                     android:focusable="true"
                     android:contentDescription="goBack"
@@ -66,7 +66,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:hint="Nazwa tagu"
+                    android:hint="Nazwa produktu"
                     app:errorEnabled="true"
                     app:boxBackgroundColor="@color/light_gray">
 
@@ -74,6 +74,10 @@
                         android:id="@+id/productNameTextInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingTop="15dp"
+                        android:paddingStart="5dp"
+                        android:paddingBottom="10dp"
+                        android:paddingEnd="15dp"
                         android:inputType="text"
                         android:lines="1"
                         android:textSize="16sp"
@@ -84,7 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:text="Nazwa tagu posłuży jako kontener do prodktów, który będzie widoczny na stronie głównej."
+                    android:text="Nazwa produktu powinna być zgodna z faktyczną nazwą prodktu. Pozwoli to uniknąć problemów z wyszukiwaniem."
                     android:textSize="14sp"/>
             </LinearLayout>
 
@@ -107,7 +111,7 @@
                 android:layout_marginBottom="15dp"
                 android:paddingBottom="5dp"
                 android:gravity="center"
-                android:text="Dodaj"
+                android:text="Zmień nazwe"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
         </com.google.android.material.circularreveal.cardview.CircularRevealCardView>

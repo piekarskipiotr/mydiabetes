@@ -1,11 +1,11 @@
 package com.apps.bacon.mydiabetes
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.apps.bacon.mydiabetes.databinding.ActivitySaveProductBinding
-import com.apps.bacon.mydiabetes.databinding.AddTagBinding
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import kotlin.math.round
@@ -92,6 +92,15 @@ class SaveProductActivity : AppCompatActivity() {
             }
         }.apply { binding.measureSwitch.isChecked = true }
 
+        binding.backButton.setOnClickListener {
+            onBackPressed()
+        }
+
+        binding.productName.setOnClickListener {
+            intent = Intent(this, ChangeProductNameActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     private fun setProgressBar(carbohydrateExchangers: Double, proteinFatExchangers: Double){
@@ -143,6 +152,15 @@ class SaveProductActivity : AppCompatActivity() {
 
         for (i in 0 until listOfTags.size){
             binding.tagChipContainer.addChip(context, listOfTags[i], i)
+        }
+
+        binding.tagChipContainer.setOnCheckedChangeListener { _, checkedId ->
+            if (checkedId == 0){
+                binding.tagChipContainer.clearCheck()
+                intent = Intent(this, AddTagActivity::class.java)
+                startActivity(intent)
+            }
+
         }
 
     }
