@@ -31,8 +31,12 @@ class Calculations {
         return roundToOneDecimal((proteinFatExchangers * correctPieces) / pieces)
     }
 
-    fun carbohydrateByPieces(carbohydrate: Double, pieces: Int, correctPieces: Int): Double{
-        return roundToOneDecimal((carbohydrate * correctPieces) / pieces)
+    fun carbohydratesByPieces(carbohydrates: Double, pieces: Int, correctPieces: Int): Double{
+        return roundToOneDecimal((carbohydrates * correctPieces) / pieces)
+    }
+
+    fun caloriesByPieces(calories: Double, pieces: Int, correctPieces: Int): Double{
+        return roundToOneDecimal((calories * correctPieces) / pieces)
     }
 
     fun proteinByPieces(protein: Double, pieces: Int, correctPieces: Int): Double{
@@ -43,8 +47,12 @@ class Calculations {
         return roundToOneDecimal((fat * correctPieces) / pieces)
     }
 
-    fun carbohydrateByWeight(carbohydrate: Double, weight: Double, correctWeight: Double): Double{
-        return roundToOneDecimal((carbohydrate * correctWeight) / weight)
+    fun carbohydratesByWeight(carbohydrates: Double, weight: Double, correctWeight: Double): Double{
+        return roundToOneDecimal((carbohydrates * correctWeight) / weight)
+    }
+
+    fun caloriesByWeight(calories: Double, weight: Double, correctWeight: Double): Double{
+        return roundToOneDecimal((calories * correctWeight) / weight)
     }
 
     fun proteinByWeight(protein: Double, weight: Double, correctWeight: Double): Double{
@@ -53,6 +61,10 @@ class Calculations {
 
     fun fatByWeight(fat: Double, weight: Double, correctWeight: Double): Double{
         return roundToOneDecimal((fat * correctWeight) / weight)
+    }
+
+    fun caloriesByValues(carbohydrates: Double, protein: Double, fat: Double): Double{
+        return roundToOneDecimal((protein * 4) + (fat * 9) + (carbohydrates * 4))
     }
 
     private fun roundToOneDecimal(value: Double): Double{
