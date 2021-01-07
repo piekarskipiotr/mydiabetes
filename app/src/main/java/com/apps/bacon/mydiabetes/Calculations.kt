@@ -12,7 +12,7 @@ class Calculations {
     }
 
     fun proteinFatExchangersByCal(cal: Double, carbohydrates: Double): Double{
-        return roundToOneDecimal(cal - (carbohydrates * 4) / 100)
+        return roundToOneDecimal((cal - (carbohydrates * 4) ) / 100)
     }
 
     fun carbohydrateExchangesByWeight(carbohydrateExchanges: Double, weight: Double, correctWeight: Double): Double{

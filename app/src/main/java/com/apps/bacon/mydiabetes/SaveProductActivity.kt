@@ -56,8 +56,8 @@ class SaveProductActivity : AppCompatActivity() {
                 protein = bundle.get("PROTEIN_SECOND") as Double?
                 fat = bundle.get("FAT_SECOND") as Double?
 
-                carbohydrateExchangers = bundle.get("PROTEIN_FAT_EXCHANGERS_SECOND") as Double
-                proteinFatExchangers = bundle.get("CARBOHYDRATE_EXCHANGERS_SECOND") as Double
+                carbohydrateExchangers = bundle.get("CARBOHYDRATE_EXCHANGERS_SECOND") as Double
+                proteinFatExchangers = bundle.get("PROTEIN_FAT_EXCHANGERS_SECOND") as Double
 
                 setTextValues(
                     valueStatus,
@@ -75,8 +75,8 @@ class SaveProductActivity : AppCompatActivity() {
                 calories = bundle.get("CALORIES") as Double?
                 protein = bundle.get("PROTEIN") as Double?
                 fat = bundle.get("FAT") as Double?
-                carbohydrateExchangers = bundle.get("PROTEIN_FAT_EXCHANGERS") as Double
-                proteinFatExchangers = bundle.get("CARBOHYDRATE_EXCHANGERS") as Double
+                carbohydrateExchangers = bundle.get("CARBOHYDRATE_EXCHANGERS") as Double
+                proteinFatExchangers = bundle.get("PROTEIN_FAT_EXCHANGERS") as Double
 
                 setTextValues(
                     valueStatus,
