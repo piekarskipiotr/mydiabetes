@@ -3,6 +3,7 @@ package com.apps.bacon.mydiabetes
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.apps.bacon.mydiabetes.databinding.ActivitySaveProductBinding
@@ -11,6 +12,8 @@ import com.google.android.material.chip.ChipGroup
 import kotlin.math.round
 
 
+private const val REQUEST_CODE_PRODUCT_NAME = 1
+private const val REQUEST_CODE_ADD_TAG = 2
 class SaveProductActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySaveProductBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -98,7 +101,17 @@ class SaveProductActivity : AppCompatActivity() {
 
         binding.productName.setOnClickListener {
             intent = Intent(this, ChangeProductNameActivity::class.java)
-            startActivity(intent)
+            startActivityForResult(intent, REQUEST_CODE_PRODUCT_NAME)
+        }
+
+        binding.tagChipContainer.setOnCheckedChangeListener { _, checkedId ->
+            if (checkedId == 0){
+                binding.tagChipContainer.clearCheck()
+                intent = Intent(this, AddTagActivity::class.java)
+                startActivityForResult(intent, REQUEST_CODE_ADD_TAG)
+
+            }
+
         }
 
     }
@@ -154,15 +167,6 @@ class SaveProductActivity : AppCompatActivity() {
             binding.tagChipContainer.addChip(context, listOfTags[i], i)
         }
 
-        binding.tagChipContainer.setOnCheckedChangeListener { _, checkedId ->
-            if (checkedId == 0){
-                binding.tagChipContainer.clearCheck()
-                intent = Intent(this, AddTagActivity::class.java)
-                startActivity(intent)
-            }
-
-        }
-
     }
 
     private fun ChipGroup.addChip(context: Context, label: String, ID: Int){
@@ -174,6 +178,34 @@ class SaveProductActivity : AppCompatActivity() {
             isCheckedIconVisible = false
             isFocusable = true
             addView(this)
+        }
+    }
+
+    private fun setProductName(name: String){
+        binding.productName.text = name
+    }
+
+    private fun addTag(name: String){
+        Log.d("tagName: ", name)
+        //TODO: adding tag to database
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(requestCode){
+            REQUEST_CODE_PRODUCT_NAME -> {
+                if(resultCode == RESULT_OK){
+                    setProductName(data!!.getStringExtra("PRODUCT_NAME").toString())
+
+                }
+            }
+
+            REQUEST_CODE_ADD_TAG -> {
+                if(resultCode == RESULT_OK){
+                    addTag(data!!.getStringExtra("TAG_NAME").toString())
+
+                }
+            }
         }
     }
 }

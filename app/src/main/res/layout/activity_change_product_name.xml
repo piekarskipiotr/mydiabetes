@@ -67,17 +67,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:hint="Nazwa produktu"
-                    app:errorEnabled="true"
-                    app:boxBackgroundColor="@color/light_gray">
+                    app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/productNameTextInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingTop="15dp"
-                        android:paddingStart="5dp"
-                        android:paddingBottom="10dp"
-                        android:paddingEnd="15dp"
                         android:inputType="text"
                         android:lines="1"
                         android:textSize="16sp"

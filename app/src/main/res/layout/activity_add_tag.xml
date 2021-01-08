@@ -62,16 +62,15 @@
                 android:layout_marginEnd="10dp"
                 android:orientation="vertical">
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/productNameTextInputLayout"
+                    android:id="@+id/tagNameTextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:hint="Nazwa tagu"
-                    app:errorEnabled="true"
-                    app:boxBackgroundColor="@color/light_gray">
+                    app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/productNameTextInput"
+                        android:id="@+id/tagNameTextInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
@@ -91,7 +90,7 @@
         </LinearLayout>
 
         <com.google.android.material.circularreveal.cardview.CircularRevealCardView
-            android:id="@+id/changeNameButton"
+            android:id="@+id/addTagButton"
             android:foreground="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
