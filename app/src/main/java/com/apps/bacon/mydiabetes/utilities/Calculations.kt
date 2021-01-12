@@ -1,4 +1,4 @@
-package com.apps.bacon.mydiabetes
+package com.apps.bacon.mydiabetes.utilities
 
 import kotlin.math.round
 

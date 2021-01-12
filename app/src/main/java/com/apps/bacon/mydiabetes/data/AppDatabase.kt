@@ -1,4 +1,4 @@
-package com.apps.bacon.mydiabetes
+package com.apps.bacon.mydiabetes.data
 
 import android.content.Context
 import androidx.room.Database
@@ -17,12 +17,13 @@ abstract class AppDatabase : RoomDatabase() {
         private const val DATABASE_NAME: String = "products_database"
 
         @Synchronized
-        fun getInstance(context: Context): AppDatabase{
+        fun getInstance(context: Context): AppDatabase {
             if(instance == null)
                 instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    DATABASE_NAME)
+                    DATABASE_NAME
+                )
                     .fallbackToDestructiveMigration()
                     .addCallback(roomCallback)
                     .build()

@@ -1,4 +1,4 @@
-package com.apps.bacon.mydiabetes
+package com.apps.bacon.mydiabetes.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
