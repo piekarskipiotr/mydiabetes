@@ -22,6 +22,7 @@ private const val REQUEST_CODE_PRODUCT_NAME = 1
 private const val REQUEST_CODE_ADD_TAG = 2
 class SaveProductActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySaveProductBinding
+    private lateinit var tagViewModel: TagViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySaveProductBinding.inflate(layoutInflater)
@@ -39,7 +40,7 @@ class SaveProductActivity : AppCompatActivity() {
         val database = AppDatabase.getInstance(this)
         val repository = TagRepository(database)
         val factory = TagViewModelFactory(repository)
-        val tagViewModel = ViewModelProvider(this, factory).get(TagViewModel::class.java)
+        tagViewModel = ViewModelProvider(this, factory).get(TagViewModel::class.java)
 
         tagViewModel.getAll().observe(this,  {
             addChips(this, it)
@@ -120,7 +121,7 @@ class SaveProductActivity : AppCompatActivity() {
         }
 
         binding.tagChipContainer.setOnCheckedChangeListener { _, checkedId ->
-            if (checkedId == -1){
+            if (checkedId == 0){
                 binding.tagChipContainer.clearCheck()
                 intent = Intent(this, AddTagActivity::class.java)
                 startActivityForResult(intent, REQUEST_CODE_ADD_TAG)
@@ -165,9 +166,10 @@ class SaveProductActivity : AppCompatActivity() {
     }
 
     private fun addChips(context: Context, listOfTags: List<Tag>){
-        binding.tagChipContainer.addChip(context, "Dodaj tag", -1)
+        binding.tagChipContainer.removeAllViewsInLayout()
+        binding.tagChipContainer.addChip(context, "Dodaj tag", 0)
         for (i in listOfTags.indices){
-            binding.tagChipContainer.addChip(context, listOfTags[i].name, i)
+            binding.tagChipContainer.addChip(context, listOfTags[i].name, i.inc())
         }
 
     }
@@ -189,8 +191,8 @@ class SaveProductActivity : AppCompatActivity() {
     }
 
     private fun addTag(name: String){
-        Log.d("tagName: ", name)
-        //TODO: adding tag to database
+        tagViewModel.insert(Tag(0,name))
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
