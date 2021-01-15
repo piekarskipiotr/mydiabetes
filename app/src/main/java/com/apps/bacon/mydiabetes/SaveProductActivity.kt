@@ -8,10 +8,13 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.apps.bacon.mydiabetes.data.AppDatabase
+import com.apps.bacon.mydiabetes.data.SaveProductRepository
 import com.apps.bacon.mydiabetes.data.Tag
 import com.apps.bacon.mydiabetes.data.TagRepository
 import com.apps.bacon.mydiabetes.databinding.ActivitySaveProductBinding
 import com.apps.bacon.mydiabetes.utilities.Calculations
+import com.apps.bacon.mydiabetes.viewmodel.SaveProductModelFactory
+import com.apps.bacon.mydiabetes.viewmodel.SaveProductViewModel
 import com.apps.bacon.mydiabetes.viewmodel.TagViewModel
 import com.apps.bacon.mydiabetes.viewmodel.TagViewModelFactory
 import com.google.android.material.chip.Chip
@@ -22,7 +25,8 @@ private const val REQUEST_CODE_PRODUCT_NAME = 1
 private const val REQUEST_CODE_ADD_TAG = 2
 class SaveProductActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySaveProductBinding
-    private lateinit var tagViewModel: TagViewModel
+    private lateinit var saveProductViewModel: SaveProductViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySaveProductBinding.inflate(layoutInflater)
@@ -38,13 +42,12 @@ class SaveProductActivity : AppCompatActivity() {
         var carbohydrateExchangers: Double
 
         val database = AppDatabase.getInstance(this)
-        val repository = TagRepository(database)
-        val factory = TagViewModelFactory(repository)
-        tagViewModel = ViewModelProvider(this, factory).get(TagViewModel::class.java)
+        val repository = SaveProductRepository(database)
+        val factory = SaveProductModelFactory(repository)
+        saveProductViewModel = ViewModelProvider(this, factory).get(SaveProductViewModel::class.java)
 
-        tagViewModel.getAll().observe(this,  {
+        saveProductViewModel.getAllTags().observe(this, {
             addChips(this, it)
-
         })
 
         if(measureStatus){
@@ -191,7 +194,7 @@ class SaveProductActivity : AppCompatActivity() {
     }
 
     private fun addTag(name: String){
-        tagViewModel.insert(Tag(0,name))
+        saveProductViewModel.insertTag(Tag(0,name))
 
     }
 
