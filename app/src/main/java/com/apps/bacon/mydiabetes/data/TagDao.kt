@@ -8,6 +8,9 @@ interface TagDao {
     @Query("SELECT * FROM tags")
     fun getAll(): LiveData<List<Tag>>
 
+    @Query("SELECT * FROM tags WHERE tag_id == :id")
+    fun getTagById(id: Int): Tag
+
     @Insert
     fun insert(tag: Tag)
 
@@ -16,4 +19,9 @@ interface TagDao {
 
     @Delete
     fun delete(tag: Tag)
+
+    @Query("DELETE FROM tags WHERE tag_id == :id")
+    fun deleteById(id: Int)
+
+
 }

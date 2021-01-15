@@ -3,13 +3,14 @@ package com.apps.bacon.mydiabetes
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.apps.bacon.mydiabetes.data.*
 import com.apps.bacon.mydiabetes.databinding.ActivitySaveProductBinding
-import com.apps.bacon.mydiabetes.utilities.Calculations
+import com.apps.bacon.mydiabetes.databinding.DialogDeleteTagBinding
 import com.apps.bacon.mydiabetes.viewmodel.SaveProductModelFactory
 import com.apps.bacon.mydiabetes.viewmodel.SaveProductViewModel
 import com.google.android.material.chip.Chip
@@ -202,7 +203,14 @@ class SaveProductActivity : AppCompatActivity() {
         binding.tagChipContainer.removeAllViewsInLayout()
         binding.tagChipContainer.addChip(context, "Dodaj tag", 0)
         for (i in listOfTags.indices){
-            binding.tagChipContainer.addChip(context, listOfTags[i].name, i.inc())
+            binding.tagChipContainer.addChip(context, listOfTags[i].name, listOfTags[i].id)
+        }
+
+        for(i in 10 until binding.tagChipContainer.childCount){
+            binding.tagChipContainer.getChildAt(i).setOnLongClickListener {
+                dialogRemoveTag(it.id)
+                true
+            }
         }
 
     }
@@ -217,6 +225,27 @@ class SaveProductActivity : AppCompatActivity() {
             isFocusable = true
             addView(this)
         }
+    }
+
+    private fun dialogRemoveTag(id: Int){
+        val alertDialog: AlertDialog
+        val builder = AlertDialog.Builder(this, R.style.DialogStyle)
+        val dialogBinding = DialogDeleteTagBinding.inflate(LayoutInflater.from(this))
+        builder.setView(dialogBinding.root)
+        alertDialog = builder.create()
+        alertDialog.setCanceledOnTouchOutside(false)
+
+        dialogBinding.tagNameText.text = saveProductViewModel.getTagById(id).name
+
+        dialogBinding.backButton.setOnClickListener {
+                alertDialog.dismiss()
+            }
+
+        dialogBinding.deleteButton.setOnClickListener {
+            saveProductViewModel.deleteTagById(id)
+            alertDialog.dismiss()
+        }
+        alertDialog.show()
     }
 
     private fun setProductName(name: String){
