@@ -12,8 +12,6 @@ import com.apps.bacon.mydiabetes.databinding.ActivitySaveProductBinding
 import com.apps.bacon.mydiabetes.utilities.Calculations
 import com.apps.bacon.mydiabetes.viewmodel.SaveProductModelFactory
 import com.apps.bacon.mydiabetes.viewmodel.SaveProductViewModel
-import com.apps.bacon.mydiabetes.viewmodel.TagViewModel
-import com.apps.bacon.mydiabetes.viewmodel.TagViewModelFactory
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import kotlin.math.round
@@ -137,7 +135,7 @@ class SaveProductActivity : AppCompatActivity() {
         }
 
         binding.tagChipContainer.setOnCheckedChangeListener { _, checkedId ->
-            selectedTagId = checkedId.dec()
+            selectedTagId = checkedId
             if (checkedId == 0){
                 binding.tagChipContainer.clearCheck()
                 intent = Intent(this, AddTagActivity::class.java)
@@ -185,13 +183,12 @@ class SaveProductActivity : AppCompatActivity() {
         proteinFatExchangers: Double
     ){
         binding.carbohydrates.text = carbohydrates.toString().trimEnd()
+        binding.calories.text = calories.toString().trimEnd()
         if(valueStatus){
-            binding.calories.text = calories.toString().trimEnd()
             binding.proteinContainer.visibility = View.GONE
             binding.fatContainer.visibility = View.GONE
 
         }else{
-            binding.calories.text = Calculations().caloriesByValues(carbohydrates, protein!!, fat!!).toString().trimEnd()
             binding.protein.text = protein.toString().trimEnd()
             binding.fat.text = fat.toString().trimEnd()
 

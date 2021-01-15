@@ -91,8 +91,10 @@ class AddProductFragment : Fragment() {
                         intent.putExtra("VALUE", valueStatus)
                         intent.putExtra("PROTEIN", protein)
                         intent.putExtra("FAT", fat)
+                        intent.putExtra("CALORIES", Calculations().caloriesByValues(carbohydrate, protein, fat))
                         intent.putExtra("PROTEIN_SECOND", Calculations().proteinByPieces(protein, pieces, correctPieces))
                         intent.putExtra("FAT_SECOND", Calculations().fatByPieces(fat, pieces, correctPieces))
+                        intent.putExtra("CALORIES_SECOND", Calculations().caloriesByPieces(Calculations().caloriesByValues(carbohydrate, protein, fat), pieces, correctPieces))
                         proteinFatExchangers = Calculations().proteinFatExchangers(protein, fat)
 
                     }
@@ -121,8 +123,10 @@ class AddProductFragment : Fragment() {
                         intent.putExtra("VALUE", valueStatus)
                         intent.putExtra("PROTEIN", protein)
                         intent.putExtra("FAT", fat)
+                        intent.putExtra("CALORIES", Calculations().caloriesByValues(carbohydrate, protein, fat))
                         intent.putExtra("PROTEIN_SECOND", Calculations().proteinByWeight(protein, weight, correctWeight))
                         intent.putExtra("FAT_SECOND", Calculations().fatByWeight(fat, weight, correctWeight))
+                        intent.putExtra("CALORIES_SECOND", Calculations().caloriesByWeight(Calculations().caloriesByValues(carbohydrate, protein, fat), weight, correctWeight))
                         proteinFatExchangers = Calculations().proteinFatExchangers(protein, fat)
 
                     }
@@ -144,7 +148,7 @@ class AddProductFragment : Fragment() {
 
                 bottomSheetDialogViewBinding.calculateButton.setOnClickListener {
                     bottomSheetDialog.dismiss()
-                    activity!!.startActivity(intent)
+                    requireActivity().startActivity(intent)
                 }
             }else{
                 setError()
