@@ -5,8 +5,11 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-@Database(entities = [Product::class, Tag::class], version = 1, exportSchema = false)
+@Database(entities = [Product::class, Tag::class], version = 1, exportSchema = true)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun productDao(): ProductDao
     abstract fun tagDao(): TagDao
@@ -26,38 +29,33 @@ abstract class AppDatabase : RoomDatabase() {
                 )
                     .fallbackToDestructiveMigration()
                     .addCallback(roomCallback)
+                    .allowMainThreadQueries()
                     .build()
             return instance!!
 
         }
 
-        private val roomCallback = object : Callback(){
+        private val roomCallback = object : RoomDatabase.Callback(){
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)
-                populateDatabase(instance!!)
+                CoroutineScope(Dispatchers.Main).launch{
+                    for (i in preTagData)
+                        instance!!.tagDao().insert(i)
+                }
             }
         }
 
-        private fun populateDatabase(database: AppDatabase){
-            val tagDao = database.tagDao()
-            val listOfTags = arrayListOf(
-                "Mięsa",
-                "Ryby",
-                "Nabiał",
-                "Pieczywo",
-                "Warzywa i owoce",
-                "Słodycze i przekąski",
-                "Napoje",
-                "Orzechy",
-                "Inne"
-            )
-
-            for (i in 0 until listOfTags.size){
-                tagDao.insert(Tag(i.inc(), listOfTags[i]))
-            }
-
-        }
-
+        private val preTagData = listOf(
+            Tag(1, "Mięsa"),
+            Tag(2, "Ryby"),
+            Tag(3, "Nabiał"),
+            Tag(4, "Pieczywo"),
+            Tag(5, "Warzywa i owoce"),
+            Tag(6, "Słodycze i przekąski"),
+            Tag(7, "Napoje"),
+            Tag(8, "Orzechy"),
+            Tag(9, "Inne"),
+        )
     }
 
 }

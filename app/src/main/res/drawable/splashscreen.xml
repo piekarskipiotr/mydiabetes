@@ -2,6 +2,6 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="?attr/colorPrimary"/>
     <item
-        android:drawable="@drawable/ic_android_black_24dp"
+        android:drawable="@drawable/logo_temp"
         android:gravity="center"/>
 </layer-list>

@@ -6,12 +6,16 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import com.apps.bacon.mydiabetes.data.AppDatabase
+import com.apps.bacon.mydiabetes.data.TagRepository
 import com.apps.bacon.mydiabetes.databinding.ActivitySaveProductBinding
 import com.apps.bacon.mydiabetes.utilities.Calculations
+import com.apps.bacon.mydiabetes.viewmodel.TagViewModel
+import com.apps.bacon.mydiabetes.viewmodel.TagViewModelFactory
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import kotlin.math.round
-
 
 private const val REQUEST_CODE_PRODUCT_NAME = 1
 private const val REQUEST_CODE_ADD_TAG = 2
@@ -31,6 +35,15 @@ class SaveProductActivity : AppCompatActivity() {
         var fat: Double?
         var proteinFatExchangers: Double
         var carbohydrateExchangers: Double
+
+        val database = AppDatabase.getInstance(this)
+        val repository = TagRepository(database)
+        val factory = TagViewModelFactory(repository)
+        val tagViewModel = ViewModelProvider(this, factory).get(TagViewModel::class.java)
+
+        tagViewModel.getAll().observe(this,  {
+
+        })
 
         if(measureStatus){
             if(bundle.get("PIECES") == bundle.get("CORRECT_PIECES")){

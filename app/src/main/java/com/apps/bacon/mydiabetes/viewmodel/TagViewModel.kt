@@ -7,7 +7,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class TagViewModel(private val repository: TagRepository) : ViewModel() {
+class TagViewModel constructor(
+    private val repository: TagRepository
+) : ViewModel() {
+
     fun getAll() = repository.getAll()
 
     fun insert(tag: Tag) = CoroutineScope(Dispatchers.Main).launch {
@@ -17,4 +20,5 @@ class TagViewModel(private val repository: TagRepository) : ViewModel() {
     fun delete(tag: Tag) = CoroutineScope(Dispatchers.Main).launch {
         repository.delete(tag)
     }
+
 }
