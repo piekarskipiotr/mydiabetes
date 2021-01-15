@@ -5,7 +5,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE
+import androidx.lifecycle.ViewModelProvider
+import com.apps.bacon.mydiabetes.data.AppDatabase
+import com.apps.bacon.mydiabetes.data.Tag
+import com.apps.bacon.mydiabetes.data.TagRepository
 import com.apps.bacon.mydiabetes.databinding.ActivityHomeBinding
+import com.apps.bacon.mydiabetes.viewmodel.TagViewModel
+import com.apps.bacon.mydiabetes.viewmodel.TagViewModelFactory
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
@@ -14,7 +20,14 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportFragmentManager.beginTransaction().replace(binding.fragmentContainer.id, HomeFragment()).commit()
-        addTabs()
+        val database = AppDatabase.getInstance(this)
+        val repository = TagRepository(database)
+        val factory = TagViewModelFactory(repository)
+        val tagViewModel = ViewModelProvider(this, factory).get(TagViewModel::class.java)
+        tagViewModel.getAll().observe(this, {
+            addTabs(it)
+        })
+
 
         binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
             when(item.itemId){
@@ -41,14 +54,10 @@ class HomeActivity : AppCompatActivity() {
 
     }
 
-    private fun addTabs(){
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Sample0"))
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Sample1"))
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Sample2"))
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Sample3"))
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Sample4"))
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Sample5"))
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Sample6"))
+    private fun addTabs(listOfTags: List<Tag>){
+        for(i in listOfTags.indices)
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(listOfTags[i].name))
+
     }
 
     private fun changeFragment(fragment: Fragment, fragmentTitle: String, visibility: Int){
