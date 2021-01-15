@@ -7,10 +7,7 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.apps.bacon.mydiabetes.data.AppDatabase
-import com.apps.bacon.mydiabetes.data.SaveProductRepository
-import com.apps.bacon.mydiabetes.data.Tag
-import com.apps.bacon.mydiabetes.data.TagRepository
+import com.apps.bacon.mydiabetes.data.*
 import com.apps.bacon.mydiabetes.databinding.ActivitySaveProductBinding
 import com.apps.bacon.mydiabetes.utilities.Calculations
 import com.apps.bacon.mydiabetes.viewmodel.SaveProductModelFactory
@@ -33,13 +30,16 @@ class SaveProductActivity : AppCompatActivity() {
         setContentView(binding.root)
         val bundle: Bundle = intent.extras!!
         val measureStatus = bundle.get("MEASURE") as Boolean
+        var pieces: Int? = null
+        var weight: Double? = null
         val valueStatus = bundle.get("VALUE") as Boolean
-        var carbohydrates: Double
-        var calories: Double?
-        var protein: Double?
-        var fat: Double?
-        var proteinFatExchangers: Double
-        var carbohydrateExchangers: Double
+        var carbohydrates: Double = 0.0
+        var calories: Double = 0.0
+        var protein: Double? = null
+        var fat: Double? = null
+        var proteinFatExchangers: Double = 0.0
+        var carbohydrateExchangers: Double = 0.0
+        var selectedTagId: Int? = null
 
         val database = AppDatabase.getInstance(this)
         val repository = SaveProductRepository(database)
@@ -48,6 +48,7 @@ class SaveProductActivity : AppCompatActivity() {
 
         saveProductViewModel.getAllTags().observe(this, {
             addChips(this, it)
+
         })
 
         if(measureStatus){
@@ -73,8 +74,14 @@ class SaveProductActivity : AppCompatActivity() {
 
         binding.measureSwitch.setOnCheckedChangeListener { _, isChecked ->
             if(isChecked){
+                if(measureStatus){
+                    pieces = bundle.get("CORRECT_PIECES") as Int
+                }else{
+                    weight = bundle.get("CORRECT_WEIGHT") as Double
+                }
+
                 carbohydrates = bundle.get("CARBOHYDRATES_SECOND") as Double
-                calories = bundle.get("CALORIES_SECOND") as Double?
+                calories = bundle.get("CALORIES_SECOND") as Double
                 protein = bundle.get("PROTEIN_SECOND") as Double?
                 fat = bundle.get("FAT_SECOND") as Double?
 
@@ -93,8 +100,14 @@ class SaveProductActivity : AppCompatActivity() {
                 setProgressBar(carbohydrateExchangers, proteinFatExchangers)
 
             }else{
+                if(measureStatus){
+                    pieces = bundle.get("PIECES") as Int
+                }else{
+                    weight = bundle.get("WEIGHT") as Double
+                }
+
                 carbohydrates = bundle.get("CARBOHYDRATES") as Double
-                calories = bundle.get("CALORIES") as Double?
+                calories = bundle.get("CALORIES") as Double
                 protein = bundle.get("PROTEIN") as Double?
                 fat = bundle.get("FAT") as Double?
                 carbohydrateExchangers = bundle.get("CARBOHYDRATE_EXCHANGERS") as Double
@@ -124,12 +137,32 @@ class SaveProductActivity : AppCompatActivity() {
         }
 
         binding.tagChipContainer.setOnCheckedChangeListener { _, checkedId ->
+            selectedTagId = checkedId.dec()
             if (checkedId == 0){
                 binding.tagChipContainer.clearCheck()
                 intent = Intent(this, AddTagActivity::class.java)
                 startActivityForResult(intent, REQUEST_CODE_ADD_TAG)
 
             }
+
+        }
+
+        binding.saveButton.setOnClickListener {
+            saveProductViewModel.insertProduct(
+                Product(
+                0,
+                    binding.productName.text.toString(),
+                    weight,
+                    pieces,
+                    calories,
+                    carbohydrates,
+                    protein,
+                    fat,
+                    carbohydrateExchangers,
+                    proteinFatExchangers,
+                    selectedTagId
+                )
+            )
 
         }
 

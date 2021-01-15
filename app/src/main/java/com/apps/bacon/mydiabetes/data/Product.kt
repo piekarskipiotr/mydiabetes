@@ -31,14 +31,14 @@ data class Product(
     @ColumnInfo(name = "fat")
     var fat: Double?,
 
-    @ColumnInfo(name = "proteinFatExchangers")
-    var proteinFatExchangers: Double,
-
     @ColumnInfo(name = "carbohydrateExchangers")
     var carbohydrateExchangers: Double,
 
+    @ColumnInfo(name = "proteinFatExchangers")
+    var proteinFatExchangers: Double,
+
     @ColumnInfo(name = "product_tag")
-    var tag: Int,
+    var tag: Int?,
 
 
 )
