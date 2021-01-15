@@ -8,6 +8,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.apps.bacon.mydiabetes.data.AppDatabase
+import com.apps.bacon.mydiabetes.data.Tag
 import com.apps.bacon.mydiabetes.data.TagRepository
 import com.apps.bacon.mydiabetes.databinding.ActivitySaveProductBinding
 import com.apps.bacon.mydiabetes.utilities.Calculations
@@ -25,7 +26,6 @@ class SaveProductActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySaveProductBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        addChips(this)
         val bundle: Bundle = intent.extras!!
         val measureStatus = bundle.get("MEASURE") as Boolean
         val valueStatus = bundle.get("VALUE") as Boolean
@@ -42,6 +42,7 @@ class SaveProductActivity : AppCompatActivity() {
         val tagViewModel = ViewModelProvider(this, factory).get(TagViewModel::class.java)
 
         tagViewModel.getAll().observe(this,  {
+            addChips(this, it)
 
         })
 
@@ -119,7 +120,7 @@ class SaveProductActivity : AppCompatActivity() {
         }
 
         binding.tagChipContainer.setOnCheckedChangeListener { _, checkedId ->
-            if (checkedId == 0){
+            if (checkedId == -1){
                 binding.tagChipContainer.clearCheck()
                 intent = Intent(this, AddTagActivity::class.java)
                 startActivityForResult(intent, REQUEST_CODE_ADD_TAG)
@@ -163,22 +164,10 @@ class SaveProductActivity : AppCompatActivity() {
         binding.proteinFatExchangers.text = proteinFatExchangers.toString().trimEnd()
     }
 
-    private fun addChips(context: Context){
-        val listOfTags = arrayListOf(
-            "Dodaj własny",
-            "Mięsa",
-            "Ryby",
-            "Nabiał",
-            "Pieczywo",
-            "Warzywa i owoce",
-            "Słodycze i przekąski",
-            "Napoje",
-            "Orzechy",
-            "Inne",
-        )
-
-        for (i in 0 until listOfTags.size){
-            binding.tagChipContainer.addChip(context, listOfTags[i], i)
+    private fun addChips(context: Context, listOfTags: List<Tag>){
+        binding.tagChipContainer.addChip(context, "Dodaj tag", -1)
+        for (i in listOfTags.indices){
+            binding.tagChipContainer.addChip(context, listOfTags[i].name, i)
         }
 
     }
