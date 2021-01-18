@@ -32,12 +32,12 @@ class SaveProductActivity : AppCompatActivity() {
         var pieces: Int? = null
         var weight: Double? = null
         val valueStatus = bundle.get("VALUE") as Boolean
-        var carbohydrates: Double = 0.0
-        var calories: Double = 0.0
+        var carbohydrates = 0.0
+        var calories = 0.0
         var protein: Double? = null
         var fat: Double? = null
-        var proteinFatExchangers: Double = 0.0
-        var carbohydrateExchangers: Double = 0.0
+        var proteinFatExchangers = 0.0
+        var carbohydrateExchangers = 0.0
         var selectedTagId: Int? = null
 
         val database = AppDatabase.getInstance(this)
