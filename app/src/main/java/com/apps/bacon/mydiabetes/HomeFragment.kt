@@ -1,5 +1,6 @@
 package com.apps.bacon.mydiabetes
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -54,6 +55,8 @@ class HomeFragment : Fragment(), ProductsAdapter.OnProductClickListener {
     }
 
     override fun onProductClick(productID: Int) {
-        TODO("Not yet implemented")
+        val intent = Intent(activity, ProductActivity::class.java)
+        intent.putExtra("PRODUCT_ID", productID)
+        startActivity(intent)
     }
 }

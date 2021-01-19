@@ -1,5 +1,6 @@
 package com.apps.bacon.mydiabetes
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -64,6 +65,11 @@ class HomeActivity : AppCompatActivity() {
 
             }
 
+        }
+
+        binding.searchForProduct.setOnClickListener {
+            intent = Intent(this, SearchActivity::class.java)
+            startActivity(intent)
         }
 
     }

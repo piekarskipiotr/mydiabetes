@@ -162,6 +162,7 @@ class SaveProductActivity : AppCompatActivity() {
                     selectedTagId
                 )
             )
+            finish()
 
         }
 
