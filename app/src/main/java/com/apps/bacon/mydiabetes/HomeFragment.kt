@@ -31,10 +31,15 @@ class HomeFragment : Fragment(), ProductsAdapter.OnProductClickListener {
             if(homeViewModel.getProductsByTag(selectedTab).hasObservers())
                 homeViewModel.getProductsByTag(selectedTab).removeObservers(viewLifecycleOwner)
 
-            homeViewModel.getProductsByTag(selectedTab).observe(viewLifecycleOwner, {
-                initRecyclerView(it)
-            })
-
+            if(selectedTab == 0){
+                homeViewModel.getAll().observe(viewLifecycleOwner, {
+                    initRecyclerView(it)
+                })
+            }else{
+                homeViewModel.getProductsByTag(selectedTab).observe(viewLifecycleOwner, {
+                    initRecyclerView(it)
+                })
+            }
         })
 
 
