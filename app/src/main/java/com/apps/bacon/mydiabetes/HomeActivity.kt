@@ -75,6 +75,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun addTabs(listOfTags: List<Tag>){
+        binding.tabLayout.removeAllTabs()
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Wszystko"), 0, true)
         for(i in listOfTags.indices)
             binding.tabLayout.addTab(binding.tabLayout.newTab().setText(listOfTags[i].name), listOfTags[i].id)
