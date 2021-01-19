@@ -9,7 +9,7 @@ import com.apps.bacon.mydiabetes.data.Product
 import com.apps.bacon.mydiabetes.databinding.ProductItemBinding
 
 class ProductsAdapter constructor(
-    private val data: ArrayList<Product>,
+    private val data: List<Product>,
     private val context: Context,
     private val listener: OnProductClickListener) : RecyclerView.Adapter<ProductsAdapter.ViewHolder>(){
 
