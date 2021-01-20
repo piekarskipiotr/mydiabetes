@@ -38,9 +38,9 @@ class ProductActivity : AppCompatActivity() {
         val measureText: String
         productName.text = product.name
         if(product.weight != null)
-            measureText = "(dla masy ${product.weight} g"
+            measureText = "(dla masy ${product.weight} g)"
         else
-            measureText = "(dla masy ${product.pieces} szt."
+            measureText = "(dla masy ${product.pieces} szt.)"
 
         measureOfValues.text = measureText
         measureOfExchangers.text = measureText
