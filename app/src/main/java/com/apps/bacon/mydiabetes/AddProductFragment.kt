@@ -9,14 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.apps.bacon.mydiabetes.databinding.DialogCalculatedExchangersBinding
-import com.apps.bacon.mydiabetes.databinding.FragmentAddProductBinding
 import com.apps.bacon.mydiabetes.utilities.Calculations
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.android.synthetic.main.fragment_add_product.*
 import kotlin.math.round
 
 class AddProductFragment : Fragment() {
-    private lateinit var binding: FragmentAddProductBinding
     private var measureStatus: Boolean = false
     private var valueStatus: Boolean = false
     private val errorMessage = "Pole nie może być puste!"
@@ -25,31 +24,31 @@ class AddProductFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val bottomSheetDialogViewBinding: DialogCalculatedExchangersBinding = DialogCalculatedExchangersBinding.inflate(layoutInflater)
         val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
-        binding.measureSwitch.setOnCheckedChangeListener { _, isChecked ->
+        measureSwitch.setOnCheckedChangeListener { _, isChecked ->
             measureStatus = isChecked
             if(isChecked){
-                binding.weightContainer.visibility = View.GONE
-                binding.pieceContainer.visibility = View.VISIBLE
+                weightContainer.visibility = View.GONE
+                pieceContainer.visibility = View.VISIBLE
             }else{
-                binding.weightContainer.visibility = View.VISIBLE
-                binding.pieceContainer.visibility = View.GONE
+                weightContainer.visibility = View.VISIBLE
+                pieceContainer.visibility = View.GONE
             }
         }
-        binding.valuesSwitch.setOnCheckedChangeListener { _, isChecked ->
+        valuesSwitch.setOnCheckedChangeListener { _, isChecked ->
             valueStatus = isChecked
             if(isChecked){
-                binding.proteinTextInputLayout.visibility = View.GONE
-                binding.fatTextInputLayout.visibility = View.GONE
-                binding.caloriesTextInputLayout.visibility = View.VISIBLE
+                proteinTextInputLayout.visibility = View.GONE
+                fatTextInputLayout.visibility = View.GONE
+                caloriesTextInputLayout.visibility = View.VISIBLE
             }else{
-                binding.proteinTextInputLayout.visibility = View.VISIBLE
-                binding.fatTextInputLayout.visibility = View.VISIBLE
-                binding.caloriesTextInputLayout.visibility = View.GONE
+                proteinTextInputLayout.visibility = View.VISIBLE
+                fatTextInputLayout.visibility = View.VISIBLE
+                caloriesTextInputLayout.visibility = View.GONE
             }
         }
         setOnChangeTextListeners()
 
-        binding.calculateButton.setOnClickListener {
+        calculateButton.setOnClickListener {
             if(!checkForEmptyFields()){
                 bottomSheetDialog.setContentView(bottomSheetDialogViewBinding.root)
                 bottomSheetDialog.show()
@@ -62,7 +61,7 @@ class AddProductFragment : Fragment() {
                 val protein: Double
                 val fat: Double
                 val proteinFatExchangers: Double
-                val carbohydrate: Double = binding.carbohydrateTextInput.text.toString().toDouble()
+                val carbohydrate: Double = carbohydrateTextInput.text.toString().toDouble()
                 val carbohydrateExchangers: Double = Calculations().carbohydrateExchanges(carbohydrate)
                 val carbohydrateExchangersFinal: Double
                 val proteinFatExchangersFinal: Double
@@ -70,8 +69,8 @@ class AddProductFragment : Fragment() {
 
                 intent.putExtra("CARBOHYDRATES", carbohydrate)
                 if(measureStatus){
-                    pieces = binding.pieceTextInput.text.toString().toInt()
-                    correctPieces = binding.correctPieceTextInput.text.toString().toInt()
+                    pieces = pieceTextInput.text.toString().toInt()
+                    correctPieces = correctPieceTextInput.text.toString().toInt()
                     intent.putExtra("MEASURE", measureStatus)
                     intent.putExtra("PIECES", pieces)
                     intent.putExtra("CORRECT_PIECES", correctPieces)
@@ -79,15 +78,15 @@ class AddProductFragment : Fragment() {
                     bottomSheetDialogViewBinding.measureText.text = "dla $correctPieces szt. produktu"
 
                     if(valueStatus){
-                        calories = binding.caloriesTextInput.text.toString().toDouble()
+                        calories = caloriesTextInput.text.toString().toDouble()
                         intent.putExtra("VALUE", valueStatus)
                         intent.putExtra("CALORIES", calories)
                         intent.putExtra("CALORIES_SECOND", Calculations().caloriesByPieces(calories, pieces, correctPieces))
                         proteinFatExchangers = Calculations().proteinFatExchangersByCal(calories, carbohydrate)
 
                     }else{
-                        protein = binding.proteinTextInput.text.toString().toDouble()
-                        fat = binding.fatTextInput.text.toString().toDouble()
+                        protein = proteinTextInput.text.toString().toDouble()
+                        fat = fatTextInput.text.toString().toDouble()
                         intent.putExtra("VALUE", valueStatus)
                         intent.putExtra("PROTEIN", protein)
                         intent.putExtra("FAT", fat)
@@ -102,8 +101,8 @@ class AddProductFragment : Fragment() {
                     proteinFatExchangersFinal = Calculations().proteinFatExchangersByPieces(proteinFatExchangers, pieces, correctPieces)
 
                 }else{
-                    weight = binding.weightTextInput.text.toString().toDouble()
-                    correctWeight = binding.correctWeightTextInput.text.toString().toDouble()
+                    weight = weightTextInput.text.toString().toDouble()
+                    correctWeight = correctWeightTextInput.text.toString().toDouble()
                     intent.putExtra("MEASURE", measureStatus)
                     intent.putExtra("WEIGHT", weight)
                     intent.putExtra("CORRECT_WEIGHT", correctWeight)
@@ -111,15 +110,15 @@ class AddProductFragment : Fragment() {
                     bottomSheetDialogViewBinding.measureText.text = "dla produktu o masie: $correctWeight g/ml"
 
                     if(valueStatus){
-                        calories = binding.caloriesTextInput.text.toString().toDouble()
+                        calories = caloriesTextInput.text.toString().toDouble()
                         intent.putExtra("VALUE", valueStatus)
                         intent.putExtra("CALORIES", calories)
                         intent.putExtra("CALORIES_SECOND", Calculations().caloriesByWeight(calories, weight, correctWeight))
                         proteinFatExchangers = Calculations().proteinFatExchangersByCal(calories, carbohydrate)
 
                     }else{
-                        protein = binding.proteinTextInput.text.toString().toDouble()
-                        fat = binding.fatTextInput.text.toString().toDouble()
+                        protein = proteinTextInput.text.toString().toDouble()
+                        fat = fatTextInput.text.toString().toDouble()
                         intent.putExtra("VALUE", valueStatus)
                         intent.putExtra("PROTEIN", protein)
                         intent.putExtra("FAT", fat)
@@ -155,15 +154,19 @@ class AddProductFragment : Fragment() {
             }
         }
     }
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentAddProductBinding.inflate(inflater)
-        return binding.root
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_add_product, container, false)
     }
 
     private fun checkForEmptyFields(): Boolean{
         val checkValue: Boolean
         val checkCal: Boolean
-        val checkCarbohydrates: Boolean = binding.carbohydrateTextInput.text.isNullOrEmpty()
+        val checkCarbohydrates: Boolean = carbohydrateTextInput.text.isNullOrEmpty()
 
         val checkMeasure: Boolean = if(measureStatus){
             listOfPieces().any { it.isNullOrEmpty() }
@@ -172,7 +175,7 @@ class AddProductFragment : Fragment() {
         }
 
         return if(valueStatus){
-            checkCal = binding.caloriesTextInput.text.isNullOrEmpty()
+            checkCal = caloriesTextInput.text.isNullOrEmpty()
             (checkMeasure || checkCal || checkCarbohydrates)
 
         }else{
@@ -183,111 +186,111 @@ class AddProductFragment : Fragment() {
     }
 
     private fun setError(){
-        binding.pieceTextInput.text.isNullOrEmpty().apply {
-            binding.pieceTextInputLayout.error = errorMessage
+        pieceTextInput.text.isNullOrEmpty().apply {
+            pieceTextInputLayout.error = errorMessage
         }
 
-        binding.correctPieceTextInput.text.isNullOrEmpty().apply {
-            binding.correctPieceTextInputLayout.error = errorMessage
+        correctPieceTextInput.text.isNullOrEmpty().apply {
+            correctPieceTextInputLayout.error = errorMessage
         }
 
-        binding.weightTextInput.text.isNullOrEmpty().apply {
-            binding.weightTextInputLayout.error = errorMessage
+        weightTextInput.text.isNullOrEmpty().apply {
+            weightTextInputLayout.error = errorMessage
         }
 
-        binding.correctWeightTextInput.text.isNullOrEmpty().apply {
-            binding.correctWeightTextInputLayout.error = errorMessage
+        correctWeightTextInput.text.isNullOrEmpty().apply {
+            correctWeightTextInputLayout.error = errorMessage
         }
 
-        binding.carbohydrateTextInput.text.isNullOrEmpty().apply {
-            binding.carbohydrateTextInputLayout.error = errorMessage
+        carbohydrateTextInput.text.isNullOrEmpty().apply {
+            carbohydrateTextInputLayout.error = errorMessage
         }
 
-        binding.caloriesTextInput.text.isNullOrEmpty().apply {
-            binding.caloriesTextInputLayout.error = errorMessage
+        caloriesTextInput.text.isNullOrEmpty().apply {
+            caloriesTextInputLayout.error = errorMessage
         }
 
-        binding.proteinTextInput.text.isNullOrEmpty().apply {
-            binding.proteinTextInputLayout.error = errorMessage
+        proteinTextInput.text.isNullOrEmpty().apply {
+            proteinTextInputLayout.error = errorMessage
         }
 
-        binding.fatTextInput.text.isNullOrEmpty().apply {
-            binding.fatTextInputLayout.error = errorMessage
+        fatTextInput.text.isNullOrEmpty().apply {
+            fatTextInputLayout.error = errorMessage
         }
     }
 
     private fun setOnChangeTextListeners(){
         if(measureStatus){
-            binding.pieceTextInput.onTextChanged {
+            pieceTextInput.onTextChanged {
                 if(it.isNullOrEmpty()){
-                    binding.pieceTextInputLayout.error = errorMessage
+                    pieceTextInputLayout.error = errorMessage
                 }else{
-                    binding.pieceTextInputLayout.error = null
+                    pieceTextInputLayout.error = null
                 }
             }
 
-            binding.correctPieceTextInput.onTextChanged {
+            correctPieceTextInput.onTextChanged {
                 if(it.isNullOrEmpty()){
-                    binding.correctPieceTextInputLayout.error = errorMessage
+                    correctPieceTextInputLayout.error = errorMessage
                 }else{
-                    binding.correctPieceTextInputLayout.error = null
+                    correctPieceTextInputLayout.error = null
                 }
             }
         }else{
-            binding.weightTextInput.onTextChanged {
+            weightTextInput.onTextChanged {
                 if(it.isNullOrEmpty()){
-                    binding.weightTextInputLayout.error = errorMessage
+                    weightTextInputLayout.error = errorMessage
                 }else{
-                    binding.weightTextInputLayout.error = null
+                    weightTextInputLayout.error = null
                 }
             }
-            binding.correctWeightTextInput.onTextChanged {
+            correctWeightTextInput.onTextChanged {
                 if(it.isNullOrEmpty()){
-                    binding.correctWeightTextInputLayout.error = errorMessage
+                    correctWeightTextInputLayout.error = errorMessage
                 }else{
-                    binding.correctWeightTextInputLayout.error = null
+                    correctWeightTextInputLayout.error = null
                 }
             }
         }
 
-        binding.carbohydrateTextInput.onTextChanged {
+        carbohydrateTextInput.onTextChanged {
             if(it.isNullOrEmpty()){
-                binding.carbohydrateTextInputLayout.error = errorMessage
+                carbohydrateTextInputLayout.error = errorMessage
             }else{
-                binding.carbohydrateTextInputLayout.error = null
+                carbohydrateTextInputLayout.error = null
             }
         }
 
         if(valueStatus){
-            binding.caloriesTextInput.onTextChanged {
+            caloriesTextInput.onTextChanged {
                 if(it.isNullOrEmpty()){
-                    binding.caloriesTextInputLayout.error = errorMessage
+                    caloriesTextInputLayout.error = errorMessage
                 }else{
-                    binding.caloriesTextInputLayout.error = null
+                    caloriesTextInputLayout.error = null
                 }
             }
         }else{
-            binding.proteinTextInput.onTextChanged {
+            proteinTextInput.onTextChanged {
                 if(it.isNullOrEmpty()){
-                    binding.proteinTextInputLayout.error = errorMessage
+                    proteinTextInputLayout.error = errorMessage
                 }else{
-                    binding.proteinTextInputLayout.error = null
+                    proteinTextInputLayout.error = null
                 }
             }
-            binding.fatTextInput.onTextChanged {
+            fatTextInput.onTextChanged {
                 if(it.isNullOrEmpty()){
-                    binding.fatTextInputLayout.error = errorMessage
+                    fatTextInputLayout.error = errorMessage
                 }else{
-                    binding.fatTextInputLayout.error = null
+                    fatTextInputLayout.error = null
 
                 }
             }
         }
     }
 
-    private fun listOfPieces() = listOf(binding.pieceTextInput.text, binding.correctPieceTextInput.text)
-    private fun listOfWeight() = listOf(binding.weightTextInput.text, binding.correctWeightTextInput.text)
-    private fun listOfProteinFat() = listOf(binding.proteinTextInput.text, binding.fatTextInput.text)
+    private fun listOfPieces() = listOf(pieceTextInput.text, correctPieceTextInput.text)
+    private fun listOfWeight() = listOf(weightTextInput.text, correctWeightTextInput.text)
+    private fun listOfProteinFat() = listOf(proteinTextInput.text, fatTextInput.text)
 
     private fun TextInputEditText.onTextChanged(onTextChanged: (CharSequence?) -> Unit){
         this.addTextChangedListener(object : TextWatcher{

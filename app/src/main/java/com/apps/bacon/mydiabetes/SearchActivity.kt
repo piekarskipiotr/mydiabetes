@@ -13,22 +13,20 @@ import com.apps.bacon.mydiabetes.adapters.ProductsAdapter
 import com.apps.bacon.mydiabetes.data.AppDatabase
 import com.apps.bacon.mydiabetes.data.Product
 import com.apps.bacon.mydiabetes.data.SearchRepository
-import com.apps.bacon.mydiabetes.databinding.ActivitySearchBinding
 import com.apps.bacon.mydiabetes.viewmodel.SearchModelFactory
 import com.apps.bacon.mydiabetes.viewmodel.SearchViewModel
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.android.synthetic.main.activity_search.*
 import java.util.*
 
 class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener {
-    private lateinit var binding: ActivitySearchBinding
     private lateinit var productsAdapter: ProductsAdapter
     private lateinit var allProducts: List<Product>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySearchBinding.inflate(layoutInflater)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(binding.root)
+        setContentView(R.layout.activity_search)
 
         val searchList = mutableListOf<Product>()
         val database = AppDatabase.getInstance(this)
@@ -39,7 +37,7 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
             allProducts = it
         })
 
-        binding.searchTextInput.onTextChanged {
+        searchTextInput.onTextChanged {
             searchList.clear()
             for(i in allProducts){
                 if(i.name.toLowerCase(Locale.getDefault())
@@ -48,26 +46,26 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
                 }
             }
             if(searchList.isEmpty()){
-                binding.noProductMessageText.visibility = View.VISIBLE
-                binding.searchRecyclerView.visibility = View.GONE
+                noProductMessageText.visibility = View.VISIBLE
+                searchRecyclerView.visibility = View.GONE
 
             }else{
-                binding.noProductMessageText.visibility = View.GONE
-                binding.searchRecyclerView.visibility = View.VISIBLE
+                noProductMessageText.visibility = View.GONE
+                searchRecyclerView.visibility = View.VISIBLE
                 initRecyclerView(searchList)
             }
 
 
         }
 
-        binding.backButton.setOnClickListener {
+        backButton.setOnClickListener {
             onBackPressed()
         }
 
     }
 
     private fun initRecyclerView(data: List<Product>){
-        binding.searchRecyclerView.apply {
+        searchRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             productsAdapter = ProductsAdapter(data, context, this@SearchActivity)
             adapter = productsAdapter

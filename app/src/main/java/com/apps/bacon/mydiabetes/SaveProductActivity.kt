@@ -9,27 +9,23 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.children
-import androidx.core.view.iterator
 import androidx.lifecycle.ViewModelProvider
 import com.apps.bacon.mydiabetes.data.*
-import com.apps.bacon.mydiabetes.databinding.ActivitySaveProductBinding
 import com.apps.bacon.mydiabetes.databinding.DialogDeleteTagBinding
 import com.apps.bacon.mydiabetes.viewmodel.SaveProductModelFactory
 import com.apps.bacon.mydiabetes.viewmodel.SaveProductViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import kotlinx.android.synthetic.main.activity_save_product.*
 import kotlin.math.round
 
 private const val REQUEST_CODE_PRODUCT_NAME = 1
 class SaveProductActivity : AppCompatActivity() {
-    private lateinit var binding: ActivitySaveProductBinding
     private lateinit var saveProductViewModel: SaveProductViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySaveProductBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_save_product)
         val bundle: Bundle = intent.extras!!
         val measureStatus = bundle.get("MEASURE") as Boolean
         var pieces: Int? = null
@@ -55,26 +51,26 @@ class SaveProductActivity : AppCompatActivity() {
 
         if(measureStatus){
             if(bundle.get("PIECES") == bundle.get("CORRECT_PIECES")){
-                binding.measureContainer.visibility = View.GONE
-                binding.line.visibility = View.GONE
+                measureContainer.visibility = View.GONE
+                line.visibility = View.GONE
 
             }else{
-                binding.measureSwitch.text = "${bundle.get("PIECES")} / ${bundle.get("CORRECT_PIECES")} "
+                measureSwitch.text = "${bundle.get("PIECES")} / ${bundle.get("CORRECT_PIECES")} "
 
             }
 
         }else{
             if(bundle.get("WEIGHT") == bundle.get("CORRECT_WEIGHT")){
-                binding.measureContainer.visibility = View.GONE
-                binding.line.visibility = View.GONE
+                measureContainer.visibility = View.GONE
+                line.visibility = View.GONE
 
             }else{
-                binding.measureSwitch.text = "${bundle.get("WEIGHT")} / ${bundle.get("CORRECT_WEIGHT")} "
+                measureSwitch.text = "${bundle.get("WEIGHT")} / ${bundle.get("CORRECT_WEIGHT")} "
 
             }
         }
 
-        binding.measureSwitch.setOnCheckedChangeListener { _, isChecked ->
+        measureSwitch.setOnCheckedChangeListener { _, isChecked ->
             if(isChecked){
                 if(measureStatus){
                     pieces = bundle.get("CORRECT_PIECES") as Int
@@ -127,21 +123,21 @@ class SaveProductActivity : AppCompatActivity() {
                 setProgressBar(carbohydrateExchangers, proteinFatExchangers)
 
             }
-        }.apply { binding.measureSwitch.isChecked = true }
+        }.apply { measureSwitch.isChecked = true }
 
-        binding.backButton.setOnClickListener {
+        backButton.setOnClickListener {
             onBackPressed()
         }
 
-        binding.productName.setOnClickListener {
+        productName.setOnClickListener {
             intent = Intent(this, ChangeProductNameActivity::class.java)
             startActivityForResult(intent, REQUEST_CODE_PRODUCT_NAME)
         }
 
-        binding.tagChipContainer.setOnCheckedChangeListener { _, checkedId ->
+        tagChipContainer.setOnCheckedChangeListener { _, checkedId ->
             if (checkedId == 0){
                 selectedTagId = null
-                binding.tagChipContainer.clearCheck()
+                tagChipContainer.clearCheck()
                 intent = Intent(this, AddTagActivity::class.java)
                 startActivity(intent)
 
@@ -151,20 +147,20 @@ class SaveProductActivity : AppCompatActivity() {
 
         }
 
-        binding.saveButton.setOnClickListener {
+        saveButton.setOnClickListener {
             when {
-                saveProductViewModel.getProduct(binding.productName.text.toString()).name == binding.productName.text.toString() -> {
+                saveProductViewModel.getProduct(productName.text.toString()).name == productName.text.toString() -> {
                     Toast.makeText(this, "Produkt o takiej nazwie już istnieje", Toast.LENGTH_SHORT).show()
                 }
-                binding.productName.text.isNullOrEmpty() -> {
-                    binding.productName.setHintTextColor(ResourcesCompat.getColor(resources, R.color.red, null))
+                productName.text.isNullOrEmpty() -> {
+                    productName.setHintTextColor(ResourcesCompat.getColor(resources, R.color.red, null))
 
                 }
                 else -> {
                     saveProductViewModel.insertProduct(
                         Product(
                             0,
-                            binding.productName.text.toString(),
+                            productName.text.toString(),
                             weight,
                             pieces,
                             carbohydrates,
@@ -187,45 +183,45 @@ class SaveProductActivity : AppCompatActivity() {
 
     private fun setProgressBar(carbohydrateExchangers: Double, proteinFatExchangers: Double){
         val sizeOfBar = carbohydrateExchangers + proteinFatExchangers
-        binding.carbohydrateExchangersBar.progress = round((carbohydrateExchangers / sizeOfBar) * 100).toInt()
-        binding.proteinFatExchangersBar.progress = round((proteinFatExchangers / sizeOfBar) * 100).toInt()
+        carbohydrateExchangersBar.progress = round((carbohydrateExchangers / sizeOfBar) * 100).toInt()
+        proteinFatExchangersBar.progress = round((proteinFatExchangers / sizeOfBar) * 100).toInt()
 
     }
 
     private fun setTextValues(
         valueStatus: Boolean,
-        carbohydrates: Double,
-        calories: Double?,
-        protein: Double?,
-        fat: Double?,
-        carbohydrateExchangers: Double,
-        proteinFatExchangers: Double
+        carbohydratesValue: Double,
+        caloriesValue: Double?,
+        proteinValue: Double?,
+        fatValue: Double?,
+        carbohydrateExchangersValue: Double,
+        proteinFatExchangersValue: Double
     ){
-        binding.carbohydrates.text = carbohydrates.toString().trimEnd()
-        binding.calories.text = calories.toString().trimEnd()
+        carbohydrates.text = carbohydratesValue.toString().trimEnd()
+        calories.text = caloriesValue.toString().trimEnd()
         if(valueStatus){
-            binding.proteinContainer.visibility = View.GONE
-            binding.fatContainer.visibility = View.GONE
+            proteinContainer.visibility = View.GONE
+            fatContainer.visibility = View.GONE
 
         }else{
-            binding.protein.text = protein.toString().trimEnd()
-            binding.fat.text = fat.toString().trimEnd()
+            protein.text = proteinValue.toString().trimEnd()
+            fat.text = fatValue.toString().trimEnd()
 
         }
 
-        binding.carbohydrateExchangers.text = carbohydrateExchangers.toString().trimEnd()
-        binding.proteinFatExchangers.text = proteinFatExchangers.toString().trimEnd()
+        carbohydrateExchangers.text = carbohydrateExchangersValue.toString().trimEnd()
+        proteinFatExchangers.text = proteinFatExchangersValue.toString().trimEnd()
     }
 
     private fun addChips(context: Context, listOfTags: List<Tag>){
-        binding.tagChipContainer.removeAllViewsInLayout()
-        binding.tagChipContainer.addChip(context, "Dodaj tag", 0)
+        tagChipContainer.removeAllViewsInLayout()
+        tagChipContainer.addChip(context, "Dodaj tag", 0)
         for (i in listOfTags.indices){
-            binding.tagChipContainer.addChip(context, listOfTags[i].name, listOfTags[i].id)
+            tagChipContainer.addChip(context, listOfTags[i].name, listOfTags[i].id)
         }
 
-        for(i in 10 until binding.tagChipContainer.childCount){
-            binding.tagChipContainer.getChildAt(i).setOnLongClickListener {
+        for(i in 10 until tagChipContainer.childCount){
+            tagChipContainer.getChildAt(i).setOnLongClickListener {
                 dialogRemoveTag(it.id)
                 true
             }
@@ -267,7 +263,7 @@ class SaveProductActivity : AppCompatActivity() {
     }
 
     private fun setProductName(name: String){
-        binding.productName.text = name
+        productName.text = name
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

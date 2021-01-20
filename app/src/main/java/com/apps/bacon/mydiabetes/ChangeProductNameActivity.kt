@@ -3,30 +3,29 @@ package com.apps.bacon.mydiabetes
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.apps.bacon.mydiabetes.databinding.ActivityChangeProductNameBinding
+import kotlinx.android.synthetic.main.activity_change_product_name.*
 
 class ChangeProductNameActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityChangeProductNameBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityChangeProductNameBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_change_product_name)
         val errorMessage = "Pole nie może być puste"
 
-        binding.changeNameButton.setOnClickListener {
-            if(binding.productNameTextInput.text.isNullOrEmpty())
-                binding.productNameTextInputLayout.error = errorMessage
+        changeNameButton.setOnClickListener {
+            if(productNameTextInput.text.isNullOrEmpty())
+                productNameTextInputLayout.error = errorMessage
 
             else{
-                binding.productNameTextInputLayout.error = null
-                intent.putExtra("PRODUCT_NAME", binding.productNameTextInput.text.toString().trim())
+                productNameTextInputLayout.error = null
+                intent.putExtra("PRODUCT_NAME", productNameTextInput.text.toString().trim())
                 setResult(Activity.RESULT_OK, intent)
                 finish()
 
             }
         }
 
-        binding.backButton.setOnClickListener {
+        backButton.setOnClickListener {
             setResult(Activity.RESULT_CANCELED, intent)
             finish()
         }

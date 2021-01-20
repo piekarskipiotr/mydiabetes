@@ -3,23 +3,21 @@ package com.apps.bacon.mydiabetes
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE
 import androidx.lifecycle.ViewModelProvider
 import com.apps.bacon.mydiabetes.data.*
-import com.apps.bacon.mydiabetes.databinding.ActivityHomeBinding
 import com.apps.bacon.mydiabetes.viewmodel.*
 import com.google.android.material.tabs.TabLayout
+import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityHomeBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityHomeBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        supportFragmentManager.beginTransaction().replace(binding.fragmentContainer.id, HomeFragment()).commit()
+        setContentView(R.layout.activity_home)
+        supportFragmentManager.beginTransaction().replace(fragmentContainer.id, HomeFragment()).commit()
         val database = AppDatabase.getInstance(this)
         val repository = HomeRepository(database)
         val factory = HomeModelFactory(repository)
@@ -28,7 +26,7 @@ class HomeActivity : AppCompatActivity() {
             addTabs(it)
         })
 
-        binding.tabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
+        tabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 homeViewModel.currentTag.value = tab!!.position
             }
@@ -44,7 +42,7 @@ class HomeActivity : AppCompatActivity() {
         })
 
 
-        binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
+        bottomNavigation.setOnNavigationItemSelectedListener { item ->
             when(item.itemId){
                 R.id.home_nav -> {
                     changeFragment(HomeFragment(), "MyDiabetes", View.VISIBLE)
@@ -67,7 +65,7 @@ class HomeActivity : AppCompatActivity() {
 
         }
 
-        binding.searchForProduct.setOnClickListener {
+        searchForProduct.setOnClickListener {
             intent = Intent(this, SearchActivity::class.java)
             startActivity(intent)
         }
@@ -75,19 +73,19 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun addTabs(listOfTags: List<Tag>){
-        binding.tabLayout.removeAllTabs()
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Wszystko"), 0, true)
+        tabLayout.removeAllTabs()
+        tabLayout.addTab(tabLayout.newTab().setText("Wszystko"), 0, true)
         for(i in listOfTags.indices)
-            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(listOfTags[i].name), listOfTags[i].id)
+            tabLayout.addTab(tabLayout.newTab().setText(listOfTags[i].name), listOfTags[i].id)
 
     }
 
     private fun changeFragment(fragment: Fragment, fragmentTitle: String, visibility: Int){
-        binding.appBarText.text = fragmentTitle
-        binding.tabLayout.visibility = visibility
+        appBarText.text = fragmentTitle
+        tabLayout.visibility = visibility
         supportFragmentManager.beginTransaction()
                 .setTransition(TRANSIT_FRAGMENT_FADE)
-                .replace(binding.fragmentContainer.id, fragment)
+                .replace(fragmentContainer.id, fragment)
                 .commit()
 
     }

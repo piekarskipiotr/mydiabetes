@@ -12,12 +12,11 @@ import com.apps.bacon.mydiabetes.adapters.ProductsAdapter
 import com.apps.bacon.mydiabetes.data.AppDatabase
 import com.apps.bacon.mydiabetes.data.HomeRepository
 import com.apps.bacon.mydiabetes.data.Product
-import com.apps.bacon.mydiabetes.databinding.FragmentHomeBinding
 import com.apps.bacon.mydiabetes.viewmodel.HomeModelFactory
 import com.apps.bacon.mydiabetes.viewmodel.HomeViewModel
+import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment(), ProductsAdapter.OnProductClickListener {
-    private lateinit var binding: FragmentHomeBinding
     private lateinit var productsAdapter: ProductsAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,13 +44,16 @@ class HomeFragment : Fragment(), ProductsAdapter.OnProductClickListener {
 
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
-        return binding.root
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     private fun initRecyclerView(data: List<Product>){
-        binding.recyclerView.apply {
+        recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             productsAdapter = ProductsAdapter(data, context, this@HomeFragment)
             adapter = productsAdapter
