@@ -9,7 +9,7 @@ class ProductRepository constructor(
 
     suspend fun deleteProduct(product: Product) = database.productDao().delete(product)
 
-    suspend fun updateProduct(product: Product) = database.productDao().delete(product)
+    suspend fun updateProduct(product: Product) = database.productDao().update(product)
 
 
 }
