@@ -206,14 +206,6 @@ class SaveProductActivity : AppCompatActivity() {
         for (i in listOfTags.indices){
             binding.tagChipContainer.addChip(context, listOfTags[i].name, listOfTags[i].id)
         }
-
-        for(i in 10 until binding.tagChipContainer.childCount){
-            binding.tagChipContainer.getChildAt(i).setOnLongClickListener {
-                dialogRemoveTag(it.id)
-                true
-            }
-        }
-
     }
 
     private fun ChipGroup.addChip(context: Context, label: String, ID: Int){
@@ -226,27 +218,6 @@ class SaveProductActivity : AppCompatActivity() {
             isFocusable = true
             addView(this)
         }
-    }
-
-    private fun dialogRemoveTag(id: Int){
-        val alertDialog: AlertDialog
-        val builder = AlertDialog.Builder(this, R.style.DialogStyle)
-        val dialogBinding = DialogDeleteTagBinding.inflate(LayoutInflater.from(this))
-        builder.setView(dialogBinding.root)
-        alertDialog = builder.create()
-        alertDialog.setCanceledOnTouchOutside(false)
-
-        dialogBinding.tagNameText.text = saveProductViewModel.getTagById(id).name
-
-        dialogBinding.backButton.setOnClickListener {
-                alertDialog.dismiss()
-            }
-
-        dialogBinding.deleteButton.setOnClickListener {
-            saveProductViewModel.deleteTagById(id)
-            alertDialog.dismiss()
-        }
-        alertDialog.show()
     }
 
     private fun setProductName(name: String){
