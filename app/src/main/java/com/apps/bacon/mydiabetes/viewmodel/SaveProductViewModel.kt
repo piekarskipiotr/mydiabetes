@@ -11,13 +11,11 @@ import kotlinx.coroutines.launch
 class SaveProductViewModel constructor(
     private val repository: SaveProductRepository) : ViewModel() {
 
+        fun getProduct(name: String) = repository.getProduct(name)
+
         fun getAllTags() = repository.getAllTag()
 
         fun getTagById(id: Int) = repository.getTagById(id)
-
-        fun insertTag(tag: Tag) = CoroutineScope(Dispatchers.Main).launch {
-            repository.insertTag(tag)
-        }
 
         fun insertProduct(product: Product) = CoroutineScope(Dispatchers.Main).launch {
             repository.insertProduct(product)

@@ -14,6 +14,9 @@ interface ProductDao {
     @Query("SELECT * FROM products WHERE :id == product_id")
     fun getProduct(id: Int): Product
 
+    @Query("SELECT * FROM products WHERE :name == product_name")
+    fun getProduct(name: String): Product
+
     @Insert
     fun insert(product: Product)
 

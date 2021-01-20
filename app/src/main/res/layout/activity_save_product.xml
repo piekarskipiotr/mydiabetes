@@ -29,9 +29,10 @@
                     android:paddingTop="20dp"
                     android:paddingEnd="16dp"
                     android:paddingBottom="20dp"
-                    android:text="Product Name"
+                    android:hint="Ustaw nazwę produktu"
                     android:textSize="22sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textAlignment="center"/>
 
                 <ImageView
                     android:id="@+id/backButton"

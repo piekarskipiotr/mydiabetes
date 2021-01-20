@@ -53,7 +53,7 @@ class AddProductFragment : Fragment() {
             if(!checkForEmptyFields()){
                 bottomSheetDialog.setContentView(bottomSheetDialogViewBinding.root)
                 bottomSheetDialog.show()
-                val intent = Intent (activity, SaveProductActivity::class.java)
+                val intent = Intent (requireActivity(), SaveProductActivity::class.java)
                 val weight: Double
                 val correctWeight: Double
                 val pieces: Int
@@ -148,7 +148,7 @@ class AddProductFragment : Fragment() {
 
                 bottomSheetDialogViewBinding.calculateButton.setOnClickListener {
                     bottomSheetDialog.dismiss()
-                    requireActivity().startActivity(intent)
+                    startActivity(intent)
                 }
             }else{
                 setError()
