@@ -1,21 +1,32 @@
 package com.apps.bacon.mydiabetes
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.get
 import androidx.lifecycle.ViewModelProvider
 import com.apps.bacon.mydiabetes.data.*
+import com.apps.bacon.mydiabetes.databinding.DialogDeleteProductBinding
+import com.apps.bacon.mydiabetes.databinding.DialogManagerTagBinding
 import com.apps.bacon.mydiabetes.viewmodel.ProductModelFactory
 import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import kotlinx.android.synthetic.main.activity_product.*
+import kotlinx.android.synthetic.main.activity_product.backButton
+import kotlinx.android.synthetic.main.activity_product.deleteButton
+import kotlinx.android.synthetic.main.dialog_delete_product.*
 import kotlin.math.round
 
+private const val REQUEST_CODE_GET_TAG = 1
 class ProductActivity : AppCompatActivity() {
     private lateinit var product: Product
     private lateinit var productViewModel: ProductViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product)
@@ -32,15 +43,17 @@ class ProductActivity : AppCompatActivity() {
             onBackPressed()
         }
 
+        deleteButton.setOnClickListener {
+            dialogDeleteProduct()
+        }
     }
 
     private fun setProductInfo(){
-        val measureText: String
         productName.text = product.name
-        if(product.weight != null)
-            measureText = "(dla masy ${product.weight} g)"
+        val measureText: String = if(product.weight != null)
+            "(dla masy ${product.weight} g)"
         else
-            measureText = "(dla masy ${product.pieces} szt.)"
+            "(dla masy ${product.pieces} szt.)"
 
         measureOfValues.text = measureText
         measureOfExchangers.text = measureText
@@ -59,6 +72,7 @@ class ProductActivity : AppCompatActivity() {
         proteinFatExchangers.text = product.proteinFatExchangers.toString()
         setProgressBar(product.carbohydrateExchangers, product.proteinFatExchangers)
 
+        Log.d("CHUJ", product.tag.toString())
         if(product.tag == null)
             addChip("Ustaw tag", 0)
         else{
@@ -78,9 +92,14 @@ class ProductActivity : AppCompatActivity() {
     private fun addChip(label: String, ID: Int){
         tagChipContainer.removeAllViewsInLayout()
         tagChipContainer.addChip(label, ID)
-        tagChipContainer[0].setOnLongClickListener {
-            //for implementation: change tag
-            true
+        tagChipContainer[0].setOnClickListener {
+            if(product.tag == null){
+                intent = Intent(this, AddTagActivity::class.java)
+                intent.putExtra("TAG_MANAGER", true)
+                startActivityForResult(intent, REQUEST_CODE_GET_TAG)
+            }else
+                dialogManagerTag(label)
+
         }
 
     }
@@ -90,10 +109,77 @@ class ProductActivity : AppCompatActivity() {
             id = ID
             text = label
             isClickable = true
-            isCheckable = true
             isCheckedIconVisible = false
             isFocusable = true
             addView(this)
+        }
+    }
+
+
+    private fun dialogDeleteProduct(){
+        val alertDialog: AlertDialog
+        val builder = AlertDialog.Builder(this, R.style.DialogStyle)
+        val dialogBinding = DialogDeleteProductBinding.inflate(LayoutInflater.from(this))
+        builder.setView(dialogBinding.root)
+        alertDialog = builder.create()
+        alertDialog.setCanceledOnTouchOutside(false)
+
+        dialogBinding.productNameText.text = product.name
+
+        dialogBinding.backButton.setOnClickListener {
+            alertDialog.dismiss()
+        }
+
+        dialogBinding.deleteButton.setOnClickListener {
+            productViewModel.deleteProduct(product)
+            alertDialog.dismiss()
+            finish()
+        }
+        alertDialog.show()
+    }
+
+    private fun dialogManagerTag(tagName: String){
+        val alertDialog: AlertDialog
+        val builder = AlertDialog.Builder(this, R.style.DialogStyle)
+        val dialogBinding = DialogManagerTagBinding.inflate(LayoutInflater.from(this))
+        builder.setView(dialogBinding.root)
+        alertDialog = builder.create()
+        alertDialog.setCanceledOnTouchOutside(false)
+
+        dialogBinding.tagNameText.text = tagName
+
+        dialogBinding.backButton.setOnClickListener {
+            alertDialog.dismiss()
+        }
+
+        dialogBinding.deleteButton.setOnClickListener {
+            product.tag = null
+            setProductInfo()
+            alertDialog.dismiss()
+        }
+
+        dialogBinding.changeButton.setOnClickListener {
+            intent = Intent(this, AddTagActivity::class.java)
+            intent.putExtra("TAG_MANAGER", true)
+            startActivityForResult(intent, REQUEST_CODE_GET_TAG)
+            alertDialog.dismiss()
+
+        }
+        alertDialog.show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(requestCode){
+            REQUEST_CODE_GET_TAG -> {
+                if(resultCode == RESULT_OK){
+                    product.tag = data!!.getIntExtra("TAG_ID", -1)
+                    setProductInfo()
+                    productViewModel.updateProduct(product)
+
+                }
+            }
+
         }
     }
 }

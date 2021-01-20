@@ -5,8 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.children
+import androidx.core.view.iterator
 import androidx.lifecycle.ViewModelProvider
 import com.apps.bacon.mydiabetes.data.*
 import com.apps.bacon.mydiabetes.databinding.ActivitySaveProductBinding
@@ -18,7 +22,6 @@ import com.google.android.material.chip.ChipGroup
 import kotlin.math.round
 
 private const val REQUEST_CODE_PRODUCT_NAME = 1
-private const val REQUEST_CODE_ADD_TAG = 2
 class SaveProductActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySaveProductBinding
     private lateinit var saveProductViewModel: SaveProductViewModel
@@ -136,33 +139,47 @@ class SaveProductActivity : AppCompatActivity() {
         }
 
         binding.tagChipContainer.setOnCheckedChangeListener { _, checkedId ->
-            selectedTagId = checkedId
             if (checkedId == 0){
+                selectedTagId = null
                 binding.tagChipContainer.clearCheck()
                 intent = Intent(this, AddTagActivity::class.java)
-                startActivityForResult(intent, REQUEST_CODE_ADD_TAG)
+                startActivity(intent)
 
+            }else{
+                selectedTagId = checkedId
             }
 
         }
 
         binding.saveButton.setOnClickListener {
-            saveProductViewModel.insertProduct(
-                Product(
-                0,
-                    binding.productName.text.toString(),
-                    weight,
-                    pieces,
-                    carbohydrates,
-                    calories,
-                    protein,
-                    fat,
-                    carbohydrateExchangers,
-                    proteinFatExchangers,
-                    selectedTagId
-                )
-            )
-            finish()
+            when {
+                saveProductViewModel.getProduct(binding.productName.text.toString()).name == binding.productName.text.toString() -> {
+                    Toast.makeText(this, "Produkt o takiej nazwie już istnieje", Toast.LENGTH_SHORT).show()
+                }
+                binding.productName.text.isNullOrEmpty() -> {
+                    binding.productName.setHintTextColor(ResourcesCompat.getColor(resources, R.color.red, null))
+
+                }
+                else -> {
+                    saveProductViewModel.insertProduct(
+                        Product(
+                            0,
+                            binding.productName.text.toString(),
+                            weight,
+                            pieces,
+                            carbohydrates,
+                            calories,
+                            protein,
+                            fat,
+                            carbohydrateExchangers,
+                            proteinFatExchangers,
+                            selectedTagId
+                        )
+                    )
+                    intent = Intent(this, HomeActivity::class.java)
+                    startActivity(intent)
+                }
+            }
 
         }
 
@@ -206,6 +223,14 @@ class SaveProductActivity : AppCompatActivity() {
         for (i in listOfTags.indices){
             binding.tagChipContainer.addChip(context, listOfTags[i].name, listOfTags[i].id)
         }
+
+        for(i in 10 until binding.tagChipContainer.childCount){
+            binding.tagChipContainer.getChildAt(i).setOnLongClickListener {
+                dialogRemoveTag(it.id)
+                true
+            }
+        }
+
     }
 
     private fun ChipGroup.addChip(context: Context, label: String, ID: Int){
@@ -220,13 +245,29 @@ class SaveProductActivity : AppCompatActivity() {
         }
     }
 
-    private fun setProductName(name: String){
-        binding.productName.text = name
+    private fun dialogRemoveTag(id: Int){
+        val alertDialog: AlertDialog
+        val builder = AlertDialog.Builder(this, R.style.DialogStyle)
+        val dialogBinding = DialogDeleteTagBinding.inflate(LayoutInflater.from(this))
+        builder.setView(dialogBinding.root)
+        alertDialog = builder.create()
+        alertDialog.setCanceledOnTouchOutside(false)
+
+        dialogBinding.tagNameText.text = saveProductViewModel.getTagById(id).name
+
+        dialogBinding.backButton.setOnClickListener {
+                alertDialog.dismiss()
+            }
+
+        dialogBinding.deleteButton.setOnClickListener {
+            saveProductViewModel.deleteTagById(id)
+            alertDialog.dismiss()
+        }
+        alertDialog.show()
     }
 
-    private fun addTag(name: String){
-        saveProductViewModel.insertTag(Tag(0,name))
-
+    private fun setProductName(name: String){
+        binding.productName.text = name
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -239,12 +280,6 @@ class SaveProductActivity : AppCompatActivity() {
                 }
             }
 
-            REQUEST_CODE_ADD_TAG -> {
-                if(resultCode == RESULT_OK){
-                    addTag(data!!.getStringExtra("TAG_NAME").toString())
-
-                }
-            }
         }
     }
 }

@@ -1,34 +1,109 @@
 package com.apps.bacon.mydiabetes
 
 import android.app.Activity
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.apps.bacon.mydiabetes.databinding.ActivityAddTagBinding
+import android.view.LayoutInflater
+import android.view.View
+import androidx.appcompat.app.AlertDialog
+import androidx.core.view.get
+import androidx.lifecycle.ViewModelProvider
+import com.apps.bacon.mydiabetes.data.AppDatabase
+import com.apps.bacon.mydiabetes.data.Tag
+import com.apps.bacon.mydiabetes.data.TagRepository
+import com.apps.bacon.mydiabetes.databinding.DialogDeleteTagBinding
+import com.apps.bacon.mydiabetes.viewmodel.TagViewModel
+import com.apps.bacon.mydiabetes.viewmodel.TagViewModelFactory
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
+import kotlinx.android.synthetic.main.activity_add_tag.*
 
 class AddTagActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityAddTagBinding
+    private lateinit var tagViewModel: TagViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAddTagBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_add_tag)
         val errorMessage = "Pole nie może być puste"
+        val database = AppDatabase.getInstance(this)
+        val repository = TagRepository(database)
+        val factory = TagViewModelFactory(repository)
+        tagViewModel = ViewModelProvider(this, factory).get(TagViewModel::class.java)
 
-        binding.addTagButton.setOnClickListener {
-            if(binding.tagNameTextInput.text.isNullOrEmpty())
-                binding.tagNameTextInputLayout.error = errorMessage
+        if(intent.getBooleanExtra("TAG_MANAGER", false)){
+            existingTagsLayout.visibility = View.VISIBLE
+            tagViewModel.getAll().observe(this, {
+                addChips(this, it)
+            })
+        }
+        addTagButton.setOnClickListener {
+            if(tagNameTextInput.text.isNullOrEmpty())
+                tagNameTextInputLayout.error = errorMessage
             else{
-                binding.tagNameTextInputLayout.error = null
-                intent.putExtra("TAG_NAME", binding.tagNameTextInput.text.toString().trim())
-                setResult(Activity.RESULT_OK, intent)
+                tagNameTextInputLayout.error = null
+                tagViewModel.insert(Tag(0, tagNameTextInput.text.toString().trim()))
                 finish()
             }
         }
 
-        binding.backButton.setOnClickListener {
+        backButton.setOnClickListener {
             setResult(Activity.RESULT_CANCELED, intent)
             finish()
         }
     }
+
+    private fun addChips(context: Context, listOfTags: List<Tag>){
+        tagChipContainer.removeAllViewsInLayout()
+        for (i in listOfTags.indices){
+            tagChipContainer.addChip(context, listOfTags[i].name, listOfTags[i].id)
+            tagChipContainer[i].setOnClickListener {
+                intent.putExtra("TAG_ID", listOfTags[i].id)
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+            }
+        }
+        for(i in 10 until tagChipContainer.childCount){
+            tagChipContainer.getChildAt(i).setOnLongClickListener {
+                dialogRemoveTag(listOfTags[i])
+                true
+            }
+        }
+    }
+
+    private fun ChipGroup.addChip(context: Context, label: String, ID: Int){
+        Chip(context).apply {
+            id = ID
+            text = label
+            isClickable = true
+            isCheckable = true
+            isCheckedIconVisible = false
+            isFocusable = true
+            addView(this)
+        }
+    }
+
+    private fun dialogRemoveTag(tag: Tag){
+        val alertDialog: AlertDialog
+        val builder = AlertDialog.Builder(this, R.style.DialogStyle)
+        val dialogBinding = DialogDeleteTagBinding.inflate(LayoutInflater.from(this))
+        builder.setView(dialogBinding.root)
+        alertDialog = builder.create()
+        alertDialog.setCanceledOnTouchOutside(false)
+
+        dialogBinding.tagNameText.text = tag.name
+
+        dialogBinding.backButton.setOnClickListener {
+            alertDialog.dismiss()
+        }
+
+        dialogBinding.deleteButton.setOnClickListener {
+            tagViewModel.delete(tag)
+            alertDialog.dismiss()
+        }
+        alertDialog.show()
+    }
+
 
     override fun onBackPressed() {
         setResult(Activity.RESULT_CANCELED, intent)
