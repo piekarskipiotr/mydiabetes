@@ -40,7 +40,8 @@
                     android:layout_height="28dp"
                     android:layout_alignParentStart="true"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/ic_round_arrow_back"/>
+                    android:src="@drawable/ic_round_arrow_back"
+                    app:tint="@color/independent" />
             </RelativeLayout>
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -68,7 +69,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:hint="Nazwa tagu"
-                    app:errorEnabled="true">
+                    app:errorEnabled="true"
+                    style="@style/CustomInputLayout">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/tagNameTextInput"
@@ -77,6 +79,7 @@
                         android:inputType="text"
                         android:lines="1"
                         android:textSize="16sp"
+                        android:textCursorDrawable="@null"
                         />
 
                 </com.google.android.material.textfield.TextInputLayout>

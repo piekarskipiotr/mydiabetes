@@ -14,7 +14,7 @@
 
     <style name="SplashScreen" parent="Theme.MaterialComponents.NoActionBar">
         <item name="android:windowFullscreen">true</item>
-        <item name="colorPrimary">@color/lavender_web</item>
+        <item name="colorPrimary">@color/independent</item>
         <item name="android:windowBackground">@drawable/splashscreen</item>
         <item name="android:screenOrientation">portrait</item>
     </style>
@@ -32,8 +32,20 @@
     </style>
 
     <style name="CustomInputLayout.OutlineBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="android:state_focused">@color/rose_dust</item>
+        <item name="boxStrokeColor">@color/independent</item>
+        <item name="hintTextColor">@color/independent</item>
 
     </style>
+
+    <style name="CustomInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="hintTextColor">@color/black</item>
+    </style>
+
+    <style name="SearchInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="hintTextColor">@color/black</item>
+        <item name="boxStrokeColor">@color/black</item>
+    </style>
+
+
 
 </resources>

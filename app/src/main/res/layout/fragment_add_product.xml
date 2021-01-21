@@ -62,9 +62,7 @@
                             app:errorEnabled="true"
                             app:suffixText="g/ml"
                             android:hint="Waga"
-                            app:boxStrokeColor="@color/rose_dust"
-                            app:hintTextColor="@color/rose_dust"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                            style="@style/CustomInputLayout.OutlineBox">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/weightTextInput"
@@ -87,9 +85,7 @@
                             app:endIconContentDescription="helpIcon"
                             app:suffixText="g/ml"
                             android:hint="Waga właściwa"
-                            app:boxStrokeColor="@color/rose_dust"
-                            app:hintTextColor="@color/rose_dust"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                            style="@style/CustomInputLayout.OutlineBox">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/correctWeightTextInput"
@@ -119,9 +115,7 @@
                             app:errorEnabled="true"
                             app:suffixText="szt."
                             android:hint="1 Sztuka"
-                            app:boxStrokeColor="@color/rose_dust"
-                            app:hintTextColor="@color/rose_dust"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                            style="@style/CustomInputLayout.OutlineBox">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/pieceTextInput"
@@ -144,9 +138,7 @@
                             app:endIconContentDescription="helpIcon"
                             app:suffixText="szt."
                             android:hint="Ilość sztuk"
-                            app:boxStrokeColor="@color/rose_dust"
-                            app:hintTextColor="@color/rose_dust"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                            style="@style/CustomInputLayout.OutlineBox">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/correctPieceTextInput"
@@ -190,9 +182,7 @@
                             android:layout_height="wrap_content"
                             app:errorEnabled="true"
                             android:hint="Węglowodany"
-                            app:boxStrokeColor="@color/rose_dust"
-                            app:hintTextColor="@color/rose_dust"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                            style="@style/CustomInputLayout.OutlineBox">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/carbohydrateTextInput"
@@ -209,9 +199,7 @@
                             android:layout_height="wrap_content"
                             app:errorEnabled="true"
                             android:hint="Białko"
-                            app:boxStrokeColor="@color/rose_dust"
-                            app:hintTextColor="@color/rose_dust"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                            style="@style/CustomInputLayout.OutlineBox">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/proteinTextInput"
@@ -228,9 +216,7 @@
                             android:layout_height="wrap_content"
                             app:errorEnabled="true"
                             android:hint="Tłuszcz"
-                            app:boxStrokeColor="@color/rose_dust"
-                            app:hintTextColor="@color/rose_dust"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                            style="@style/CustomInputLayout.OutlineBox">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/fatTextInput"
@@ -248,9 +234,7 @@
                             android:layout_height="wrap_content"
                             app:errorEnabled="true"
                             android:hint="Kcal"
-                            app:boxStrokeColor="@color/rose_dust"
-                            app:hintTextColor="@color/rose_dust"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                            style="@style/CustomInputLayout.OutlineBox">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/caloriesTextInput"

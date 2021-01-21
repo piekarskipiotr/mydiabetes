@@ -40,7 +40,8 @@
                     android:layout_alignParentStart="true"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_round_arrow_back"/>
+                    android:src="@drawable/ic_round_arrow_back"
+                    app:tint="@color/independent" />
                 <ImageView
                     android:id="@+id/deleteButton"
                     android:clickable="true"
@@ -52,7 +53,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_round_delete_forever"/>
+                    android:src="@drawable/ic_round_delete_forever"
+                    app:tint="@color/independent" />
             </RelativeLayout>
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -128,7 +130,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentEnd="true"
-                                    app:cardBackgroundColor="@color/blue_purple">
+                                    app:cardBackgroundColor="@color/strong_yellow">
                                     <TextView
                                         android:id="@+id/carbohydrates"
                                         android:layout_width="match_parent"
@@ -156,7 +158,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentEnd="true"
-                                    app:cardBackgroundColor="@color/blue_purple">
+                                    app:cardBackgroundColor="@color/lavender_web">
                                     <TextView
                                         android:id="@+id/calories"
                                         android:layout_width="match_parent"
@@ -214,7 +216,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentEnd="true"
-                                    app:cardBackgroundColor="@color/blue_purple">
+                                    app:cardBackgroundColor="@color/english_lavender">
                                     <TextView
                                         android:id="@+id/fat"
                                         android:layout_width="match_parent"
@@ -235,7 +237,7 @@
                             android:layout_height="1dp"
                             android:layout_marginTop="0dp"
                             android:layout_marginBottom="15dp"
-                            android:background="@color/rose_dust"/>
+                            android:background="@color/independent"/>
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -286,6 +288,7 @@
                                     android:layout_marginBottom="-8dp"
                                     android:layout_marginTop="-4dp"
                                     android:layout_marginEnd="15dp"
+                                    android:progressTint="@color/strong_yellow"
                                     android:progress="10"/>
                                 <TextView
                                     android:id="@+id/carbohydrateExchangers"
@@ -316,6 +319,7 @@
                                     android:layout_marginBottom="-8dp"
                                     android:layout_marginTop="-4dp"
                                     android:layout_marginEnd="15dp"
+                                    android:progressTint="@color/blue_purple"
                                     android:progress="60"/>
                                 <TextView
                                     android:id="@+id/proteinFatExchangers"
@@ -331,7 +335,7 @@
                             android:layout_height="1dp"
                             android:layout_marginTop="0dp"
                             android:layout_marginBottom="15dp"
-                            android:background="@color/rose_dust"/>
+                            android:background="@color/independent"/>
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -360,7 +364,7 @@
                             android:layout_height="1dp"
                             android:layout_marginTop="0dp"
                             android:layout_marginBottom="15dp"
-                            android:background="@color/rose_dust"/>
+                            android:background="@color/independent"/>
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
