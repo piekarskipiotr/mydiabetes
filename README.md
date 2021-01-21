@@ -19,7 +19,7 @@ Project is created with **Kotlin**.
 📚 Libraries (already in use):
 * [ROOM](https://developer.android.com/jetpack/androidx/releases/room)
 * [Lifecycle](https://developer.android.com/jetpack/androidx/releases/lifecycle)
-* Kotlin Coroutines
+* [Kotlin Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html)
 
 ## 💡 Features
 * Easliy calculate carbohydrates and protein-fat exchangers
