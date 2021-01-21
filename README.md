@@ -17,9 +17,9 @@ This project is to provide diabetics with faster counting of products and findin
 Project is created with **Kotlin**.
 
 📚 Libraries (already in use):
-* ROOM
+* [ROOM](https://developer.android.com/jetpack/androidx/releases/room)
+* [Lifecycle](https://developer.android.com/jetpack/androidx/releases/lifecycle)
 * Kotlin Coroutines
-* Lifecycle
 
 ## 💡 Features
 * Easliy calculate carbohydrates and protein-fat exchangers
