@@ -3,6 +3,8 @@ package com.apps.bacon.mydiabetes.data
 class SaveProductRepository constructor(
     private val database: AppDatabase) {
 
+    fun checkForProductExist(name: String) = database.productDao().checkForProductExist(name)
+
     fun getProduct(name: String) = database.productDao().getProduct(name)
 
     fun getAllTag() = database.tagDao().getAll()

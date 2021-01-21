@@ -5,6 +5,10 @@ import androidx.room.*
 
 @Dao
 interface ProductDao {
+
+    @Query("SELECT EXISTS(SELECT * FROM products WHERE :name = product_name)")
+    fun checkForProductExist(name: String): Boolean
+
     @Query("SELECT * FROM products")
     fun getAll(): LiveData<List<Product>>
 

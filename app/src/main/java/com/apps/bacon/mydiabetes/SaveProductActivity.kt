@@ -3,6 +3,7 @@ package com.apps.bacon.mydiabetes
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
@@ -148,8 +149,9 @@ class SaveProductActivity : AppCompatActivity() {
         }
 
         saveButton.setOnClickListener {
+
             when {
-                saveProductViewModel.getProduct(productName.text.toString()).name == productName.text.toString() -> {
+                saveProductViewModel.checkForProductExist(productName.text.toString()) -> {
                     Toast.makeText(this, "Produkt o takiej nazwie już istnieje", Toast.LENGTH_SHORT).show()
                 }
                 productName.text.isNullOrEmpty() -> {

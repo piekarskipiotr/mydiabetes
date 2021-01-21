@@ -11,6 +11,8 @@ import kotlinx.coroutines.launch
 class SaveProductViewModel constructor(
     private val repository: SaveProductRepository) : ViewModel() {
 
+        fun checkForProductExist(name: String) = repository.checkForProductExist(name)
+
         fun getProduct(name: String) = repository.getProduct(name)
 
         fun getAllTags() = repository.getAllTag()
