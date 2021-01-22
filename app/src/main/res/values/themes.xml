@@ -41,7 +41,7 @@
         <item name="hintTextColor">@color/black</item>
     </style>
 
-    <style name="SearchInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+    <style name="CustomInputLayout2" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
         <item name="hintTextColor">@color/black</item>
         <item name="boxStrokeColor">@color/black</item>
     </style>

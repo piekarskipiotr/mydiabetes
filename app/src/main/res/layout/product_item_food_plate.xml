@@ -41,22 +41,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
-                        app:cardBackgroundColor="@color/light_gray">
-                        <TextView
-                            android:id="@+id/measure"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginEnd="5dp"
-                            android:layout_marginBottom="2dp"
-                            android:text="16.97"
-                            android:textSize="12sp"/>
-                    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
-                    <com.google.android.material.circularreveal.cardview.CircularRevealCardView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
                         app:cardBackgroundColor="@color/strong_yellow">
                         <TextView
                             android:id="@+id/carbohydrateExchangers"
@@ -105,13 +89,30 @@
                 </LinearLayout>
 
             </LinearLayout>
-            <ImageView
-                android:visibility="gone"
-                android:id="@+id/productImage"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/measureTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_android_black_24dp"/>
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="15dp"
+                android:layout_centerVertical="true"
+                android:hint="Waga / Sztuki"
+                app:errorEnabled="true"
+                style="@style/CustomInputLayout2">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/measureTextInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:inputType="text"
+                    android:lines="1"
+                    android:textSize="16sp"
+                    android:imeOptions="actionDone"
+                    android:textCursorDrawable="@null"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
     </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
