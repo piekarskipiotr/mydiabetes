@@ -1,24 +1,24 @@
 package com.apps.bacon.mydiabetes.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.apps.bacon.mydiabetes.R
 import com.apps.bacon.mydiabetes.data.Product
-import com.apps.bacon.mydiabetes.databinding.ProductItemBinding
+import kotlinx.android.synthetic.main.product_item.view.*
 
 class ProductsAdapter constructor(
     private val data: List<Product>,
-    private val context: Context,
     private val listener: OnProductClickListener) : RecyclerView.Adapter<ProductsAdapter.ViewHolder>(){
 
-   inner class ViewHolder(view: ProductItemBinding) : RecyclerView.ViewHolder(view.root), View.OnClickListener {
-        val productName = view.productName
-        val measure = view.measure
-        val carbohydrateExchangers = view.carbohydrateExchangers
-        val proteinFatExchangers = view.proteinFatExchangers
-        val calories = view.calories
+   inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
+        val productName: TextView = view.productName
+        val measure: TextView = view.measure
+        val carbohydrateExchangers: TextView = view.carbohydrateExchangers
+        val proteinFatExchangers: TextView = view.proteinFatExchangers
+        val calories: TextView = view.calories
 
 
         init {
@@ -32,7 +32,7 @@ class ProductsAdapter constructor(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = ProductItemBinding.inflate(LayoutInflater.from(context), parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.product_item, parent, false)
         return ViewHolder(view)
     }
 

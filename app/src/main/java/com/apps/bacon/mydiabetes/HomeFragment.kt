@@ -55,7 +55,7 @@ class HomeFragment : Fragment(), ProductsAdapter.OnProductClickListener {
     private fun initRecyclerView(data: List<Product>){
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
-            productsAdapter = ProductsAdapter(data, context, this@HomeFragment)
+            productsAdapter = ProductsAdapter(data, this@HomeFragment)
             adapter = productsAdapter
 
         }
