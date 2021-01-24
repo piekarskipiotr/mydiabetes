@@ -96,7 +96,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="15dp"
                 android:layout_centerVertical="true"
-                android:hint="Waga / Sztuki"
+                android:hint="Miara"
                 app:errorEnabled="true"
                 style="@style/CustomInputLayout2">
 
