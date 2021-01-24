@@ -8,10 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apps.bacon.mydiabetes.R
 import com.apps.bacon.mydiabetes.data.Product
 import kotlinx.android.synthetic.main.product_item.view.*
+import java.util.ArrayList
 
 class ProductsAdapter constructor(
-    private val data: List<Product>,
     private val listener: OnProductClickListener) : RecyclerView.Adapter<ProductsAdapter.ViewHolder>(){
+    private var data: List<Product> = ArrayList()
 
    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
         val productName: TextView = view.productName
@@ -20,13 +21,12 @@ class ProductsAdapter constructor(
         val proteinFatExchangers: TextView = view.proteinFatExchangers
         val calories: TextView = view.calories
 
-
         init {
             itemView.setOnClickListener(this)
         }
 
         override fun onClick(p0: View?) {
-            listener.onProductClick(data[itemViewType].id)
+            listener.onProductClick(data[adapterPosition].id)
         }
 
     }
@@ -50,6 +50,11 @@ class ProductsAdapter constructor(
     }
 
     override fun getItemCount(): Int = data.size
+
+    fun updateData(dataList: List<Product>){
+        data = dataList
+        notifyDataSetChanged()
+    }
 
     interface OnProductClickListener {
         fun onProductClick(productID: Int)

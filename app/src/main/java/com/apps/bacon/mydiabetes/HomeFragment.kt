@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.apps.bacon.mydiabetes.adapters.ProductsAdapter
 import com.apps.bacon.mydiabetes.data.AppDatabase
 import com.apps.bacon.mydiabetes.data.HomeRepository
-import com.apps.bacon.mydiabetes.data.Product
 import com.apps.bacon.mydiabetes.viewmodel.HomeModelFactory
 import com.apps.bacon.mydiabetes.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -25,6 +24,7 @@ class HomeFragment : Fragment(), ProductsAdapter.OnProductClickListener {
         val repository = HomeRepository(database)
         val factory = HomeModelFactory(repository)
         val homeViewModel = ViewModelProvider(requireActivity(), factory).get(HomeViewModel::class.java)
+        initRecyclerView()
 
         homeViewModel.currentTag.observe(viewLifecycleOwner, { selectedTab ->
             if(homeViewModel.getProductsByTag(selectedTab).hasObservers())
@@ -32,11 +32,12 @@ class HomeFragment : Fragment(), ProductsAdapter.OnProductClickListener {
 
             if(selectedTab == 0){
                 homeViewModel.getAll().observe(viewLifecycleOwner, {
-                    initRecyclerView(it)
+                   productsAdapter.updateData(it)
+
                 })
             }else{
                 homeViewModel.getProductsByTag(selectedTab).observe(viewLifecycleOwner, {
-                    initRecyclerView(it)
+                    productsAdapter.updateData(it)
                 })
             }
         })
@@ -52,10 +53,10 @@ class HomeFragment : Fragment(), ProductsAdapter.OnProductClickListener {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
-    private fun initRecyclerView(data: List<Product>){
+    private fun initRecyclerView(){
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
-            productsAdapter = ProductsAdapter(data, this@HomeFragment)
+            productsAdapter = ProductsAdapter( this@HomeFragment)
             adapter = productsAdapter
 
         }

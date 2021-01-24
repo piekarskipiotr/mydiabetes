@@ -12,9 +12,9 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.product_item_food_plate.view.*
 
 class FoodPlateAdapter constructor(
-    private val data: List<Product>,
     private val listener: OnProductClickListener
 ) : RecyclerView.Adapter<FoodPlateAdapter.ViewHolder>() {
+    private var data: List<Product> = ArrayList()
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
         val productName: TextView = view.productName
@@ -29,7 +29,7 @@ class FoodPlateAdapter constructor(
         }
 
         override fun onClick(p0: View?) {
-            listener.onProductClick(data[itemViewType].id)
+            listener.onProductClick(data[adapterPosition].id)
         }
 
 
@@ -57,6 +57,11 @@ class FoodPlateAdapter constructor(
     }
 
     override fun getItemCount(): Int = data.size
+
+    fun updateData(dataList: List<Product>){
+        data = dataList
+        notifyDataSetChanged()
+    }
 
     interface OnProductClickListener {
         fun onProductClick(productID: Int)

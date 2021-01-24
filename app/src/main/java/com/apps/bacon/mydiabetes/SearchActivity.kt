@@ -33,6 +33,8 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
         val repository = SearchRepository(database)
         val factory = SearchModelFactory(repository)
         val searchViewModel = ViewModelProvider(this, factory).get(SearchViewModel::class.java)
+        initRecyclerView()
+
         searchViewModel.getAll().observe(this, {
             allProducts = it
         })
@@ -52,7 +54,7 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
             }else{
                 noProductMessageText.visibility = View.GONE
                 searchRecyclerView.visibility = View.VISIBLE
-                initRecyclerView(searchList)
+                productsAdapter.updateData(searchList)
             }
 
 
@@ -64,10 +66,10 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
 
     }
 
-    private fun initRecyclerView(data: List<Product>){
+    private fun initRecyclerView(){
         searchRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
-            productsAdapter = ProductsAdapter(data, context, this@SearchActivity)
+            productsAdapter = ProductsAdapter( this@SearchActivity)
             adapter = productsAdapter
 
         }

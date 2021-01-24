@@ -4,23 +4,22 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apps.bacon.mydiabetes.adapters.FoodPlateAdapter
-import com.apps.bacon.mydiabetes.adapters.ProductsAdapter
-import com.apps.bacon.mydiabetes.data.Product
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickListener {
     private lateinit var foodPlateAdapter: FoodPlateAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_food_plate)
-
+        initRecyclerView()
 
     }
 
-    private fun initRecyclerView(data: List<Product>){
+    private fun initRecyclerView(){
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
-            foodPlateAdapter = FoodPlateAdapter(data, this@FoodPlateActivity)
+            foodPlateAdapter = FoodPlateAdapter(this@FoodPlateActivity)
             adapter = foodPlateAdapter
 
         }
