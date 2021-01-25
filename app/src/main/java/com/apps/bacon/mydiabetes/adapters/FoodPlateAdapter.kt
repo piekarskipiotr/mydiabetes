@@ -43,10 +43,10 @@ class FoodPlateAdapter constructor(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.productName.text = data[position].name
         if(data[position].weight == null){
-            holder.measure.setText(data[position].weight.toString())
+            holder.measure.setText(data[position].pieces.toString())
             holder.measureLayout.suffixText = "szt."
         }else{
-            holder.measure.setText(data[position].pieces.toString())
+            holder.measure.setText(data[position].weight.toString())
             holder.measureLayout.suffixText = "g/ml"
         }
 
