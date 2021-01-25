@@ -1,16 +1,24 @@
 package com.apps.bacon.mydiabetes
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.apps.bacon.mydiabetes.adapters.FoodPlateAdapter
 import com.apps.bacon.mydiabetes.adapters.ProductsAdapter
 import com.apps.bacon.mydiabetes.data.AppDatabase
 import com.apps.bacon.mydiabetes.data.ProductRepository
+import com.apps.bacon.mydiabetes.utilities.SwipeToRemove
 import com.apps.bacon.mydiabetes.viewmodel.ProductModelFactory
 import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
+import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.activity_food_plate.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -32,6 +40,22 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
 
         })
 
+        object : SwipeToRemove(this){
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                productViewModel.updateProduct(
+                    foodPlateAdapter.getProduct(viewHolder.adapterPosition).apply {
+                        inFoodPlate = false
+                    }
+                )
+                Toast.makeText(this@FoodPlateActivity, "Usunięto!", Toast.LENGTH_SHORT).show()
+            }
+        }.apply {
+            ItemTouchHelper(this).attachToRecyclerView(foodRecyclerView)
+        }
+
+        backButton.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     private fun initRecyclerView(){
@@ -39,11 +63,14 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
             layoutManager = LinearLayoutManager(context)
             foodPlateAdapter = FoodPlateAdapter( this@FoodPlateActivity)
             adapter = foodPlateAdapter
-
         }
     }
 
     override fun onProductClick(productID: Int) {
-        TODO("Not yet implemented")
+        val intent = Intent(this, ProductActivity::class.java)
+        intent.putExtra("PRODUCT_ID", productID)
+        startActivity(intent)
     }
+
+
 }
