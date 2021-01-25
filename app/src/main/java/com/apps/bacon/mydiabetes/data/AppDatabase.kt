@@ -9,10 +9,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [Product::class, Tag::class], version = 1, exportSchema = true)
+@Database(entities = [Product::class, Tag::class, FoodPlate::class], version = 1, exportSchema = true)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun productDao(): ProductDao
     abstract fun tagDao(): TagDao
+    abstract fun foodPlateDao(): FoodPlateDao
 
     companion object{
         @Volatile

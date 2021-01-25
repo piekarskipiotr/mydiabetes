@@ -14,6 +14,8 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
         setContentView(R.layout.activity_food_plate)
         initRecyclerView()
 
+
+
     }
 
     private fun initRecyclerView(){
