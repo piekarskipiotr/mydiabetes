@@ -15,6 +15,8 @@ class ProductViewModel constructor(
 
     fun getTag(id: Int) = repository.getTag(id)
 
+    fun getProductsInPlate() = repository.getProductsInPlate()
+
     fun deleteProduct(product: Product) = CoroutineScope(Dispatchers.Main).launch {
         repository.deleteProduct(product)
     }

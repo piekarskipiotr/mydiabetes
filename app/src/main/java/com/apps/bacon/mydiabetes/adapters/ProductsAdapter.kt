@@ -11,7 +11,8 @@ import kotlinx.android.synthetic.main.product_item.view.*
 import java.util.ArrayList
 
 class ProductsAdapter constructor(
-    private val listener: OnProductClickListener) : RecyclerView.Adapter<ProductsAdapter.ViewHolder>(){
+    private val listener: OnProductClickListener
+    ) : RecyclerView.Adapter<ProductsAdapter.ViewHolder>(){
     private var data: List<Product> = ArrayList()
 
    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {

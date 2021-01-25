@@ -40,5 +40,8 @@ data class Product(
     @ColumnInfo(name = "product_tag")
     var tag: Int?,
 
+    @ColumnInfo(name = "in_food_plate")
+    var inFoodPlate: Boolean
+
 
 )

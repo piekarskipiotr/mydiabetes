@@ -171,7 +171,8 @@ class SaveProductActivity : AppCompatActivity() {
                             fat,
                             carbohydrateExchangers,
                             proteinFatExchangers,
-                            selectedTagId
+                            selectedTagId,
+                            false
                         )
                     )
                     intent = Intent(this, HomeActivity::class.java)

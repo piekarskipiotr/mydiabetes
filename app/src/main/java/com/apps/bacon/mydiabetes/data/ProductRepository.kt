@@ -5,6 +5,8 @@ class ProductRepository constructor(
 ) {
     fun getProduct(id: Int) = database.productDao().getProduct(id)
 
+    fun getProductsInPlate() = database.productDao().getProductsInPlate()
+
     fun getTag(id: Int) = database.tagDao().getTagById(id)
 
     suspend fun deleteProduct(product: Product) = database.productDao().delete(product)

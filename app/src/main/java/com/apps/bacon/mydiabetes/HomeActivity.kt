@@ -70,6 +70,11 @@ class HomeActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        foodPlate.setOnClickListener {
+            intent = Intent(this, FoodPlateActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     private fun addTabs(listOfTags: List<Tag>){

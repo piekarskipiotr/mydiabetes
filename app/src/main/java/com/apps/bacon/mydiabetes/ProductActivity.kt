@@ -39,6 +39,12 @@ class ProductActivity : AppCompatActivity() {
         product = productViewModel.getProduct(productId)
         setProductInfo()
 
+        addButton.setOnClickListener {
+            productViewModel.updateProduct(product.apply {
+                inFoodPlate = true
+            })
+        }
+
         backButton.setOnClickListener {
             onBackPressed()
         }
