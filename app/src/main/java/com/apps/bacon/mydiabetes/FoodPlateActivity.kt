@@ -57,6 +57,7 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
         initRecyclerView()
         this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         productViewModel.getProductsInPlate().observe(this, {
+            calculateButton.isEnabled = it.isNotEmpty()
             foodPlateAdapter.updateData(it)
 
         })
@@ -79,6 +80,16 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
             bottomSheetDialog.setContentView(bottomDialogBinding.root)
             bottomSheetDialog.show()
             sumValues()
+            bottomDialogBinding.clearButton.setOnClickListener {
+                for(i in 0 until foodPlateAdapter.itemCount){
+                    productViewModel.updateProduct(
+                        foodPlateAdapter.getProduct(i).apply {
+                            inFoodPlate = false
+                        }
+                    )
+                }
+                bottomSheetDialog.dismiss()
+            }
         }
 
         backButton.setOnClickListener {
