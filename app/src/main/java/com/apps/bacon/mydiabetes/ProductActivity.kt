@@ -78,7 +78,6 @@ class ProductActivity : AppCompatActivity() {
         proteinFatExchangers.text = product.proteinFatExchangers.toString()
         setProgressBar(product.carbohydrateExchangers, product.proteinFatExchangers)
 
-        Log.d("CHUJ", product.tag.toString())
         if(product.tag == null)
             addChip("Ustaw tag", 0)
         else{
