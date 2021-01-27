@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.apps.bacon.mydiabetes">
+    <uses-feature android:name="android.hardware.camera.any" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".App"
@@ -9,25 +11,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyDiabetes">
-        <activity android:name=".FoodPlateActivity"></activity>
-        <activity android:name=".SearchActivity" />
-        <activity android:name=".ChangeProductNameActivity" />
-        <activity android:name=".AddTagActivity" />
-        <activity android:name=".EditProductActivity" />
-        <activity android:name=".ProductActivity" />
-        <activity android:name=".SaveProductActivity" />
-        <activity
-            android:name=".HomeActivity"
-            android:configChanges="orientation|screenSize" />
-        <activity
-            android:name=".MainActivity"
-            android:theme="@style/SplashScreen">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <activity android:name=".CameraActivity"/>
+            <activity android:name=".FoodPlateActivity" />
+            <activity android:name=".SearchActivity" />
+            <activity android:name=".ChangeProductNameActivity" />
+            <activity android:name=".AddTagActivity" />
+            <activity android:name=".ProductActivity" />
+            <activity android:name=".SaveProductActivity" />
+            <activity
+                android:name=".HomeActivity"
+                android:configChanges="orientation|screenSize" />
+            <activity
+                android:name=".MainActivity"
+                android:theme="@style/SplashScreen">
+                <intent-filter>
+                    <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+                    <category android:name="android.intent.category.LAUNCHER" />
+                </intent-filter>
+            </activity>
     </application>
 
 </manifest>
