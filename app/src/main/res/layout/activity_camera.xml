@@ -6,6 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".CameraActivity">
     <androidx.cardview.widget.CardView
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
         android:id="@+id/cameraCaptureButton"
         android:layout_width="60dp"
         android:layout_height="60dp"

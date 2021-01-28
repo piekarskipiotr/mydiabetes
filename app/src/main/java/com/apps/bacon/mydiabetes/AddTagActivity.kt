@@ -6,30 +6,29 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.get
-import androidx.lifecycle.ViewModelProvider
-import com.apps.bacon.mydiabetes.data.AppDatabase
 import com.apps.bacon.mydiabetes.data.Tag
-import com.apps.bacon.mydiabetes.data.TagRepository
 import com.apps.bacon.mydiabetes.databinding.DialogDeleteTagBinding
 import com.apps.bacon.mydiabetes.viewmodel.TagViewModel
-import com.apps.bacon.mydiabetes.viewmodel.TagViewModelFactory
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_add_tag.*
 
+@AndroidEntryPoint
 class AddTagActivity : AppCompatActivity() {
-    private lateinit var tagViewModel: TagViewModel
+    private val tagViewModel: TagViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_tag)
         val errorMessage = "Pole nie może być puste"
-        val database = AppDatabase.getInstance(this)
-        val repository = TagRepository(database)
-        val factory = TagViewModelFactory(repository)
-        tagViewModel = ViewModelProvider(this, factory).get(TagViewModel::class.java)
+//        val database = AppDatabase.getInstance(this)
+//        val repository = TagRepository(database)
+//        val factory = TagViewModelFactory(repository)
+//        tagViewModel = ViewModelProvider(this, factory).get(TagViewModel::class.java)
 
         if(intent.getBooleanExtra("TAG_MANAGER", false)){
             existingTagsLayout.visibility = View.VISIBLE

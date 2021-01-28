@@ -1,6 +1,8 @@
 package com.apps.bacon.mydiabetes.data
 
-class TagRepository constructor(
+import javax.inject.Inject
+
+class TagRepository @Inject constructor(
     private val database: AppDatabase
 ){
     fun getAll() = database.tagDao().getAll()

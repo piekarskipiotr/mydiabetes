@@ -3,19 +3,18 @@ package com.apps.bacon.mydiabetes
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.get
-import androidx.lifecycle.ViewModelProvider
 import com.apps.bacon.mydiabetes.data.*
 import com.apps.bacon.mydiabetes.databinding.DialogDeleteProductBinding
 import com.apps.bacon.mydiabetes.databinding.DialogManagerTagBinding
-import com.apps.bacon.mydiabetes.viewmodel.ProductModelFactory
 import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_product.*
 import kotlinx.android.synthetic.main.activity_product.backButton
 import kotlinx.android.synthetic.main.activity_product.deleteButton
@@ -24,17 +23,19 @@ import kotlin.math.round
 
 private const val REQUEST_CODE_GET_TAG = 1
 private const val REQUEST_CODE_GET_BARCODE = 2
+
+@AndroidEntryPoint
 class ProductActivity : AppCompatActivity() {
     private lateinit var product: Product
-    private lateinit var productViewModel: ProductViewModel
+    private val productViewModel: ProductViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product)
-        val database = AppDatabase.getInstance(this)
-        val repository = ProductRepository(database)
-        val factory = ProductModelFactory(repository)
-        productViewModel = ViewModelProvider(this, factory).get(ProductViewModel::class.java)
+//        val database = AppDatabase.getInstance(this)
+//        val repository = ProductRepository(database)
+//        val factory = ProductModelFactory(repository)
+//        productViewModel = ViewModelProvider(this, factory).get(ProductViewModel::class.java)
 
         val productId = intent.getIntExtra("PRODUCT_ID", -1)
         product = productViewModel.getProduct(productId)

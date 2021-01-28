@@ -12,6 +12,7 @@ import com.apps.bacon.mydiabetes.databinding.DialogCalculatedExchangersBinding
 import com.apps.bacon.mydiabetes.utilities.Calculations
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputEditText
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_add_product.*
 import kotlin.math.round
 

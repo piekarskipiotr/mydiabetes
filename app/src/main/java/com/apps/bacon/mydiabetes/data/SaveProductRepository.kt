@@ -1,6 +1,9 @@
 package com.apps.bacon.mydiabetes.data
 
-class SaveProductRepository constructor(
+import javax.inject.Inject
+
+class SaveProductRepository @Inject
+constructor(
     private val database: AppDatabase) {
 
     fun checkForProductExist(name: String) = database.productDao().checkForProductExist(name)

@@ -3,26 +3,27 @@ package com.apps.bacon.mydiabetes
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
-import androidx.lifecycle.ViewModelProvider
 import com.apps.bacon.mydiabetes.data.*
 import com.apps.bacon.mydiabetes.databinding.DialogDeleteTagBinding
-import com.apps.bacon.mydiabetes.viewmodel.SaveProductModelFactory
 import com.apps.bacon.mydiabetes.viewmodel.SaveProductViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_save_product.*
 import kotlin.math.round
 
 private const val REQUEST_CODE_PRODUCT_NAME = 1
+
+@AndroidEntryPoint
 class SaveProductActivity : AppCompatActivity() {
-    private lateinit var saveProductViewModel: SaveProductViewModel
+    private val saveProductViewModel: SaveProductViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,10 +41,10 @@ class SaveProductActivity : AppCompatActivity() {
         var carbohydrateExchangers = 0.0
         var selectedTagId: Int? = null
 
-        val database = AppDatabase.getInstance(this)
-        val repository = SaveProductRepository(database)
-        val factory = SaveProductModelFactory(repository)
-        saveProductViewModel = ViewModelProvider(this, factory).get(SaveProductViewModel::class.java)
+//        val database = AppDatabase.getInstance(this)
+//        val repository = SaveProductRepository(database)
+//        val factory = SaveProductModelFactory(repository)
+//        saveProductViewModel = ViewModelProvider(this, factory).get(SaveProductViewModel::class.java)
 
         saveProductViewModel.getAllTags().observe(this, {
             addChips(this, it)

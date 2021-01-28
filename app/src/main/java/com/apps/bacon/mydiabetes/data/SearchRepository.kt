@@ -1,6 +1,8 @@
 package com.apps.bacon.mydiabetes.data
 
-class SearchRepository constructor(
+import javax.inject.Inject
+
+class SearchRepository @Inject constructor(
     private val database: AppDatabase
 ) {
     fun getAll() = database.productDao().getAll()

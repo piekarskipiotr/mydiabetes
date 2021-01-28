@@ -7,23 +7,23 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.WindowManager
-import androidx.lifecycle.ViewModelProvider
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apps.bacon.mydiabetes.adapters.ProductsAdapter
-import com.apps.bacon.mydiabetes.data.AppDatabase
 import com.apps.bacon.mydiabetes.data.Product
-import com.apps.bacon.mydiabetes.data.SearchRepository
-import com.apps.bacon.mydiabetes.viewmodel.SearchModelFactory
 import com.apps.bacon.mydiabetes.viewmodel.SearchViewModel
 import com.google.android.material.textfield.TextInputEditText
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_search.*
 import java.util.*
 
 private const val REQUEST_CODE_GET_BARCODE = 2
+
+@AndroidEntryPoint
 class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener {
     private lateinit var productsAdapter: ProductsAdapter
     private lateinit var allProducts: List<Product>
-    private lateinit var searchViewModel: SearchViewModel
+    private val searchViewModel: SearchViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,10 +31,10 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
         setContentView(R.layout.activity_search)
 
         val searchList = mutableListOf<Product>()
-        val database = AppDatabase.getInstance(this)
-        val repository = SearchRepository(database)
-        val factory = SearchModelFactory(repository)
-        searchViewModel = ViewModelProvider(this, factory).get(SearchViewModel::class.java)
+//        val database = AppDatabase.getInstance(this)
+//        val repository = SearchRepository(database)
+//        val factory = SearchModelFactory(repository)
+
         initRecyclerView()
 
         searchViewModel.getAll().observe(this, {

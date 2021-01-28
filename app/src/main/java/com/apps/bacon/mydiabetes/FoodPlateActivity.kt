@@ -3,25 +3,16 @@ package com.apps.bacon.mydiabetes
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.apps.bacon.mydiabetes.adapters.FoodPlateAdapter
-import com.apps.bacon.mydiabetes.adapters.ProductsAdapter
-import com.apps.bacon.mydiabetes.data.AppDatabase
-import com.apps.bacon.mydiabetes.data.ProductRepository
-import com.apps.bacon.mydiabetes.databinding.DialogCalculatedExchangersBinding
 import com.apps.bacon.mydiabetes.databinding.DialogSummaryResultsBinding
 import com.apps.bacon.mydiabetes.utilities.SwipeToRemove
-import com.apps.bacon.mydiabetes.viewmodel.ProductModelFactory
 import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.PieChart
@@ -29,19 +20,16 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.DefaultValueFormatter
-import com.github.mikephil.charting.formatter.ValueFormatter
-import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.textfield.TextInputEditText
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_food_plate.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.product_item_food_plate.view.*
-import java.math.RoundingMode
-import java.text.DecimalFormat
 
+@AndroidEntryPoint
 class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickListener {
     private lateinit var foodPlateAdapter: FoodPlateAdapter
-    private lateinit var productViewModel: ProductViewModel
+    private val productViewModel: ProductViewModel by viewModels()
     private lateinit var bottomDialogBinding: DialogSummaryResultsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,10 +37,10 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
         setContentView(R.layout.activity_food_plate)
         bottomDialogBinding = DialogSummaryResultsBinding.inflate(layoutInflater)
         val bottomSheetDialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
-        val database = AppDatabase.getInstance(this)
-        val repository = ProductRepository(database)
-        val factory = ProductModelFactory(repository)
-        productViewModel = ViewModelProvider(this, factory).get(ProductViewModel::class.java)
+//        val database = AppDatabase.getInstance(this)
+//        val repository = ProductRepository(database)
+//        val factory = ProductModelFactory(repository)
+//        productViewModel = ViewModelProvider(this, factory).get(ProductViewModel::class.java)
 
         initRecyclerView()
         this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);

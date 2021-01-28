@@ -1,13 +1,17 @@
 package com.apps.bacon.mydiabetes.viewmodel
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import com.apps.bacon.mydiabetes.data.Product
 import com.apps.bacon.mydiabetes.data.ProductRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Named
 
-class ProductViewModel constructor(
+class ProductViewModel @ViewModelInject
+constructor(
+    @Named("product_repository")
     private val repository: ProductRepository
 ) : ViewModel(){
 

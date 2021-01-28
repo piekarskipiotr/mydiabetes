@@ -1,10 +1,14 @@
 package com.apps.bacon.mydiabetes.viewmodel
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.apps.bacon.mydiabetes.data.HomeRepository
+import javax.inject.Named
 
-class HomeViewModel constructor(
+class HomeViewModel @ViewModelInject
+constructor(
+    @Named("home_repository")
     private val repository: HomeRepository
 ) : ViewModel(){
     var currentTag = MutableLiveData<Int>()
