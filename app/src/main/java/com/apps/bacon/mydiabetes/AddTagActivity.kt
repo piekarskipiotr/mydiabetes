@@ -25,10 +25,6 @@ class AddTagActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_tag)
         val errorMessage = "Pole nie może być puste"
-//        val database = AppDatabase.getInstance(this)
-//        val repository = TagRepository(database)
-//        val factory = TagViewModelFactory(repository)
-//        tagViewModel = ViewModelProvider(this, factory).get(TagViewModel::class.java)
 
         if(intent.getBooleanExtra("TAG_MANAGER", false)){
             existingTagsLayout.visibility = View.VISIBLE

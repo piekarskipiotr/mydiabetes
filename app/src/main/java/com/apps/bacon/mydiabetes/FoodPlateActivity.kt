@@ -37,10 +37,6 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
         setContentView(R.layout.activity_food_plate)
         bottomDialogBinding = DialogSummaryResultsBinding.inflate(layoutInflater)
         val bottomSheetDialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
-//        val database = AppDatabase.getInstance(this)
-//        val repository = ProductRepository(database)
-//        val factory = ProductModelFactory(repository)
-//        productViewModel = ViewModelProvider(this, factory).get(ProductViewModel::class.java)
 
         initRecyclerView()
         this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);

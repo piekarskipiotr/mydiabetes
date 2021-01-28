@@ -41,11 +41,6 @@ class SaveProductActivity : AppCompatActivity() {
         var carbohydrateExchangers = 0.0
         var selectedTagId: Int? = null
 
-//        val database = AppDatabase.getInstance(this)
-//        val repository = SaveProductRepository(database)
-//        val factory = SaveProductModelFactory(repository)
-//        saveProductViewModel = ViewModelProvider(this, factory).get(SaveProductViewModel::class.java)
-
         saveProductViewModel.getAllTags().observe(this, {
             addChips(this, it)
 

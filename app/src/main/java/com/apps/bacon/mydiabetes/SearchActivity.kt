@@ -31,9 +31,6 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
         setContentView(R.layout.activity_search)
 
         val searchList = mutableListOf<Product>()
-//        val database = AppDatabase.getInstance(this)
-//        val repository = SearchRepository(database)
-//        val factory = SearchModelFactory(repository)
 
         initRecyclerView()
 

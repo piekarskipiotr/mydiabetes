@@ -32,10 +32,6 @@ class ProductActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product)
-//        val database = AppDatabase.getInstance(this)
-//        val repository = ProductRepository(database)
-//        val factory = ProductModelFactory(repository)
-//        productViewModel = ViewModelProvider(this, factory).get(ProductViewModel::class.java)
 
         val productId = intent.getIntExtra("PRODUCT_ID", -1)
         product = productViewModel.getProduct(productId)
