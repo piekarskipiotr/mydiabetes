@@ -63,7 +63,7 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
         })
 
 
-        object : SwipeToRemove(this){
+        object : SwipeToRemove(){
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 productViewModel.updateProduct(
                     foodPlateAdapter.getProduct(viewHolder.adapterPosition).apply {
