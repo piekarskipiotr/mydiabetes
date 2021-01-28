@@ -46,6 +46,12 @@ class ProductActivity : AppCompatActivity() {
             startActivityForResult(intent, REQUEST_CODE_GET_BARCODE)
         }
 
+        manualBarcode.setOnClickListener {
+            intent = Intent(this, ProductBarcodeActivity::class.java)
+            intent.putExtra("BARCODE", true)
+            startActivityForResult(intent, REQUEST_CODE_GET_BARCODE)
+        }
+
         addButton.setOnClickListener {
             productViewModel.updateProduct(product.apply {
                 inFoodPlate = true
@@ -90,7 +96,12 @@ class ProductActivity : AppCompatActivity() {
         else{
             val tag = productViewModel.getTag(product.tag!!)
             addChip(tag.name, tag.id)
+        }
 
+        if(product.barcode == null){
+            manualBarcode.text = "Wprowadź barcode ręcznie"
+        }else{
+            manualBarcode.text = product.barcode
         }
     }
 
@@ -194,10 +205,9 @@ class ProductActivity : AppCompatActivity() {
 
             REQUEST_CODE_GET_BARCODE -> {
                 if(resultCode == RESULT_OK){
-                    Log.d("ProductActivity", "My barcode is ${data!!.getStringExtra("BARCODE")}")
-//                    product.barcode = data!!.getStringExtra("BARCODE")
-//                    setProductInfo()
-//                    productViewModel.updateProduct(product)
+                    product.barcode = data!!.getStringExtra("BARCODE")
+                    setProductInfo()
+                    productViewModel.updateProduct(product)
 
                 }
             }
