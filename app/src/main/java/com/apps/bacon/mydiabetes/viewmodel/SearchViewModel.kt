@@ -9,4 +9,6 @@ class SearchViewModel constructor(
 
     fun getAll() = repository.getAll()
 
+    fun getProductByBarcode(barcode: String) = repository.getProductByBarcode(barcode)
+
 }

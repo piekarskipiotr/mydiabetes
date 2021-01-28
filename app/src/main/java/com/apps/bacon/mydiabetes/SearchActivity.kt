@@ -19,9 +19,11 @@ import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.activity_search.*
 import java.util.*
 
+private const val REQUEST_CODE_GET_BARCODE = 2
 class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener {
     private lateinit var productsAdapter: ProductsAdapter
     private lateinit var allProducts: List<Product>
+    private lateinit var searchViewModel: SearchViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +34,7 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
         val database = AppDatabase.getInstance(this)
         val repository = SearchRepository(database)
         val factory = SearchModelFactory(repository)
-        val searchViewModel = ViewModelProvider(this, factory).get(SearchViewModel::class.java)
+        searchViewModel = ViewModelProvider(this, factory).get(SearchViewModel::class.java)
         initRecyclerView()
 
         searchViewModel.getAll().observe(this, {
@@ -57,7 +59,12 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
                 productsAdapter.updateData(searchList)
             }
 
+        }
 
+        scanButton.setOnClickListener {
+            intent = Intent(this, CameraActivity::class.java)
+            intent.putExtra("BARCODE", true)
+            startActivityForResult(intent, REQUEST_CODE_GET_BARCODE)
         }
 
         backButton.setOnClickListener {
@@ -97,5 +104,19 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
             }
 
         })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(requestCode){
+            REQUEST_CODE_GET_BARCODE -> {
+                if(resultCode == RESULT_OK){
+                    val productId = searchViewModel.getProductByBarcode(data!!.getStringExtra("BARCODE")!!).id
+                    onProductClick(productId)
+
+                }
+            }
+
+        }
     }
 }

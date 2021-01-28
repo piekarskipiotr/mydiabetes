@@ -21,6 +21,9 @@ interface ProductDao {
     @Query("SELECT * FROM products WHERE :name == product_name")
     fun getProduct(name: String): Product
 
+    @Query("SELECT * FROM products WHERE :barcode == barcode")
+    fun getProductByBarcode(barcode: String): Product
+
     @Query("SELECT * FROM products WHERE 1 == in_food_plate")
     fun getProductsInPlate(): LiveData<List<Product>>
 
