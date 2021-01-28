@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.dialog_delete_product.*
 import kotlin.math.round
 
 private const val REQUEST_CODE_GET_TAG = 1
+private const val REQUEST_CODE_GET_BARCODE = 2
 class ProductActivity : AppCompatActivity() {
     private lateinit var product: Product
     private lateinit var productViewModel: ProductViewModel
@@ -38,6 +39,12 @@ class ProductActivity : AppCompatActivity() {
         val productId = intent.getIntExtra("PRODUCT_ID", -1)
         product = productViewModel.getProduct(productId)
         setProductInfo()
+
+        scanBarcodeButton.setOnClickListener {
+            intent = Intent(this, CameraActivity::class.java)
+            intent.putExtra("BARCODE", true)
+            startActivityForResult(intent, REQUEST_CODE_GET_BARCODE)
+        }
 
         addButton.setOnClickListener {
             productViewModel.updateProduct(product.apply {
@@ -181,6 +188,16 @@ class ProductActivity : AppCompatActivity() {
                     product.tag = data!!.getIntExtra("TAG_ID", -1)
                     setProductInfo()
                     productViewModel.updateProduct(product)
+
+                }
+            }
+
+            REQUEST_CODE_GET_BARCODE -> {
+                if(resultCode == RESULT_OK){
+                    Log.d("ProductActivity", "My barcode is ${data!!.getStringExtra("BARCODE")}")
+//                    product.barcode = data!!.getStringExtra("BARCODE")
+//                    setProductInfo()
+//                    productViewModel.updateProduct(product)
 
                 }
             }

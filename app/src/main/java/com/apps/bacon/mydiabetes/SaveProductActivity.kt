@@ -172,6 +172,7 @@ class SaveProductActivity : AppCompatActivity() {
                             carbohydrateExchangers,
                             proteinFatExchangers,
                             selectedTagId,
+                            null,
                             false
                         )
                     )

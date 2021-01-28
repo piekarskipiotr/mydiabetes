@@ -1,24 +1,26 @@
 package com.apps.bacon.mydiabetes
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Surface
 import android.view.WindowManager
 import android.widget.Toast
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageProxy
-import androidx.camera.core.Preview
+import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.mlkit.vision.barcode.BarcodeScanning
+import com.google.mlkit.vision.common.InputImage
 import kotlinx.android.synthetic.main.activity_camera.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class CameraActivity : AppCompatActivity() {
+class CameraActivity : AppCompatActivity(), ImageAnalysis.Analyzer{
     private var imageCapture: ImageCapture? = null
     private lateinit var cameraExecutor: ExecutorService
 
@@ -26,7 +28,6 @@ class CameraActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
 
         if(allPermissionsGranted()){
             startCamera()
@@ -45,11 +46,14 @@ class CameraActivity : AppCompatActivity() {
     private fun takePhoto() {
         val imageCapture = imageCapture ?: return
 
+        //getting error with portrait so we set constant orientation in Manifest and give image capture rotation to 90 deg
+        imageCapture.targetRotation = Surface.ROTATION_90
+
         imageCapture.takePicture(ContextCompat.getMainExecutor(this), object:
             ImageCapture.OnImageCapturedCallback() {
-            override fun onCaptureSuccess(image: ImageProxy) {
-                super.onCaptureSuccess(image)
-
+            override fun onCaptureSuccess(imageProxy: ImageProxy) {
+                super.onCaptureSuccess(imageProxy)
+                analyze(imageProxy)
 
             }
         })
@@ -65,7 +69,9 @@ class CameraActivity : AppCompatActivity() {
                 it.setSurfaceProvider(viewFinder.surfaceProvider)
             }
 
-            imageCapture = ImageCapture.Builder().build()
+            imageCapture = ImageCapture.Builder()
+//                .setTargetResolution(Size(1920, 1080))
+                .build()
 
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
             try{
@@ -73,9 +79,11 @@ class CameraActivity : AppCompatActivity() {
                 cameraProvider.bindToLifecycle(
                     this, cameraSelector, preview, imageCapture
                 )
+
             } catch (e: Exception){
                 Log.e("CameraActivity: ", "$e")
             }
+
         }, ContextCompat.getMainExecutor(this))
     }
 
@@ -109,8 +117,34 @@ class CameraActivity : AppCompatActivity() {
         cameraExecutor.shutdown()
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        setResult(Activity.RESULT_CANCELED, intent)
+        finish()
+    }
+
     companion object{
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
+    }
+
+    @SuppressLint("UnsafeExperimentalUsageError")
+    override fun analyze(imageProxy: ImageProxy){
+        imageProxy.image?.let {
+            val image = InputImage.fromMediaImage(it, imageProxy.imageInfo.rotationDegrees)
+            val scanner = BarcodeScanning.getClient()
+            scanner.process(image)
+                .addOnSuccessListener { barcode ->
+                    if(barcode.isNotEmpty()){
+                        barcode[0].rawValue
+                        intent.putExtra("BARCODE", barcode[0].rawValue)
+                        setResult(Activity.RESULT_OK, intent)
+                        finish()
+                    }
+
+                }.addOnFailureListener{
+                    Log.e("Barcode", "Something went wrong!")
+                }
+        }
     }
 }
