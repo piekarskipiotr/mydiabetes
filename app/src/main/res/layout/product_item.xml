@@ -1,118 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="10dp"
     android:layout_marginTop="10dp"
     android:layout_marginEnd="10dp"
-    android:layout_marginBottom="10dp"
+    android:layout_marginBottom="0dp"
+    android:padding="5dp"
+    android:orientation="horizontal"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="15dp"
+        app:cardCornerRadius="12dp">
+        <ImageView
+            android:layout_width="74dp"
+            android:layout_height="74dp"
+            android:src="@drawable/ic_android_black_24dp"/>
+    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/productName"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginBottom="12dp">
-            <LinearLayout
+            android:text="Product name"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:ellipsize="end"
+            android:maxLines="1"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+            <com.google.android.material.circularreveal.cardview.CircularRevealCardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginEnd="10dp"
+                app:cardBackgroundColor="@color/light_gray">
                 <TextView
-                    android:id="@+id/productName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Product name"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:ellipsize="end"
-                    android:maxEms="12"
-                    android:maxLines="1"/>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:orientation="horizontal">
-                    <com.google.android.material.circularreveal.cardview.CircularRevealCardView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        app:cardBackgroundColor="@color/light_gray">
-                        <TextView
-                            android:id="@+id/measure"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginEnd="5dp"
-                            android:layout_marginBottom="2dp"
-                            android:text="16.97"
-                            android:textSize="12sp"/>
-                    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
-                    <com.google.android.material.circularreveal.cardview.CircularRevealCardView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        app:cardBackgroundColor="@color/strong_yellow">
-                        <TextView
-                            android:id="@+id/carbohydrateExchangers"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginEnd="5dp"
-                            android:layout_marginBottom="2dp"
-                            android:text="16.97"
-                            android:textSize="12sp"/>
-                    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
-                    <com.google.android.material.circularreveal.cardview.CircularRevealCardView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        app:cardBackgroundColor="@color/blue_purple">
-                        <TextView
-                            android:id="@+id/proteinFatExchangers"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginEnd="5dp"
-                            android:layout_marginBottom="2dp"
-                            android:text="16.97"
-                            android:textSize="12sp"/>
-                    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
-                    <com.google.android.material.circularreveal.cardview.CircularRevealCardView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        app:cardBackgroundColor="@color/lavender_web">
-                        <TextView
-                            android:id="@+id/calories"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginEnd="5dp"
-                            android:layout_marginBottom="2dp"
-                            android:text="16.97"
-                            android:textSize="12sp"/>
-                    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
-
-                </LinearLayout>
-
-            </LinearLayout>
-            <ImageView
-                android:visibility="gone"
-                android:id="@+id/productImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_android_black_24dp"/>
+                    android:id="@+id/measure"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="2dp"
+                    android:text="16.97"
+                    android:textSize="12sp"/>
+            </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+            <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                app:cardBackgroundColor="@color/strong_yellow">
+                <TextView
+                    android:id="@+id/carbohydrateExchangers"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="2dp"
+                    android:text="16.97"
+                    android:textSize="12sp"/>
+            </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+            <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                app:cardBackgroundColor="@color/blue_purple">
+                <TextView
+                    android:id="@+id/proteinFatExchangers"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="2dp"
+                    android:text="16.97"
+                    android:textSize="12sp"/>
+            </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+            <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                app:cardBackgroundColor="@color/lavender_web">
+                <TextView
+                    android:id="@+id/calories"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="2dp"
+                    android:text="16.97"
+                    android:textSize="12sp"/>
+            </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
         </LinearLayout>
-    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
-
+    </LinearLayout>
 </LinearLayout>
