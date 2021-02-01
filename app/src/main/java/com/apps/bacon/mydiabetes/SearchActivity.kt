@@ -46,14 +46,26 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
                     searchList.add(i)
                 }
             }
-            if(searchList.isEmpty()){
-                noProductMessageText.visibility = View.VISIBLE
-                searchRecyclerView.visibility = View.GONE
 
-            }else{
-                noProductMessageText.visibility = View.GONE
-                searchRecyclerView.visibility = View.VISIBLE
-                productsAdapter.updateData(searchList)
+            when {
+                searchList.isEmpty() -> {
+                    textMessage.text = "Brak produktu : ("
+                    textMessage.visibility = View.VISIBLE
+                    searchRecyclerView.visibility = View.GONE
+
+                }
+                searchTextInput.text.isNullOrEmpty() -> {
+                    textMessage.text = "Wpisz nazwę produktu aby go odszukać \n \n lub \n \n Zeskanuj kod kreskowy"
+                    textMessage.visibility = View.VISIBLE
+                    searchRecyclerView.visibility = View.GONE
+
+                }
+                else -> {
+                    textMessage.visibility = View.GONE
+                    searchRecyclerView.visibility = View.VISIBLE
+                    productsAdapter.updateData(searchList)
+
+                }
             }
 
         }
@@ -72,7 +84,9 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
 
     private fun initRecyclerView(){
         searchRecyclerView.apply {
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = LinearLayoutManager(context).apply {
+                reverseLayout = true
+            }
             productsAdapter = ProductsAdapter( this@SearchActivity)
             adapter = productsAdapter
 

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue_purple"
+    android:background="@color/light_gray"
     tools:context=".SearchActivity">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -22,27 +22,30 @@
             android:contentDescription="goBack"
             android:src="@drawable/ic_round_arrow_back" />
 
-        <ImageView
-            android:clickable="true"
-            android:focusable="true"
-            android:id="@+id/scanButton"
-            android:layout_width="28dp"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginEnd="16dp"
-            android:contentDescription="goBack"
-            android:src="@drawable/ic_round_scan" />
+        <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+            android:id="@+id/searchBottomContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-10dp"
+            android:layout_alignParentBottom="true"
+            app:cardCornerRadius="12dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="20dp">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/searchTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="0dp"
                 android:layout_marginEnd="60dp"
-                android:layout_centerVertical="true"
                 android:hint="Nazwa produtku"
-                style="@style/CustomInputLayout2">
+                style="@style/CustomInputLayout2"
+                app:boxStrokeColor="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/searchTextInput"
@@ -53,38 +56,48 @@
                     android:lines="1"
                     android:textSize="16sp"
                     android:imeOptions="actionDone"
-                    android:textCursorDrawable="@null"
-                    />
+                    android:textCursorDrawable="@drawable/black_cursor"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <androidx.core.widget.NestedScrollView
-                android:layout_below="@+id/searchTextInputLayout"
+            <ImageView
+                android:clickable="true"
+                android:focusable="true"
+                android:id="@+id/scanButton"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="goBack"
+                android:src="@drawable/ic_round_scan" />
+            </RelativeLayout>
+        </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+            <LinearLayout
+                android:layout_below="@+id/backButton"
+                android:layout_above="@+id/searchBottomContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="30dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginEnd="30dp"
-                android:layout_marginBottom="0dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                android:layout_marginBottom="5dp"
+                android:orientation="vertical">
                 <TextView
-                    android:visibility="gone"
-                    android:id="@+id/noProductMessageText"
+                    android:visibility="visible"
+                    android:id="@+id/textMessage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Brak produtku : ("
+                    android:text="Wpisz nazwę produktu aby go odszukać\n\nlub\n\nZeskanuj kod kreskowy"
                     android:textSize="22sp" />
                 <androidx.recyclerview.widget.RecyclerView
+                    android:visibility="gone"
                     android:id="@+id/searchRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
-                </LinearLayout>
-
-            </androidx.core.widget.NestedScrollView>
+            </LinearLayout>
 
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
