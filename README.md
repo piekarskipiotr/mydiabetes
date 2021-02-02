@@ -20,13 +20,17 @@ Project is created with **Kotlin**.
 * [ROOM](https://developer.android.com/jetpack/androidx/releases/room)
 * [Lifecycle](https://developer.android.com/jetpack/androidx/releases/lifecycle)
 * [Kotlin Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html)
+* [ML Kit](https://developers.google.com/ml-kit)
+* [CameraX](https://developer.android.com/training/camerax)
+* [Hilt](https://developer.android.com/training/dependency-injection/hilt-android)
 
 ## 💡 Features
 * Easliy calculate carbohydrates and protein-fat exchangers
 * Save your products
+* Searching by barcode
+* Food plate (just like shopping cart)
 
 #### 🎯 TO DO:
 * Create pre-database of products (Connection via REST-API)
-* Searching by image or barcode
-* Food plate (like a cart in shopping sites)
+* Searching by image
 
