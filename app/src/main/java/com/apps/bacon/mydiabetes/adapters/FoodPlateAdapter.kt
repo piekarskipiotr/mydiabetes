@@ -3,6 +3,7 @@ package com.apps.bacon.mydiabetes.adapters
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -62,10 +63,18 @@ class FoodPlateAdapter constructor(
         holder.calories.text = data[position].calories.toString()
 
         holder.measure.onTextChanged {
-            val value: String = if(it.isNullOrEmpty()){
-                "0"
-            }else
-                it.toString()
+            val value: String = when {
+                it.isNullOrEmpty() -> {
+                    "0"
+                }
+                it[0] == '.' -> {
+                    "0$it"
+                }
+                else -> {
+                    it.toString()
+                }
+            }
+
 
             if(data[position].weight == null){
                 holder.carbohydrateExchangers.text = Calculations()
@@ -116,6 +125,7 @@ class FoodPlateAdapter constructor(
     }
 
     private fun TextInputEditText.onTextChanged(onTextChanged: (CharSequence?) -> Unit){
+        var dotHasBeenSet = false
         this.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -123,9 +133,19 @@ class FoodPlateAdapter constructor(
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 onTextChanged.invoke(p0)
+
             }
 
             override fun afterTextChanged(p0: Editable?) {
+                if(!p0.isNullOrEmpty()){
+                    dotHasBeenSet = if(p0.length==3 && !dotHasBeenSet){
+                        p0.append(".")
+                        true
+                    }else{
+                        false
+                    }
+
+                }
 
             }
 

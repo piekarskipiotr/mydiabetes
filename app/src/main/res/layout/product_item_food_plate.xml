@@ -40,6 +40,7 @@
                 android:lines="1"
                 android:textSize="16sp"
                 android:text="999.9"
+                android:maxLength="5"
                 android:imeOptions="actionDone"
                 android:textCursorDrawable="@drawable/black_cursor"
                 />

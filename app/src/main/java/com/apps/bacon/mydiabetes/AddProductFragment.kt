@@ -294,6 +294,8 @@ class AddProductFragment : Fragment() {
     private fun listOfProteinFat() = listOf(proteinTextInput.text, fatTextInput.text)
 
     private fun TextInputEditText.onTextChanged(onTextChanged: (CharSequence?) -> Unit){
+        var dotHasBeenSet = false
+
         this.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -304,7 +306,15 @@ class AddProductFragment : Fragment() {
             }
 
             override fun afterTextChanged(p0: Editable?) {
+                if(!p0.isNullOrEmpty()){
+                    dotHasBeenSet = if(p0.length==3 && !dotHasBeenSet){
+                        p0.append(".")
+                        true
+                    }else{
+                        false
+                    }
 
+                }
             }
 
         })

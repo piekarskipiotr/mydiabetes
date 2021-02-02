@@ -70,6 +70,7 @@
                                 android:layout_height="wrap_content"
                                 android:inputType="numberDecimal"
                                 android:imeOptions="actionNext"
+                                android:maxLength="3"
                                 />
 
                         </com.google.android.material.textfield.TextInputLayout>
@@ -93,6 +94,7 @@
                                 android:layout_height="wrap_content"
                                 android:inputType="numberDecimal"
                                 android:imeOptions="actionNext"
+                                android:maxLength="3"
                                 />
 
                         </com.google.android.material.textfield.TextInputLayout>
@@ -123,6 +125,7 @@
                                 android:layout_height="wrap_content"
                                 android:inputType="number"
                                 android:imeOptions="actionNext"
+                                android:maxLength="3"
                                 />
 
                         </com.google.android.material.textfield.TextInputLayout>
@@ -146,6 +149,7 @@
                                 android:layout_height="wrap_content"
                                 android:inputType="number"
                                 android:imeOptions="actionNext"
+                                android:maxLength="3"
                                 />
 
                         </com.google.android.material.textfield.TextInputLayout>
@@ -190,6 +194,7 @@
                                 android:layout_height="wrap_content"
                                 android:inputType="numberDecimal"
                                 android:imeOptions="actionNext"
+                                android:maxLength="6"
                                 />
 
                         </com.google.android.material.textfield.TextInputLayout>
@@ -207,6 +212,7 @@
                                 android:layout_height="wrap_content"
                                 android:inputType="numberDecimal"
                                 android:imeOptions="actionNext"
+                                android:maxLength="6"
                                 />
 
                         </com.google.android.material.textfield.TextInputLayout>
@@ -224,6 +230,7 @@
                                 android:layout_height="wrap_content"
                                 android:inputType="numberDecimal"
                                 android:imeOptions="actionDone"
+                                android:maxLength="6"
                                 />
 
                         </com.google.android.material.textfield.TextInputLayout>
@@ -242,6 +249,7 @@
                                 android:layout_height="wrap_content"
                                 android:inputType="numberDecimal"
                                 android:imeOptions="actionDone"
+                                android:maxLength="6"
                                 />
 
                         </com.google.android.material.textfield.TextInputLayout>
