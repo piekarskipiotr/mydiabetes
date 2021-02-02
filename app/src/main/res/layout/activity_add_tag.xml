@@ -70,6 +70,8 @@
                     android:layout_marginBottom="5dp"
                     android:hint="Nazwa tagu"
                     app:errorEnabled="true"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="20"
                     style="@style/CustomInputLayout">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -78,6 +80,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="text"
                         android:lines="1"
+                        android:maxLength="20"
                         android:textSize="16sp"
                         android:textCursorDrawable="@drawable/black_cursor"
                         />
