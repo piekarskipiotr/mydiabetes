@@ -49,9 +49,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/calculateButton"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp">
+            android:layout_above="@+id/calculateButton">
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/foodRecyclerView"
                 android:layout_width="match_parent"

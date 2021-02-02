@@ -46,11 +46,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
-                app:cardBackgroundColor="@color/light_gray">
+                app:cardBackgroundColor="@color/white">
                 <TextView
                     android:id="@+id/measure"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="2dp"
                     android:layout_marginEnd="5dp"
@@ -65,8 +65,8 @@
                 app:cardBackgroundColor="@color/strong_yellow">
                 <TextView
                     android:id="@+id/carbohydrateExchangers"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="2dp"
                     android:layout_marginEnd="5dp"
@@ -81,8 +81,8 @@
                 app:cardBackgroundColor="@color/blue_purple">
                 <TextView
                     android:id="@+id/proteinFatExchangers"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="2dp"
                     android:layout_marginEnd="5dp"
@@ -97,8 +97,8 @@
                 app:cardBackgroundColor="@color/lavender_web">
                 <TextView
                     android:id="@+id/calories"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="2dp"
                     android:layout_marginEnd="5dp"
