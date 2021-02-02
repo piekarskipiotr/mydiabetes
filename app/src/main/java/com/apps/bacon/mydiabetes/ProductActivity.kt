@@ -38,10 +38,10 @@ import kotlinx.android.synthetic.main.activity_product.scanBarcodeButton
 import kotlinx.android.synthetic.main.activity_product.tagChipContainer
 import kotlinx.android.synthetic.main.activity_save_product.*
 import kotlinx.android.synthetic.main.dialog_delete_product.*
-import kotlin.math.round
 
 private const val REQUEST_CODE_GET_TAG = 1
 private const val REQUEST_CODE_GET_BARCODE = 2
+private const val REQUEST_CODE_PRODUCT_NAME = 3
 
 @AndroidEntryPoint
 class ProductActivity : AppCompatActivity() {
@@ -55,6 +55,12 @@ class ProductActivity : AppCompatActivity() {
         val productId = intent.getIntExtra("PRODUCT_ID", -1)
         product = productViewModel.getProduct(productId)
         setProductInfo()
+
+        productName.setOnClickListener {
+            intent = Intent(this, ChangeProductNameActivity::class.java)
+            intent.putExtra("PRODUCT_NAME", true)
+            startActivityForResult(intent, REQUEST_CODE_PRODUCT_NAME)
+        }
 
         scanBarcodeButton.setOnClickListener {
             intent = Intent(this, CameraActivity::class.java)
@@ -233,8 +239,8 @@ class ProductActivity : AppCompatActivity() {
             REQUEST_CODE_GET_TAG -> {
                 if(resultCode == RESULT_OK){
                     product.tag = data!!.getIntExtra("TAG_ID", -1)
-                    setProductInfo()
                     productViewModel.updateProduct(product)
+                    setProductInfo()
 
                 }
             }
@@ -242,8 +248,17 @@ class ProductActivity : AppCompatActivity() {
             REQUEST_CODE_GET_BARCODE -> {
                 if(resultCode == RESULT_OK){
                     product.barcode = data!!.getStringExtra("BARCODE")
-                    setProductInfo()
                     productViewModel.updateProduct(product)
+                    setProductInfo()
+
+                }
+            }
+
+            REQUEST_CODE_PRODUCT_NAME -> {
+                if(resultCode == RESULT_OK){
+                    product.name = data!!.getStringExtra("PRODUCT_NAME").toString()
+                    productViewModel.updateProduct(product)
+                    setProductInfo()
 
                 }
             }
