@@ -58,19 +58,19 @@ class ProductActivity : AppCompatActivity() {
 
         productName.setOnClickListener {
             intent = Intent(this, ChangeProductNameActivity::class.java)
-            intent.putExtra("PRODUCT_NAME", true)
             startActivityForResult(intent, REQUEST_CODE_PRODUCT_NAME)
         }
 
         scanBarcodeButton.setOnClickListener {
             intent = Intent(this, CameraActivity::class.java)
-            intent.putExtra("BARCODE", true)
             startActivityForResult(intent, REQUEST_CODE_GET_BARCODE)
         }
 
         manualBarcode.setOnClickListener {
             intent = Intent(this, ProductBarcodeActivity::class.java)
-            intent.putExtra("BARCODE", true)
+            if(product.barcode != null)
+                intent.putExtra("BARCODE", false)
+
             startActivityForResult(intent, REQUEST_CODE_GET_BARCODE)
         }
 
@@ -131,7 +131,6 @@ class ProductActivity : AppCompatActivity() {
         tagChipContainer[0].setOnClickListener {
             if(product.tag == null){
                 intent = Intent(this, AddTagActivity::class.java)
-                intent.putExtra("TAG_MANAGER", true)
                 startActivityForResult(intent, REQUEST_CODE_GET_TAG)
             }else
                 dialogManagerTag(label)
@@ -196,7 +195,6 @@ class ProductActivity : AppCompatActivity() {
 
         dialogBinding.changeButton.setOnClickListener {
             intent = Intent(this, AddTagActivity::class.java)
-            intent.putExtra("TAG_MANAGER", true)
             startActivityForResult(intent, REQUEST_CODE_GET_TAG)
             alertDialog.dismiss()
 
@@ -238,31 +236,39 @@ class ProductActivity : AppCompatActivity() {
         when(requestCode){
             REQUEST_CODE_GET_TAG -> {
                 if(resultCode == RESULT_OK){
-                    product.tag = data!!.getIntExtra("TAG_ID", -1)
-                    productViewModel.updateProduct(product)
-                    setProductInfo()
-
+                    data?.let {
+                        product.tag = it.getIntExtra("TAG_ID", -1)
+                        productViewModel.updateProduct(product)
+                        setProductInfo()
+                    }
                 }
             }
 
             REQUEST_CODE_GET_BARCODE -> {
                 if(resultCode == RESULT_OK){
-                    product.barcode = data!!.getStringExtra("BARCODE")
-                    productViewModel.updateProduct(product)
-                    setProductInfo()
-
+                    data?.let {
+                        when{
+                            it.getBooleanExtra("DELETE_BARCODE", false) -> {
+                                product.barcode = null
+                            }else -> {
+                                product.barcode = it.getStringExtra("BARCODE")
+                            }
+                        }
+                        productViewModel.updateProduct(product)
+                        setProductInfo()
+                    }
                 }
             }
 
             REQUEST_CODE_PRODUCT_NAME -> {
                 if(resultCode == RESULT_OK){
-                    product.name = data!!.getStringExtra("PRODUCT_NAME").toString()
-                    productViewModel.updateProduct(product)
-                    setProductInfo()
-
+                    data?.let {
+                        product.name = it.getStringExtra("PRODUCT_NAME").toString()
+                        productViewModel.updateProduct(product)
+                        setProductInfo()
+                    }
                 }
             }
-
         }
     }
 }

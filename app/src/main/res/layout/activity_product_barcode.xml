@@ -41,6 +41,19 @@
                     android:layout_centerHorizontal="true"
                     android:src="@drawable/ic_round_arrow_back"
                     app:tint="@color/independent" />
+                <ImageView
+                    android:id="@+id/deleteButton"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:contentDescription="delete"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_round_delete_forever"
+                    app:tint="@color/independent" />
             </RelativeLayout>
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -78,7 +91,7 @@
                         android:inputType="number"
                         android:lines="1"
                         android:textSize="16sp"
-                        android:textCursorDrawable="@null"
+                        android:textCursorDrawable="@drawable/black_cursor"
                         />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -86,7 +99,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:text="Kod kreskowy możemy znaleźć na opakowaniu.\nKod znajduje się po kreskami."
+                    android:text="Kod kreskowy możemy znaleźć na opakowaniu.\nKod znajduje się pod kreskami."
                     android:textSize="14sp"/>
             </LinearLayout>
 

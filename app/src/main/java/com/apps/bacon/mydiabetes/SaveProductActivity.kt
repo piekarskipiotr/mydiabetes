@@ -24,8 +24,21 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_save_product.*
+import kotlinx.android.synthetic.main.activity_save_product.backButton
+import kotlinx.android.synthetic.main.activity_save_product.calories
+import kotlinx.android.synthetic.main.activity_save_product.carbohydrates
+import kotlinx.android.synthetic.main.activity_save_product.fat
+import kotlinx.android.synthetic.main.activity_save_product.fatContainer
+import kotlinx.android.synthetic.main.activity_save_product.manualBarcode
+import kotlinx.android.synthetic.main.activity_save_product.pieChart
+import kotlinx.android.synthetic.main.activity_save_product.productName
+import kotlinx.android.synthetic.main.activity_save_product.protein
+import kotlinx.android.synthetic.main.activity_save_product.proteinContainer
+import kotlinx.android.synthetic.main.activity_save_product.scanBarcodeButton
+import kotlinx.android.synthetic.main.activity_save_product.tagChipContainer
 
 private const val REQUEST_CODE_PRODUCT_NAME = 1
+private const val REQUEST_CODE_GET_BARCODE = 3
 
 @AndroidEntryPoint
 class SaveProductActivity : AppCompatActivity() {
@@ -147,6 +160,19 @@ class SaveProductActivity : AppCompatActivity() {
             startActivityForResult(intent, REQUEST_CODE_PRODUCT_NAME)
         }
 
+        scanBarcodeButton.setOnClickListener {
+            intent = Intent(this, CameraActivity::class.java)
+            startActivityForResult(intent, REQUEST_CODE_GET_BARCODE)
+        }
+
+        manualBarcode.setOnClickListener {
+            intent = Intent(this, ProductBarcodeActivity::class.java)
+            if(manualBarcode.text != null)
+                intent.putExtra("BARCODE", false)
+
+            startActivityForResult(intent, REQUEST_CODE_GET_BARCODE)
+        }
+
         tagChipContainer.setOnCheckedChangeListener { _, checkedId ->
             if (checkedId == 0){
                 selectedTagId = null
@@ -184,7 +210,7 @@ class SaveProductActivity : AppCompatActivity() {
                             carbohydrateExchangers,
                             proteinFatExchangers,
                             selectedTagId,
-                            null,
+                            manualBarcode.text.toString(),
                             false
                         )
                     )
@@ -266,10 +292,6 @@ class SaveProductActivity : AppCompatActivity() {
         alertDialog.show()
     }
 
-    private fun setProductName(name: String){
-        productName.text = name
-    }
-
     private fun pieChart(carbohydrateExchangers: Double, proteinFatExchangers: Double){
         val pieChart: PieChart = pieChart
         val data = ArrayList<PieEntry>()
@@ -304,11 +326,25 @@ class SaveProductActivity : AppCompatActivity() {
         when(requestCode){
             REQUEST_CODE_PRODUCT_NAME -> {
                 if(resultCode == RESULT_OK){
-                    setProductName(data!!.getStringExtra("PRODUCT_NAME").toString())
-
+                    data?.let {
+                        productName.text = it.getStringExtra("PRODUCT_NAME").toString()
+                    }
                 }
             }
 
+            REQUEST_CODE_GET_BARCODE -> {
+                if(resultCode == RESULT_OK){
+                    data?.let {
+                        when{
+                            it.getBooleanExtra("DELETE_BARCODE", false) -> {
+                                manualBarcode.text = null
+                            }else -> {
+                                manualBarcode.text = it.getStringExtra("BARCODE")
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

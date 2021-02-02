@@ -72,7 +72,6 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
 
         scanButton.setOnClickListener {
             intent = Intent(this, CameraActivity::class.java)
-            intent.putExtra("BARCODE", true)
             startActivityForResult(intent, REQUEST_CODE_GET_BARCODE)
         }
 
@@ -122,12 +121,12 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
         when(requestCode){
             REQUEST_CODE_GET_BARCODE -> {
                 if(resultCode == RESULT_OK){
-                    val productId = searchViewModel.getProductByBarcode(data!!.getStringExtra("BARCODE")!!).id
-                    onProductClick(productId)
-
+                    data?.let {
+                        val productId = searchViewModel.getProductByBarcode(it.getStringExtra("BARCODE")!!).id
+                        onProductClick(productId)
+                    }
                 }
             }
-
         }
     }
 }
