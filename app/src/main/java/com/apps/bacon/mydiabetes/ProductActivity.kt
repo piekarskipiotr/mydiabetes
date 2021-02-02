@@ -7,17 +7,36 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import com.apps.bacon.mydiabetes.data.*
 import com.apps.bacon.mydiabetes.databinding.DialogDeleteProductBinding
 import com.apps.bacon.mydiabetes.databinding.DialogManagerTagBinding
 import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
+import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.DefaultValueFormatter
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_product.*
 import kotlinx.android.synthetic.main.activity_product.backButton
+import kotlinx.android.synthetic.main.activity_product.calories
+import kotlinx.android.synthetic.main.activity_product.carbohydrates
 import kotlinx.android.synthetic.main.activity_product.deleteButton
+import kotlinx.android.synthetic.main.activity_product.fat
+import kotlinx.android.synthetic.main.activity_product.fatContainer
+import kotlinx.android.synthetic.main.activity_product.manualBarcode
+import kotlinx.android.synthetic.main.activity_product.pieChart
+import kotlinx.android.synthetic.main.activity_product.productName
+import kotlinx.android.synthetic.main.activity_product.protein
+import kotlinx.android.synthetic.main.activity_product.proteinContainer
+import kotlinx.android.synthetic.main.activity_product.scanBarcodeButton
+import kotlinx.android.synthetic.main.activity_product.tagChipContainer
+import kotlinx.android.synthetic.main.activity_save_product.*
 import kotlinx.android.synthetic.main.dialog_delete_product.*
 import kotlin.math.round
 
@@ -67,12 +86,12 @@ class ProductActivity : AppCompatActivity() {
     private fun setProductInfo(){
         productName.text = product.name
         val measureText: String = if(product.weight != null)
-            "(dla masy ${product.weight} g)"
+            "(dla masy ${product.weight} g/ml)"
         else
             "(dla masy ${product.pieces} szt.)"
 
-        measureOfValues.text = measureText
-        measureOfExchangers.text = measureText
+        measureOfProductValues.text = measureText
+        measureOfProductExchangers.text = measureText
 
         carbohydrates.text = product.carbohydrates.toString()
         calories.text = product.calories.toString()
@@ -84,9 +103,7 @@ class ProductActivity : AppCompatActivity() {
             fatContainer.visibility = View.GONE
         }
 
-        carbohydrateExchangers.text = product.carbohydrateExchangers.toString()
-        proteinFatExchangers.text = product.proteinFatExchangers.toString()
-        setProgressBar(product.carbohydrateExchangers, product.proteinFatExchangers)
+        pieChart(product.carbohydrateExchangers, product.proteinFatExchangers)
 
         if(product.tag == null)
             addChip("Ustaw tag", 0)
@@ -100,13 +117,6 @@ class ProductActivity : AppCompatActivity() {
         }else{
             manualBarcode.text = product.barcode
         }
-    }
-
-    private fun setProgressBar(carbohydrateExchangers: Double, proteinFatExchangers: Double){
-        val sizeOfBar = carbohydrateExchangers + proteinFatExchangers
-        carbohydrateExchangersBar.progress = round((carbohydrateExchangers / sizeOfBar) * 100).toInt()
-        proteinFatExchangersBar.progress = round((proteinFatExchangers / sizeOfBar) * 100).toInt()
-
     }
 
     private fun addChip(label: String, ID: Int){
@@ -186,6 +196,35 @@ class ProductActivity : AppCompatActivity() {
 
         }
         alertDialog.show()
+    }
+
+    private fun pieChart(carbohydrateExchangers: Double, proteinFatExchangers: Double){
+        val pieChart: PieChart = pieChart
+        val data = ArrayList<PieEntry>()
+        data.add(PieEntry(carbohydrateExchangers.toFloat(), "W. węglowodanowe"))
+        data.add(PieEntry(proteinFatExchangers.toFloat(), "W. białkowo-tłuszczowe"))
+
+        val dataSet = PieDataSet(data, "")
+        dataSet.setColors(
+            ContextCompat.getColor(this, R.color.strong_yellow),
+            ContextCompat.getColor(this, R.color.blue_purple)
+        )
+
+        dataSet.valueTextColor = ContextCompat.getColor(this, R.color.black)
+        dataSet.valueTextSize = 16f
+
+        val pieData = PieData(dataSet)
+        pieData.setValueFormatter(DefaultValueFormatter(1))
+
+        pieChart.data = pieData
+        pieChart.description.isEnabled = false
+
+        pieChart.setDrawEntryLabels(false)
+        pieChart.isDrawHoleEnabled = false
+
+        pieChart.rotationAngle = 50f
+        pieChart.animateY(1400, Easing.EaseInOutQuad)
+        pieChart.animate()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

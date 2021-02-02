@@ -9,15 +9,21 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.apps.bacon.mydiabetes.data.*
 import com.apps.bacon.mydiabetes.databinding.DialogDeleteTagBinding
 import com.apps.bacon.mydiabetes.viewmodel.SaveProductViewModel
+import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.DefaultValueFormatter
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_save_product.*
-import kotlin.math.round
 
 private const val REQUEST_CODE_PRODUCT_NAME = 1
 
@@ -68,11 +74,18 @@ class SaveProductActivity : AppCompatActivity() {
         }
 
         measureSwitch.setOnCheckedChangeListener { _, isChecked ->
+            val textInfo: String
             if(isChecked){
                 if(measureStatus){
                     pieces = bundle.get("CORRECT_PIECES") as Int
+                    textInfo = "(dla $pieces sztuk)"
+                    measureOfValues.text = textInfo
+                    measureOfExchangers.text = textInfo
                 }else{
                     weight = bundle.get("CORRECT_WEIGHT") as Double
+                    textInfo = "(dla masy $weight g/ml)"
+                    measureOfValues.text = textInfo
+                    measureOfExchangers.text = textInfo
                 }
 
                 carbohydrates = bundle.get("CARBOHYDRATES_SECOND") as Double
@@ -89,16 +102,21 @@ class SaveProductActivity : AppCompatActivity() {
                     calories,
                     protein,
                     fat,
-                    carbohydrateExchangers,
-                    proteinFatExchangers
                 )
-                setProgressBar(carbohydrateExchangers, proteinFatExchangers)
+                pieChart(carbohydrateExchangers, proteinFatExchangers)
 
             }else{
+
                 if(measureStatus){
                     pieces = bundle.get("PIECES") as Int
+                    textInfo = "(dla $pieces sztuk)"
+                    measureOfValues.text = textInfo
+                    measureOfExchangers.text = textInfo
                 }else{
                     weight = bundle.get("WEIGHT") as Double
+                    textInfo = "(dla masy $weight g/ml)"
+                    measureOfValues.text = textInfo
+                    measureOfExchangers.text = textInfo
                 }
 
                 carbohydrates = bundle.get("CARBOHYDRATES") as Double
@@ -114,10 +132,8 @@ class SaveProductActivity : AppCompatActivity() {
                     calories,
                     protein,
                     fat,
-                    carbohydrateExchangers,
-                    proteinFatExchangers
                 )
-                setProgressBar(carbohydrateExchangers, proteinFatExchangers)
+                pieChart(carbohydrateExchangers, proteinFatExchangers)
 
             }
         }.apply { measureSwitch.isChecked = true }
@@ -181,21 +197,12 @@ class SaveProductActivity : AppCompatActivity() {
 
     }
 
-    private fun setProgressBar(carbohydrateExchangers: Double, proteinFatExchangers: Double){
-        val sizeOfBar = carbohydrateExchangers + proteinFatExchangers
-        carbohydrateExchangersBar.progress = round((carbohydrateExchangers / sizeOfBar) * 100).toInt()
-        proteinFatExchangersBar.progress = round((proteinFatExchangers / sizeOfBar) * 100).toInt()
-
-    }
-
     private fun setTextValues(
         valueStatus: Boolean,
         carbohydratesValue: Double,
         caloriesValue: Double?,
         proteinValue: Double?,
         fatValue: Double?,
-        carbohydrateExchangersValue: Double,
-        proteinFatExchangersValue: Double
     ){
         carbohydrates.text = carbohydratesValue.toString().trimEnd()
         calories.text = caloriesValue.toString().trimEnd()
@@ -208,9 +215,6 @@ class SaveProductActivity : AppCompatActivity() {
             fat.text = fatValue.toString().trimEnd()
 
         }
-
-        carbohydrateExchangers.text = carbohydrateExchangersValue.toString().trimEnd()
-        proteinFatExchangers.text = proteinFatExchangersValue.toString().trimEnd()
     }
 
     private fun addChips(context: Context, listOfTags: List<Tag>){
@@ -264,6 +268,35 @@ class SaveProductActivity : AppCompatActivity() {
 
     private fun setProductName(name: String){
         productName.text = name
+    }
+
+    private fun pieChart(carbohydrateExchangers: Double, proteinFatExchangers: Double){
+        val pieChart: PieChart = pieChart
+        val data = ArrayList<PieEntry>()
+        data.add(PieEntry(carbohydrateExchangers.toFloat(), "W. węglowodanowe"))
+        data.add(PieEntry(proteinFatExchangers.toFloat(), "W. białkowo-tłuszczowe"))
+
+        val dataSet = PieDataSet(data, "")
+        dataSet.setColors(
+            ContextCompat.getColor(this, R.color.strong_yellow),
+            ContextCompat.getColor(this, R.color.blue_purple)
+        )
+
+        dataSet.valueTextColor = ContextCompat.getColor(this, R.color.black)
+        dataSet.valueTextSize = 16f
+
+        val pieData = PieData(dataSet)
+        pieData.setValueFormatter(DefaultValueFormatter(1))
+
+        pieChart.data = pieData
+        pieChart.description.isEnabled = false
+
+        pieChart.setDrawEntryLabels(false)
+        pieChart.isDrawHoleEnabled = false
+
+        pieChart.rotationAngle = 50f
+        pieChart.animateY(1400, Easing.EaseInOutQuad)
+        pieChart.animate()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

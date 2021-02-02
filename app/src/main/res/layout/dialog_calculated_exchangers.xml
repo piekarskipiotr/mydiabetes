@@ -2,129 +2,73 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/bottom_sheet_view_background_rounded">
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="15dp">
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:layout_marginStart="80dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="80dp"
-            android:layout_marginBottom="30dp"
-            app:cardBackgroundColor="@color/independent"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Wymienniki"
-            android:textSize="24sp"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/measureText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:gravity="center"
-            android:text="dla produktu o masie: 37g/ml"
-            android:textStyle="italic"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Węglowodanowe"
-            android:textSize="16sp"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginBottom="15dp"
-            android:orientation="horizontal">
-            <ProgressBar
-                style="?android:attr/progressBarStyleHorizontal"
-                android:id="@+id/carbohydrateExchangersBar"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginBottom="-8dp"
-                android:layout_marginTop="-4dp"
-                android:layout_marginEnd="15dp"
-                android:progressTint="@color/strong_yellow"
-                android:progress="10"/>
-            <TextView
-                android:id="@+id/carbohydrateExchangers"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2.0"
-                android:textSize="16sp"
-                android:textStyle="bold"/>
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Białkowo-Tłuszczowe"
-            android:textSize="16sp"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:orientation="horizontal">
-            <ProgressBar
-                style="?android:attr/progressBarStyleHorizontal"
-                android:id="@+id/proteinFatExchangersBar"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginBottom="-8dp"
-                android:layout_marginTop="-4dp"
-                android:layout_marginEnd="15dp"
-                android:progressTint="@color/blue_purple"
-                android:progress="60"/>
-            <TextView
-                android:id="@+id/proteinFatExchangers"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="8.8"
-                android:textSize="16sp"
-                android:textStyle="bold"/>
-        </LinearLayout>
-
+        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="80dp"
-            android:gravity="bottom">
-            <com.google.android.material.circularreveal.cardview.CircularRevealCardView
-                android:id="@+id/calculateButton"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
+            android:orientation="vertical">
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="80dp"
+                android:layout_marginBottom="30dp"
+                app:cardBackgroundColor="@color/independent"/>
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/green">
-                <TextView
+                android:gravity="center"
+                android:text="Wymienniki"
+                android:textSize="24sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/measureText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="dla produktu o masie: 37g/ml"
+                android:textStyle="italic"/>
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pieChart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="300dp"
+                android:layout_margin="30dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="15dp"
+                android:gravity="bottom">
+                <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+                    android:id="@+id/calculateButton"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:gravity="center"
-                    android:text="Zapisz produkt"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
-            </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/green">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="15dp"
+                        android:gravity="center"
+                        android:text="Zapisz produkt"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+                </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-
-
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

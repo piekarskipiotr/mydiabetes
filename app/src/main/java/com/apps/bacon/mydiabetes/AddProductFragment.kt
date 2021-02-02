@@ -7,9 +7,16 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.apps.bacon.mydiabetes.databinding.DialogCalculatedExchangersBinding
 import com.apps.bacon.mydiabetes.utilities.Calculations
+import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.DefaultValueFormatter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,10 +27,11 @@ class AddProductFragment : Fragment() {
     private var measureStatus: Boolean = false
     private var valueStatus: Boolean = false
     private val errorMessage = "Pole nie może być puste!"
+    private lateinit var bottomSheetDialogViewBinding: DialogCalculatedExchangersBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val bottomSheetDialogViewBinding: DialogCalculatedExchangersBinding = DialogCalculatedExchangersBinding.inflate(layoutInflater)
+        bottomSheetDialogViewBinding = DialogCalculatedExchangersBinding.inflate(layoutInflater)
         val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
         measureSwitch.setOnCheckedChangeListener { _, isChecked ->
             measureStatus = isChecked
@@ -66,7 +74,6 @@ class AddProductFragment : Fragment() {
                 val carbohydrateExchangers: Double = Calculations().carbohydrateExchanges(carbohydrate)
                 val carbohydrateExchangersFinal: Double
                 val proteinFatExchangersFinal: Double
-                val maxSizeOfProgress: Double
 
                 intent.putExtra("CARBOHYDRATES", carbohydrate)
                 if(measureStatus){
@@ -139,12 +146,7 @@ class AddProductFragment : Fragment() {
                 intent.putExtra("CARBOHYDRATE_EXCHANGERS_SECOND", carbohydrateExchangersFinal)
                 intent.putExtra("PROTEIN_FAT_EXCHANGERS_SECOND", proteinFatExchangersFinal)
 
-                maxSizeOfProgress = carbohydrateExchangersFinal + proteinFatExchangersFinal
-                bottomSheetDialogViewBinding.carbohydrateExchangersBar.progress = round((carbohydrateExchangersFinal / maxSizeOfProgress) * 100).toInt()
-                bottomSheetDialogViewBinding.proteinFatExchangersBar.progress = round((proteinFatExchangersFinal / maxSizeOfProgress) * 100).toInt()
-
-                bottomSheetDialogViewBinding.carbohydrateExchangers.text = carbohydrateExchangersFinal.toString()
-                bottomSheetDialogViewBinding.proteinFatExchangers.text = proteinFatExchangersFinal.toString()
+                pieChart(carbohydrateExchangersFinal, proteinFatExchangersFinal)
 
                 bottomSheetDialogViewBinding.calculateButton.setOnClickListener {
                     bottomSheetDialog.dismiss()
@@ -292,6 +294,36 @@ class AddProductFragment : Fragment() {
     private fun listOfPieces() = listOf(pieceTextInput.text, correctPieceTextInput.text)
     private fun listOfWeight() = listOf(weightTextInput.text, correctWeightTextInput.text)
     private fun listOfProteinFat() = listOf(proteinTextInput.text, fatTextInput.text)
+
+    private fun pieChart(carbohydrateExchangers: Double, proteinFatExchangers: Double){
+        val pieChart: PieChart = bottomSheetDialogViewBinding.pieChart
+        val data = ArrayList<PieEntry>()
+        data.add(PieEntry(carbohydrateExchangers.toFloat(), "Węglowodanowe"))
+        data.add(PieEntry(proteinFatExchangers.toFloat(), "Białkowo-tłuszczowe"))
+
+        val dataSet = PieDataSet(data, "")
+        dataSet.setColors(
+            ContextCompat.getColor(requireContext(), R.color.strong_yellow),
+            ContextCompat.getColor(requireContext(), R.color.blue_purple)
+        )
+
+        dataSet.valueTextColor = ContextCompat.getColor(requireContext(), R.color.black)
+        dataSet.valueTextSize = 16f
+
+
+        val pieData = PieData(dataSet)
+        pieData.setValueFormatter(DefaultValueFormatter(1))
+
+        pieChart.data = pieData
+        pieChart.description.isEnabled = false
+
+        pieChart.setDrawEntryLabels(false)
+        pieChart.isDrawHoleEnabled = false
+
+        pieChart.rotationAngle = 50f
+        pieChart.animateY(1400, Easing.EaseInOutQuad)
+        pieChart.animate()
+    }
 
     private fun TextInputEditText.onTextChanged(onTextChanged: (CharSequence?) -> Unit){
         var dotHasBeenSet = false

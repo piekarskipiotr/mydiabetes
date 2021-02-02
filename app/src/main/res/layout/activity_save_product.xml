@@ -106,7 +106,8 @@
                         android:layout_height="1dp"
                         android:layout_marginTop="0dp"
                         android:layout_marginBottom="15dp"
-                        android:background="@color/independent" />
+                        android:background="@color/independent"
+                        tools:ignore="Orientation" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -115,14 +116,28 @@
                         android:layout_marginEnd="10dp"
                         android:orientation="vertical">
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="15dp"
-                            android:gravity="start"
-                            android:text="Wartości"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="5dp"
+                                android:gravity="start"
+                                android:layout_gravity="center_vertical"
+                                android:text="Wartości"
+                                android:textSize="18sp"
+                                android:textStyle="bold"/>
+                            <TextView
+                                android:id="@+id/measureOfValues"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="start|center_vertical"
+                                android:text="(dla masy 100g)"
+                                android:textSize="14sp"/>
+                        </LinearLayout>
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -269,82 +284,35 @@
                         android:layout_marginEnd="10dp"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="15dp"
-                            android:gravity="start"
-                            android:text="Wymienniki"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Węglowodanowe"
-                            android:textSize="16sp" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="15dp"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-
-                            <ProgressBar
-                                android:id="@+id/carbohydrateExchangersBar"
-                                style="?android:attr/progressBarStyleHorizontal"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_marginTop="-4dp"
-                                android:layout_marginEnd="15dp"
-                                android:layout_marginBottom="-8dp"
-                                android:layout_weight="1"
-                                android:progressTint="@color/strong_yellow"
-                                android:progress="10" />
-
-                            <TextView
-                                android:id="@+id/carbohydrateExchangers"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="2.0"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Białkowo-Tłuszczowe"
-                            android:textSize="16sp" />
-
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="15dp"
                             android:orientation="horizontal">
-
-                            <ProgressBar
-                                android:id="@+id/proteinFatExchangersBar"
-                                style="?android:attr/progressBarStyleHorizontal"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_marginTop="-4dp"
-                                android:layout_marginEnd="15dp"
-                                android:layout_marginBottom="-8dp"
-                                android:layout_weight="1"
-                                android:progressTint="@color/blue_purple"
-                                android:progress="60" />
-
                             <TextView
-                                android:id="@+id/proteinFatExchangers"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="8.8"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
+                                android:layout_marginEnd="5dp"
+                                android:gravity="start"
+                                android:layout_gravity="center_vertical"
+                                android:text="Wymienniki"
+                                android:textSize="18sp"
+                                android:textStyle="bold"/>
+                            <TextView
+                                android:id="@+id/measureOfExchangers"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="start|center_vertical"
+                                android:text="(dla masy 100g)"
+                                android:textSize="14sp"/>
                         </LinearLayout>
+
+                        <com.github.mikephil.charting.charts.PieChart
+                            android:id="@+id/pieChart"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minHeight="300dp"
+                            android:layout_marginBottom="15dp"/>
                     </LinearLayout>
 
                     <LinearLayout

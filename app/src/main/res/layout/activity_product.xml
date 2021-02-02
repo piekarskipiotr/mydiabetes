@@ -107,11 +107,10 @@
                                     android:textSize="18sp"
                                     android:textStyle="bold"/>
                                 <TextView
-                                    android:id="@+id/measureOfValues"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="start"
-                                    android:layout_gravity="center_vertical"
+                                    android:id="@+id/measureOfProductValues"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:gravity="start|center_vertical"
                                     android:text="(dla masy 100g)"
                                     android:textSize="14sp"/>
                             </LinearLayout>
@@ -259,76 +258,21 @@
                                     android:textSize="18sp"
                                     android:textStyle="bold"/>
                                 <TextView
-                                    android:id="@+id/measureOfExchangers"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="start"
-                                    android:layout_gravity="center_vertical"
+                                    android:id="@+id/measureOfProductExchangers"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:gravity="start|center_vertical"
                                     android:text="(dla masy 100g)"
                                     android:textSize="14sp"/>
                             </LinearLayout>
 
-                            <TextView
+                            <com.github.mikephil.charting.charts.PieChart
+                                android:id="@+id/pieChart"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Węglowodanowe"
-                                android:textSize="16sp"/>
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:layout_marginBottom="15dp"
-                                android:orientation="horizontal">
-                                <ProgressBar
-                                    style="?android:attr/progressBarStyleHorizontal"
-                                    android:id="@+id/carbohydrateExchangersBar"
-                                    android:layout_width="0dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="1"
-                                    android:layout_marginBottom="-8dp"
-                                    android:layout_marginTop="-4dp"
-                                    android:layout_marginEnd="15dp"
-                                    android:progressTint="@color/strong_yellow"
-                                    android:progress="10"/>
-                                <TextView
-                                    android:id="@+id/carbohydrateExchangers"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="2.0"
-                                    android:textSize="16sp"
-                                    android:textStyle="bold"/>
+                                android:minHeight="300dp"
+                                android:layout_marginBottom="15dp"/>
 
-                            </LinearLayout>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Białkowo-Tłuszczowe"
-                                android:textSize="16sp"/>
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="15dp"
-                                android:orientation="horizontal">
-                                <ProgressBar
-                                    style="?android:attr/progressBarStyleHorizontal"
-                                    android:id="@+id/proteinFatExchangersBar"
-                                    android:layout_width="0dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="1"
-                                    android:layout_marginBottom="-8dp"
-                                    android:layout_marginTop="-4dp"
-                                    android:layout_marginEnd="15dp"
-                                    android:progressTint="@color/blue_purple"
-                                    android:progress="60"/>
-                                <TextView
-                                    android:id="@+id/proteinFatExchangers"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="8.8"
-                                    android:textSize="16sp"
-                                    android:textStyle="bold"/>
-                            </LinearLayout>
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -454,7 +398,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="-5dp"
             android:layout_alignParentBottom="true"
-            app:cardBackgroundColor="@color/strong_yellow">
+            app:cardBackgroundColor="@color/green">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
