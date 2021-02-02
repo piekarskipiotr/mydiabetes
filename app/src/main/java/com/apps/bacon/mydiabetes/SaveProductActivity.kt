@@ -193,7 +193,7 @@ class SaveProductActivity : AppCompatActivity() {
                     Toast.makeText(this, "Produkt o takiej nazwie już istnieje", Toast.LENGTH_SHORT).show()
                 }
                 productName.text.isNullOrEmpty() -> {
-                    productName.setHintTextColor(ResourcesCompat.getColor(resources, R.color.red, null))
+                    productName.setTextColor(ResourcesCompat.getColor(resources, R.color.red, null))
 
                 }
                 else -> {

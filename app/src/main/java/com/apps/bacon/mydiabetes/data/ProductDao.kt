@@ -12,8 +12,8 @@ interface ProductDao {
     @Query("SELECT * FROM products")
     fun getAll(): LiveData<List<Product>>
 
-    @Query("SELECT * FROM products WHERE :tag == product_tag")
-    fun getAll(tag: Int): LiveData<List<Product>>
+    @Query("SELECT * FROM products WHERE :tagId == product_tag")
+    fun getAll(tagId: Int): LiveData<List<Product>>
 
     @Query("SELECT * FROM products WHERE :id == product_id")
     fun getProduct(id: Int): Product

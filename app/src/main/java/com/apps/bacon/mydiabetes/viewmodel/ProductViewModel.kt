@@ -19,6 +19,8 @@ constructor(
 
     fun getTag(id: Int) = repository.getTag(id)
 
+    fun getLastId() = repository.getLastId()
+
     fun getProductsInPlate() = repository.getProductsInPlate()
 
     fun deleteProduct(product: Product) = CoroutineScope(Dispatchers.Main).launch {

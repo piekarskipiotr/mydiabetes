@@ -9,6 +9,8 @@ class ProductRepository @Inject constructor(
 
     fun getProductsInPlate() = database.productDao().getProductsInPlate()
 
+    fun getLastId() = database.tagDao().getLastId()
+
     fun getTag(id: Int) = database.tagDao().getTagById(id)
 
     suspend fun deleteProduct(product: Product) = database.productDao().delete(product)

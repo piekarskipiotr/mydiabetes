@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.viewModels
@@ -38,13 +39,14 @@ class AddTagActivity : AppCompatActivity() {
             else{
                 tagNameTextInputLayout.error = null
                 tagViewModel.insert(Tag(0, tagNameTextInput.text.toString().trim()))
+                intent.putExtra("NEW_TAG", true)
+                setResult(Activity.RESULT_OK, intent)
                 finish()
             }
         }
 
         backButton.setOnClickListener {
-            setResult(Activity.RESULT_CANCELED, intent)
-            finish()
+            onBackPressed()
         }
     }
 
@@ -54,11 +56,12 @@ class AddTagActivity : AppCompatActivity() {
             tagChipContainer.addChip(context, listOfTags[i].name, listOfTags[i].id)
             tagChipContainer[i].setOnClickListener {
                 intent.putExtra("TAG_ID", listOfTags[i].id)
+                Log.d("CHUJ", "fuck")
                 setResult(Activity.RESULT_OK, intent)
                 finish()
             }
         }
-        for(i in 10 until tagChipContainer.childCount){
+        for(i in 9 until tagChipContainer.childCount){
             tagChipContainer.getChildAt(i).setOnLongClickListener {
                 dialogRemoveTag(listOfTags[i])
                 true
@@ -93,12 +96,21 @@ class AddTagActivity : AppCompatActivity() {
         }
 
         dialogBinding.deleteButton.setOnClickListener {
+            removeTagFromProducts(tag.id)
             tagViewModel.delete(tag)
             alertDialog.dismiss()
         }
         alertDialog.show()
     }
 
+    private fun removeTagFromProducts(tagId: Int){
+        tagViewModel.getProductsByTag(tagId).observe(this, {
+            for (product in it){
+                product.tag = null
+                tagViewModel.updateProduct(product)
+            }
+        })
+    }
 
     override fun onBackPressed() {
         setResult(Activity.RESULT_CANCELED, intent)

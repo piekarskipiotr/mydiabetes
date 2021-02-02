@@ -8,6 +8,9 @@ interface TagDao {
     @Query("SELECT * FROM tags")
     fun getAll(): LiveData<List<Tag>>
 
+    @Query("SELECT MAX(tag_id) FROM tags")
+    fun getLastId(): Int
+
     @Query("SELECT * FROM tags WHERE tag_id == :id")
     fun getTagById(id: Int): Tag
 

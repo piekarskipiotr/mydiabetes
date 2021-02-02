@@ -29,21 +29,21 @@
                     android:paddingBottom="20dp"
                     android:layout_marginStart="54dp"
                     android:layout_marginEnd="70dp"
-                    android:hint="Ustaw nazwę produktu"
+                    android:text="Ustaw nazwę produktu"
                     android:textSize="22sp"
                     android:textStyle="bold"
                     android:textAlignment="center"/>
 
                 <ImageView
                     android:id="@+id/backButton"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_alignParentStart="true"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:clickable="true"
                     android:contentDescription="goBack"
-                    android:focusable="true"
                     android:src="@drawable/ic_round_arrow_back"
                     app:tint="@color/independent" />
             </RelativeLayout>

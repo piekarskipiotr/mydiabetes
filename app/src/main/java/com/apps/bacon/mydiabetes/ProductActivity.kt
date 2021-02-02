@@ -3,6 +3,7 @@ package com.apps.bacon.mydiabetes
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.viewModels
@@ -131,6 +132,7 @@ class ProductActivity : AppCompatActivity() {
         tagChipContainer[0].setOnClickListener {
             if(product.tag == null){
                 intent = Intent(this, AddTagActivity::class.java)
+                intent.putExtra("TAG_MANAGER", true)
                 startActivityForResult(intent, REQUEST_CODE_GET_TAG)
             }else
                 dialogManagerTag(label)
@@ -149,7 +151,6 @@ class ProductActivity : AppCompatActivity() {
             addView(this)
         }
     }
-
 
     private fun dialogDeleteProduct(){
         val alertDialog: AlertDialog
@@ -189,12 +190,14 @@ class ProductActivity : AppCompatActivity() {
 
         dialogBinding.deleteButton.setOnClickListener {
             product.tag = null
+            productViewModel.updateProduct(product)
             setProductInfo()
             alertDialog.dismiss()
         }
 
         dialogBinding.changeButton.setOnClickListener {
             intent = Intent(this, AddTagActivity::class.java)
+            intent.putExtra("TAG_MANAGER", true)
             startActivityForResult(intent, REQUEST_CODE_GET_TAG)
             alertDialog.dismiss()
 
@@ -237,10 +240,21 @@ class ProductActivity : AppCompatActivity() {
             REQUEST_CODE_GET_TAG -> {
                 if(resultCode == RESULT_OK){
                     data?.let {
-                        product.tag = it.getIntExtra("TAG_ID", -1)
+                        when{
+                            it.getBooleanExtra("NEW_TAG", false) -> {
+                                product.tag = productViewModel.getLastId()
+                            }else -> {
+                                product.tag = it.getIntExtra("TAG_ID", -1)
+
+                            }
+                        }
                         productViewModel.updateProduct(product)
                         setProductInfo()
                     }
+                }else if(resultCode == RESULT_CANCELED){
+                    product.tag = null
+                    productViewModel.updateProduct(product)
+                    setProductInfo()
                 }
             }
 

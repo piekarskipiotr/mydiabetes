@@ -30,7 +30,7 @@ class HomeActivity : AppCompatActivity() {
 
         tabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                homeViewModel.currentTag.value = tab!!.position
+                homeViewModel.currentTag.value = tab!!.tag as Int
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -81,9 +81,18 @@ class HomeActivity : AppCompatActivity() {
 
     private fun addTabs(listOfTags: List<Tag>){
         tabLayout.removeAllTabs()
-        tabLayout.addTab(tabLayout.newTab().setText("Wszystko"), 0, true)
-        for(i in listOfTags.indices)
-            tabLayout.addTab(tabLayout.newTab().setText(listOfTags[i].name), listOfTags[i].id)
+        tabLayout.addTab(tabLayout.newTab().setText("Wszystko")
+            .apply {
+                   tag = 0
+                   }, 0, true)
+
+        for((j, i) in listOfTags.indices.withIndex()){
+            tabLayout.addTab(tabLayout.newTab().setText(listOfTags[i].name)
+                .apply {
+                    tag = listOfTags[i].id
+                }, j + 1
+            )
+        }
 
     }
 
