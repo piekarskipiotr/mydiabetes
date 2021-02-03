@@ -69,6 +69,7 @@ class CameraActivity : AppCompatActivity(){
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
 
         cameraProviderFuture.addListener({
+            var tempBarcodeChecker = ""
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
 
             val preview = Preview.Builder().build().also {
@@ -84,10 +85,14 @@ class CameraActivity : AppCompatActivity(){
                 .build()
                 .also {
                     it.setAnalyzer(cameraExecutor, BarcodeAnalyzer{ barcode ->
+                        if(barcode != tempBarcodeChecker){
+                            tempBarcodeChecker = barcode
+
+                        }else{
                             intent.putExtra("BARCODE", barcode)
                             setResult(Activity.RESULT_OK, intent)
                             finish()
-
+                        }
                     })
                 }
 
@@ -153,6 +158,7 @@ class CameraActivity : AppCompatActivity(){
     }
 
     private class BarcodeAnalyzer(private val listener: BarcodeListener) : ImageAnalysis.Analyzer {
+
         @SuppressLint("UnsafeExperimentalUsageError")
         override fun analyze(imageProxy: ImageProxy) {
             imageProxy.image?.let {

@@ -7,6 +7,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apps.bacon.mydiabetes.adapters.ProductsAdapter
@@ -122,8 +123,13 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
             REQUEST_CODE_GET_BARCODE -> {
                 if(resultCode == RESULT_OK){
                     data?.let {
-                        val productId = searchViewModel.getProductByBarcode(it.getStringExtra("BARCODE")!!).id
-                        onProductClick(productId)
+                        val product = searchViewModel.getProductByBarcode(it.getStringExtra("BARCODE")!!)
+
+                        if(product == null){
+                            Toast.makeText(this, "Nie ma takiego produktu z takim kodem kreskowym!", Toast.LENGTH_LONG).show()
+                        }else{
+                            onProductClick(product.id)
+                        }
                     }
                 }
             }
