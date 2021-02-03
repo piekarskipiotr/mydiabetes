@@ -13,10 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyDiabetes">
-        <activity android:name=".ProductBarcodeActivity"></activity>
+        <activity android:name=".ProductBarcodeActivity" />
         <activity
             android:name=".CameraActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity android:name=".FoodPlateActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".ChangeProductNameActivity" />
