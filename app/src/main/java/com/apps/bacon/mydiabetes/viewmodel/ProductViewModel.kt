@@ -23,6 +23,8 @@ constructor(
 
     fun getProductsInPlate() = repository.getProductsInPlate()
 
+    fun getProductByBarcode(barcode: String) = repository.getProductByBarcode(barcode)
+
     fun deleteProduct(product: Product) = CoroutineScope(Dispatchers.Main).launch {
         repository.deleteProduct(product)
     }

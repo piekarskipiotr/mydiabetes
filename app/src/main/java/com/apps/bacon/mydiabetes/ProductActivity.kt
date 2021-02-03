@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -264,12 +265,23 @@ class ProductActivity : AppCompatActivity() {
                         when{
                             it.getBooleanExtra("DELETE_BARCODE", false) -> {
                                 product.barcode = null
+                                productViewModel.updateProduct(product)
+                                setProductInfo()
+
                             }else -> {
-                                product.barcode = it.getStringExtra("BARCODE")
+                                val barcode = it.getStringExtra("BARCODE")
+                                val productWithBarcode = productViewModel.getProductByBarcode(barcode!!)
+
+                                if(productWithBarcode != null){
+                                    Toast.makeText(this, "Istnieje już produkt z takim kodem kreskowym!", Toast.LENGTH_LONG).show()
+                                }else{
+                                    product.barcode = barcode
+                                    productViewModel.updateProduct(product)
+                                    setProductInfo()
+
+                                }
                             }
                         }
-                        productViewModel.updateProduct(product)
-                        setProductInfo()
                     }
                 }
             }

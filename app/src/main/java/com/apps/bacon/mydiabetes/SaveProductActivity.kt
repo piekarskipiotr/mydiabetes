@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.apps.bacon.mydiabetes.data.*
 import com.apps.bacon.mydiabetes.databinding.DialogDeleteTagBinding
+import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
 import com.apps.bacon.mydiabetes.viewmodel.SaveProductViewModel
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.PieChart
@@ -43,6 +44,7 @@ private const val REQUEST_CODE_GET_BARCODE = 3
 @AndroidEntryPoint
 class SaveProductActivity : AppCompatActivity() {
     private val saveProductViewModel: SaveProductViewModel by viewModels()
+    private val productViewModel: ProductViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -339,7 +341,14 @@ class SaveProductActivity : AppCompatActivity() {
                             it.getBooleanExtra("DELETE_BARCODE", false) -> {
                                 manualBarcode.text = null
                             }else -> {
-                                manualBarcode.text = it.getStringExtra("BARCODE")
+                                val barcode = it.getStringExtra("BARCODE")
+                                val productWithBarcode = productViewModel.getProductByBarcode(barcode!!)
+
+                                if(productWithBarcode != null){
+                                    Toast.makeText(this, "Istnieje już produkt z takim kodem kreskowym!", Toast.LENGTH_LONG).show()
+                                }else{
+                                    manualBarcode.text = barcode
+                                }
                             }
                         }
                     }
