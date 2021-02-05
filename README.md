@@ -9,6 +9,7 @@ Calculator                 |  Product to save Activity | Home                   
 * [General info](#-general-info)
 * [Technologies](#-technologies)
 * [Features](#-features)
+* [Download](#-download)
 
 ## 📝 General info
 This project is to provide diabetics with faster counting of products and finding them, it will allow you to forget about searching a notebook with stored products and save us from mistakes in calculations. All these factors are supposed to improve the quality of life of the user and help him maintain balanced diabetes.
@@ -33,4 +34,7 @@ Project is created with **Kotlin**.
 #### 🎯 TO DO:
 * Create pre-database of products (Connection via REST-API)
 * Searching by image
+
+## ☄ Download
+*The demo will be available on Sunday (07.02.2021)*
 
