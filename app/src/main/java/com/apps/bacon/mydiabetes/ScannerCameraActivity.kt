@@ -1,32 +1,35 @@
 package com.apps.bacon.mydiabetes
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.util.Size
-import android.view.Surface
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.*
+import androidx.camera.core.ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import kotlinx.android.synthetic.main.activity_camera.*
-import java.io.File
+import com.google.mlkit.vision.barcode.BarcodeScanning
+import com.google.mlkit.vision.common.InputImage
+import kotlinx.android.synthetic.main.activity_scanner_camera.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class CameraActivity : AppCompatActivity(){
+typealias BarcodeListener = (barcode: String) -> Unit
+
+class ScannerCameraActivity : AppCompatActivity(){
     private var imageCapture: ImageCapture? = null
     private lateinit var cameraExecutor: ExecutorService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_camera)
+        setContentView(R.layout.activity_scanner_camera)
         window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN
@@ -39,43 +42,14 @@ class CameraActivity : AppCompatActivity(){
                 this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
             )
         }
-
-        cameraCaptureButton.setOnClickListener {
-            takePhoto()
-        }
         cameraExecutor = Executors.newSingleThreadExecutor()
-    }
-
-    private fun takePhoto() {
-        val imageCapture = imageCapture ?: return
-
-        //getting error with portrait so we set constant orientation in Manifest and give image capture rotation to 90 deg
-        imageCapture.targetRotation = Surface.ROTATION_90
-
-        val photoFile = File(
-            "/MyDiabetes/ProductImages",
-            "${System.currentTimeMillis()}.jpg"
-        )
-
-        val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
-
-        imageCapture.takePicture(outputOptions, ContextCompat.getMainExecutor(this), object : ImageCapture.OnImageSavedCallback{
-            override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                val imageUri = Uri.fromFile(photoFile)
-
-            }
-
-            override fun onError(exception: ImageCaptureException) {
-                Log.e("CameraActivity:", "Photo capture failed: ${exception.message}", exception)
-            }
-
-        })
     }
 
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
 
         cameraProviderFuture.addListener({
+            var tempBarcodeChecker = ""
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
 
             val preview = Preview.Builder().build().also {
@@ -86,15 +60,31 @@ class CameraActivity : AppCompatActivity(){
                 .setTargetResolution(Size(1920, 1080))
                 .build()
 
+            val imageAnalyzer = ImageAnalysis.Builder()
+                .setBackpressureStrategy(STRATEGY_KEEP_ONLY_LATEST)
+                .build()
+                .also {
+                    it.setAnalyzer(cameraExecutor, BarcodeAnalyzer{ barcode ->
+                        if(barcode != tempBarcodeChecker){
+                            tempBarcodeChecker = barcode
+
+                        }else{
+                            intent.putExtra("BARCODE", barcode)
+                            setResult(Activity.RESULT_OK, intent)
+                            finish()
+                        }
+                    })
+                }
+
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
             try {
                 cameraProvider.unbindAll()
                 cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview, imageCapture
+                    this, cameraSelector, preview, imageCapture, imageAnalyzer
                 )
 
             } catch (e: Exception) {
-                Log.e("CameraActivity: ", "$e")
+                Log.e("ScannerCameraActivity: ", "$e")
             }
 
         }, ContextCompat.getMainExecutor(this))
@@ -145,6 +135,27 @@ class CameraActivity : AppCompatActivity(){
     companion object{
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
+    }
+
+    private class BarcodeAnalyzer(private val listener: BarcodeListener) : ImageAnalysis.Analyzer {
+
+        @SuppressLint("UnsafeExperimentalUsageError")
+        override fun analyze(imageProxy: ImageProxy) {
+            imageProxy.image?.let {
+                val image = InputImage.fromMediaImage(it, imageProxy.imageInfo.rotationDegrees)
+                val scanner = BarcodeScanning.getClient()
+                scanner.process(image)
+                    .addOnSuccessListener { barcode ->
+                        if(barcode.isNotEmpty()){
+                            listener(barcode[0].rawValue!!)
+
+                        }
+                        imageProxy.close()
+                    }.addOnFailureListener{
+                        Log.e("Barcode", "Something went wrong!")
+                    }
+            }
+        }
     }
 }
 
