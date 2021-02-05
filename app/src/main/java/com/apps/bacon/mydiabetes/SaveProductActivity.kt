@@ -213,7 +213,8 @@ class SaveProductActivity : AppCompatActivity() {
                             proteinFatExchangers,
                             selectedTagId,
                             manualBarcode.text.toString(),
-                            false
+                            false,
+                        null
                         )
                     )
                     intent = Intent(this, HomeActivity::class.java)
