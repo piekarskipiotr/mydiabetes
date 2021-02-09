@@ -36,5 +36,5 @@ Project is created with **Kotlin**.
 * Searching by image
 
 ## ☄ Download
-*The demo will be available on Sunday (07.02.2021)*
+*The demo will be available on Sunday (14.02.2021)*
 
