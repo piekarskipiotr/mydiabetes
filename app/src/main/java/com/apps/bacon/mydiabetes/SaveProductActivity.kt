@@ -3,7 +3,6 @@ package com.apps.bacon.mydiabetes
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
@@ -13,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.apps.bacon.mydiabetes.data.*
+import com.apps.bacon.mydiabetes.databinding.DialogAddImageBinding
 import com.apps.bacon.mydiabetes.databinding.DialogDeleteTagBinding
 import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
 import com.apps.bacon.mydiabetes.viewmodel.SaveProductViewModel
@@ -22,29 +22,18 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.DefaultValueFormatter
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_save_product.*
-import kotlinx.android.synthetic.main.activity_save_product.backButton
-import kotlinx.android.synthetic.main.activity_save_product.calories
-import kotlinx.android.synthetic.main.activity_save_product.carbohydrates
-import kotlinx.android.synthetic.main.activity_save_product.fat
-import kotlinx.android.synthetic.main.activity_save_product.fatContainer
-import kotlinx.android.synthetic.main.activity_save_product.manualBarcode
-import kotlinx.android.synthetic.main.activity_save_product.pieChart
-import kotlinx.android.synthetic.main.activity_save_product.productName
-import kotlinx.android.synthetic.main.activity_save_product.protein
-import kotlinx.android.synthetic.main.activity_save_product.proteinContainer
-import kotlinx.android.synthetic.main.activity_save_product.scanBarcodeButton
-import kotlinx.android.synthetic.main.activity_save_product.tagChipContainer
 
 private const val REQUEST_CODE_PRODUCT_NAME = 1
 private const val REQUEST_CODE_GET_BARCODE = 3
 private const val REQUEST_CODE_GET_IMAGE = 4
 
 @AndroidEntryPoint
-class SaveProductActivity : AppCompatActivity() {
+class SaveProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
     private val saveProductViewModel: SaveProductViewModel by viewModels()
     private val productViewModel: ProductViewModel by viewModels()
     private var icon: String? = null
@@ -64,6 +53,8 @@ class SaveProductActivity : AppCompatActivity() {
         var proteinFatExchangers = 0.0
         var carbohydrateExchangers = 0.0
         var selectedTagId: Int? = null
+        val bottomSheetDialogCameraViewBinding = DialogAddImageBinding.inflate(layoutInflater)
+        val bottomSheetDialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
 
         saveProductViewModel.getAllTags().observe(this, {
             addChips(this, it)
@@ -86,7 +77,7 @@ class SaveProductActivity : AppCompatActivity() {
                 line.visibility = View.GONE
 
             }else{
-                measureSwitch.text = "${bundle.get("WEIGHT")} / ${bundle.get("CORRECT_WEIGHT")} "
+                measureSwitch.text = "${bundle.get("WEIGHT")} / ${bundle.get("CORRECT_WEIGHT")}"
 
             }
         }
@@ -179,8 +170,20 @@ class SaveProductActivity : AppCompatActivity() {
         }
 
         takePhotoButton.setOnClickListener {
-            intent = Intent(this, CameraActivity::class.java)
-            startActivityForResult(intent, REQUEST_CODE_GET_IMAGE)
+            bottomSheetDialog.setContentView(bottomSheetDialogCameraViewBinding.root)
+            bottomSheetDialog.show()
+
+            bottomSheetDialogCameraViewBinding.cameraButton.setOnClickListener {
+                intent = Intent(this, CameraActivity::class.java)
+                startActivityForResult(intent, REQUEST_CODE_GET_IMAGE)
+                bottomSheetDialog.dismiss()
+            }
+
+            bottomSheetDialogCameraViewBinding.galleryButton.setOnClickListener {
+                //TODO: implementation getting image from gallery
+                bottomSheetDialog.dismiss()
+            }
+
         }
 
         tagChipContainer.setOnCheckedChangeListener { _, checkedId ->

@@ -3,7 +3,6 @@ package com.apps.bacon.mydiabetes
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
@@ -12,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import com.apps.bacon.mydiabetes.data.*
+import com.apps.bacon.mydiabetes.databinding.DialogAddImageBinding
 import com.apps.bacon.mydiabetes.databinding.DialogDeleteProductBinding
 import com.apps.bacon.mydiabetes.databinding.DialogManagerTagBinding
 import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
@@ -21,6 +21,7 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.DefaultValueFormatter
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,6 +55,8 @@ class ProductActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product)
 
+        val bottomSheetDialogCameraViewBinding = DialogAddImageBinding.inflate(layoutInflater)
+        val bottomSheetDialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
         val productId = intent.getIntExtra("PRODUCT_ID", -1)
         product = productViewModel.getProduct(productId)
         setProductInfo()
@@ -77,8 +80,19 @@ class ProductActivity : AppCompatActivity() {
         }
 
         takePhotoButton.setOnClickListener{
-            intent = Intent(this, CameraActivity::class.java)
-            startActivityForResult(intent, REQUEST_CODE_GET_IMAGE)
+            bottomSheetDialog.setContentView(bottomSheetDialogCameraViewBinding.root)
+            bottomSheetDialog.show()
+
+            bottomSheetDialogCameraViewBinding.cameraButton.setOnClickListener {
+                intent = Intent(this, CameraActivity::class.java)
+                startActivityForResult(intent, REQUEST_CODE_GET_IMAGE)
+                bottomSheetDialog.dismiss()
+            }
+
+            bottomSheetDialogCameraViewBinding.galleryButton.setOnClickListener {
+                //TODO: implementation getting image from gallery
+                bottomSheetDialog.dismiss()
+            }
         }
 
 

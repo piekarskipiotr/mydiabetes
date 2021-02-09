@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.apps.bacon.mydiabetes.databinding.DialogAddImageBinding
 import com.apps.bacon.mydiabetes.databinding.DialogCalculatedExchangersBinding
 import com.apps.bacon.mydiabetes.utilities.Calculations
 import com.github.mikephil.charting.animation.Easing
@@ -29,10 +30,12 @@ class AddProductFragment : Fragment() {
     private val errorMessage = "Pole nie może być puste!"
     private lateinit var bottomSheetDialogViewBinding: DialogCalculatedExchangersBinding
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bottomSheetDialogViewBinding = DialogCalculatedExchangersBinding.inflate(layoutInflater)
         val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
+
         measureSwitch.setOnCheckedChangeListener { _, isChecked ->
             measureStatus = isChecked
             if(isChecked){
