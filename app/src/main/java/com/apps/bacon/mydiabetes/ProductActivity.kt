@@ -38,12 +38,12 @@ import kotlinx.android.synthetic.main.activity_product.protein
 import kotlinx.android.synthetic.main.activity_product.proteinContainer
 import kotlinx.android.synthetic.main.activity_product.scanBarcodeButton
 import kotlinx.android.synthetic.main.activity_product.tagChipContainer
-import kotlinx.android.synthetic.main.activity_save_product.*
 import kotlinx.android.synthetic.main.dialog_delete_product.*
 
 private const val REQUEST_CODE_GET_TAG = 1
 private const val REQUEST_CODE_GET_BARCODE = 2
 private const val REQUEST_CODE_PRODUCT_NAME = 3
+private const val REQUEST_CODE_GET_IMAGE = 4
 
 @AndroidEntryPoint
 class ProductActivity : AppCompatActivity() {
@@ -75,6 +75,12 @@ class ProductActivity : AppCompatActivity() {
 
             startActivityForResult(intent, REQUEST_CODE_GET_BARCODE)
         }
+
+        takePhotoButton.setOnClickListener{
+            intent = Intent(this, CameraActivity::class.java)
+            startActivityForResult(intent, REQUEST_CODE_GET_IMAGE)
+        }
+
 
         addButton.setOnClickListener {
             productViewModel.updateProduct(product.apply {
@@ -294,6 +300,19 @@ class ProductActivity : AppCompatActivity() {
                         setProductInfo()
                     }
                 }
+            }
+
+            REQUEST_CODE_GET_IMAGE -> {
+                if(resultCode == RESULT_OK){
+                    data?.let {
+                        it.getStringExtra("IMAGE_URI")?.let { it1 ->
+                            Log.d("ProductActivity:",
+                                it1
+                            )
+                        }
+                    }
+                }
+
             }
         }
     }

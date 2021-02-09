@@ -63,6 +63,10 @@ class CameraActivity : AppCompatActivity(){
             override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                 val imageUri = Uri.fromFile(photoFile)
 
+                intent.putExtra("IMAGE_URI", imageUri)
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+
             }
 
             override fun onError(exception: ImageCaptureException) {

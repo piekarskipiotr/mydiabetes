@@ -3,6 +3,7 @@ package com.apps.bacon.mydiabetes
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
@@ -40,6 +41,7 @@ import kotlinx.android.synthetic.main.activity_save_product.tagChipContainer
 
 private const val REQUEST_CODE_PRODUCT_NAME = 1
 private const val REQUEST_CODE_GET_BARCODE = 3
+private const val REQUEST_CODE_GET_IMAGE = 4
 
 @AndroidEntryPoint
 class SaveProductActivity : AppCompatActivity() {
@@ -163,7 +165,7 @@ class SaveProductActivity : AppCompatActivity() {
         }
 
         scanBarcodeButton.setOnClickListener {
-            intent = Intent(this, CameraActivity::class.java)
+            intent = Intent(this, ScannerCameraActivity::class.java)
             startActivityForResult(intent, REQUEST_CODE_GET_BARCODE)
         }
 
@@ -173,6 +175,11 @@ class SaveProductActivity : AppCompatActivity() {
                 intent.putExtra("BARCODE", false)
 
             startActivityForResult(intent, REQUEST_CODE_GET_BARCODE)
+        }
+
+        takePhotoButton.setOnClickListener {
+            intent = Intent(this, CameraActivity::class.java)
+            startActivityForResult(intent, REQUEST_CODE_GET_IMAGE)
         }
 
         tagChipContainer.setOnCheckedChangeListener { _, checkedId ->
@@ -213,8 +220,7 @@ class SaveProductActivity : AppCompatActivity() {
                             proteinFatExchangers,
                             selectedTagId,
                             manualBarcode.text.toString(),
-                            false,
-                        null
+                            false
                         )
                     )
                     intent = Intent(this, HomeActivity::class.java)
@@ -354,6 +360,19 @@ class SaveProductActivity : AppCompatActivity() {
                         }
                     }
                 }
+            }
+
+            REQUEST_CODE_GET_IMAGE -> {
+                if(resultCode == RESULT_OK){
+                    data?.let {
+                        it.getStringExtra("IMAGE_URI")?.let { it1 ->
+                            Log.d("SaveProductActivity:",
+                                it1
+                            )
+                        }
+                    }
+                }
+
             }
         }
     }
