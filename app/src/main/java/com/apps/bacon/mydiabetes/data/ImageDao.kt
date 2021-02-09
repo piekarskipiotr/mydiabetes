@@ -10,7 +10,7 @@ interface ImageDao {
     fun getAll(): LiveData<List<Image>>
 
     @Query("SELECT * FROM images WHERE product_id == :id")
-    fun getProductImages(id: Int): LiveData<List<Image>>
+    fun getImageByProductId(id: Int): LiveData<List<Image>>
 
     @Insert
     fun insert(image: Image)

@@ -10,6 +10,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.apps.bacon.mydiabetes.adapters.ImageAdapter
 import com.apps.bacon.mydiabetes.data.*
 import com.apps.bacon.mydiabetes.databinding.DialogAddImageBinding
 import com.apps.bacon.mydiabetes.databinding.DialogDeleteProductBinding
@@ -33,12 +35,15 @@ import kotlinx.android.synthetic.main.activity_product.deleteButton
 import kotlinx.android.synthetic.main.activity_product.fat
 import kotlinx.android.synthetic.main.activity_product.fatContainer
 import kotlinx.android.synthetic.main.activity_product.manualBarcode
+import kotlinx.android.synthetic.main.activity_product.photosRecyclerView
 import kotlinx.android.synthetic.main.activity_product.pieChart
 import kotlinx.android.synthetic.main.activity_product.productName
 import kotlinx.android.synthetic.main.activity_product.protein
 import kotlinx.android.synthetic.main.activity_product.proteinContainer
 import kotlinx.android.synthetic.main.activity_product.scanBarcodeButton
 import kotlinx.android.synthetic.main.activity_product.tagChipContainer
+import kotlinx.android.synthetic.main.activity_product.takePhotoButton
+import kotlinx.android.synthetic.main.activity_save_product.*
 import kotlinx.android.synthetic.main.dialog_delete_product.*
 
 private const val REQUEST_CODE_GET_TAG = 1
@@ -47,9 +52,10 @@ private const val REQUEST_CODE_PRODUCT_NAME = 3
 private const val REQUEST_CODE_GET_IMAGE = 4
 
 @AndroidEntryPoint
-class ProductActivity : AppCompatActivity() {
+class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
     private lateinit var product: Product
     private val productViewModel: ProductViewModel by viewModels()
+    private lateinit var imagesAdapter: ImageAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +65,12 @@ class ProductActivity : AppCompatActivity() {
         val bottomSheetDialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
         val productId = intent.getIntExtra("PRODUCT_ID", -1)
         product = productViewModel.getProduct(productId)
+        initRecyclerView()
         setProductInfo()
+
+        productViewModel.getImagesByProductId(product.id).observe(this, {
+            imagesAdapter.updateData(it)
+        })
 
         productName.setOnClickListener {
             intent = Intent(this, ChangeProductNameActivity::class.java)
@@ -108,6 +119,14 @@ class ProductActivity : AppCompatActivity() {
 
         deleteButton.setOnClickListener {
             dialogDeleteProduct()
+        }
+    }
+
+    private fun initRecyclerView(){
+        photosRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            imagesAdapter = ImageAdapter( this@ProductActivity)
+            adapter = imagesAdapter
         }
     }
 
@@ -319,10 +338,17 @@ class ProductActivity : AppCompatActivity() {
             REQUEST_CODE_GET_IMAGE -> {
                 if(resultCode == RESULT_OK){
                     data?.let {
-                        product.icon = it.getStringExtra("IMAGE_URI").toString()
+                        val imageUri = it.getStringExtra("IMAGE_URI").toString()
+                        productViewModel.insertImage(
+                            Image(0, product.id, imageUri)
+                        )
                     }
                 }
             }
         }
+    }
+
+    override fun onImageLongClick(position: Int) {
+        TODO("Not yet implemented")
     }
 }

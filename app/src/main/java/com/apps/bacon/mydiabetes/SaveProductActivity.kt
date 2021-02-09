@@ -11,6 +11,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.apps.bacon.mydiabetes.adapters.ImageAdapter
 import com.apps.bacon.mydiabetes.data.*
 import com.apps.bacon.mydiabetes.databinding.DialogAddImageBinding
 import com.apps.bacon.mydiabetes.databinding.DialogDeleteTagBinding
@@ -30,13 +32,14 @@ import kotlinx.android.synthetic.main.activity_save_product.*
 
 private const val REQUEST_CODE_PRODUCT_NAME = 1
 private const val REQUEST_CODE_GET_BARCODE = 3
-private const val REQUEST_CODE_GET_IMAGE = 4
 
 @AndroidEntryPoint
-class SaveProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
+class SaveProductActivity : AppCompatActivity() {
     private val saveProductViewModel: SaveProductViewModel by viewModels()
     private val productViewModel: ProductViewModel by viewModels()
-    private var icon: String? = null
+
+    private lateinit var imagesAdapter: ImageAdapter
+//    private val tempProductId = -4
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,13 +56,18 @@ class SaveProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListen
         var proteinFatExchangers = 0.0
         var carbohydrateExchangers = 0.0
         var selectedTagId: Int? = null
-        val bottomSheetDialogCameraViewBinding = DialogAddImageBinding.inflate(layoutInflater)
-        val bottomSheetDialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
+//        val bottomSheetDialogCameraViewBinding = DialogAddImageBinding.inflate(layoutInflater)
+//        val bottomSheetDialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
+//        initRecyclerView()
 
         saveProductViewModel.getAllTags().observe(this, {
             addChips(this, it)
 
         })
+
+//        saveProductViewModel.getImagesByProductId(tempProductId).observe(this, {
+//            imagesAdapter.updateData(it)
+//        })
 
         if(measureStatus){
             if(bundle.get("PIECES") == bundle.get("CORRECT_PIECES")){
@@ -169,22 +177,22 @@ class SaveProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListen
             startActivityForResult(intent, REQUEST_CODE_GET_BARCODE)
         }
 
-        takePhotoButton.setOnClickListener {
-            bottomSheetDialog.setContentView(bottomSheetDialogCameraViewBinding.root)
-            bottomSheetDialog.show()
-
-            bottomSheetDialogCameraViewBinding.cameraButton.setOnClickListener {
-                intent = Intent(this, CameraActivity::class.java)
-                startActivityForResult(intent, REQUEST_CODE_GET_IMAGE)
-                bottomSheetDialog.dismiss()
-            }
-
-            bottomSheetDialogCameraViewBinding.galleryButton.setOnClickListener {
-                //TODO: implementation getting image from gallery
-                bottomSheetDialog.dismiss()
-            }
-
-        }
+//
+//        takePhotoButton.setOnClickListener {
+//            bottomSheetDialog.setContentView(bottomSheetDialogCameraViewBinding.root)
+//            bottomSheetDialog.show()
+//
+//            bottomSheetDialogCameraViewBinding.cameraButton.setOnClickListener {
+//                intent = Intent(this, CameraActivity::class.java)
+//                startActivityForResult(intent, REQUEST_CODE_GET_IMAGE)
+//                bottomSheetDialog.dismiss()
+//            }
+//
+//            bottomSheetDialogCameraViewBinding.galleryButton.setOnClickListener {
+//                bottomSheetDialog.dismiss()
+//            }
+//
+//        }
 
         tagChipContainer.setOnCheckedChangeListener { _, checkedId ->
             if (checkedId == 0){
@@ -225,7 +233,7 @@ class SaveProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListen
                             selectedTagId,
                             manualBarcode.text.toString(),
                             false,
-                            icon
+                            null
                         )
                     )
                     intent = Intent(this, HomeActivity::class.java)
@@ -335,6 +343,14 @@ class SaveProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListen
         pieChart.animate()
     }
 
+//    private fun initRecyclerView(){
+//        photosRecyclerView.apply {
+//            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+//            imagesAdapter = ImageAdapter( this@SaveProductActivity)
+//            adapter = imagesAdapter
+//        }
+//    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when(requestCode){
@@ -367,14 +383,18 @@ class SaveProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListen
                 }
             }
 
-            REQUEST_CODE_GET_IMAGE -> {
-                if(resultCode == RESULT_OK){
-                    data?.let {
-                        icon = it.getStringExtra("IMAGE_URI").toString()
-                    }
-                }
-
-            }
+//            REQUEST_CODE_GET_IMAGE -> {
+//                if(resultCode == RESULT_OK){
+//                    data?.let {
+//                        val imageUri = it.getStringExtra("IMAGE_URI").toString()
+//                        saveProductViewModel.insertImage(
+//                            Image(0, tempProductId, imageUri)
+//                        )
+//
+//                    }
+//                }
+//
+//            }
         }
     }
 }

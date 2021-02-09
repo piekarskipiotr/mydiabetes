@@ -14,8 +14,14 @@ constructor(
 
     fun getTagById(id: Int) = database.tagDao().getTagById(id)
 
+    fun getImagesByProductId(productId: Int) = database.imageDao().getImageByProductId(productId)
+
     suspend fun insertProduct(product: Product) = database.productDao().insert(product)
 
     suspend fun deleteTagById(id: Int) = database.tagDao().deleteById(id)
+
+    suspend fun insertImage(image: Image) = database.imageDao().insert(image)
+
+    suspend fun deleteImage(image: Image) = database.imageDao().delete(image)
 
 }

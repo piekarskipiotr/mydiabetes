@@ -15,9 +15,14 @@ class ProductRepository @Inject constructor(
 
     fun getTag(id: Int) = database.tagDao().getTagById(id)
 
+    fun getImagesByProductId(productId: Int) = database.imageDao().getImageByProductId(productId)
+
     suspend fun deleteProduct(product: Product) = database.productDao().delete(product)
 
     suspend fun updateProduct(product: Product) = database.productDao().update(product)
 
+    suspend fun insertImage(image: Image) = database.imageDao().insert(image)
+
+    suspend fun deleteImage(image: Image) = database.imageDao().delete(image)
 
 }

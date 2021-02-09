@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.apps.bacon.mydiabetes.R
-import com.apps.bacon.mydiabetes.data.Product
+import com.apps.bacon.mydiabetes.data.Image
 import kotlinx.android.synthetic.main.image_item.view.*
 
 class ImageAdapter constructor(
     private val listener: OnImageClickListener
 ) : RecyclerView.Adapter<ImageAdapter.ViewHolder>(){
-    private var data: List<Uri> = ArrayList()
+    private var data: List<Image> = ArrayList()
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnLongClickListener{
         val image: ImageView = view.productImage
@@ -31,12 +31,12 @@ class ImageAdapter constructor(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.image
+        holder.image.setImageURI(Uri.parse(data[position].image))
     }
 
     override fun getItemCount(): Int = data.size
 
-    fun updateData(dataList: List<Uri>){
+    fun updateData(dataList: List<Image>){
         data = dataList
         notifyDataSetChanged()
     }
