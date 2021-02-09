@@ -15,6 +15,8 @@ constructor(
 
     fun getAll() = repository.getAll()
 
+    fun isSomethingInFoodPlate() = repository.isSomethingInFoodPlate()
+
     fun getProductsByTag(id: Int) = repository.getProductsByTag(id)
 
     fun getAllTags() = repository.getAllTags()

@@ -7,6 +7,8 @@ class HomeRepository @Inject constructor(
 ) {
     fun getAll() = database.productDao().getAll()
 
+    fun isSomethingInFoodPlate() = database.productDao().getProductsInPlate()
+
     fun getProductsByTag(id: Int) = database.productDao().getAll(id)
 
     fun getAllTags() = database.tagDao().getAll()

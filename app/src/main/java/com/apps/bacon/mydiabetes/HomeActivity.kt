@@ -28,6 +28,14 @@ class HomeActivity : AppCompatActivity() {
             addTabs(it)
         })
 
+        homeViewModel.isSomethingInFoodPlate().observe(this, {
+            if (it.isEmpty()){
+                notificationIconFoodPlate.visibility = View.GONE
+            }else{
+                notificationIconFoodPlate.visibility = View.VISIBLE
+            }
+        })
+
         tabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 homeViewModel.currentTag.value = tab!!.tag as Int

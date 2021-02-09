@@ -45,20 +45,33 @@
                     android:src="@drawable/ic_round_search"
                     app:tint="@color/independent" />
 
-                <ImageView
-                    android:id="@+id/foodPlate"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:contentDescription="foodPlate"
+                <RelativeLayout
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_marginStart="0dp"
                     android:layout_marginEnd="16dp"
                     android:layout_centerVertical="true"
-                    android:layout_alignParentEnd="true"
-                    android:src="@drawable/ic_round_food_bank"
-                    app:tint="@color/independent"/>
+                    android:layout_alignParentEnd="true">
+                    <ImageView
+                        android:id="@+id/foodPlate"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:contentDescription="foodPlate"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_round_food_bank"
+                        app:tint="@color/independent"/>
+                    <ImageView
+                        android:id="@+id/notificationIconFoodPlate"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_alignParentEnd="true"
+                        android:src="@drawable/circle"
+                        app:tint="@color/strong_yellow"/>
+
+                </RelativeLayout>
+
 
             </RelativeLayout>
         </com.google.android.material.appbar.MaterialToolbar>
