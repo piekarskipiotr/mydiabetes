@@ -1,6 +1,5 @@
 package com.apps.bacon.mydiabetes.data
 
-import android.net.Uri
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -46,9 +45,5 @@ data class Product(
 
     @ColumnInfo(name = "in_food_plate")
     var inFoodPlate: Boolean,
-
-    @ColumnInfo(name = "images")
-    var imagesList: List<Uri>?
-
 
 )

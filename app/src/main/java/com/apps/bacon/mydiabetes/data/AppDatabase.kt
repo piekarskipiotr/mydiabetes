@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 abstract class AppDatabase : RoomDatabase() {
     abstract fun productDao(): ProductDao
     abstract fun tagDao(): TagDao
+    abstract fun imageDao(): ImageDao
 
     companion object{
         @Volatile
