@@ -47,6 +47,7 @@ private const val REQUEST_CODE_GET_IMAGE = 4
 class SaveProductActivity : AppCompatActivity() {
     private val saveProductViewModel: SaveProductViewModel by viewModels()
     private val productViewModel: ProductViewModel by viewModels()
+    private var icon: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -220,7 +221,8 @@ class SaveProductActivity : AppCompatActivity() {
                             proteinFatExchangers,
                             selectedTagId,
                             manualBarcode.text.toString(),
-                            false
+                            false,
+                            icon
                         )
                     )
                     intent = Intent(this, HomeActivity::class.java)
@@ -365,11 +367,7 @@ class SaveProductActivity : AppCompatActivity() {
             REQUEST_CODE_GET_IMAGE -> {
                 if(resultCode == RESULT_OK){
                     data?.let {
-                        it.getStringExtra("IMAGE_URI")?.let { it1 ->
-                            Log.d("SaveProductActivity:",
-                                it1
-                            )
-                        }
+                        icon = it.getStringExtra("IMAGE_URI").toString()
                     }
                 }
 

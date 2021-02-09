@@ -305,14 +305,9 @@ class ProductActivity : AppCompatActivity() {
             REQUEST_CODE_GET_IMAGE -> {
                 if(resultCode == RESULT_OK){
                     data?.let {
-                        it.getStringExtra("IMAGE_URI")?.let { it1 ->
-                            Log.d("ProductActivity:",
-                                it1
-                            )
-                        }
+                        product.icon = it.getStringExtra("IMAGE_URI").toString()
                     }
                 }
-
             }
         }
     }

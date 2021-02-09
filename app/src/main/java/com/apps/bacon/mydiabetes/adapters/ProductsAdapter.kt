@@ -1,8 +1,10 @@
 package com.apps.bacon.mydiabetes.adapters
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.apps.bacon.mydiabetes.R
@@ -21,6 +23,7 @@ class ProductsAdapter constructor(
         val carbohydrateExchangers: TextView = view.carbohydrateExchangers
         val proteinFatExchangers: TextView = view.proteinFatExchangers
         val calories: TextView = view.calories
+        val icon: ImageView = view.productIcon
 
         init {
             itemView.setOnClickListener(this)
@@ -38,6 +41,8 @@ class ProductsAdapter constructor(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.icon.setImageURI(Uri.parse(data[position].icon))
+
         holder.productName.text = data[position].name
         if(data[position].weight == null)
             holder.measure.text = data[position].pieces.toString()

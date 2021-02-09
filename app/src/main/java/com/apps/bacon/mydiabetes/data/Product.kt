@@ -46,4 +46,6 @@ data class Product(
     @ColumnInfo(name = "in_food_plate")
     var inFoodPlate: Boolean,
 
+    @ColumnInfo(name = "icon")
+    var icon: String?
 )

@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.util.Size
 import android.view.Surface
@@ -49,21 +50,19 @@ class CameraActivity : AppCompatActivity(){
     private fun takePhoto() {
         val imageCapture = imageCapture ?: return
 
-        //getting error with portrait so we set constant orientation in Manifest and give image capture rotation to 90 deg
-        imageCapture.targetRotation = Surface.ROTATION_90
-
         val photoFile = File(
-            "/MyDiabetes/ProductImages",
+           getExternalFilesDir(Environment.DIRECTORY_PICTURES),
             "${System.currentTimeMillis()}.jpg"
         )
 
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
 
-        imageCapture.takePicture(outputOptions, ContextCompat.getMainExecutor(this), object : ImageCapture.OnImageSavedCallback{
+        imageCapture.takePicture(
+            outputOptions, ContextCompat.getMainExecutor(this), object : ImageCapture.OnImageSavedCallback{
             override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                 val imageUri = Uri.fromFile(photoFile)
 
-                intent.putExtra("IMAGE_URI", imageUri)
+                intent.putExtra("IMAGE_URI", imageUri.toString())
                 setResult(Activity.RESULT_OK, intent)
                 finish()
 
@@ -87,7 +86,7 @@ class CameraActivity : AppCompatActivity(){
             }
 
             imageCapture = ImageCapture.Builder()
-                .setTargetResolution(Size(1920, 1080))
+                .setTargetResolution(Size(1080, 1080))
                 .build()
 
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
