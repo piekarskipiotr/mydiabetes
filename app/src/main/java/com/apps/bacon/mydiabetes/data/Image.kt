@@ -14,7 +14,7 @@ data class Image (
     @ColumnInfo(name = "product_id")
     var productId: Int,
 
-    @ColumnInfo(name = "image_uri")
-    var image: Uri
+    @ColumnInfo(name = "image_string")
+    var image: String
 
 )
