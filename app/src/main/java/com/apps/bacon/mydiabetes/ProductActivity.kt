@@ -2,13 +2,15 @@ package com.apps.bacon.mydiabetes
 
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,21 +39,24 @@ import kotlinx.android.synthetic.main.activity_product.deleteButton
 import kotlinx.android.synthetic.main.activity_product.fat
 import kotlinx.android.synthetic.main.activity_product.fatContainer
 import kotlinx.android.synthetic.main.activity_product.manualBarcode
-import kotlinx.android.synthetic.main.activity_product.photosRecyclerView
 import kotlinx.android.synthetic.main.activity_product.pieChart
 import kotlinx.android.synthetic.main.activity_product.productName
 import kotlinx.android.synthetic.main.activity_product.protein
 import kotlinx.android.synthetic.main.activity_product.proteinContainer
 import kotlinx.android.synthetic.main.activity_product.scanBarcodeButton
 import kotlinx.android.synthetic.main.activity_product.tagChipContainer
-import kotlinx.android.synthetic.main.activity_product.takePhotoButton
 import kotlinx.android.synthetic.main.activity_save_product.*
 import kotlinx.android.synthetic.main.dialog_delete_product.*
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
 
 private const val REQUEST_CODE_GET_TAG = 1
 private const val REQUEST_CODE_GET_BARCODE = 2
 private const val REQUEST_CODE_PRODUCT_NAME = 3
 private const val REQUEST_CODE_GET_IMAGE = 4
+private const val REQUEST_CODE_GET_IMAGE_FROM_GALLERY = 5
 
 @AndroidEntryPoint
 class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
@@ -72,6 +77,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
 
         productViewModel.getImagesByProductId(product.id).observe(this, {
             imagesAdapter.updateData(it)
+            
         })
 
         productName.setOnClickListener {
@@ -103,7 +109,10 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
             }
 
             bottomSheetDialogCameraViewBinding.galleryButton.setOnClickListener {
-                //TODO: implementation getting image from gallery
+                val gallery = Intent(Intent.ACTION_PICK)
+                gallery.type = "image/*"
+
+                startActivityForResult(gallery, REQUEST_CODE_GET_IMAGE_FROM_GALLERY)
                 bottomSheetDialog.dismiss()
             }
         }
@@ -127,7 +136,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
     private fun initRecyclerView(){
         photosRecyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            imagesAdapter = ImageAdapter( this@ProductActivity)
+            imagesAdapter = ImageAdapter(this@ProductActivity)
             adapter = imagesAdapter
         }
     }
@@ -313,12 +322,13 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
         super.onActivityResult(requestCode, resultCode, data)
         when(requestCode){
             REQUEST_CODE_GET_TAG -> {
-                if(resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     data?.let {
-                        when{
+                        when {
                             it.getBooleanExtra("NEW_TAG", false) -> {
                                 product.tag = productViewModel.getLastId()
-                            }else -> {
+                            }
+                            else -> {
                                 product.tag = it.getIntExtra("TAG_ID", -1)
 
                             }
@@ -326,7 +336,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
                         productViewModel.updateProduct(product)
                         setProductInfo()
                     }
-                }else if(resultCode == RESULT_CANCELED){
+                } else if (resultCode == RESULT_CANCELED) {
                     product.tag = null
                     productViewModel.updateProduct(product)
                     setProductInfo()
@@ -334,21 +344,28 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
             }
 
             REQUEST_CODE_GET_BARCODE -> {
-                if(resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     data?.let {
-                        when{
+                        when {
                             it.getBooleanExtra("DELETE_BARCODE", false) -> {
                                 product.barcode = null
                                 productViewModel.updateProduct(product)
                                 setProductInfo()
 
-                            }else -> {
+                            }
+                            else -> {
                                 val barcode = it.getStringExtra("BARCODE")
-                                val productWithBarcode = productViewModel.getProductByBarcode(barcode!!)
+                                val productWithBarcode = productViewModel.getProductByBarcode(
+                                    barcode!!
+                                )
 
-                                if(productWithBarcode != null){
-                                    Toast.makeText(this, "Istnieje już produkt z takim kodem kreskowym!", Toast.LENGTH_LONG).show()
-                                }else{
+                                if (productWithBarcode != null) {
+                                    Toast.makeText(
+                                        this,
+                                        "Istnieje już produkt z takim kodem kreskowym!",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                } else {
                                     product.barcode = barcode
                                     productViewModel.updateProduct(product)
                                     setProductInfo()
@@ -361,7 +378,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
             }
 
             REQUEST_CODE_PRODUCT_NAME -> {
-                if(resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     data?.let {
                         product.name = it.getStringExtra("PRODUCT_NAME").toString()
                         productViewModel.updateProduct(product)
@@ -371,7 +388,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
             }
 
             REQUEST_CODE_GET_IMAGE -> {
-                if(resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     data?.let {
                         val imageUri = it.getStringExtra("IMAGE_URI").toString()
                         productViewModel.insertImage(
@@ -380,7 +397,43 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
                     }
                 }
             }
+
+            REQUEST_CODE_GET_IMAGE_FROM_GALLERY -> {
+                if (resultCode == RESULT_OK) {
+                    data?.let {
+                        val photoFile = File(
+                            getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                            "${System.currentTimeMillis()}.jpg"
+                        )
+                        photoFile.createNewFile()
+                        val out = FileOutputStream(photoFile)
+                        out.write(
+                            getBytes(this.contentResolver.openInputStream(it.data!!)!!)
+                        )
+                        out.close()
+
+                        productViewModel.insertImage(
+                            Image(0, product.id, Uri.fromFile(photoFile).toString())
+                        )
+                    }
+                }
+            }
         }
+    }
+
+    private fun getBytes(inputStream: InputStream): ByteArray{
+        val byteBuffer = ByteArrayOutputStream()
+        val bufferSize = 1024
+        val buffer = ByteArray(bufferSize)
+
+        while(true){
+            val len = inputStream.read(buffer)
+            if(len != -1)
+                byteBuffer.write(buffer, 0, len)
+            else
+                break
+        }
+        return byteBuffer.toByteArray()
     }
 
     override fun onImageLongClick(image: Image) {
