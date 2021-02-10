@@ -1,11 +1,13 @@
 package com.apps.bacon.mydiabetes.adapters
 
+import android.content.Context
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.apps.bacon.mydiabetes.R
 import com.apps.bacon.mydiabetes.data.Product
@@ -26,7 +28,7 @@ class ProductsAdapter constructor(
         val icon: ImageView = view.productIcon
 
         init {
-            itemView.setOnClickListener(this)
+            view.setOnClickListener(this)
         }
 
         override fun onClick(p0: View?) {
@@ -41,7 +43,10 @@ class ProductsAdapter constructor(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.icon.setImageURI(Uri.parse(data[position].icon))
+        if (data[position].icon == null)
+            holder.icon.setImageDrawable(ContextCompat.getDrawable(holder.itemView.context, R.drawable.ic_round_dinner_dining))
+        else
+            holder.icon.setImageURI(Uri.parse(data[position].icon))
 
         holder.productName.text = data[position].name
         if(data[position].weight == null)

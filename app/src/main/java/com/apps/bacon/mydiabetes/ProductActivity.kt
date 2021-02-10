@@ -1,6 +1,7 @@
 package com.apps.bacon.mydiabetes
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import com.apps.bacon.mydiabetes.adapters.ImageAdapter
 import com.apps.bacon.mydiabetes.data.*
 import com.apps.bacon.mydiabetes.databinding.DialogAddImageBinding
 import com.apps.bacon.mydiabetes.databinding.DialogDeleteProductBinding
+import com.apps.bacon.mydiabetes.databinding.DialogManagerImageBinding
 import com.apps.bacon.mydiabetes.databinding.DialogManagerTagBinding
 import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
 import com.github.mikephil.charting.animation.Easing
@@ -245,6 +247,39 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
         alertDialog.show()
     }
 
+    private fun dialogImageManager(image: Image){
+        val alertDialog: AlertDialog
+        val builder = AlertDialog.Builder(this, R.style.DialogStyle)
+        val dialogBinding = DialogManagerImageBinding.inflate(LayoutInflater.from(this))
+        builder.setView(dialogBinding.root)
+        alertDialog = builder.create()
+        alertDialog.setCanceledOnTouchOutside(false)
+
+        dialogBinding.imagePreview.setImageURI(Uri.parse(image.image))
+
+        dialogBinding.backButton.setOnClickListener {
+            alertDialog.dismiss()
+        }
+
+        dialogBinding.deleteButton.setOnClickListener {
+            product.icon = null
+            productViewModel.updateProduct(product)
+            productViewModel.deleteImage(image)
+
+            alertDialog.dismiss()
+        }
+
+        dialogBinding.setAsIconButton.setOnClickListener {
+            product.icon = image.image
+            productViewModel.updateProduct(product)
+            alertDialog.dismiss()
+
+        }
+
+
+        alertDialog.show()
+    }
+
     private fun pieChart(carbohydrateExchangers: Double, proteinFatExchangers: Double){
         val pieChart: PieChart = pieChart
         val data = ArrayList<PieEntry>()
@@ -348,7 +383,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
         }
     }
 
-    override fun onImageLongClick(position: Int) {
-        TODO("Not yet implemented")
+    override fun onImageLongClick(image: Image) {
+        dialogImageManager(image)
     }
 }

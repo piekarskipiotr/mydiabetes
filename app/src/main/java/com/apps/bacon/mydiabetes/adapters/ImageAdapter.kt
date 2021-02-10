@@ -18,8 +18,12 @@ class ImageAdapter constructor(
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnLongClickListener{
         val image: ImageView = view.productImage
 
+        init {
+            view.setOnLongClickListener(this)
+        }
+
         override fun onLongClick(p0: View?): Boolean {
-            listener.onImageLongClick(adapterPosition)
+            listener.onImageLongClick(data[adapterPosition])
             return true
         }
 
@@ -42,7 +46,7 @@ class ImageAdapter constructor(
     }
 
     interface OnImageClickListener {
-        fun onImageLongClick(position: Int)
+        fun onImageLongClick(image: Image)
 
     }
 
