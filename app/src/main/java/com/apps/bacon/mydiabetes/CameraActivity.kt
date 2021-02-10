@@ -85,7 +85,7 @@ class CameraActivity : AppCompatActivity(){
             }
 
             imageCapture = ImageCapture.Builder()
-                .setTargetResolution(Size(1080, 1080))
+                .setTargetResolution(Size(1080, 1920))
                 .build()
 
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
