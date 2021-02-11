@@ -72,7 +72,7 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
         }
 
         scanButton.setOnClickListener {
-            intent = Intent(this, CameraActivity::class.java)
+            intent = Intent(this, ScannerCameraActivity::class.java)
             startActivityForResult(intent, REQUEST_CODE_GET_BARCODE)
         }
 
