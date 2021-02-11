@@ -13,7 +13,7 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="?attr/colorPrimaryDark"
             android:layout_gravity="top">
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -148,7 +148,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentEnd="true"
-                                    app:cardBackgroundColor="@color/lavender_web">
+                                    app:cardBackgroundColor="@color/tumbleweed">
                                     <TextView
                                         android:id="@+id/calories"
                                         android:layout_width="match_parent"
@@ -320,7 +320,8 @@
                                     android:clickable="true"
                                     android:focusable="true"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    style="@style/lightCard">
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="match_parent"
@@ -351,7 +352,8 @@
                                     android:clickable="true"
                                     android:focusable="true"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    style="@style/lightCard">
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="match_parent"

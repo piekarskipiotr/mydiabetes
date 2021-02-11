@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_gray"
     tools:context=".SearchActivity">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -27,9 +26,10 @@
             android:id="@+id/searchBottomContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="-10dp"
+            android:layout_marginBottom="-15dp"
             android:layout_alignParentBottom="true"
-            app:cardCornerRadius="12dp">
+            app:cardCornerRadius="12dp"
+            style="@style/lightCard">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -70,7 +70,8 @@
                 android:layout_centerInParent="true"
                 android:layout_marginEnd="16dp"
                 android:contentDescription="goBack"
-                android:src="@drawable/ic_round_scan" />
+                android:src="@drawable/ic_round_scan"
+                app:tint="@color/independent"/>
             </RelativeLayout>
         </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 

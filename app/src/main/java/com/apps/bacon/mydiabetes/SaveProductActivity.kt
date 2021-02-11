@@ -11,10 +11,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.apps.bacon.mydiabetes.adapters.ImageAdapter
 import com.apps.bacon.mydiabetes.data.*
-import com.apps.bacon.mydiabetes.databinding.DialogAddImageBinding
 import com.apps.bacon.mydiabetes.databinding.DialogDeleteTagBinding
 import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
 import com.apps.bacon.mydiabetes.viewmodel.SaveProductViewModel
@@ -24,7 +22,6 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.DefaultValueFormatter
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
@@ -282,7 +279,7 @@ class SaveProductActivity : AppCompatActivity() {
     }
 
     private fun ChipGroup.addChip(context: Context, label: String, ID: Int){
-        Chip(context).apply {
+        Chip(context, null, R.attr.CustomChip).apply {
             id = ID
             text = label
             isClickable = true

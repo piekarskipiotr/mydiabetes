@@ -81,7 +81,7 @@ class AddTagActivity : AppCompatActivity() {
     }
 
     private fun ChipGroup.addChip(context: Context, label: String, ID: Int){
-        Chip(context).apply {
+        Chip(context, null, R.attr.CustomChip).apply {
             id = ID
             text = label
             isClickable = true

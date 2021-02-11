@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:background="@color/white">
+            android:background="?attr/colorPrimaryDark">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -187,7 +187,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
-                                app:cardBackgroundColor="@color/lavender_web">
+                                app:cardBackgroundColor="@color/tumbleweed">
 
                                 <TextView
                                     android:id="@+id/calories"
@@ -381,7 +381,8 @@
                                 android:layout_height="wrap_content"
                                 android:clickable="true"
                                 android:focusable="true"
-                                android:foreground="?android:attr/selectableItemBackground">
+                                android:foreground="?android:attr/selectableItemBackground"
+                                style="@style/lightCard">
 
                                 <TextView
                                     android:layout_width="wrap_content"

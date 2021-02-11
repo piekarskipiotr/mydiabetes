@@ -3,13 +3,22 @@
     <style name="Theme.MyDiabetes" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/light_gray</item>
+        <item name="colorPrimaryDark">@color/white</item>
         <item name="colorPrimaryVariant">@color/blue_purple</item>
         <item name="colorOnPrimary">@color/white</item>
-        <item name="colorAccent">@color/rose_dust</item>
+        <item name="colorAccent">@color/independent</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorOnPrimary</item>
-        <!-- Customize your theme here. -->
         <item name="android:windowBackground">?attr/colorPrimary</item>
+        <item name="CustomChip">@style/CustomChipStyle</item>
+    </style>
+
+    <style name="lightCard" parent="CardView">
+        <item name="cardBackgroundColor">@color/white</item>
+    </style>
+
+    <style name="CustomChipStyle" parent="Widget.MaterialComponents.Chip.Action">
+        <item name="chipBackgroundColor">@color/white</item>
     </style>
 
     <style name="SplashScreen" parent="Theme.MaterialComponents.NoActionBar">

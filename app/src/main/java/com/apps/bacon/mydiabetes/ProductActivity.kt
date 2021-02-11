@@ -193,7 +193,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
     }
 
     private fun ChipGroup.addChip(label: String, ID: Int){
-        Chip(this@ProductActivity).apply {
+        Chip(this@ProductActivity, null, R.attr.CustomChip).apply {
             id = ID
             text = label
             isClickable = true
@@ -309,6 +309,8 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
 
         pieChart.data = pieData
         pieChart.description.isEnabled = false
+
+        pieChart.legend.textColor = ContextCompat.getColor(this, R.color.independent)
 
         pieChart.setDrawEntryLabels(false)
         pieChart.isDrawHoleEnabled = false

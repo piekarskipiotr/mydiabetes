@@ -27,7 +27,7 @@
             android:textAlignment="center"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/rose_dust"/>
+            android:textColor="@color/red"/>
         <TextView
             android:id="@+id/productNameText"
             android:layout_width="wrap_content"
@@ -53,7 +53,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/light_gray"/>
+        android:background="?attr/colorPrimary"/>
     <LinearLayout
         android:id="@+id/deleteButton"
         android:foreground="?android:attr/selectableItemBackground"
@@ -70,12 +70,12 @@
             android:text="Usuń"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:textColor="@color/rose_dust"/>
+            android:textColor="@color/red"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/light_gray"/>
+        android:background="?attr/colorPrimary"/>
     <LinearLayout
         android:id="@+id/backButton"
         android:foreground="?android:attr/selectableItemBackground"
