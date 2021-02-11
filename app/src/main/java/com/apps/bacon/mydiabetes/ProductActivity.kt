@@ -120,6 +120,8 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
             productViewModel.updateProduct(product.apply {
                 inFoodPlate = true
             })
+
+            Toast.makeText(this, "Dodano produkt", Toast.LENGTH_SHORT).show()
         }
 
         backButton.setOnClickListener {
