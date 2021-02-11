@@ -27,21 +27,30 @@ class AddTagActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_tag)
         val errorMessage = "Pole nie może być puste"
 
+        if(intent.getBooleanExtra("TAG_SETTINGS", false))
+            headerText.text = "Zarządzanie tagami"
+
         if(intent.getBooleanExtra("TAG_MANAGER", false)){
             existingTagsLayout.visibility = View.VISIBLE
             tagViewModel.getAll().observe(this, {
                 addChips(this, it)
             })
         }
+
         addTagButton.setOnClickListener {
             if(tagNameTextInput.text.isNullOrEmpty())
                 tagNameTextInputLayout.error = errorMessage
             else{
                 tagNameTextInputLayout.error = null
                 tagViewModel.insert(Tag(0, tagNameTextInput.text.toString().trim()))
-                intent.putExtra("NEW_TAG", true)
-                setResult(Activity.RESULT_OK, intent)
-                finish()
+                if(!intent.getBooleanExtra("TAG_SETTINGS", false)){
+                    intent.putExtra("NEW_TAG", true)
+                    setResult(Activity.RESULT_OK, intent)
+                    finish()
+                }else{
+                    tagNameTextInput.text = null
+                }
+
             }
         }
 
@@ -54,12 +63,14 @@ class AddTagActivity : AppCompatActivity() {
         tagChipContainer.removeAllViewsInLayout()
         for (i in listOfTags.indices){
             tagChipContainer.addChip(context, listOfTags[i].name, listOfTags[i].id)
-            tagChipContainer[i].setOnClickListener {
-                intent.putExtra("TAG_ID", listOfTags[i].id)
-                Log.d("CHUJ", "fuck")
-                setResult(Activity.RESULT_OK, intent)
-                finish()
+            if(!intent.getBooleanExtra("TAG_SETTINGS", false)){
+                tagChipContainer[i].setOnClickListener {
+                    intent.putExtra("TAG_ID", listOfTags[i].id)
+                    setResult(Activity.RESULT_OK, intent)
+                    finish()
+                }
             }
+
         }
         for(i in 9 until tagChipContainer.childCount){
             tagChipContainer.getChildAt(i).setOnLongClickListener {
@@ -74,7 +85,8 @@ class AddTagActivity : AppCompatActivity() {
             id = ID
             text = label
             isClickable = true
-            isCheckable = true
+            if(!intent.getBooleanExtra("TAG_SETTINGS", false))
+                isCheckable = true
             isCheckedIconVisible = false
             isFocusable = true
             addView(this)
