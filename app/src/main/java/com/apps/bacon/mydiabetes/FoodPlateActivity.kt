@@ -128,6 +128,8 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
         pieChart.centerText  = "$calories\nKaloryczność"
         pieChart.description.isEnabled = false
 
+        pieChart.legend.textColor = ContextCompat.getColor(this, R.color.independent)
+
         pieChart.setDrawEntryLabels(false)
 
         pieChart.rotationAngle = 50f

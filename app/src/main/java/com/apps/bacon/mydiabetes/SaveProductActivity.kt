@@ -332,6 +332,8 @@ class SaveProductActivity : AppCompatActivity() {
         pieChart.data = pieData
         pieChart.description.isEnabled = false
 
+        pieChart.legend.textColor = ContextCompat.getColor(this, R.color.independent)
+
         pieChart.setDrawEntryLabels(false)
         pieChart.isDrawHoleEnabled = false
 
