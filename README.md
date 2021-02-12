@@ -24,6 +24,7 @@ Project is created with **Kotlin**.
 * [ML Kit](https://developers.google.com/ml-kit)
 * [CameraX](https://developer.android.com/training/camerax)
 * [Hilt](https://developer.android.com/training/dependency-injection/hilt-android)
+* [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart)
 
 ## 💡 Features
 * Easliy calculate carbohydrates and protein-fat exchangers
