@@ -15,33 +15,30 @@ constructor(
     @Named("product_repository")
     private val repository: ProductRepository
 ) : ViewModel(){
+    fun checkForProductExist(name: String) = repository.checkForProductExist(name)
+
+    fun getAll() = repository.getAll()
+
+    fun getAllByTag(tagId: Int) = repository.getAllByTag(tagId)
 
     fun getProduct(id: Int) = repository.getProduct(id)
 
-    fun getTag(id: Int) = repository.getTag(id)
-
-    fun getLastId() = repository.getLastId()
-
-    fun getProductsInPlate() = repository.getProductsInPlate()
+    fun getProductByName(name: String) = repository.getProductByName(name)
 
     fun getProductByBarcode(barcode: String) = repository.getProductByBarcode(barcode)
 
-    fun getImagesByProductId(productId: Int) = repository.getImagesByProductId(productId)
+    fun getProductsInPlate() = repository.getProductsInPlate()
 
-    fun deleteProduct(product: Product) = CoroutineScope(Dispatchers.Main).launch {
-        repository.deleteProduct(product)
+    fun insert(product: Product) = CoroutineScope(Dispatchers.Main).launch {
+        repository.insert(product)
     }
 
-    fun updateProduct(product: Product) = CoroutineScope(Dispatchers.Main).launch {
-        repository.updateProduct(product)
+    fun update(product: Product) = CoroutineScope(Dispatchers.Main).launch {
+        repository.update(product)
     }
 
-    fun insertImage(image: Image) = CoroutineScope(Dispatchers.Main).launch {
-        repository.insertImage(image)
-    }
-
-    fun deleteImage(image: Image) = CoroutineScope(Dispatchers.Main).launch {
-        repository.deleteImage(image)
+    fun delete(product: Product) = CoroutineScope(Dispatchers.Main).launch {
+        repository.delete(product)
     }
 
 }

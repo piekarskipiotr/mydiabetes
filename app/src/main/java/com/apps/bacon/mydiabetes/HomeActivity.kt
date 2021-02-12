@@ -3,7 +3,6 @@ package com.apps.bacon.mydiabetes
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
@@ -23,12 +22,14 @@ class HomeActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().replace(fragmentContainer.id, HomeFragment()).commit()
 
         val homeViewModel: HomeViewModel by viewModels()
+        val productViewModel: ProductViewModel by viewModels()
+        val tagViewModel: TagViewModel by viewModels()
 
-        homeViewModel.getAllTags().observe(this, {
+        tagViewModel.getAll().observe(this, {
             addTabs(it)
         })
 
-        homeViewModel.isSomethingInFoodPlate().observe(this, {
+        productViewModel.getProductsInPlate().observe(this, {
             if (it.isEmpty()){
                 notificationIconFoodPlate.visibility = View.GONE
             }else{
@@ -107,6 +108,7 @@ class HomeActivity : AppCompatActivity() {
     private fun changeFragment(fragment: Fragment, fragmentTitle: String, visibility: Int){
         appBarText.text = fragmentTitle
         tabLayout.visibility = visibility
+
         supportFragmentManager.beginTransaction()
                 .setTransition(TRANSIT_FRAGMENT_FADE)
                 .replace(fragmentContainer.id, fragment)

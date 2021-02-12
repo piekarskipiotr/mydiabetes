@@ -13,13 +13,13 @@ interface ProductDao {
     fun getAll(): LiveData<List<Product>>
 
     @Query("SELECT * FROM products WHERE :tagId == product_tag")
-    fun getAll(tagId: Int): LiveData<List<Product>>
+    fun getAllByTag(tagId: Int): LiveData<List<Product>>
 
     @Query("SELECT * FROM products WHERE :id == product_id")
     fun getProduct(id: Int): Product
 
     @Query("SELECT * FROM products WHERE :name == product_name")
-    fun getProduct(name: String): Product
+    fun getProductByName(name: String): Product
 
     @Query("SELECT * FROM products WHERE :barcode == barcode")
     fun getProductByBarcode(barcode: String): Product?

@@ -86,7 +86,7 @@
             app:tabIndicatorColor="@color/rose_dust"
             app:tabIndicatorAnimationDuration="200"
             app:tabMode="scrollable"
-            android:background="?attr/colorPrimaryDark"/>
+            android:background="?attr/colorPrimaryDark" />
     </com.google.android.material.appbar.AppBarLayout>
     <FrameLayout
         android:id="@+id/fragmentContainer"

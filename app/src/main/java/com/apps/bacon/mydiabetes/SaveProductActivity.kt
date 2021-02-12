@@ -15,7 +15,7 @@ import com.apps.bacon.mydiabetes.adapters.ImageAdapter
 import com.apps.bacon.mydiabetes.data.*
 import com.apps.bacon.mydiabetes.databinding.DialogDeleteTagBinding
 import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
-import com.apps.bacon.mydiabetes.viewmodel.SaveProductViewModel
+import com.apps.bacon.mydiabetes.viewmodel.TagViewModel
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
@@ -32,10 +32,10 @@ private const val REQUEST_CODE_GET_BARCODE = 3
 
 @AndroidEntryPoint
 class SaveProductActivity : AppCompatActivity() {
-    private val saveProductViewModel: SaveProductViewModel by viewModels()
+    private val tagViewModel: TagViewModel by viewModels()
     private val productViewModel: ProductViewModel by viewModels()
 
-    private lateinit var imagesAdapter: ImageAdapter
+//    private lateinit var imagesAdapter: ImageAdapter
 //    private val tempProductId = -4
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +57,7 @@ class SaveProductActivity : AppCompatActivity() {
 //        val bottomSheetDialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
 //        initRecyclerView()
 
-        saveProductViewModel.getAllTags().observe(this, {
+        tagViewModel.getAll().observe(this, {
             addChips(this, it)
 
         })
@@ -207,7 +207,7 @@ class SaveProductActivity : AppCompatActivity() {
         saveButton.setOnClickListener {
 
             when {
-                saveProductViewModel.checkForProductExist(productName.text.toString()) -> {
+                productViewModel.checkForProductExist(productName.text.toString()) -> {
                     Toast.makeText(this, "Produkt o takiej nazwie już istnieje", Toast.LENGTH_SHORT).show()
                 }
                 productName.text.isNullOrEmpty() -> {
@@ -215,7 +215,7 @@ class SaveProductActivity : AppCompatActivity() {
 
                 }
                 else -> {
-                    saveProductViewModel.insertProduct(
+                    productViewModel.insert(
                         Product(
                             0,
                             productName.text.toString(),
@@ -298,14 +298,14 @@ class SaveProductActivity : AppCompatActivity() {
         alertDialog = builder.create()
         alertDialog.setCanceledOnTouchOutside(false)
 
-        dialogBinding.tagNameText.text = saveProductViewModel.getTagById(id).name
+        dialogBinding.tagNameText.text = tagViewModel.getTagById(id).name
 
         dialogBinding.backButton.setOnClickListener {
                 alertDialog.dismiss()
             }
 
         dialogBinding.deleteButton.setOnClickListener {
-            saveProductViewModel.deleteTagById(id)
+            tagViewModel.deleteById(id)
             alertDialog.dismiss()
         }
         alertDialog.show()

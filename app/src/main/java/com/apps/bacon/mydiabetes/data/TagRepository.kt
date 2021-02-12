@@ -7,14 +7,16 @@ class TagRepository @Inject constructor(
 ){
     fun getAll() = database.tagDao().getAll()
 
-    fun getProductsByTag(id: Int) = database.productDao().getAll(id)
+    fun getLastId() = database.tagDao().getLastId()
 
-
-
-    fun updateProduct(product: Product) = database.productDao().update(product)
+    fun getTagById(id: Int) = database.tagDao().getTagById(id)
 
     suspend fun insert(tag: Tag) = database.tagDao().insert(tag)
 
+    suspend fun update(tag: Tag) = database.tagDao().insert(tag)
+
     suspend fun delete(tag: Tag) = database.tagDao().delete(tag)
+
+    suspend fun deleteById(id: Int) = database.tagDao().deleteById(id)
 
 }

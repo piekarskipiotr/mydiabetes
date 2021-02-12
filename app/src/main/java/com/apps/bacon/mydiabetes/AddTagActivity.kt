@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.get
 import com.apps.bacon.mydiabetes.data.Tag
 import com.apps.bacon.mydiabetes.databinding.DialogDeleteTagBinding
+import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
 import com.apps.bacon.mydiabetes.viewmodel.TagViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -20,6 +21,7 @@ import kotlinx.android.synthetic.main.activity_add_tag.*
 
 @AndroidEntryPoint
 class AddTagActivity : AppCompatActivity() {
+    private val productViewModel: ProductViewModel by viewModels()
     private val tagViewModel: TagViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -116,10 +118,10 @@ class AddTagActivity : AppCompatActivity() {
     }
 
     private fun removeTagFromProducts(tagId: Int){
-        tagViewModel.getProductsByTag(tagId).observe(this, {
+        productViewModel.getAllByTag(tagId).observe(this, {
             for (product in it){
                 product.tag = null
-                tagViewModel.updateProduct(product)
+                productViewModel.update(product)
             }
         })
     }

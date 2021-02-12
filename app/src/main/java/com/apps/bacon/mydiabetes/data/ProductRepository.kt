@@ -5,24 +5,24 @@ import javax.inject.Inject
 class ProductRepository @Inject constructor(
     private val database: AppDatabase
 ) {
+    fun checkForProductExist(name: String) = database.productDao().checkForProductExist(name)
+
+    fun getAll() = database.productDao().getAll()
+
+    fun getAllByTag(tagId: Int) = database.productDao().getAllByTag(tagId)
+
     fun getProduct(id: Int) = database.productDao().getProduct(id)
 
-    fun getProductsInPlate() = database.productDao().getProductsInPlate()
-
-    fun getLastId() = database.tagDao().getLastId()
+    fun getProductByName(name: String) = database.productDao().getProductByName(name)
 
     fun getProductByBarcode(barcode: String) = database.productDao().getProductByBarcode(barcode)
 
-    fun getTag(id: Int) = database.tagDao().getTagById(id)
+    fun getProductsInPlate() = database.productDao().getProductsInPlate()
 
-    fun getImagesByProductId(productId: Int) = database.imageDao().getImageByProductId(productId)
+    suspend fun insert(product: Product) = database.productDao().insert(product)
 
-    suspend fun deleteProduct(product: Product) = database.productDao().delete(product)
+    suspend fun update(product: Product) = database.productDao().update(product)
 
-    suspend fun updateProduct(product: Product) = database.productDao().update(product)
-
-    suspend fun insertImage(image: Image) = database.imageDao().insert(image)
-
-    suspend fun deleteImage(image: Image) = database.imageDao().delete(image)
+    suspend fun delete(product: Product) = database.productDao().delete(product)
 
 }

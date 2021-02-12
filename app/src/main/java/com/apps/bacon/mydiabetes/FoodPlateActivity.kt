@@ -50,7 +50,7 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
 
         object : SwipeToRemove(){
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                productViewModel.updateProduct(
+                productViewModel.update(
                     foodPlateAdapter.getProduct(viewHolder.adapterPosition).apply {
                         inFoodPlate = false
                     }
@@ -67,7 +67,7 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
             sumValues()
             bottomDialogBinding.clearButton.setOnClickListener {
                 for(i in 0 until foodPlateAdapter.itemCount){
-                    productViewModel.updateProduct(
+                    productViewModel.update(
                         foodPlateAdapter.getProduct(i).apply {
                             inFoodPlate = false
                         }

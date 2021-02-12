@@ -2,7 +2,6 @@ package com.apps.bacon.mydiabetes
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apps.bacon.mydiabetes.adapters.ProductsAdapter
 import com.apps.bacon.mydiabetes.viewmodel.HomeViewModel
+import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -22,27 +22,26 @@ class HomeFragment : Fragment(), ProductsAdapter.OnProductClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val homeViewModel by activityViewModels<HomeViewModel>()
+        val productViewModel: ProductViewModel by viewModels()
         initRecyclerView()
 
         homeViewModel.currentTag.observe(viewLifecycleOwner, { selectedTab ->
 
-            if(homeViewModel.getProductsByTag(selectedTab).hasObservers())
-                homeViewModel.getProductsByTag(selectedTab).removeObservers(viewLifecycleOwner)
+            if(productViewModel.getAllByTag(selectedTab).hasObservers())
+                productViewModel.getAllByTag(selectedTab).removeObservers(viewLifecycleOwner)
 
             if(selectedTab == 0){
-                homeViewModel.getAll().observe(viewLifecycleOwner, {
+                productViewModel.getAll().observe(viewLifecycleOwner, {
 
                    productsAdapter.updateData(it)
 
                 })
             }else{
-                homeViewModel.getProductsByTag(selectedTab).observe(viewLifecycleOwner, {
+                productViewModel.getAllByTag(selectedTab).observe(viewLifecycleOwner, {
                     productsAdapter.updateData(it)
                 })
             }
         })
-
-
     }
 
     override fun onCreateView(

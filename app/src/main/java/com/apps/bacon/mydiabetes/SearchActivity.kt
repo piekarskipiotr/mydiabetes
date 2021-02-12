@@ -12,7 +12,7 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apps.bacon.mydiabetes.adapters.ProductsAdapter
 import com.apps.bacon.mydiabetes.data.Product
-import com.apps.bacon.mydiabetes.viewmodel.SearchViewModel
+import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_search.*
@@ -24,7 +24,7 @@ private const val REQUEST_CODE_GET_BARCODE = 2
 class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener {
     private lateinit var productsAdapter: ProductsAdapter
     private lateinit var allProducts: List<Product>
-    private val searchViewModel: SearchViewModel by viewModels()
+    private val productViewModel: ProductViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +35,7 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
 
         initRecyclerView()
 
-        searchViewModel.getAll().observe(this, {
+        productViewModel.getAll().observe(this, {
             allProducts = it
         })
 
@@ -123,7 +123,7 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
             REQUEST_CODE_GET_BARCODE -> {
                 if(resultCode == RESULT_OK){
                     data?.let {
-                        val product = searchViewModel.getProductByBarcode(it.getStringExtra("BARCODE")!!)
+                        val product = productViewModel.getProductByBarcode(it.getStringExtra("BARCODE")!!)
 
                         if(product == null){
                             Toast.makeText(this, "Nie ma takiego produktu z takim kodem kreskowym!", Toast.LENGTH_LONG).show()

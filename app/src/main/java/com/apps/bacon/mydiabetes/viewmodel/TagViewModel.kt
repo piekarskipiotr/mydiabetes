@@ -15,21 +15,26 @@ constructor(
     @Named("tag_repository")
     private val repository: TagRepository
 ) : ViewModel() {
-
     fun getAll() = repository.getAll()
 
-    fun getProductsByTag(id: Int) = repository.getProductsByTag(id)
+    fun getLastId() = repository.getLastId()
 
-    fun updateProduct(product: Product) = CoroutineScope(Dispatchers.Main).launch {
-        repository.updateProduct(product)
-    }
+    fun getTagById(id: Int) = repository.getTagById(id)
 
     fun insert(tag: Tag) = CoroutineScope(Dispatchers.Main).launch {
         repository.insert(tag)
     }
 
+    fun update(tag: Tag) = CoroutineScope(Dispatchers.Main).launch {
+        repository.update(tag)
+    }
+
     fun delete(tag: Tag) = CoroutineScope(Dispatchers.Main).launch {
         repository.delete(tag)
+    }
+
+    fun deleteById(id: Int) = CoroutineScope(Dispatchers.Main).launch {
+        repository.deleteById(id)
     }
 
 }

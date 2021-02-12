@@ -19,7 +19,9 @@ import com.apps.bacon.mydiabetes.databinding.DialogAddImageBinding
 import com.apps.bacon.mydiabetes.databinding.DialogDeleteProductBinding
 import com.apps.bacon.mydiabetes.databinding.DialogManagerImageBinding
 import com.apps.bacon.mydiabetes.databinding.DialogManagerTagBinding
+import com.apps.bacon.mydiabetes.viewmodel.ImageViewModel
 import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
+import com.apps.bacon.mydiabetes.viewmodel.TagViewModel
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
@@ -61,6 +63,8 @@ private const val REQUEST_CODE_GET_IMAGE_FROM_GALLERY = 5
 class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
     private lateinit var product: Product
     private val productViewModel: ProductViewModel by viewModels()
+    private val tagViewModel: TagViewModel by viewModels()
+    private val imageViewModel: ImageViewModel by viewModels()
     private lateinit var imagesAdapter: ImageAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,7 +78,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
         initRecyclerView()
         setProductInfo()
 
-        productViewModel.getImagesByProductId(product.id).observe(this, {
+        imageViewModel.getImageByProductId(product.id).observe(this, {
             imagesAdapter.updateData(it)
         })
 
@@ -117,7 +121,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
 
 
         addButton.setOnClickListener {
-            productViewModel.updateProduct(product.apply {
+            productViewModel.update(product.apply {
                 inFoodPlate = true
             })
 
@@ -166,7 +170,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
         if(product.tag == null)
             addChip("Ustaw tag", 0)
         else{
-            val tag = productViewModel.getTag(product.tag!!)
+            val tag = tagViewModel.getTagById(product.tag!!)
             addChip(tag.name, tag.id)
         }
 
@@ -218,7 +222,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
         }
 
         dialogBinding.deleteButton.setOnClickListener {
-            productViewModel.deleteProduct(product)
+            productViewModel.delete(product)
             alertDialog.dismiss()
             finish()
         }
@@ -241,7 +245,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
 
         dialogBinding.deleteButton.setOnClickListener {
             product.tag = null
-            productViewModel.updateProduct(product)
+            productViewModel.update(product)
             setProductInfo()
             alertDialog.dismiss()
         }
@@ -272,15 +276,15 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
 
         dialogBinding.deleteButton.setOnClickListener {
             product.icon = null
-            productViewModel.updateProduct(product)
-            productViewModel.deleteImage(image)
+            productViewModel.update(product)
+            imageViewModel.delete(image)
 
             alertDialog.dismiss()
         }
 
         dialogBinding.setAsIconButton.setOnClickListener {
             product.icon = image.image
-            productViewModel.updateProduct(product)
+            productViewModel.update(product)
             alertDialog.dismiss()
 
         }
@@ -328,19 +332,19 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
                     data?.let {
                         when {
                             it.getBooleanExtra("NEW_TAG", false) -> {
-                                product.tag = productViewModel.getLastId()
+                                product.tag = tagViewModel.getLastId()
                             }
                             else -> {
                                 product.tag = it.getIntExtra("TAG_ID", -1)
 
                             }
                         }
-                        productViewModel.updateProduct(product)
+                        productViewModel.update(product)
                         setProductInfo()
                     }
                 } else if (resultCode == RESULT_CANCELED) {
                     product.tag = null
-                    productViewModel.updateProduct(product)
+                    productViewModel.update(product)
                     setProductInfo()
                 }
             }
@@ -351,7 +355,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
                         when {
                             it.getBooleanExtra("DELETE_BARCODE", false) -> {
                                 product.barcode = null
-                                productViewModel.updateProduct(product)
+                                productViewModel.update(product)
                                 setProductInfo()
 
                             }
@@ -369,7 +373,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
                                     ).show()
                                 } else {
                                     product.barcode = barcode
-                                    productViewModel.updateProduct(product)
+                                    productViewModel.update(product)
                                     setProductInfo()
 
                                 }
@@ -383,7 +387,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
                 if (resultCode == RESULT_OK) {
                     data?.let {
                         product.name = it.getStringExtra("PRODUCT_NAME").toString()
-                        productViewModel.updateProduct(product)
+                        productViewModel.update(product)
                         setProductInfo()
                     }
                 }
@@ -393,7 +397,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
                 if (resultCode == RESULT_OK) {
                     data?.let {
                         val imageUri = it.getStringExtra("IMAGE_URI").toString()
-                        productViewModel.insertImage(
+                        imageViewModel.insert(
                             Image(0, product.id, imageUri)
                         )
                     }
@@ -414,7 +418,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
                         )
                         out.close()
 
-                        productViewModel.insertImage(
+                        imageViewModel.insert(
                             Image(0, product.id, Uri.fromFile(photoFile).toString())
                         )
                     }
