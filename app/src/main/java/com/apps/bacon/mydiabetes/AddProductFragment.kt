@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.apps.bacon.mydiabetes.databinding.DialogAddImageBinding
@@ -57,6 +58,9 @@ class AddProductFragment : Fragment() {
                 fatTextInputLayout.visibility = View.VISIBLE
                 caloriesTextInputLayout.visibility = View.GONE
             }
+        }
+        correctWeightTextInputLayout.setEndIconOnClickListener {
+            Toast.makeText(requireActivity(), "Jest to docelowa masa, wartości podane poniżej zostaną przekalkulowane dla tej właśnie masy.", Toast.LENGTH_LONG).show()
         }
         setOnChangeTextListeners()
 
