@@ -320,6 +320,8 @@ class AddProductFragment : Fragment() {
         pieChart.data = pieData
         pieChart.description.isEnabled = false
 
+        pieChart.legend.textColor = ContextCompat.getColor(requireActivity(), R.color.independent)
+
         pieChart.setDrawEntryLabels(false)
         pieChart.isDrawHoleEnabled = false
 

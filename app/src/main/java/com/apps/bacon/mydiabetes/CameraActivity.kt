@@ -17,6 +17,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_camera.*
 import java.io.File
+import java.security.AccessController.getContext
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
