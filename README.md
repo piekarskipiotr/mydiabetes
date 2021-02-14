@@ -38,5 +38,5 @@ Project is created with **Kotlin**.
 * Searching by image
 
 ## ☄ Download
-*The demo will be available on Sunday (14.02.2021)*
+[Download demo apk](https://github.com/piekarskipiotr/MyDiabetes2/blob/master/app/app-debug.apk)
 
