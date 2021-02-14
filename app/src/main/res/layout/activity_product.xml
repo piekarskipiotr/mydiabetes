@@ -29,7 +29,8 @@
                     android:layout_centerHorizontal="true"
                     android:text="Product Name"
                     android:textSize="22sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textAlignment="center"/>
                 <ImageView
                     android:id="@+id/backButton"
                     android:clickable="true"
