@@ -305,8 +305,10 @@ class AddProductFragment : Fragment() {
     private fun pieChart(carbohydrateExchangers: Double, proteinFatExchangers: Double){
         val pieChart: PieChart = bottomSheetDialogViewBinding.pieChart
         val data = ArrayList<PieEntry>()
-        data.add(PieEntry(carbohydrateExchangers.toFloat(), "Węglowodanowe"))
-        data.add(PieEntry(proteinFatExchangers.toFloat(), "Białkowo-tłuszczowe"))
+        if(carbohydrateExchangers != 0.0)
+            data.add(PieEntry(carbohydrateExchangers.toFloat(), "W. węglowodanowe"))
+        if(proteinFatExchangers != 0.0)
+            data.add(PieEntry(proteinFatExchangers.toFloat(), "W. białkowo-tłuszczowe"))
 
         val dataSet = PieDataSet(data, "")
         dataSet.setColors(
