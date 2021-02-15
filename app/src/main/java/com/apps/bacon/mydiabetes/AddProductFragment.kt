@@ -60,7 +60,11 @@ class AddProductFragment : Fragment() {
             }
         }
         correctWeightTextInputLayout.setEndIconOnClickListener {
-            Toast.makeText(requireActivity(), "Jest to docelowa masa, wartości podane poniżej zostaną przekalkulowane dla tej właśnie masy.", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireActivity(), "Jest to docelowa masa, wartości podane poniżej zostaną przekalkulowane dla tej masy.", Toast.LENGTH_LONG).show()
+        }
+
+        pieceTextInputLayout.setEndIconOnClickListener {
+            Toast.makeText(requireActivity(), "Jest to docelowa ilość, wartości podane poniżej zostaną przekalkulowane dla tej ilości.", Toast.LENGTH_LONG).show()
         }
         setOnChangeTextListeners()
 
