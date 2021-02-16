@@ -1,0 +1,34 @@
+[
+  {
+    "id": 50,
+    "name": "essa",
+    "weight": 30.0,
+    "pieces": null,
+    "carbohydrates": 50.0,
+    "calories": 800.0,
+    "protein": 60.0,
+    "fat": 80.0,
+    "carbohydrateExchangers": 5.0,
+    "proteinFatExchangers": 100.0,
+    "tag": null,
+    "barcode": null,
+    "inFoodPlate": null,
+    "icon": null
+  },
+  {
+    "id": 50,
+    "name": "essa2",
+    "weight": 30.0,
+    "pieces": null,
+    "carbohydrates": 50.0,
+    "calories": 800.0,
+    "protein": 60.0,
+    "fat": 80.0,
+    "carbohydrateExchangers": 5.0,
+    "proteinFatExchangers": 100.0,
+    "tag": null,
+    "barcode": null,
+    "inFoodPlate": null,
+    "icon": null
+  }
+]
