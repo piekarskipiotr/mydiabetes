@@ -3,6 +3,7 @@ package com.apps.bacon.mydiabetes
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
@@ -24,6 +25,12 @@ class HomeActivity : AppCompatActivity() {
         val homeViewModel: HomeViewModel by viewModels()
         val productViewModel: ProductViewModel by viewModels()
         val tagViewModel: TagViewModel by viewModels()
+
+        homeViewModel.getProducts()?.observe(this, {
+            for(product in it){
+                Log.d("PRODUCTS FROM API", product.name)
+            }
+        })
 
         tagViewModel.getAll().observe(this, {
             addTabs(it)

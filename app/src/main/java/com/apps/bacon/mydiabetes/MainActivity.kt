@@ -2,14 +2,27 @@ package com.apps.bacon.mydiabetes
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.appcompat.app.AppCompatDelegate.*
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
+import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
+import com.apps.bacon.mydiabetes.api.ProductsAPI
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 private const val DELAY: Long = 1000
+
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+    @Inject
+    lateinit var api: ProductsAPI
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val sharedPref = this.getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
         val theme = sharedPref.getInt("THEME", MODE_NIGHT_NO)
