@@ -17,7 +17,7 @@ Application for diabetes that help them calculate carbohydrates and protein-fat 
 This project is to provide diabetics with faster counting of products and finding them, it will allow you to forget about searching a notebook with stored products and save us from mistakes in calculations. All these factors are supposed to improve the quality of life of the user and help him maintain balanced diabetes.
 
 ## 🤓 Calculation methods
-The application allows us to calculate carbohydrate and protein-fat exchangers. There are probably many different calculation methods, those that have been implemented in this application are tested and used by me on a daily basis.
+There are probably many different calculation methods, those that have been implemented in this application are tested and used by me on a daily basis.
 
 ### 🍞 Carbohydrate exchangers
 When it comes to carbohydrate exchangers, the matter is very simple. The user gives us carbohydrates and we divide them by 10.
