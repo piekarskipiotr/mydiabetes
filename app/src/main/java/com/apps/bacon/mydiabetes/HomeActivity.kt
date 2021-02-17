@@ -3,6 +3,7 @@ package com.apps.bacon.mydiabetes
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.viewModels
@@ -28,7 +29,9 @@ class HomeActivity : AppCompatActivity() {
         val productViewModel: ProductViewModel by viewModels()
         val tagViewModel: TagViewModel by viewModels()
 
-        fetchDataDialog(homeViewModel)
+        if(!homeViewModel.isErrorWithFetchData){
+            fetchDataDialog(homeViewModel)
+        }
 
         tagViewModel.getAll().observe(this, {
             addTabs(it)
@@ -132,6 +135,7 @@ class HomeActivity : AppCompatActivity() {
         homeViewModel.getProducts()?.observe(this, {
             val size = it.size
             var i = 1
+
             dialogBinding.fetchingDataProgressBar.max = size
             for(product in it){
                 dialogBinding.counterText.text = "$i/$size"
@@ -140,12 +144,11 @@ class HomeActivity : AppCompatActivity() {
                 dialogBinding.productNameText.text = product.name
                 when (i) {
                     size -> {
-                        alertDialog.dismiss()
                         homeViewModel.getProducts()!!.removeObservers(this)
+                        alertDialog.dismiss()
                     }
                 }
             }
-
         })
 
         alertDialog.show()
