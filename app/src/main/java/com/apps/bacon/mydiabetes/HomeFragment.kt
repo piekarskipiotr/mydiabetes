@@ -32,7 +32,6 @@ class HomeFragment : Fragment(), ProductsAdapter.OnProductClickListener {
 
             if(selectedTab == 0){
                 productViewModel.getAll().observe(viewLifecycleOwner, {
-
                    productsAdapter.updateData(it)
 
                 })

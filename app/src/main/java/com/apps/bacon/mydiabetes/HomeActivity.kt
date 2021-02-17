@@ -3,12 +3,14 @@ package com.apps.bacon.mydiabetes
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE
 import com.apps.bacon.mydiabetes.data.*
+import com.apps.bacon.mydiabetes.databinding.DialogFetchDataFromServerBinding
 import com.apps.bacon.mydiabetes.viewmodel.*
 import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,11 +28,7 @@ class HomeActivity : AppCompatActivity() {
         val productViewModel: ProductViewModel by viewModels()
         val tagViewModel: TagViewModel by viewModels()
 
-        homeViewModel.getProducts()?.observe(this, {
-            for(product in it){
-                Log.d("PRODUCTS FROM API", product.name)
-            }
-        })
+        fetchDataDialog(homeViewModel)
 
         tagViewModel.getAll().observe(this, {
             addTabs(it)
@@ -123,6 +121,37 @@ class HomeActivity : AppCompatActivity() {
 
     }
 
-    override fun onBackPressed() {}
+    private fun fetchDataDialog(homeViewModel: HomeViewModel){
+        val builder = AlertDialog.Builder(this, R.style.DialogStyle)
+        val dialogBinding = DialogFetchDataFromServerBinding.inflate(LayoutInflater.from(this))
+        builder.setView(dialogBinding.root)
 
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.setCanceledOnTouchOutside(false)
+
+        homeViewModel.getProducts()?.observe(this, {
+            val size = it.size
+            var i = 1
+            dialogBinding.fetchingDataProgressBar.max = size
+            for(product in it){
+                dialogBinding.counterText.text = "$i/$size"
+                ++i
+
+                dialogBinding.productNameText.text = product.name
+                when (i) {
+                    size -> {
+                        alertDialog.dismiss()
+                        homeViewModel.getProducts()!!.removeObservers(this)
+                    }
+                }
+            }
+
+        })
+
+        alertDialog.show()
+    }
+
+    override fun onBackPressed() {
+
+    }
 }
