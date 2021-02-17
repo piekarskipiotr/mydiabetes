@@ -68,7 +68,9 @@ Project is created with **Kotlin**.
 * Food plate (just like shopping cart)
 
 #### 🎯 TO DO:
-* Create pre-database of products (Connection via REST-API)
+* English language
+* Saving meals
+* Creating a common database of products and meals by users
 * Searching by image
 
 ## ☄ Download
