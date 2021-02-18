@@ -12,7 +12,7 @@ class ThemeSettings : AppCompatActivity() {
         setContentView(R.layout.activity_theme_settings)
 
         val sharedPreference = this.getSharedPreferences(
-            "PREFERENCE_NAME",
+            "APP_PREFERENCES",
             Context.MODE_PRIVATE
         )
         val theme = sharedPreference.getInt("THEME", MODE_NIGHT_NO)
@@ -21,12 +21,6 @@ class ThemeSettings : AppCompatActivity() {
             turnOffRadioButton.isChecked = true
         }else if(theme == MODE_NIGHT_YES){
             turnOnRadioButton.isChecked = true
-        }
-
-        if(turnOnRadioButton.isChecked){
-            turnOnRadioButton.isEnabled = false
-        }else if(turnOffRadioButton.isChecked){
-            turnOffRadioButton.isEnabled = false
         }
 
         turnOnRadioButton.setOnClickListener {
