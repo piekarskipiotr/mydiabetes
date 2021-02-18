@@ -60,6 +60,7 @@ Project is created with **Kotlin**.
 * [Hilt](https://developer.android.com/training/dependency-injection/hilt-android)
 * [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart)
 * [Retrofit](https://square.github.io/retrofit/)
+* [OkHttp](https://square.github.io/okhttp/)
 
 ## 💡 Features
 * Easliy calculate carbohydrates and protein-fat exchangers
