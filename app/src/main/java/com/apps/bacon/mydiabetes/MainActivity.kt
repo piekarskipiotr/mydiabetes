@@ -24,8 +24,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var api: ProductsAPI
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val sharedPref = this.getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
-        val theme = sharedPref.getInt("THEME", MODE_NIGHT_NO)
+        val sharedPreference = this.getSharedPreferences("PREFERENCE_NAME", Context.MODE_PRIVATE)
+        val theme = sharedPreference.getInt("THEME", MODE_NIGHT_NO)
         setDefaultNightMode(theme)
         super.onCreate(savedInstanceState)
 
