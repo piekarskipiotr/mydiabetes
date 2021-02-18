@@ -25,6 +25,13 @@ class SettingsFragment : Fragment() {
             startActivity(intent)
 
         }
+
+        languageSettings.setOnClickListener {
+            val intent = Intent(requireActivity(), LanguageSettings::class.java)
+            startActivity(intent)
+
+        }
+
     }
 
     override fun onCreateView(
