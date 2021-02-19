@@ -19,7 +19,7 @@ object NetworkModule {
 
     @Provides
     fun providesBaseUrl(): String{
-        return "https://raw.githubusercontent.com/piekarskipiotr/MyDiabetes2/master/API/"
+        return "https://raw.githubusercontent.com/piekarskipiotr/mydiabetes/master/API/"
     }
 
     @Provides

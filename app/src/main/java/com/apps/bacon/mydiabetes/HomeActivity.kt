@@ -86,6 +86,11 @@ class HomeActivity : AppCompatActivity() {
                     true
                 }
 
+                R.id.meals_nav -> {
+                    changeFragment(MealsFragment(), resources.getString(R.string.meals), View.GONE)
+                    true
+                }
+
                 R.id.settings_nav -> {
                     changeFragment(SettingsFragment(), resources.getString(R.string.settings), View.GONE)
                     true

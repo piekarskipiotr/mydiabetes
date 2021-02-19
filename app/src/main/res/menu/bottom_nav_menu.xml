@@ -13,6 +13,12 @@
         android:contentDescription="@string/add"
         android:icon="@drawable/ic_round_add_box" />
     <item
+        android:id="@+id/meals_nav"
+        android:enabled="true"
+        android:title="@string/meals"
+        android:contentDescription="@string/meals"
+        android:icon="@drawable/ic_round_lunch_dining" />
+    <item
         android:id="@+id/settings_nav"
         android:enabled="true"
         android:title="@string/settings"
