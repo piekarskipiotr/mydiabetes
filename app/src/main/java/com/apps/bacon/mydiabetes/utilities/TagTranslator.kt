@@ -1,11 +1,10 @@
 package com.apps.bacon.mydiabetes.utilities
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import com.apps.bacon.mydiabetes.R
 import com.apps.bacon.mydiabetes.viewmodel.TagViewModel
 
-class TagTranslator : AppCompatActivity() {
+class TagTranslator{
 
     fun translate(tagViewModel: TagViewModel, context: Context){
         val listOfTags = listOf(
