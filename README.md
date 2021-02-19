@@ -67,9 +67,9 @@ Project is created with **Kotlin**.
 * Save your products
 * Searching by barcode
 * Food plate (just like shopping cart)
+* Support for English and Polish language
 
 #### 🎯 TO DO:
-* English language
 * Saving meals
 * Creating a common database of products and meals by users
 * Searching by image
