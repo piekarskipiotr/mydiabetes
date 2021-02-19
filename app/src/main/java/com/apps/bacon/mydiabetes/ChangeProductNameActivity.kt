@@ -4,13 +4,14 @@ import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_change_product_name.*
+import javax.inject.Inject
+import javax.inject.Named
 
 class ChangeProductNameActivity : AppCompatActivity() {
-
+    private val errorMessage: String = resources.getString(R.string.empty_field_message_error)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_change_product_name)
-        val errorMessage = "Pole nie może być puste"
 
         changeNameButton.setOnClickListener {
             if(productNameTextInput.text.isNullOrEmpty())

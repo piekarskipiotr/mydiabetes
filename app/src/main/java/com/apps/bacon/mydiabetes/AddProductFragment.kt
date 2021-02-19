@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.apps.bacon.mydiabetes.databinding.DialogAddImageBinding
 import com.apps.bacon.mydiabetes.databinding.DialogCalculatedExchangersBinding
 import com.apps.bacon.mydiabetes.utilities.Calculations
 import com.github.mikephil.charting.animation.Easing
@@ -23,19 +22,23 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_add_product.*
-import kotlin.math.round
+import javax.inject.Inject
+import javax.inject.Named
 
+@AndroidEntryPoint
 class AddProductFragment : Fragment() {
+    private lateinit var errorMessage: String
     private var measureStatus: Boolean = false
     private var valueStatus: Boolean = false
-    private val errorMessage = "Pole nie może być puste!"
     private lateinit var bottomSheetDialogViewBinding: DialogCalculatedExchangersBinding
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bottomSheetDialogViewBinding = DialogCalculatedExchangersBinding.inflate(layoutInflater)
         val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
+
+
+        errorMessage = resources.getString(R.string.empty_field_message_error)
 
         measureSwitch.setOnCheckedChangeListener { _, isChecked ->
             measureStatus = isChecked
@@ -60,11 +63,11 @@ class AddProductFragment : Fragment() {
             }
         }
         correctWeightTextInputLayout.setEndIconOnClickListener {
-            Toast.makeText(requireActivity(), "Jest to docelowa masa, wartości podane poniżej zostaną przekalkulowane dla tej masy.", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireActivity(), resources.getString(R.string.correct_weight_icon_message), Toast.LENGTH_LONG).show()
         }
 
         pieceTextInputLayout.setEndIconOnClickListener {
-            Toast.makeText(requireActivity(), "Jest to docelowa ilość, wartości podane poniżej zostaną przekalkulowane dla tej ilości.", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireActivity(), resources.getString(R.string.correct_pieces_icon_message), Toast.LENGTH_LONG).show()
         }
         setOnChangeTextListeners()
 
@@ -94,7 +97,8 @@ class AddProductFragment : Fragment() {
                     intent.putExtra("PIECES", pieces)
                     intent.putExtra("CORRECT_PIECES", correctPieces)
                     intent.putExtra("CARBOHYDRATES_SECOND", Calculations().carbohydratesByPieces(carbohydrate, pieces, correctPieces))
-                    bottomSheetDialogViewBinding.measureText.text = "dla $correctPieces szt. produktu"
+                    bottomSheetDialogViewBinding.measureText.text =
+                        "${resources.getString(R.string.for_smth)} $correctPieces ${resources.getString(R.string.pieces_shortcut)} ${resources.getString(R.string.for_product)}"
 
                     if(valueStatus){
                         calories = caloriesTextInput.text.toString().toDouble()
@@ -126,7 +130,8 @@ class AddProductFragment : Fragment() {
                     intent.putExtra("WEIGHT", weight)
                     intent.putExtra("CORRECT_WEIGHT", correctWeight)
                     intent.putExtra("CARBOHYDRATES_SECOND", Calculations().carbohydratesByWeight(carbohydrate, weight, correctWeight))
-                    bottomSheetDialogViewBinding.measureText.text = "dla produktu o masie: $correctWeight g/ml"
+                    bottomSheetDialogViewBinding.measureText.text =
+                        "${resources.getString(R.string.for_smth)} $correctWeight g/ml ${resources.getString(R.string.for_product)}"
 
                     if(valueStatus){
                         calories = caloriesTextInput.text.toString().toDouble()
@@ -310,9 +315,9 @@ class AddProductFragment : Fragment() {
         val pieChart: PieChart = bottomSheetDialogViewBinding.pieChart
         val data = ArrayList<PieEntry>()
         if(carbohydrateExchangers != 0.0)
-            data.add(PieEntry(carbohydrateExchangers.toFloat(), "W. węglowodanowe"))
+            data.add(PieEntry(carbohydrateExchangers.toFloat(), resources.getString(R.string.pie_label_carbohydrate)))
         if(proteinFatExchangers != 0.0)
-            data.add(PieEntry(proteinFatExchangers.toFloat(), "W. białkowo-tłuszczowe"))
+            data.add(PieEntry(proteinFatExchangers.toFloat(), resources.getString(R.string.pie_label_protein_fat)))
 
         val dataSet = PieDataSet(data, "")
         dataSet.setColors(

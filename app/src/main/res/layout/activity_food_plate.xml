@@ -24,7 +24,7 @@
                     android:paddingEnd="16dp"
                     android:paddingBottom="20dp"
                     android:layout_centerHorizontal="true"
-                    android:text="Twój talerz"
+                    android:text="@string/food_plate_label"
                     android:textSize="22sp"
                     android:textStyle="bold"/>
                 <ImageView
@@ -75,7 +75,7 @@
                 android:layout_marginBottom="15dp"
                 android:paddingBottom="5dp"
                 android:gravity="center"
-                android:text="Oblicz"
+                android:text="@string/calculate"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
         </com.google.android.material.circularreveal.cardview.CircularRevealCardView>

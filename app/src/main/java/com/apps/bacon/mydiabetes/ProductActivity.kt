@@ -125,7 +125,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
                 inFoodPlate = true
             })
 
-            Toast.makeText(this, "Dodano produkt", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, resources.getString(R.string.product_added), Toast.LENGTH_SHORT).show()
         }
 
         backButton.setOnClickListener {
@@ -148,9 +148,9 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
     private fun setProductInfo(){
         productName.text = product.name
         val measureText: String = if(product.weight != null)
-            "(dla masy ${product.weight} g/ml)"
+            "(${resources.getString(R.string.for_smth)} ${product.weight} g/ml)"
         else
-            "(dla masy ${product.pieces} szt.)"
+            "(${resources.getString(R.string.for_smth)} ${product.pieces} ${resources.getString(R.string.pieces_shortcut)})"
 
         measureOfProductValues.text = measureText
         measureOfProductExchangers.text = measureText
@@ -168,14 +168,14 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
         pieChart(product.carbohydrateExchangers, product.proteinFatExchangers)
 
         if(product.tag == null)
-            addChip("Ustaw tag", 0)
+            addChip(resources.getString(R.string.set_the_tag), 0)
         else{
             val tag = tagViewModel.getTagById(product.tag!!)
             addChip(tag.name, tag.id)
         }
 
         if(product.barcode == null){
-            manualBarcode.text = "Wprowadź barcode ręcznie"
+            manualBarcode.text = resources.getString(R.string.barcode_manually)
         }else{
             manualBarcode.text = product.barcode
         }
@@ -297,9 +297,9 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
         val pieChart: PieChart = pieChart
         val data = ArrayList<PieEntry>()
         if(carbohydrateExchangers != 0.0)
-            data.add(PieEntry(carbohydrateExchangers.toFloat(), "W. węglowodanowe"))
+            data.add(PieEntry(carbohydrateExchangers.toFloat(), resources.getString(R.string.pie_label_carbohydrate)))
         if(proteinFatExchangers != 0.0)
-            data.add(PieEntry(proteinFatExchangers.toFloat(), "W. białkowo-tłuszczowe"))
+            data.add(PieEntry(proteinFatExchangers.toFloat(), resources.getString(R.string.pie_label_protein_fat)))
 
         val dataSet = PieDataSet(data, "")
         dataSet.setColors(
@@ -370,7 +370,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
                                 if (productWithBarcode != null) {
                                     Toast.makeText(
                                         this,
-                                        "Istnieje już produkt z takim kodem kreskowym!",
+                                        resources.getString(R.string.barcode_exists_error_message),
                                         Toast.LENGTH_LONG
                                     ).show()
                                 } else {

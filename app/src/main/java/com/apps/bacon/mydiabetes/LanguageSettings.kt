@@ -24,22 +24,24 @@ class LanguageSettings : AppCompatActivity() {
         }
 
         polishRadioButton.setOnClickListener {
-            changeLanguage("pl")
             englishRadioButton.isChecked = false
             with(sharedPreference.edit()){
                 putString("APP_LANGUAGE", "pl")
                 apply()
             }
 
+            changeLanguage("pl")
+
         }
 
         englishRadioButton.setOnClickListener {
-            changeLanguage("en")
             polishRadioButton.isChecked = false
             with(sharedPreference.edit()){
                 putString("APP_LANGUAGE", "en")
                 apply()
             }
+
+            changeLanguage("en")
 
         }
 

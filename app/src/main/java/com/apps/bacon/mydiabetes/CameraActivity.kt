@@ -17,7 +17,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_camera.*
 import java.io.File
-import java.security.AccessController.getContext
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -25,6 +24,7 @@ class CameraActivity : AppCompatActivity(){
     private var imageCapture: ImageCapture? = null
     private lateinit var cameraExecutor: ExecutorService
 
+    @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
@@ -113,13 +113,14 @@ class CameraActivity : AppCompatActivity(){
         requestCode: Int, permissions: Array<String>, grantResults:
         IntArray
     ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (allPermissionsGranted()) {
                 startCamera()
             } else {
                 Toast.makeText(
                     this,
-                    "Odrzucono.",
+                    resources.getString(R.string.rejected),
                     Toast.LENGTH_SHORT
                 ).show()
                 finish()
@@ -127,7 +128,7 @@ class CameraActivity : AppCompatActivity(){
         } else {
             Toast.makeText(
                 this,
-                "Odrzucono.",
+                resources.getString(R.string.rejected),
                 Toast.LENGTH_SHORT
             ).show()
             finish()

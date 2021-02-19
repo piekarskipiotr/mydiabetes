@@ -29,7 +29,7 @@
                     android:paddingBottom="20dp"
                     android:layout_marginStart="54dp"
                     android:layout_marginEnd="70dp"
-                    android:text="Ustaw nazwę produktu"
+                    android:text="@string/set_name"
                     android:textSize="22sp"
                     android:textStyle="bold"
                     android:textAlignment="center"/>
@@ -87,7 +87,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginBottom="15dp"
                             android:gravity="start"
-                            android:text="Zapisz dla: "
+                            android:text="@string/save_for"
                             android:textSize="18sp"
                             android:textStyle="bold" />
 
@@ -96,8 +96,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:text="100g / 10g " />
+                            android:layout_centerVertical="true"/>
                     </RelativeLayout>
 
                     <LinearLayout
@@ -127,7 +126,7 @@
                                 android:layout_marginEnd="5dp"
                                 android:gravity="start"
                                 android:layout_gravity="center_vertical"
-                                android:text="Wartości"
+                                android:text="@string/values"
                                 android:textSize="18sp"
                                 android:textStyle="bold"/>
                             <TextView
@@ -135,7 +134,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:gravity="start|center_vertical"
-                                android:text="(dla masy 100g)"
                                 android:textSize="14sp"/>
                         </LinearLayout>
 
@@ -148,7 +146,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentStart="true"
-                                android:text="Węglowodany"
+                                android:text="@string/carbohydrates"
                                 android:textSize="18sp" />
 
                             <com.google.android.material.circularreveal.cardview.CircularRevealCardView
@@ -180,7 +178,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentStart="true"
-                                android:text="Kcal"
+                                android:text="@string/calories"
                                 android:textSize="18sp" />
 
                             <com.google.android.material.circularreveal.cardview.CircularRevealCardView
@@ -213,7 +211,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentStart="true"
-                                android:text="Białko"
+                                android:text="@string/protein"
                                 android:textSize="18sp" />
 
                             <com.google.android.material.circularreveal.cardview.CircularRevealCardView
@@ -246,7 +244,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentStart="true"
-                                android:text="Tłuszcz"
+                                android:text="@string/fat"
                                 android:textSize="18sp" />
 
                             <com.google.android.material.circularreveal.cardview.CircularRevealCardView
@@ -295,7 +293,7 @@
                                 android:layout_marginEnd="5dp"
                                 android:gravity="start"
                                 android:layout_gravity="center_vertical"
-                                android:text="Wymienniki"
+                                android:text="@string/exchangers"
                                 android:textSize="18sp"
                                 android:textStyle="bold"/>
                             <TextView
@@ -303,7 +301,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:gravity="start|center_vertical"
-                                android:text="(dla masy 100g)"
                                 android:textSize="14sp"/>
                         </LinearLayout>
 
@@ -391,7 +388,7 @@
                                     android:layout_marginTop="15dp"
                                     android:layout_marginBottom="15dp"
                                     android:drawablePadding="5dp"
-                                    android:text="Zeskanuj barcode"
+                                    android:text="@string/scan_barcode"
                                     android:textSize="18sp"
                                     android:textStyle="bold"
                                     app:drawableEndCompat="@drawable/ic_round_scan" />
@@ -404,45 +401,9 @@
                                 android:layout_gravity="center"
                                 android:layout_marginTop="5dp"
                                 android:layout_marginBottom="0dp"
-                                android:text="Wprowadź barcode ręcznie" />
+                                android:text="@string/barcode_manually" />
                         </LinearLayout>
-
-<!--                        <LinearLayout-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:orientation="vertical">-->
-
-<!--                            <com.google.android.material.circularreveal.cardview.CircularRevealCardView-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:clickable="true"-->
-<!--                                android:focusable="true"-->
-<!--                                android:foreground="?android:attr/selectableItemBackground">-->
-
-<!--                                <TextView-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="match_parent"-->
-<!--                                    android:layout_gravity="center"-->
-<!--                                    android:layout_marginTop="15dp"-->
-<!--                                    android:layout_marginBottom="15dp"-->
-<!--                                    android:drawablePadding="5dp"-->
-<!--                                    android:text="Dodaj zdjęcie"-->
-<!--                                    android:textSize="18sp"-->
-<!--                                    android:textStyle="bold"-->
-<!--                                    app:drawableEndCompat="@drawable/ic_round_photo_camera" />-->
-<!--                            </com.google.android.material.circularreveal.cardview.CircularRevealCardView>-->
-
-<!--&lt;!&ndash;                            <androidx.recyclerview.widget.RecyclerView&ndash;&gt;-->
-<!--&lt;!&ndash;                                android:id="@+id/photosRecyclerView"&ndash;&gt;-->
-<!--&lt;!&ndash;                                android:layout_width="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
-<!--&lt;!&ndash;                                android:layout_marginTop="15dp"&ndash;&gt;-->
-<!--&lt;!&ndash;                                android:layout_marginBottom="15dp"/>&ndash;&gt;-->
-<!--                        </LinearLayout>-->
-
                     </LinearLayout>
-
-
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
         </LinearLayout>
@@ -465,7 +426,7 @@
                 android:layout_marginBottom="15dp"
                 android:gravity="center"
                 android:paddingBottom="5dp"
-                android:text="Zapisz"
+                android:text="@string/save"
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </com.google.android.material.circularreveal.cardview.CircularRevealCardView>

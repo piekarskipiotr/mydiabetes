@@ -47,7 +47,6 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
 
         })
 
-
         object : SwipeToRemove(){
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 productViewModel.update(
@@ -55,7 +54,7 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
                         inFoodPlate = false
                     }
                 )
-                Toast.makeText(this@FoodPlateActivity, "Usunięto!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@FoodPlateActivity, resources.getString(R.string.removed_exclamation_mark), Toast.LENGTH_SHORT).show()
             }
         }.apply {
             ItemTouchHelper(this).attachToRecyclerView(foodRecyclerView)
@@ -108,8 +107,8 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
     private fun pieChart(carbohydrateExchangers: Double, proteinFatExchangers: Double, calories: Double){
         val pieChart: PieChart = bottomDialogBinding.pieChart
         val data = ArrayList<PieEntry>()
-        data.add(PieEntry(carbohydrateExchangers.toFloat(), "W. węglowodanowe"))
-        data.add(PieEntry(proteinFatExchangers.toFloat(), "W. białkowo-tłuszczowe"))
+        data.add(PieEntry(carbohydrateExchangers.toFloat(), resources.getString(R.string.pie_label_carbohydrate)))
+        data.add(PieEntry(proteinFatExchangers.toFloat(), resources.getString(R.string.pie_label_protein_fat)))
 
         val dataSet = PieDataSet(data, "")
         dataSet.setColors(
@@ -125,7 +124,7 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
         pieData.setValueFormatter(DefaultValueFormatter(1))
 
         pieChart.data = pieData
-        pieChart.centerText  = "$calories\nKaloryczność"
+        pieChart.centerText  = "$calories\n${resources.getString(R.string.calories_value)}"
         pieChart.description.isEnabled = false
 
         pieChart.legend.textColor = ContextCompat.getColor(this, R.color.independent)

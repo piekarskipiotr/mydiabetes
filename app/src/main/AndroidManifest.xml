@@ -17,8 +17,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyDiabetes">
+        <activity android:name=".utilities.TagTranslator"/>
         <activity android:name=".LanguageSettings"/>
-        <activity android:name=".ThemeSettings" />
+        <activity android:name=".ThemeSettings"/>
         <activity
             android:name=".CameraActivity"
             android:screenOrientation="portrait" />

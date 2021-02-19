@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.viewModels
@@ -18,19 +17,22 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_add_tag.*
+import javax.inject.Inject
+import javax.inject.Named
 
 @AndroidEntryPoint
 class AddTagActivity : AppCompatActivity() {
     private val productViewModel: ProductViewModel by viewModels()
     private val tagViewModel: TagViewModel by viewModels()
+    private val errorMessage: String = resources.getString(R.string.empty_field_message_error)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_tag)
-        val errorMessage = "Pole nie może być puste"
+
 
         if(intent.getBooleanExtra("TAG_SETTINGS", false))
-            headerText.text = "Zarządzanie tagami"
+            headerText.text = resources.getString(R.string.tag_management)
 
         if(intent.getBooleanExtra("TAG_MANAGER", false)){
             existingTagsLayout.visibility = View.VISIBLE

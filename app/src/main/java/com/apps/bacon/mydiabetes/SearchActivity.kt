@@ -26,6 +26,7 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
     private lateinit var allProducts: List<Product>
     private val productViewModel: ProductViewModel by viewModels()
 
+    @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -50,13 +51,14 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
 
             when {
                 searchList.isEmpty() -> {
-                    textMessage.text = "Brak produktu : ("
+                    textMessage.text = resources.getString(R.string.lack_product)
                     textMessage.visibility = View.VISIBLE
                     searchRecyclerView.visibility = View.GONE
 
                 }
                 searchTextInput.text.isNullOrEmpty() -> {
-                    textMessage.text = "Wpisz nazwę produktu aby go odszukać \n \n lub \n \n Zeskanuj kod kreskowy"
+                    textMessage.text =
+                        "${resources.getString(R.string.enter_product_name_to_find)} \n \n ${resources.getString(R.string.or)} \n \n ${resources.getString(R.string.scan_barcode)}"
                     textMessage.visibility = View.VISIBLE
                     searchRecyclerView.visibility = View.GONE
 
@@ -126,7 +128,7 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
                         val product = productViewModel.getProductByBarcode(it.getStringExtra("BARCODE")!!)
 
                         if(product == null){
-                            Toast.makeText(this, "Nie ma takiego produktu z takim kodem kreskowym!", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, resources.getString(R.string.search_by_barcode_error_message), Toast.LENGTH_LONG).show()
                         }else{
                             onProductClick(product.id)
                         }

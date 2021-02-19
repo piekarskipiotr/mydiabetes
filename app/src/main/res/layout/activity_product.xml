@@ -95,7 +95,7 @@
                                     android:layout_marginEnd="5dp"
                                     android:gravity="start"
                                     android:layout_gravity="center_vertical"
-                                    android:text="Wartości"
+                                    android:text="@string/values"
                                     android:textSize="18sp"
                                     android:textStyle="bold"/>
                                 <TextView
@@ -103,7 +103,6 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
                                     android:gravity="start|center_vertical"
-                                    android:text="(dla masy 100g)"
                                     android:textSize="14sp"/>
                             </LinearLayout>
 
@@ -115,7 +114,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentStart="true"
-                                    android:text="Węglowodany"
+                                    android:text="@string/carbohydrates"
                                     android:textSize="18sp"/>
                                 <com.google.android.material.circularreveal.cardview.CircularRevealCardView
                                     android:layout_width="wrap_content"
@@ -143,7 +142,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentStart="true"
-                                    android:text="Kcal"
+                                    android:text="@string/calories"
                                     android:textSize="18sp"/>
                                 <com.google.android.material.circularreveal.cardview.CircularRevealCardView
                                     android:layout_width="wrap_content"
@@ -172,7 +171,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentStart="true"
-                                    android:text="Białko"
+                                    android:text="@string/protein"
                                     android:textSize="18sp"/>
                                 <com.google.android.material.circularreveal.cardview.CircularRevealCardView
                                     android:layout_width="wrap_content"
@@ -201,7 +200,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentStart="true"
-                                    android:text="Tłuszcz"
+                                    android:text="@string/fat"
                                     android:textSize="18sp"/>
                                 <com.google.android.material.circularreveal.cardview.CircularRevealCardView
                                     android:layout_width="wrap_content"
@@ -246,7 +245,7 @@
                                     android:layout_marginEnd="5dp"
                                     android:gravity="start"
                                     android:layout_gravity="center_vertical"
-                                    android:text="Wymienniki"
+                                    android:text="@string/exchangers"
                                     android:textSize="18sp"
                                     android:textStyle="bold"/>
                                 <TextView
@@ -254,7 +253,6 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
                                     android:gravity="start|center_vertical"
-                                    android:text="(dla masy 100g)"
                                     android:textSize="14sp"/>
                             </LinearLayout>
 
@@ -329,7 +327,7 @@
                                         android:layout_marginTop="15dp"
                                         android:layout_marginBottom="15dp"
                                         android:layout_gravity="center"
-                                        android:text="Zeskanuj barcode"
+                                        android:text="@string/scan_barcode"
                                         android:textSize="18sp"
                                         android:textStyle="bold"
                                         app:drawableEndCompat="@drawable/ic_round_scan"
@@ -361,7 +359,7 @@
                                         android:layout_marginTop="15dp"
                                         android:layout_marginBottom="15dp"
                                         android:layout_gravity="center"
-                                        android:text="Dodaj zdjęcie"
+                                        android:text="@string/add_picture"
                                         android:textSize="18sp"
                                         android:textStyle="bold"
                                         app:drawableEndCompat="@drawable/ic_round_photo_camera"
@@ -398,7 +396,7 @@
                 android:layout_marginBottom="15dp"
                 android:paddingBottom="5dp"
                 android:gravity="center"
-                android:text="Dodaj"
+                android:text="@string/add"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
         </com.google.android.material.circularreveal.cardview.CircularRevealCardView>

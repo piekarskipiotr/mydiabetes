@@ -100,13 +100,14 @@ class ScannerCameraActivity : AppCompatActivity(){
         requestCode: Int, permissions: Array<String>, grantResults:
         IntArray
     ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (allPermissionsGranted()) {
                 startCamera()
             } else {
                 Toast.makeText(
                     this,
-                    "Odrzucono.",
+                    resources.getString(R.string.rejected),
                     Toast.LENGTH_SHORT
                 ).show()
                 finish()
@@ -114,7 +115,7 @@ class ScannerCameraActivity : AppCompatActivity(){
         } else {
             Toast.makeText(
                 this,
-                "Odrzucono.",
+                resources.getString(R.string.rejected),
                 Toast.LENGTH_SHORT
             ).show()
             finish()

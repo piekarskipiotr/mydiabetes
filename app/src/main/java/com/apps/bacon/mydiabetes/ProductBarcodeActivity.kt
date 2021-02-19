@@ -4,13 +4,18 @@ import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_product_barcode.*
+import javax.inject.Inject
+import javax.inject.Named
 
+@AndroidEntryPoint
 class ProductBarcodeActivity : AppCompatActivity() {
+    private val errorMessage: String = resources.getString(R.string.empty_field_message_error)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_barcode)
-        val errorMessage = "Pole nie może być puste"
 
         if(intent.getBooleanExtra("BARCODE", true)){
             deleteButton.visibility = View.GONE

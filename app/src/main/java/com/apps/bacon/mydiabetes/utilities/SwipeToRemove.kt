@@ -1,6 +1,5 @@
 package com.apps.bacon.mydiabetes.utilities
 
-import android.content.Context
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 

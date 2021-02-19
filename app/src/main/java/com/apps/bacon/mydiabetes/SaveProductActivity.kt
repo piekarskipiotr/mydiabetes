@@ -35,9 +35,6 @@ class SaveProductActivity : AppCompatActivity() {
     private val tagViewModel: TagViewModel by viewModels()
     private val productViewModel: ProductViewModel by viewModels()
 
-//    private lateinit var imagesAdapter: ImageAdapter
-//    private val tempProductId = -4
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_save_product)
@@ -53,18 +50,11 @@ class SaveProductActivity : AppCompatActivity() {
         var proteinFatExchangers = 0.0
         var carbohydrateExchangers = 0.0
         var selectedTagId: Int? = null
-//        val bottomSheetDialogCameraViewBinding = DialogAddImageBinding.inflate(layoutInflater)
-//        val bottomSheetDialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
-//        initRecyclerView()
 
         tagViewModel.getAll().observe(this, {
             addChips(this, it)
 
         })
-
-//        saveProductViewModel.getImagesByProductId(tempProductId).observe(this, {
-//            imagesAdapter.updateData(it)
-//        })
 
         if(measureStatus){
             if(bundle.get("PIECES") == bundle.get("CORRECT_PIECES")){
@@ -92,12 +82,12 @@ class SaveProductActivity : AppCompatActivity() {
             if(isChecked){
                 if(measureStatus){
                     pieces = bundle.get("CORRECT_PIECES") as Int
-                    textInfo = "(dla $pieces sztuk)"
+                    textInfo = "(${resources.getString(R.string.for_smth)} $pieces ${resources.getString(R.string.pieces_shortcut)})"
                     measureOfValues.text = textInfo
                     measureOfExchangers.text = textInfo
                 }else{
                     weight = bundle.get("CORRECT_WEIGHT") as Double
-                    textInfo = "(dla masy $weight g/ml)"
+                    textInfo = "(${resources.getString(R.string.for_smth)} $weight g/ml)"
                     measureOfValues.text = textInfo
                     measureOfExchangers.text = textInfo
                 }
@@ -123,12 +113,12 @@ class SaveProductActivity : AppCompatActivity() {
 
                 if(measureStatus){
                     pieces = bundle.get("PIECES") as Int
-                    textInfo = "(dla $pieces sztuk)"
+                    textInfo = "(${resources.getString(R.string.for_smth)} $pieces ${resources.getString(R.string.pieces_shortcut)})"
                     measureOfValues.text = textInfo
                     measureOfExchangers.text = textInfo
                 }else{
                     weight = bundle.get("WEIGHT") as Double
-                    textInfo = "(dla masy $weight g/ml)"
+                    textInfo = "(${resources.getString(R.string.for_smth)} $weight g/ml)"
                     measureOfValues.text = textInfo
                     measureOfExchangers.text = textInfo
                 }
@@ -174,23 +164,6 @@ class SaveProductActivity : AppCompatActivity() {
             startActivityForResult(intent, REQUEST_CODE_GET_BARCODE)
         }
 
-//
-//        takePhotoButton.setOnClickListener {
-//            bottomSheetDialog.setContentView(bottomSheetDialogCameraViewBinding.root)
-//            bottomSheetDialog.show()
-//
-//            bottomSheetDialogCameraViewBinding.cameraButton.setOnClickListener {
-//                intent = Intent(this, CameraActivity::class.java)
-//                startActivityForResult(intent, REQUEST_CODE_GET_IMAGE)
-//                bottomSheetDialog.dismiss()
-//            }
-//
-//            bottomSheetDialogCameraViewBinding.galleryButton.setOnClickListener {
-//                bottomSheetDialog.dismiss()
-//            }
-//
-//        }
-
         tagChipContainer.setOnCheckedChangeListener { _, checkedId ->
             if (checkedId == 0){
                 selectedTagId = null
@@ -208,7 +181,7 @@ class SaveProductActivity : AppCompatActivity() {
 
             when {
                 productViewModel.checkForProductExist(productName.text.toString()) -> {
-                    Toast.makeText(this, "Produkt o takiej nazwie już istnieje", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, resources.getString(R.string.product_name_exists_error_message), Toast.LENGTH_SHORT).show()
                 }
                 productName.text.isNullOrEmpty() -> {
                     productName.setTextColor(ResourcesCompat.getColor(resources, R.color.red, null))
@@ -264,7 +237,7 @@ class SaveProductActivity : AppCompatActivity() {
 
     private fun addChips(context: Context, listOfTags: List<Tag>){
         tagChipContainer.removeAllViewsInLayout()
-        tagChipContainer.addChip(context, "Dodaj tag", 0)
+        tagChipContainer.addChip(context, resources.getString(R.string.add_tag), 0)
         for (i in listOfTags.indices){
             tagChipContainer.addChip(context, listOfTags[i].name, listOfTags[i].id)
         }
@@ -315,9 +288,9 @@ class SaveProductActivity : AppCompatActivity() {
         val pieChart: PieChart = pieChart
         val data = ArrayList<PieEntry>()
         if(carbohydrateExchangers != 0.0)
-            data.add(PieEntry(carbohydrateExchangers.toFloat(), "W. węglowodanowe"))
+            data.add(PieEntry(carbohydrateExchangers.toFloat(), resources.getString(R.string.pie_label_carbohydrate)))
         if(proteinFatExchangers != 0.0)
-            data.add(PieEntry(proteinFatExchangers.toFloat(), "W. białkowo-tłuszczowe"))
+            data.add(PieEntry(proteinFatExchangers.toFloat(), resources.getString(R.string.pie_label_protein_fat)))
 
         val dataSet = PieDataSet(data, "")
         dataSet.setColors(
@@ -344,14 +317,6 @@ class SaveProductActivity : AppCompatActivity() {
         pieChart.animate()
     }
 
-//    private fun initRecyclerView(){
-//        photosRecyclerView.apply {
-//            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-//            imagesAdapter = ImageAdapter( this@SaveProductActivity)
-//            adapter = imagesAdapter
-//        }
-//    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when(requestCode){
@@ -374,7 +339,7 @@ class SaveProductActivity : AppCompatActivity() {
                                 val productWithBarcode = productViewModel.getProductByBarcode(barcode!!)
 
                                 if(productWithBarcode != null){
-                                    Toast.makeText(this, "Istnieje już produkt z takim kodem kreskowym!", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(this, resources.getString(R.string.barcode_exists_error_message), Toast.LENGTH_LONG).show()
                                 }else{
                                     manualBarcode.text = barcode
                                 }
@@ -383,19 +348,6 @@ class SaveProductActivity : AppCompatActivity() {
                     }
                 }
             }
-
-//            REQUEST_CODE_GET_IMAGE -> {
-//                if(resultCode == RESULT_OK){
-//                    data?.let {
-//                        val imageUri = it.getStringExtra("IMAGE_URI").toString()
-//                        saveProductViewModel.insertImage(
-//                            Image(0, tempProductId, imageUri)
-//                        )
-//
-//                    }
-//                }
-//
-//            }
         }
     }
 }

@@ -1,9 +1,10 @@
 package com.apps.bacon.mydiabetes
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.viewModels
@@ -12,22 +13,34 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE
 import com.apps.bacon.mydiabetes.data.*
 import com.apps.bacon.mydiabetes.databinding.DialogFetchDataFromServerBinding
+import com.apps.bacon.mydiabetes.utilities.TagTranslator
 import com.apps.bacon.mydiabetes.viewmodel.*
 import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_home.*
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
+    private lateinit var sharedPreference: SharedPreferences
+    private lateinit var lang: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
         supportFragmentManager.beginTransaction().replace(fragmentContainer.id, HomeFragment()).commit()
+        sharedPreference = this.getSharedPreferences(
+        "APP_PREFERENCES",
+            Context.MODE_PRIVATE
+        )
+        lang = sharedPreference.getString("APP_LANGUAGE", "pl") as String
 
         val homeViewModel: HomeViewModel by viewModels()
         val productViewModel: ProductViewModel by viewModels()
         val tagViewModel: TagViewModel by viewModels()
+
+        TagTranslator().translate(tagViewModel, this)
 
         if(!homeViewModel.isErrorWithFetchData){
             fetchDataDialog(homeViewModel)
@@ -64,17 +77,17 @@ class HomeActivity : AppCompatActivity() {
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
             when(item.itemId){
                 R.id.home_nav -> {
-                    changeFragment(HomeFragment(), "MyDiabetes", View.VISIBLE)
+                    changeFragment(HomeFragment(), resources.getString(R.string.app_name), View.VISIBLE)
                     true
                 }
 
                 R.id.add_nav -> {
-                    changeFragment(AddProductFragment(), "Kalkulacja wartości", View.GONE)
+                    changeFragment(AddProductFragment(), resources.getString(R.string.value_calculation), View.GONE)
                     true
                 }
 
                 R.id.settings_nav -> {
-                    changeFragment(SettingsFragment(), "Ustawienia", View.GONE)
+                    changeFragment(SettingsFragment(), resources.getString(R.string.settings), View.GONE)
                     true
                 }
 
@@ -98,7 +111,7 @@ class HomeActivity : AppCompatActivity() {
 
     private fun addTabs(listOfTags: List<Tag>){
         tabLayout.removeAllTabs()
-        tabLayout.addTab(tabLayout.newTab().setText("Wszystko")
+        tabLayout.addTab(tabLayout.newTab().setText(resources.getString(R.string.all))
             .apply {
                    tag = 0
                    }, 0, true)
@@ -156,5 +169,16 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val oldLang = lang
+
+        lang = sharedPreference.getString("APP_LANGUAGE", "pl") as String
+        if (oldLang != lang){
+            finish()
+            startActivity(intent)
+        }
     }
 }

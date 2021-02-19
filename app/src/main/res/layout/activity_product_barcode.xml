@@ -26,7 +26,7 @@
                     android:paddingEnd="16dp"
                     android:paddingBottom="20dp"
                     android:layout_centerHorizontal="true"
-                    android:text="Kod kreskowy"
+                    android:text="@string/barcode"
                     android:textSize="22sp"
                     android:textStyle="bold"/>
                 <ImageView
@@ -80,7 +80,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:hint="Kod kreskowy produktu"
+                    android:hint="@string/product_barcode"
                     app:errorEnabled="true"
                     style="@style/CustomInputLayout">
 
@@ -99,7 +99,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:text="Kod kreskowy możemy znaleźć na opakowaniu.\nKod znajduje się pod kreskami."
+                    android:text="@string/barcode_layout_message"
                     android:textSize="14sp"/>
             </LinearLayout>
 
@@ -122,7 +122,7 @@
                 android:layout_marginBottom="15dp"
                 android:paddingBottom="5dp"
                 android:gravity="center"
-                android:text="Zapisz"
+                android:text="@string/save"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
         </com.google.android.material.circularreveal.cardview.CircularRevealCardView>

@@ -23,7 +23,7 @@
                     android:paddingEnd="16dp"
                     android:paddingBottom="20dp"
                     android:layout_centerHorizontal="true"
-                    android:text="Tryb ciemny"
+                    android:text="@string/dark_mode"
                     android:textSize="22sp"
                     android:textStyle="bold"/>
                 <ImageView
@@ -58,7 +58,7 @@
                 android:layout_marginEnd="0dp"
                 android:layout_marginBottom="15dp"
                 android:textSize="18sp"
-                android:text="Wł."/>
+                android:text="@string/on"/>
 
             <RadioButton
                 android:id="@+id/turnOnRadioButton"
@@ -80,7 +80,7 @@
                 android:layout_marginEnd="0dp"
                 android:layout_marginBottom="15dp"
                 android:textSize="18sp"
-                android:text="Wył."/>
+                android:text="@string/off"/>
 
             <RadioButton
                 android:id="@+id/turnOffRadioButton"

@@ -34,7 +34,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"
-                            android:text="Waga:"
+                            android:text="@string/weight"
                             android:textSize="24sp"
                             android:textStyle="bold"/>
                         <com.google.android.material.switchmaterial.SwitchMaterial
@@ -43,7 +43,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            android:text="Waga / Sztuki "/>
+                            android:text="@string/w_p"/>
                     </RelativeLayout>
 
                     <LinearLayout
@@ -61,7 +61,7 @@
                             android:layout_marginEnd="5dp"
                             app:errorEnabled="true"
                             app:suffixText="g/ml"
-                            android:hint="Waga"
+                            android:hint="@string/weight"
                             style="@style/CustomInputLayout.OutlineBox">
 
                             <com.google.android.material.textfield.TextInputEditText
@@ -85,7 +85,7 @@
                             app:endIconDrawable="@drawable/ic_round_help_center"
                             app:endIconContentDescription="helpIcon"
                             app:suffixText="g/ml"
-                            android:hint="Waga właściwa"
+                            android:hint="@string/correct_weight"
                             style="@style/CustomInputLayout.OutlineBox">
 
                             <com.google.android.material.textfield.TextInputEditText
@@ -115,8 +115,8 @@
                             android:layout_weight="0.5"
                             android:layout_marginEnd="5dp"
                             app:errorEnabled="true"
-                            app:suffixText="szt."
-                            android:hint="1 Sztuka"
+                            app:suffixText="@string/pieces_shortcut"
+                            android:hint="@string/piece"
                             style="@style/CustomInputLayout.OutlineBox">
 
                             <com.google.android.material.textfield.TextInputEditText
@@ -139,8 +139,8 @@
                             app:endIconMode="custom"
                             app:endIconDrawable="@drawable/ic_round_help_center"
                             app:endIconContentDescription="helpIcon"
-                            app:suffixText="szt."
-                            android:hint="Ilość sztuk"
+                            app:suffixText="@string/pieces_shortcut"
+                            android:hint="@string/quantity"
                             style="@style/CustomInputLayout.OutlineBox">
 
                             <com.google.android.material.textfield.TextInputEditText
@@ -169,7 +169,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentStart="true"
                                 android:layout_centerVertical="true"
-                                android:text="Wartości:"
+                                android:text="@string/values"
                                 android:textSize="24sp"
                                 android:textStyle="bold"/>
                             <com.google.android.material.switchmaterial.SwitchMaterial
@@ -178,14 +178,14 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerVertical="true"
-                                android:text="Białko i tłuszcz / Kcal "/>
+                                android:text="@string/pf_c"/>
                         </RelativeLayout>
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/carbohydrateTextInputLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:errorEnabled="true"
-                            android:hint="Węglowodany"
+                            android:hint="@string/carbohydrates"
                             style="@style/CustomInputLayout.OutlineBox">
 
                             <com.google.android.material.textfield.TextInputEditText
@@ -203,7 +203,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:errorEnabled="true"
-                            android:hint="Białko"
+                            android:hint="@string/protein"
                             style="@style/CustomInputLayout.OutlineBox">
 
                             <com.google.android.material.textfield.TextInputEditText
@@ -221,7 +221,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:errorEnabled="true"
-                            android:hint="Tłuszcz"
+                            android:hint="@string/fat"
                             style="@style/CustomInputLayout.OutlineBox">
 
                             <com.google.android.material.textfield.TextInputEditText
@@ -240,7 +240,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:errorEnabled="true"
-                            android:hint="Kcal"
+                            android:hint="@string/calories"
                             style="@style/CustomInputLayout.OutlineBox">
 
                             <com.google.android.material.textfield.TextInputEditText
@@ -277,7 +277,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
                 android:gravity="center"
-                android:text="Oblicz"
+                android:text="@string/calculate"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
         </com.google.android.material.circularreveal.cardview.CircularRevealCardView>

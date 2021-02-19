@@ -1,5 +1,6 @@
 package com.apps.bacon.mydiabetes.adapters
 
+import android.content.Context
 import android.net.Uri
 import android.text.Editable
 import android.text.InputType
@@ -44,8 +45,8 @@ class FoodPlateAdapter constructor(
 
         override fun onClick(p0: View?) {
             listener.onProductClick(data[adapterPosition].id)
-        }
 
+        }
 
     }
 
@@ -55,15 +56,16 @@ class FoodPlateAdapter constructor(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val context = holder.itemView.context
         if (data[position].icon == null)
-            holder.icon.setImageDrawable(ContextCompat.getDrawable(holder.itemView.context, R.drawable.ic_round_dinner_dining))
+            holder.icon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_round_dinner_dining))
         else
             holder.icon.setImageURI(Uri.parse(data[position].icon))
 
         holder.productName.text = data[position].name
         if(data[position].weight == null){
             holder.measure.setText(data[position].pieces.toString())
-            holder.measureLayout.suffixText = "szt."
+            holder.measureLayout.suffixText = context.resources.getString(R.string.pieces_shortcut)
             holder.measure.inputType = InputType.TYPE_NUMBER_FLAG_SIGNED or InputType.TYPE_CLASS_NUMBER
         }else{
             holder.measure.setText(data[position].weight.toString())

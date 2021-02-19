@@ -23,7 +23,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Potwierdź usunięcie"
+            android:text="@string/confirm_del"
             android:textAlignment="center"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -32,7 +32,6 @@
             android:id="@+id/productNameText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ProductNamePlaceHolder"
             android:layout_marginTop="10dp"
             android:textAlignment="center"
             android:textSize="18sp"
@@ -44,7 +43,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="0dp"
-            android:text="Jesteś pewien że chcesz usunąć produkt? Tego nie można cofnąć."
+            android:text="@string/del_confirm_message"
             android:textAlignment="center"
             android:textSize="14sp" />
 
@@ -67,7 +66,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
             android:gravity="center"
-            android:text="Usuń"
+            android:text="@string/del"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/red"/>
@@ -89,7 +88,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
             android:gravity="center"
-            android:text="Powrót"
+            android:text="@string/go_back"
             android:textSize="16sp"
             android:textStyle="bold"/>
     </LinearLayout>

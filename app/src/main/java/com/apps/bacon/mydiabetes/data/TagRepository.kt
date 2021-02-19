@@ -13,7 +13,7 @@ class TagRepository @Inject constructor(
 
     suspend fun insert(tag: Tag) = database.tagDao().insert(tag)
 
-    suspend fun update(tag: Tag) = database.tagDao().insert(tag)
+    suspend fun update(tag: Tag) = database.tagDao().update(tag)
 
     suspend fun delete(tag: Tag) = database.tagDao().delete(tag)
 
