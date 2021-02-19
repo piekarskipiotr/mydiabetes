@@ -18,8 +18,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_search.*
 import java.util.*
 
-private const val REQUEST_CODE_GET_BARCODE = 2
-
 @AndroidEntryPoint
 class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener {
     private lateinit var productsAdapter: ProductsAdapter
@@ -136,5 +134,9 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
                 }
             }
         }
+    }
+
+    companion object{
+        private const val REQUEST_CODE_GET_BARCODE = 2
     }
 }

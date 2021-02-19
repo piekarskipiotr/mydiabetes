@@ -34,30 +34,12 @@ import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_product.*
 import kotlinx.android.synthetic.main.activity_product.backButton
-import kotlinx.android.synthetic.main.activity_product.calories
-import kotlinx.android.synthetic.main.activity_product.carbohydrates
 import kotlinx.android.synthetic.main.activity_product.deleteButton
-import kotlinx.android.synthetic.main.activity_product.fat
-import kotlinx.android.synthetic.main.activity_product.fatContainer
-import kotlinx.android.synthetic.main.activity_product.manualBarcode
-import kotlinx.android.synthetic.main.activity_product.pieChart
-import kotlinx.android.synthetic.main.activity_product.productName
-import kotlinx.android.synthetic.main.activity_product.protein
-import kotlinx.android.synthetic.main.activity_product.proteinContainer
-import kotlinx.android.synthetic.main.activity_product.scanBarcodeButton
-import kotlinx.android.synthetic.main.activity_product.tagChipContainer
-import kotlinx.android.synthetic.main.activity_save_product.*
 import kotlinx.android.synthetic.main.dialog_delete_product.*
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
-
-private const val REQUEST_CODE_GET_TAG = 1
-private const val REQUEST_CODE_GET_BARCODE = 2
-private const val REQUEST_CODE_PRODUCT_NAME = 3
-private const val REQUEST_CODE_GET_IMAGE = 4
-private const val REQUEST_CODE_GET_IMAGE_FROM_GALLERY = 5
 
 @AndroidEntryPoint
 class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
@@ -446,5 +428,13 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
 
     override fun onImageLongClick(image: Image) {
         dialogImageManager(image)
+    }
+
+    companion object{
+        private const val REQUEST_CODE_GET_TAG = 1
+        private const val REQUEST_CODE_GET_BARCODE = 2
+        private const val REQUEST_CODE_PRODUCT_NAME = 3
+        private const val REQUEST_CODE_GET_IMAGE = 4
+        private const val REQUEST_CODE_GET_IMAGE_FROM_GALLERY = 5
     }
 }

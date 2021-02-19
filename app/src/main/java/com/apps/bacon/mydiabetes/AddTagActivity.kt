@@ -17,8 +17,6 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_add_tag.*
-import javax.inject.Inject
-import javax.inject.Named
 
 @AndroidEntryPoint
 class AddTagActivity : AppCompatActivity() {

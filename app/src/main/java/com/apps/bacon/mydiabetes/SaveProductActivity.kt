@@ -27,9 +27,6 @@ import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_save_product.*
 
-private const val REQUEST_CODE_PRODUCT_NAME = 1
-private const val REQUEST_CODE_GET_BARCODE = 3
-
 @AndroidEntryPoint
 class SaveProductActivity : AppCompatActivity() {
     private val tagViewModel: TagViewModel by viewModels()
@@ -349,5 +346,10 @@ class SaveProductActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    companion object{
+        private const val REQUEST_CODE_PRODUCT_NAME = 1
+        private const val REQUEST_CODE_GET_BARCODE = 3
     }
 }
