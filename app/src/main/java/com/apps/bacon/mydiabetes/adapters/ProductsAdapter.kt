@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.apps.bacon.mydiabetes.R
 import com.apps.bacon.mydiabetes.data.Product
-import kotlinx.android.synthetic.main.product_item.view.*
+import com.apps.bacon.mydiabetes.databinding.ProductItemBinding
 import java.util.ArrayList
 
 class ProductsAdapter constructor(
@@ -18,7 +18,7 @@ class ProductsAdapter constructor(
 ) : RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
     private var data: List<Product> = ArrayList()
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
+    inner class ViewHolder(view: ProductItemBinding) : RecyclerView.ViewHolder(view.root), View.OnClickListener {
         val productName: TextView = view.productName
         val measure: TextView = view.measure
         val carbohydrateExchangers: TextView = view.carbohydrateExchangers
@@ -27,7 +27,7 @@ class ProductsAdapter constructor(
         val icon: ImageView = view.productIcon
 
         init {
-            view.setOnClickListener(this)
+            itemView.setOnClickListener(this)
         }
 
         override fun onClick(p0: View?) {
@@ -37,7 +37,7 @@ class ProductsAdapter constructor(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.product_item, parent, false)
+        val view = ProductItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(view)
     }
 

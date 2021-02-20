@@ -6,20 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.apps.bacon.mydiabetes.R
 import com.apps.bacon.mydiabetes.data.Image
-import kotlinx.android.synthetic.main.image_item.view.*
+import com.apps.bacon.mydiabetes.databinding.ImageItemBinding
 
 class ImageAdapter constructor(
     private val listener: OnImageClickListener
 ) : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
     private var data: List<Image> = ArrayList()
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnLongClickListener {
+    inner class ViewHolder(view: ImageItemBinding) : RecyclerView.ViewHolder(view.root), View.OnLongClickListener {
         val image: ImageView = view.productImage
 
         init {
-            view.setOnLongClickListener(this)
+            itemView.setOnLongClickListener(this)
         }
 
         override fun onLongClick(p0: View?): Boolean {
@@ -30,7 +29,7 @@ class ImageAdapter constructor(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.image_item, parent, false)
+        val view = ImageItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(view)
     }
 

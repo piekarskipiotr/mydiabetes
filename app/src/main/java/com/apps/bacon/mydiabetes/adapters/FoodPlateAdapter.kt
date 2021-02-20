@@ -1,6 +1,5 @@
 package com.apps.bacon.mydiabetes.adapters
 
-import android.content.Context
 import android.net.Uri
 import android.text.Editable
 import android.text.InputType
@@ -14,22 +13,17 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.apps.bacon.mydiabetes.R
 import com.apps.bacon.mydiabetes.data.Product
+import com.apps.bacon.mydiabetes.databinding.ProductItemFoodPlateBinding
 import com.apps.bacon.mydiabetes.utilities.Calculations
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.android.synthetic.main.product_item_food_plate.view.*
-import kotlinx.android.synthetic.main.product_item_food_plate.view.calories
-import kotlinx.android.synthetic.main.product_item_food_plate.view.carbohydrateExchangers
-import kotlinx.android.synthetic.main.product_item_food_plate.view.productIcon
-import kotlinx.android.synthetic.main.product_item_food_plate.view.productName
-import kotlinx.android.synthetic.main.product_item_food_plate.view.proteinFatExchangers
 
 class FoodPlateAdapter constructor(
     private val listener: OnProductClickListener
 ) : RecyclerView.Adapter<FoodPlateAdapter.ViewHolder>() {
     private var data: List<Product> = ArrayList()
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
+    inner class ViewHolder(view: ProductItemFoodPlateBinding) : RecyclerView.ViewHolder(view.root), View.OnClickListener {
         val productName: TextView = view.productName
         val measure: TextInputEditText = view.measureTextInput
         val measureLayout: TextInputLayout = view.measureTextInputLayout
@@ -39,7 +33,7 @@ class FoodPlateAdapter constructor(
         val icon: ImageView = view.productIcon
 
         init {
-            view.setOnClickListener(this)
+            itemView.setOnClickListener(this)
 
         }
 
@@ -51,8 +45,8 @@ class FoodPlateAdapter constructor(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.product_item_food_plate, parent, false)
+        val view =
+            ProductItemFoodPlateBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(view)
     }
 
