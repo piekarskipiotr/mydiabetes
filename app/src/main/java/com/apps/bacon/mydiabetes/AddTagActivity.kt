@@ -23,13 +23,15 @@ class AddTagActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddTagBinding
     private val productViewModel: ProductViewModel by viewModels()
     private val tagViewModel: TagViewModel by viewModels()
-    private val errorMessage: String = resources.getString(R.string.empty_field_message_error)
+    private lateinit var errorMessage: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddTagBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        errorMessage = resources.getString(R.string.empty_field_message_error)
 
         if (intent.getBooleanExtra("TAG_SETTINGS", false))
             binding.headerText.text = resources.getString(R.string.tag_management)

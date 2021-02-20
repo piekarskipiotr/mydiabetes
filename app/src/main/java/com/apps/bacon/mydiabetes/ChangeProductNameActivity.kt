@@ -6,13 +6,15 @@ import android.os.Bundle
 import com.apps.bacon.mydiabetes.databinding.ActivityChangeProductNameBinding
 
 class ChangeProductNameActivity : AppCompatActivity() {
-    private val errorMessage: String = resources.getString(R.string.empty_field_message_error)
+    private lateinit var errorMessage: String
     private lateinit var binding: ActivityChangeProductNameBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChangeProductNameBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        errorMessage = resources.getString(R.string.empty_field_message_error)
 
         binding.changeNameButton.setOnClickListener {
             if (binding.productNameTextInput.text.isNullOrEmpty())

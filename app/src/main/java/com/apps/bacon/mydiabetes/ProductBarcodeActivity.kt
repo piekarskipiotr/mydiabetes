@@ -9,7 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ProductBarcodeActivity : AppCompatActivity() {
-    private val errorMessage: String = resources.getString(R.string.empty_field_message_error)
+    private lateinit var errorMessage: String
     private lateinit var binding: ActivityProductBarcodeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,6 +17,8 @@ class ProductBarcodeActivity : AppCompatActivity() {
         binding = ActivityProductBarcodeBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        errorMessage = resources.getString(R.string.empty_field_message_error)
 
         if (intent.getBooleanExtra("BARCODE", true)) {
             binding.deleteButton.visibility = View.GONE
