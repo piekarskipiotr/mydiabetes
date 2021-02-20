@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
@@ -19,7 +20,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val sharedPreference = this.getSharedPreferences("APP_PREFERENCES", Context.MODE_PRIVATE)
         val theme = sharedPreference.getInt("THEME", MODE_NIGHT_NO)
-        val lang = sharedPreference.getString("APP_LANGUAGE", "pl") as String
+        val defaultLang = if(Locale.getDefault().toLanguageTag() == "pl-PL")
+            "pl-PL"
+        else
+            "en"
+
+        val lang = sharedPreference.getString("APP_LANGUAGE", defaultLang) as String
         changeLanguage(lang)
         setDefaultNightMode(theme)
         super.onCreate(savedInstanceState)

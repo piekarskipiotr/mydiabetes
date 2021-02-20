@@ -19,7 +19,12 @@ class LanguageSettings : AppCompatActivity() {
             Context.MODE_PRIVATE
         )
 
-        when (sharedPreference.getString("APP_LANGUAGE", "pl")) {
+        val defaultLang = if(Locale.getDefault().toLanguageTag() == "pl-PL")
+            "pl-PL"
+        else
+            "en"
+
+        when (sharedPreference.getString("APP_LANGUAGE", defaultLang)) {
             "en" -> binding.englishRadioButton.isChecked = true
             "pl" -> binding.polishRadioButton.isChecked = true
         }
