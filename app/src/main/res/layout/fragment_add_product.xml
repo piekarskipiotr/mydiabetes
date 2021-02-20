@@ -1,33 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
-            android:layout_above="@+id/calculateButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/calculateButton"
+            android:layout_alignParentTop="true"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
-            android:layout_alignParentTop="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:orientation="vertical"
                     android:paddingTop="15dp"
-                    android:paddingBottom="0dp"
-                    android:orientation="vertical">
+                    android:paddingBottom="0dp">
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp">
+
                         <TextView
                             android:id="@+id/typeOfTitle"
                             android:layout_width="wrap_content"
@@ -36,14 +41,15 @@
                             android:layout_centerVertical="true"
                             android:text="@string/weight"
                             android:textSize="24sp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
+
                         <com.google.android.material.switchmaterial.SwitchMaterial
                             android:id="@+id/measureSwitch"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            android:text="@string/w_p"/>
+                            android:text="@string/w_p" />
                     </RelativeLayout>
 
                     <LinearLayout
@@ -51,110 +57,112 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
-                        android:orientation="horizontal"
-                        android:baselineAligned="false">
+                        android:baselineAligned="false"
+                        android:orientation="horizontal">
+
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/weightTextInputLayout"
+                            style="@style/CustomInputLayout.OutlineBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.5"
                             android:layout_marginEnd="5dp"
-                            app:errorEnabled="true"
-                            app:suffixText="g/ml"
+                            android:layout_weight="0.5"
                             android:hint="@string/weight"
-                            style="@style/CustomInputLayout.OutlineBox">
+                            app:errorEnabled="true"
+                            app:suffixText="g/ml">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/weightTextInput"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="numberDecimal"
                                 android:imeOptions="actionNext"
-                                android:maxLength="3"
-                                />
+                                android:inputType="numberDecimal"
+                                android:maxLength="3" />
 
                         </com.google.android.material.textfield.TextInputLayout>
+
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/correctWeightTextInputLayout"
+                            style="@style/CustomInputLayout.OutlineBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.5"
                             android:layout_marginStart="5dp"
-                            app:errorEnabled="true"
-                            app:endIconMode="custom"
-                            app:endIconDrawable="@drawable/ic_round_help_center"
-                            app:endIconContentDescription="helpIcon"
-                            app:suffixText="g/ml"
+                            android:layout_weight="0.5"
                             android:hint="@string/correct_weight"
-                            style="@style/CustomInputLayout.OutlineBox">
+                            app:endIconContentDescription="helpIcon"
+                            app:endIconDrawable="@drawable/ic_round_help_center"
+                            app:endIconMode="custom"
+                            app:errorEnabled="true"
+                            app:suffixText="g/ml">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/correctWeightTextInput"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="numberDecimal"
                                 android:imeOptions="actionNext"
-                                android:maxLength="3"
-                                />
+                                android:inputType="numberDecimal"
+                                android:maxLength="3" />
 
                         </com.google.android.material.textfield.TextInputLayout>
 
                     </LinearLayout>
+
                     <LinearLayout
-                        android:visibility="gone"
                         android:id="@+id/pieceContainer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
+                        android:baselineAligned="false"
                         android:orientation="horizontal"
-                        android:baselineAligned="false">
+                        android:visibility="gone">
+
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/pieceTextInputLayout"
+                            style="@style/CustomInputLayout.OutlineBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.5"
                             android:layout_marginEnd="5dp"
-                            app:errorEnabled="true"
-                            app:suffixText="@string/pieces_shortcut"
+                            android:layout_weight="0.5"
                             android:hint="@string/piece"
-                            style="@style/CustomInputLayout.OutlineBox">
+                            app:errorEnabled="true"
+                            app:suffixText="@string/pieces_shortcut">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/pieceTextInput"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="number"
                                 android:imeOptions="actionNext"
-                                android:maxLength="3"
-                                />
+                                android:inputType="number"
+                                android:maxLength="3" />
 
                         </com.google.android.material.textfield.TextInputLayout>
+
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/correctPieceTextInputLayout"
+                            style="@style/CustomInputLayout.OutlineBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.5"
                             android:layout_marginStart="5dp"
-                            app:errorEnabled="true"
-                            app:endIconMode="custom"
-                            app:endIconDrawable="@drawable/ic_round_help_center"
-                            app:endIconContentDescription="helpIcon"
-                            app:suffixText="@string/pieces_shortcut"
+                            android:layout_weight="0.5"
                             android:hint="@string/quantity"
-                            style="@style/CustomInputLayout.OutlineBox">
+                            app:endIconContentDescription="helpIcon"
+                            app:endIconDrawable="@drawable/ic_round_help_center"
+                            app:endIconMode="custom"
+                            app:errorEnabled="true"
+                            app:suffixText="@string/pieces_shortcut">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/correctPieceTextInput"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="number"
                                 android:imeOptions="actionNext"
-                                android:maxLength="3"
-                                />
+                                android:inputType="number"
+                                android:maxLength="3" />
 
                         </com.google.android.material.textfield.TextInputLayout>
 
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -164,6 +172,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="5dp">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -171,86 +180,87 @@
                                 android:layout_centerVertical="true"
                                 android:text="@string/values"
                                 android:textSize="24sp"
-                                android:textStyle="bold"/>
+                                android:textStyle="bold" />
+
                             <com.google.android.material.switchmaterial.SwitchMaterial
                                 android:id="@+id/valuesSwitch"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerVertical="true"
-                                android:text="@string/pf_c"/>
+                                android:text="@string/pf_c" />
                         </RelativeLayout>
+
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/carbohydrateTextInputLayout"
+                            style="@style/CustomInputLayout.OutlineBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:errorEnabled="true"
                             android:hint="@string/carbohydrates"
-                            style="@style/CustomInputLayout.OutlineBox">
+                            app:errorEnabled="true">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/carbohydrateTextInput"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="numberDecimal"
                                 android:imeOptions="actionNext"
-                                android:maxLength="6"
-                                />
+                                android:inputType="numberDecimal"
+                                android:maxLength="6" />
 
                         </com.google.android.material.textfield.TextInputLayout>
+
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/proteinTextInputLayout"
+                            style="@style/CustomInputLayout.OutlineBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:errorEnabled="true"
                             android:hint="@string/protein"
-                            style="@style/CustomInputLayout.OutlineBox">
+                            app:errorEnabled="true">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/proteinTextInput"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="numberDecimal"
                                 android:imeOptions="actionNext"
-                                android:maxLength="6"
-                                />
+                                android:inputType="numberDecimal"
+                                android:maxLength="6" />
 
                         </com.google.android.material.textfield.TextInputLayout>
+
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/fatTextInputLayout"
+                            style="@style/CustomInputLayout.OutlineBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:errorEnabled="true"
                             android:hint="@string/fat"
-                            style="@style/CustomInputLayout.OutlineBox">
+                            app:errorEnabled="true">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/fatTextInput"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="numberDecimal"
                                 android:imeOptions="actionDone"
-                                android:maxLength="6"
-                                />
+                                android:inputType="numberDecimal"
+                                android:maxLength="6" />
 
                         </com.google.android.material.textfield.TextInputLayout>
+
                         <com.google.android.material.textfield.TextInputLayout
-                            android:visibility="gone"
                             android:id="@+id/caloriesTextInputLayout"
+                            style="@style/CustomInputLayout.OutlineBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:errorEnabled="true"
                             android:hint="@string/calories"
-                            style="@style/CustomInputLayout.OutlineBox">
+                            android:visibility="gone"
+                            app:errorEnabled="true">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/caloriesTextInput"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="numberDecimal"
                                 android:imeOptions="actionDone"
-                                android:maxLength="6"
-                                />
+                                android:inputType="numberDecimal"
+                                android:maxLength="6" />
 
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
@@ -260,17 +270,18 @@
 
         <com.google.android.material.circularreveal.cardview.CircularRevealCardView
             android:id="@+id/calculateButton"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_marginStart="25dp"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="25dp"
             android:layout_marginBottom="76dp"
-            android:layout_alignParentBottom="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             app:cardBackgroundColor="@color/green">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -279,7 +290,7 @@
                 android:gravity="center"
                 android:text="@string/calculate"
                 android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
         </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
     </RelativeLayout>

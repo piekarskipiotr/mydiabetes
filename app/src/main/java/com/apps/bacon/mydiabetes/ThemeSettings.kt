@@ -15,12 +15,10 @@ class ThemeSettings : AppCompatActivity() {
             "APP_PREFERENCES",
             Context.MODE_PRIVATE
         )
-        val theme = sharedPreference.getInt("THEME", MODE_NIGHT_NO)
 
-        if(theme == MODE_NIGHT_NO){
-            turnOffRadioButton.isChecked = true
-        }else if(theme == MODE_NIGHT_YES){
-            turnOnRadioButton.isChecked = true
+        when (sharedPreference.getInt("THEME", MODE_NIGHT_NO)) {
+            MODE_NIGHT_NO -> turnOffRadioButton.isChecked = true
+            MODE_NIGHT_YES -> turnOnRadioButton.isChecked = true
         }
 
         turnOnRadioButton.setOnClickListener {

@@ -15,17 +15,15 @@ class LanguageSettings : AppCompatActivity() {
             "APP_PREFERENCES",
             Context.MODE_PRIVATE
         )
-        val lang = sharedPreference.getString("APP_LANGUAGE", "pl")
 
-        if(lang == "en"){
-            englishRadioButton.isChecked = true
-        }else if(lang == "pl"){
-            polishRadioButton.isChecked = true
+        when (sharedPreference.getString("APP_LANGUAGE", "pl")) {
+            "en" -> englishRadioButton.isChecked = true
+            "pl" -> polishRadioButton.isChecked = true
         }
 
         polishRadioButton.setOnClickListener {
             englishRadioButton.isChecked = false
-            with(sharedPreference.edit()){
+            with(sharedPreference.edit()) {
                 putString("APP_LANGUAGE", "pl")
                 apply()
             }
@@ -36,7 +34,7 @@ class LanguageSettings : AppCompatActivity() {
 
         englishRadioButton.setOnClickListener {
             polishRadioButton.isChecked = false
-            with(sharedPreference.edit()){
+            with(sharedPreference.edit()) {
                 putString("APP_LANGUAGE", "en")
                 apply()
             }
@@ -51,7 +49,7 @@ class LanguageSettings : AppCompatActivity() {
     }
 
     @Suppress("DEPRECATION")
-    private fun changeLanguage(languageCode: String){
+    private fun changeLanguage(languageCode: String) {
         val config = resources.configuration
         val locale = Locale(languageCode)
 

@@ -17,15 +17,14 @@ class ProductBarcodeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_barcode)
 
-        if(intent.getBooleanExtra("BARCODE", true)){
+        if (intent.getBooleanExtra("BARCODE", true)) {
             deleteButton.visibility = View.GONE
         }
 
         saveButton.setOnClickListener {
-            if(barcodeTextInput.text.isNullOrEmpty())
+            if (barcodeTextInput.text.isNullOrEmpty())
                 barcodeTextInputLayout.error = errorMessage
-
-            else{
+            else {
                 barcodeTextInputLayout.error = null
                 intent.putExtra("BARCODE", barcodeTextInput.text.toString().trim())
                 setResult(Activity.RESULT_OK, intent)

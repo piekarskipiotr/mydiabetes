@@ -76,13 +76,13 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
 
         manualBarcode.setOnClickListener {
             intent = Intent(this, ProductBarcodeActivity::class.java)
-            if(product.barcode != null)
+            if (product.barcode != null)
                 intent.putExtra("BARCODE", false)
 
             startActivityForResult(intent, REQUEST_CODE_GET_BARCODE)
         }
 
-        takePhotoButton.setOnClickListener{
+        takePhotoButton.setOnClickListener {
             bottomSheetDialog.setContentView(bottomSheetDialogCameraViewBinding.root)
             bottomSheetDialog.show()
 
@@ -107,7 +107,8 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
                 inFoodPlate = true
             })
 
-            Toast.makeText(this, resources.getString(R.string.product_added), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, resources.getString(R.string.product_added), Toast.LENGTH_SHORT)
+                .show()
         }
 
         backButton.setOnClickListener {
@@ -119,7 +120,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
         }
     }
 
-    private fun initRecyclerView(){
+    private fun initRecyclerView() {
         photosRecyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             imagesAdapter = ImageAdapter(this@ProductActivity)
@@ -127,9 +128,9 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
         }
     }
 
-    private fun setProductInfo(){
+    private fun setProductInfo() {
         productName.text = product.name
-        val measureText: String = if(product.weight != null)
+        val measureText: String = if (product.weight != null)
             "(${resources.getString(R.string.for_smth)} ${product.weight} g/ml)"
         else
             "(${resources.getString(R.string.for_smth)} ${product.pieces} ${resources.getString(R.string.pieces_shortcut)})"
@@ -139,46 +140,46 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
 
         carbohydrates.text = product.carbohydrates.toString()
         calories.text = product.calories.toString()
-        if(product.protein != null){
+        if (product.protein != null) {
             protein.text = product.protein.toString()
             fat.text = product.fat.toString()
-        }else{
+        } else {
             proteinContainer.visibility = View.GONE
             fatContainer.visibility = View.GONE
         }
 
         pieChart(product.carbohydrateExchangers, product.proteinFatExchangers)
 
-        if(product.tag == null)
+        if (product.tag == null)
             addChip(resources.getString(R.string.set_the_tag), 0)
-        else{
+        else {
             val tag = tagViewModel.getTagById(product.tag!!)
             addChip(tag.name, tag.id)
         }
 
-        if(product.barcode == null){
+        if (product.barcode == null) {
             manualBarcode.text = resources.getString(R.string.barcode_manually)
-        }else{
+        } else {
             manualBarcode.text = product.barcode
         }
     }
 
-    private fun addChip(label: String, ID: Int){
+    private fun addChip(label: String, ID: Int) {
         tagChipContainer.removeAllViewsInLayout()
         tagChipContainer.addChip(label, ID)
         tagChipContainer[0].setOnClickListener {
-            if(product.tag == null){
+            if (product.tag == null) {
                 intent = Intent(this, AddTagActivity::class.java)
                 intent.putExtra("TAG_MANAGER", true)
                 startActivityForResult(intent, REQUEST_CODE_GET_TAG)
-            }else
+            } else
                 dialogManagerTag(label)
 
         }
 
     }
 
-    private fun ChipGroup.addChip(label: String, ID: Int){
+    private fun ChipGroup.addChip(label: String, ID: Int) {
         Chip(this@ProductActivity, null, R.attr.CustomChip).apply {
             id = ID
             text = label
@@ -189,7 +190,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
         }
     }
 
-    private fun dialogDeleteProduct(){
+    private fun dialogDeleteProduct() {
         val alertDialog: AlertDialog
         val builder = AlertDialog.Builder(this, R.style.DialogStyle)
         val dialogBinding = DialogDeleteProductBinding.inflate(LayoutInflater.from(this))
@@ -211,7 +212,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
         alertDialog.show()
     }
 
-    private fun dialogManagerTag(tagName: String){
+    private fun dialogManagerTag(tagName: String) {
         val alertDialog: AlertDialog
         val builder = AlertDialog.Builder(this, R.style.DialogStyle)
         val dialogBinding = DialogManagerTagBinding.inflate(LayoutInflater.from(this))
@@ -242,7 +243,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
         alertDialog.show()
     }
 
-    private fun dialogImageManager(image: Image){
+    private fun dialogImageManager(image: Image) {
         val alertDialog: AlertDialog
         val builder = AlertDialog.Builder(this, R.style.DialogStyle)
         val dialogBinding = DialogManagerImageBinding.inflate(LayoutInflater.from(this))
@@ -275,13 +276,23 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
         alertDialog.show()
     }
 
-    private fun pieChart(carbohydrateExchangers: Double, proteinFatExchangers: Double){
+    private fun pieChart(carbohydrateExchangers: Double, proteinFatExchangers: Double) {
         val pieChart: PieChart = pieChart
         val data = ArrayList<PieEntry>()
-        if(carbohydrateExchangers != 0.0)
-            data.add(PieEntry(carbohydrateExchangers.toFloat(), resources.getString(R.string.pie_label_carbohydrate)))
-        if(proteinFatExchangers != 0.0)
-            data.add(PieEntry(proteinFatExchangers.toFloat(), resources.getString(R.string.pie_label_protein_fat)))
+        if (carbohydrateExchangers != 0.0)
+            data.add(
+                PieEntry(
+                    carbohydrateExchangers.toFloat(),
+                    resources.getString(R.string.pie_label_carbohydrate)
+                )
+            )
+        if (proteinFatExchangers != 0.0)
+            data.add(
+                PieEntry(
+                    proteinFatExchangers.toFloat(),
+                    resources.getString(R.string.pie_label_protein_fat)
+                )
+            )
 
         val dataSet = PieDataSet(data, "")
         dataSet.setColors(
@@ -310,26 +321,30 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        when(requestCode){
+        when (requestCode) {
             REQUEST_CODE_GET_TAG -> {
-                if (resultCode == RESULT_OK) {
-                    data?.let {
-                        when {
-                            it.getBooleanExtra("NEW_TAG", false) -> {
-                                product.tag = tagViewModel.getLastId()
-                            }
-                            else -> {
-                                product.tag = it.getIntExtra("TAG_ID", -1)
+                when (resultCode) {
+                    RESULT_OK -> {
+                        data?.let {
+                            when {
+                                it.getBooleanExtra("NEW_TAG", false) -> {
+                                    product.tag = tagViewModel.getLastId()
+                                }
+                                else -> {
+                                    product.tag = it.getIntExtra("TAG_ID", -1)
 
+                                }
                             }
+                            productViewModel.update(product)
+                            setProductInfo()
                         }
+                    }
+
+                    RESULT_CANCELED -> {
+                        product.tag = null
                         productViewModel.update(product)
                         setProductInfo()
                     }
-                } else if (resultCode == RESULT_CANCELED) {
-                    product.tag = null
-                    productViewModel.update(product)
-                    setProductInfo()
                 }
             }
 
@@ -411,14 +426,14 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
         }
     }
 
-    private fun getBytes(inputStream: InputStream): ByteArray{
+    private fun getBytes(inputStream: InputStream): ByteArray {
         val byteBuffer = ByteArrayOutputStream()
         val bufferSize = 1024
         val buffer = ByteArray(bufferSize)
 
-        while(true){
+        while (true) {
             val len = inputStream.read(buffer)
-            if(len != -1)
+            if (len != -1)
                 byteBuffer.write(buffer, 0, len)
             else
                 break
@@ -430,7 +445,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
         dialogImageManager(image)
     }
 
-    companion object{
+    companion object {
         private const val REQUEST_CODE_GET_TAG = 1
         private const val REQUEST_CODE_GET_BARCODE = 2
         private const val REQUEST_CODE_PRODUCT_NAME = 3

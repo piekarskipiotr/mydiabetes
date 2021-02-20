@@ -14,35 +14,13 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(ApplicationComponent::class)
-object AppModule{
+object AppModule {
 
     @Provides
     @Singleton
     fun provideRunningDatabase(
         @ApplicationContext context: Context
     ) = AppDatabase.getInstance(context)
-
-//    @Provides
-//    @Named("emptyFieldErrorMessage")
-//    fun provideErrorEmptyFieldMessage(
-//        @ApplicationContext context: Context
-//    ) = context.resources.getString(R.string.empty_field_message_error)
-//
-//
-//    @Provides
-//    fun provideListOfTags(
-//        @ApplicationContext context: Context
-//    ): List<String> = listOf(
-//        context.resources.getString(R.string.meat),
-//        context.resources.getString(R.string.fish),
-//        context.resources.getString(R.string.protein),
-//        context.resources.getString(R.string.bread),
-//        context.resources.getString(R.string.vegetables_and_fruits),
-//        context.resources.getString(R.string.sweets_and_snacks),
-//        context.resources.getString(R.string.drinks),
-//        context.resources.getString(R.string.nuts),
-//        context.resources.getString(R.string.others)
-//    )
 
     @Provides
     @Singleton

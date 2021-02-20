@@ -2,26 +2,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/home_nav"
-        android:enabled="true"
-        android:title="@string/home_page"
         android:contentDescription="@string/home_page"
-        android:icon="@drawable/ic_round_dashboard" />
+        android:enabled="true"
+        android:icon="@drawable/ic_round_dashboard"
+        android:title="@string/home_page" />
     <item
         android:id="@+id/add_nav"
-        android:enabled="true"
-        android:title="@string/add"
         android:contentDescription="@string/add"
-        android:icon="@drawable/ic_round_add_box" />
+        android:enabled="true"
+        android:icon="@drawable/ic_round_add_box"
+        android:title="@string/add" />
     <item
         android:id="@+id/meals_nav"
-        android:enabled="true"
-        android:title="@string/meals"
         android:contentDescription="@string/meals"
-        android:icon="@drawable/ic_round_lunch_dining" />
+        android:enabled="true"
+        android:icon="@drawable/ic_round_lunch_dining"
+        android:title="@string/meals" />
     <item
         android:id="@+id/settings_nav"
-        android:enabled="true"
-        android:title="@string/settings"
         android:contentDescription="@string/settings"
-        android:icon="@drawable/ic_round_settings_applications" />
+        android:enabled="true"
+        android:icon="@drawable/ic_round_settings_applications"
+        android:title="@string/settings" />
 </menu>

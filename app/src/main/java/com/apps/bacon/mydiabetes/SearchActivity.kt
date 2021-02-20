@@ -27,7 +27,10 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
     @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        );
         setContentView(R.layout.activity_search)
 
         val searchList = mutableListOf<Product>()
@@ -40,9 +43,10 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
 
         searchTextInput.onTextChanged {
             searchList.clear()
-            for(i in allProducts){
-                if(i.name.toLowerCase(Locale.getDefault())
-                        .contains(it.toString().toLowerCase(Locale.getDefault()))){
+            for (i in allProducts) {
+                if (i.name.toLowerCase(Locale.getDefault())
+                        .contains(it.toString().toLowerCase(Locale.getDefault()))
+                ) {
                     searchList.add(i)
                 }
             }
@@ -56,7 +60,11 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
                 }
                 searchTextInput.text.isNullOrEmpty() -> {
                     textMessage.text =
-                        "${resources.getString(R.string.enter_product_name_to_find)} \n \n ${resources.getString(R.string.or)} \n \n ${resources.getString(R.string.scan_barcode)}"
+                        "${resources.getString(R.string.enter_product_name_to_find)} \n \n ${
+                            resources.getString(
+                                R.string.or
+                            )
+                        } \n \n ${resources.getString(R.string.scan_barcode)}"
                     textMessage.visibility = View.VISIBLE
                     searchRecyclerView.visibility = View.GONE
 
@@ -82,12 +90,12 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
 
     }
 
-    private fun initRecyclerView(){
+    private fun initRecyclerView() {
         searchRecyclerView.apply {
             layoutManager = LinearLayoutManager(context).apply {
                 reverseLayout = true
             }
-            productsAdapter = ProductsAdapter( this@SearchActivity)
+            productsAdapter = ProductsAdapter(this@SearchActivity)
             adapter = productsAdapter
 
         }
@@ -100,7 +108,7 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
 
     }
 
-    private fun TextInputEditText.onTextChanged(onTextChanged: (CharSequence?) -> Unit){
+    private fun TextInputEditText.onTextChanged(onTextChanged: (CharSequence?) -> Unit) {
         this.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -119,15 +127,20 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        when(requestCode){
+        when (requestCode) {
             REQUEST_CODE_GET_BARCODE -> {
-                if(resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     data?.let {
-                        val product = productViewModel.getProductByBarcode(it.getStringExtra("BARCODE")!!)
+                        val product =
+                            productViewModel.getProductByBarcode(it.getStringExtra("BARCODE")!!)
 
-                        if(product == null){
-                            Toast.makeText(this, resources.getString(R.string.search_by_barcode_error_message), Toast.LENGTH_LONG).show()
-                        }else{
+                        if (product == null) {
+                            Toast.makeText(
+                                this,
+                                resources.getString(R.string.search_by_barcode_error_message),
+                                Toast.LENGTH_LONG
+                            ).show()
+                        } else {
                             onProductClick(product.id)
                         }
                     }
@@ -136,7 +149,7 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
         }
     }
 
-    companion object{
+    companion object {
         private const val REQUEST_CODE_GET_BARCODE = 2
     }
 }

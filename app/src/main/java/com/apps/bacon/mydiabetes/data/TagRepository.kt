@@ -4,7 +4,7 @@ import javax.inject.Inject
 
 class TagRepository @Inject constructor(
     private val database: AppDatabase
-){
+) {
     fun getAll() = database.tagDao().getAll()
 
     fun getLastId() = database.tagDao().getLastId()

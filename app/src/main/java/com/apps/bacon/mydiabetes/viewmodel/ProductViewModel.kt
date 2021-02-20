@@ -14,7 +14,7 @@ class ProductViewModel @ViewModelInject
 constructor(
     @Named("product_repository")
     private val repository: ProductRepository
-) : ViewModel(){
+) : ViewModel() {
     fun checkForProductExist(name: String) = repository.checkForProductExist(name)
 
     fun getAll() = repository.getAll()

@@ -18,12 +18,12 @@ import javax.inject.Singleton
 object NetworkModule {
 
     @Provides
-    fun providesBaseUrl(): String{
+    fun providesBaseUrl(): String {
         return "https://raw.githubusercontent.com/piekarskipiotr/mydiabetes/master/API/"
     }
 
     @Provides
-    fun providesOkHttpClient(@ApplicationContext context: Context): OkHttpClient.Builder{
+    fun providesOkHttpClient(@ApplicationContext context: Context): OkHttpClient.Builder {
         return OkHttpClient.Builder()
             .addInterceptor(NetworkConnectionInterceptor(context))
 
@@ -31,7 +31,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun providesAPI(baseURL: String, okHttpClient: OkHttpClient.Builder): ProductsAPI{
+    fun providesAPI(baseURL: String, okHttpClient: OkHttpClient.Builder): ProductsAPI {
         return Retrofit.Builder()
             .baseUrl(baseURL)
             .addConverterFactory(GsonConverterFactory.create())

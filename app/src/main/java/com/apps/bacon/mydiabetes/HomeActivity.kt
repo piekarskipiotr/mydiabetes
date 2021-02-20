@@ -29,9 +29,10 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        supportFragmentManager.beginTransaction().replace(fragmentContainer.id, HomeFragment()).commit()
+        supportFragmentManager.beginTransaction().replace(fragmentContainer.id, HomeFragment())
+            .commit()
         sharedPreference = this.getSharedPreferences(
-        "APP_PREFERENCES",
+            "APP_PREFERENCES",
             Context.MODE_PRIVATE
         )
         lang = sharedPreference.getString("APP_LANGUAGE", "pl") as String
@@ -42,7 +43,7 @@ class HomeActivity : AppCompatActivity() {
 
         TagTranslator().translate(tagViewModel, this)
 
-        if(!homeViewModel.isErrorWithFetchData){
+        if (!homeViewModel.isErrorWithFetchData) {
             fetchDataDialog(homeViewModel)
         }
 
@@ -51,14 +52,14 @@ class HomeActivity : AppCompatActivity() {
         })
 
         productViewModel.getProductsInPlate().observe(this, {
-            if (it.isEmpty()){
+            if (it.isEmpty()) {
                 notificationIconFoodPlate.visibility = View.GONE
-            }else{
+            } else {
                 notificationIconFoodPlate.visibility = View.VISIBLE
             }
         })
 
-        tabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 homeViewModel.currentTag.value = tab!!.tag as Int
             }
@@ -75,14 +76,22 @@ class HomeActivity : AppCompatActivity() {
 
 
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
-            when(item.itemId){
+            when (item.itemId) {
                 R.id.home_nav -> {
-                    changeFragment(HomeFragment(), resources.getString(R.string.app_name), View.VISIBLE)
+                    changeFragment(
+                        HomeFragment(),
+                        resources.getString(R.string.app_name),
+                        View.VISIBLE
+                    )
                     true
                 }
 
                 R.id.add_nav -> {
-                    changeFragment(AddProductFragment(), resources.getString(R.string.value_calculation), View.GONE)
+                    changeFragment(
+                        AddProductFragment(),
+                        resources.getString(R.string.value_calculation),
+                        View.GONE
+                    )
                     true
                 }
 
@@ -92,7 +101,11 @@ class HomeActivity : AppCompatActivity() {
                 }
 
                 R.id.settings_nav -> {
-                    changeFragment(SettingsFragment(), resources.getString(R.string.settings), View.GONE)
+                    changeFragment(
+                        SettingsFragment(),
+                        resources.getString(R.string.settings),
+                        View.GONE
+                    )
                     true
                 }
 
@@ -114,35 +127,38 @@ class HomeActivity : AppCompatActivity() {
 
     }
 
-    private fun addTabs(listOfTags: List<Tag>){
+    private fun addTabs(listOfTags: List<Tag>) {
         tabLayout.removeAllTabs()
-        tabLayout.addTab(tabLayout.newTab().setText(resources.getString(R.string.all))
-            .apply {
-                   tag = 0
-                   }, 0, true)
-
-        for((j, i) in listOfTags.indices.withIndex()){
-            tabLayout.addTab(tabLayout.newTab().setText(listOfTags[i].name)
+        tabLayout.addTab(
+            tabLayout.newTab().setText(resources.getString(R.string.all))
                 .apply {
-                    tag = listOfTags[i].id
-                }, j + 1
+                    tag = 0
+                }, 0, true
+        )
+
+        for ((j, i) in listOfTags.indices.withIndex()) {
+            tabLayout.addTab(
+                tabLayout.newTab().setText(listOfTags[i].name)
+                    .apply {
+                        tag = listOfTags[i].id
+                    }, j + 1
             )
         }
 
     }
 
-    private fun changeFragment(fragment: Fragment, fragmentTitle: String, visibility: Int){
+    private fun changeFragment(fragment: Fragment, fragmentTitle: String, visibility: Int) {
         appBarText.text = fragmentTitle
         tabLayout.visibility = visibility
 
         supportFragmentManager.beginTransaction()
-                .setTransition(TRANSIT_FRAGMENT_FADE)
-                .replace(fragmentContainer.id, fragment)
-                .commit()
+            .setTransition(TRANSIT_FRAGMENT_FADE)
+            .replace(fragmentContainer.id, fragment)
+            .commit()
 
     }
 
-    private fun fetchDataDialog(homeViewModel: HomeViewModel){
+    private fun fetchDataDialog(homeViewModel: HomeViewModel) {
         val builder = AlertDialog.Builder(this, R.style.DialogStyle)
         val dialogBinding = DialogFetchDataFromServerBinding.inflate(LayoutInflater.from(this))
         builder.setView(dialogBinding.root)
@@ -155,7 +171,7 @@ class HomeActivity : AppCompatActivity() {
             var i = 1
 
             dialogBinding.fetchingDataProgressBar.max = size
-            for(product in it){
+            for (product in it) {
                 dialogBinding.counterText.text = "$i/$size"
                 ++i
 
@@ -181,7 +197,7 @@ class HomeActivity : AppCompatActivity() {
         val oldLang = lang
 
         lang = sharedPreference.getString("APP_LANGUAGE", "pl") as String
-        if (oldLang != lang){
+        if (oldLang != lang) {
             finish()
             startActivity(intent)
         }

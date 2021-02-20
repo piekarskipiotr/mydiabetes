@@ -17,21 +17,21 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun tagDao(): TagDao
     abstract fun imageDao(): ImageDao
 
-    companion object{
+    companion object {
         @Volatile
         private var instance: AppDatabase? = null
         private const val DATABASE_NAME: String = "products_database"
 
         @Synchronized
         fun getInstance(context: Context): AppDatabase {
-            if(instance == null)
+            if (instance == null)
                 instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
                     DATABASE_NAME
                 )
                     .fallbackToDestructiveMigration()
-                    .addCallback(object : RoomDatabase.Callback(){
+                    .addCallback(object : RoomDatabase.Callback() {
                         override fun onCreate(db: SupportSQLiteDatabase) {
                             super.onCreate(db)
                             val preTagData = listOf(
@@ -45,7 +45,7 @@ abstract class AppDatabase : RoomDatabase() {
                                 Tag(8, context.getString(R.string.nuts)),
                                 Tag(9, context.getString(R.string.others))
                             )
-                            CoroutineScope(Dispatchers.Main).launch{
+                            CoroutineScope(Dispatchers.Main).launch {
                                 for (tag in preTagData)
                                     instance!!.tagDao().insert(tag)
 

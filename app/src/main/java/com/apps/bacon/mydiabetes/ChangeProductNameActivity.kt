@@ -14,10 +14,9 @@ class ChangeProductNameActivity : AppCompatActivity() {
         setContentView(R.layout.activity_change_product_name)
 
         changeNameButton.setOnClickListener {
-            if(productNameTextInput.text.isNullOrEmpty())
+            if (productNameTextInput.text.isNullOrEmpty())
                 productNameTextInputLayout.error = errorMessage
-
-            else{
+            else {
                 productNameTextInputLayout.error = null
                 intent.putExtra("PRODUCT_NAME", productNameTextInput.text.toString().trim())
                 setResult(Activity.RESULT_OK, intent)

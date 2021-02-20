@@ -4,9 +4,9 @@ import android.content.Context
 import com.apps.bacon.mydiabetes.R
 import com.apps.bacon.mydiabetes.viewmodel.TagViewModel
 
-class TagTranslator{
+class TagTranslator {
 
-    fun translate(tagViewModel: TagViewModel, context: Context){
+    fun translate(tagViewModel: TagViewModel, context: Context) {
         val listOfTags = listOf(
             context.resources.getString(R.string.meat),
             context.resources.getString(R.string.fish),
@@ -19,7 +19,7 @@ class TagTranslator{
             context.resources.getString(R.string.others)
         )
 
-        for(i in 1..9){
+        for (i in 1..9) {
             val tag = tagViewModel.getTagById(i)
             tag.name = listOfTags[i.dec()]
             tagViewModel.update(tag)

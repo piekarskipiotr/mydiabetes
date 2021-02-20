@@ -51,26 +51,34 @@ class FoodPlateAdapter constructor(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.product_item_food_plate, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.product_item_food_plate, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val context = holder.itemView.context
         if (data[position].icon == null)
-            holder.icon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_round_dinner_dining))
+            holder.icon.setImageDrawable(
+                ContextCompat.getDrawable(
+                    context,
+                    R.drawable.ic_round_dinner_dining
+                )
+            )
         else
             holder.icon.setImageURI(Uri.parse(data[position].icon))
 
         holder.productName.text = data[position].name
-        if(data[position].weight == null){
+        if (data[position].weight == null) {
             holder.measure.setText(data[position].pieces.toString())
             holder.measureLayout.suffixText = context.resources.getString(R.string.pieces_shortcut)
-            holder.measure.inputType = InputType.TYPE_NUMBER_FLAG_SIGNED or InputType.TYPE_CLASS_NUMBER
-        }else{
+            holder.measure.inputType =
+                InputType.TYPE_NUMBER_FLAG_SIGNED or InputType.TYPE_CLASS_NUMBER
+        } else {
             holder.measure.setText(data[position].weight.toString())
             holder.measureLayout.suffixText = "g/ml"
-            holder.measure.inputType = InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_CLASS_NUMBER
+            holder.measure.inputType =
+                InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_CLASS_NUMBER
         }
 
         holder.carbohydrateExchangers.text = data[position].carbohydrateExchangers.toString()
@@ -91,31 +99,43 @@ class FoodPlateAdapter constructor(
             }
 
 
-            if(data[position].weight == null){
+            if (data[position].weight == null) {
                 holder.carbohydrateExchangers.text = Calculations()
                     .carbohydrateExchangesByPieces(
-                        data[position].carbohydrateExchangers, data[position].pieces!!, value.toInt())
+                        data[position].carbohydrateExchangers,
+                        data[position].pieces!!,
+                        value.toInt()
+                    )
                     .toString()
                 holder.proteinFatExchangers.text = Calculations()
                     .proteinFatExchangersByPieces(
-                    data[position].proteinFatExchangers, data[position].pieces!!, value.toInt())
+                        data[position].proteinFatExchangers, data[position].pieces!!, value.toInt()
+                    )
                     .toString()
                 holder.calories.text = Calculations()
                     .caloriesByPieces(
-                        data[position].calories!!, data[position].pieces!!, value.toInt())
+                        data[position].calories!!, data[position].pieces!!, value.toInt()
+                    )
                     .toString()
-            }else{
+            } else {
                 holder.carbohydrateExchangers.text = Calculations()
                     .carbohydrateExchangesByWeight(
-                        data[position].carbohydrateExchangers, data[position].weight!!, value.toDouble())
+                        data[position].carbohydrateExchangers,
+                        data[position].weight!!,
+                        value.toDouble()
+                    )
                     .toString()
                 holder.proteinFatExchangers.text = Calculations()
                     .proteinFatExchangersByWeight(
-                        data[position].proteinFatExchangers, data[position].weight!!, value.toDouble())
+                        data[position].proteinFatExchangers,
+                        data[position].weight!!,
+                        value.toDouble()
+                    )
                     .toString()
                 holder.calories.text = Calculations()
                     .caloriesByWeight(
-                        data[position].calories!!, data[position].weight!!, value.toDouble())
+                        data[position].calories!!, data[position].weight!!, value.toDouble()
+                    )
                     .toString()
 
             }
@@ -125,12 +145,12 @@ class FoodPlateAdapter constructor(
 
     override fun getItemCount(): Int = data.size
 
-    fun updateData(dataList: List<Product>){
+    fun updateData(dataList: List<Product>) {
         data = dataList
         notifyDataSetChanged()
     }
 
-    fun getProduct(position: Int) : Product{
+    fun getProduct(position: Int): Product {
         return data[position]
     }
 
@@ -139,7 +159,7 @@ class FoodPlateAdapter constructor(
 
     }
 
-    private fun TextInputEditText.onTextChanged(onTextChanged: (CharSequence?) -> Unit){
+    private fun TextInputEditText.onTextChanged(onTextChanged: (CharSequence?) -> Unit) {
         var dotHasBeenSet = false
         this.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -152,18 +172,15 @@ class FoodPlateAdapter constructor(
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                if(!p0.isNullOrEmpty()){
-                    dotHasBeenSet = if(p0.length==3 && !dotHasBeenSet){
+                if (!p0.isNullOrEmpty()) {
+                    dotHasBeenSet = if (p0.length == 3 && !dotHasBeenSet) {
                         p0.append(".")
                         true
-                    }else{
+                    } else {
                         false
                     }
-
                 }
-
             }
-
         })
     }
 }

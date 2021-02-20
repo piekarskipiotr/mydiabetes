@@ -1,110 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
+
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <com.google.android.material.appbar.MaterialToolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimaryDark"
-            android:layout_gravity="top">
+            android:layout_gravity="top"
+            android:background="?attr/colorPrimaryDark">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <TextView
                     android:id="@+id/appBarText"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
                     android:paddingStart="0dp"
                     android:paddingTop="20dp"
                     android:paddingEnd="16dp"
                     android:paddingBottom="20dp"
-                    android:layout_centerHorizontal="true"
                     android:text="MyDiabetes"
                     android:textSize="22sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/searchForProduct"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:contentDescription="searchForProduct"
-                    android:layout_centerVertical="true"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_alignParentStart="true"
                     android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:clickable="true"
+                    android:contentDescription="searchForProduct"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:src="@drawable/ic_round_search"
                     app:tint="@color/independent" />
 
                 <RelativeLayout
                     android:layout_width="28dp"
                     android:layout_height="28dp"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_alignParentEnd="true">
+                    android:layout_marginStart="0dp"
+                    android:layout_marginEnd="16dp">
+
                     <ImageView
                         android:id="@+id/foodPlate"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:contentDescription="foodPlate"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:contentDescription="foodPlate"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
                         android:src="@drawable/ic_round_food_bank"
-                        app:tint="@color/independent"/>
+                        app:tint="@color/independent" />
+
                     <ImageView
                         android:id="@+id/notificationIconFoodPlate"
                         android:layout_width="12dp"
                         android:layout_height="12dp"
                         android:layout_alignParentEnd="true"
                         android:src="@drawable/circle"
-                        app:tint="@color/strong_yellow"/>
+                        app:tint="@color/strong_yellow" />
 
                 </RelativeLayout>
 
 
             </RelativeLayout>
         </com.google.android.material.appbar.MaterialToolbar>
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabTextColor="@color/tab_layout_items"
+            android:background="?attr/colorPrimaryDark"
             app:tabIndicator="@drawable/custom_indicator"
+            app:tabIndicatorAnimationDuration="200"
+            app:tabIndicatorColor="@color/rose_dust"
             app:tabIndicatorFullWidth="false"
             app:tabIndicatorHeight="2dp"
-            app:tabIndicatorColor="@color/rose_dust"
-            app:tabIndicatorAnimationDuration="200"
             app:tabMode="scrollable"
-            android:background="?attr/colorPrimaryDark" />
+            app:tabTextColor="@color/tab_layout_items" />
     </com.google.android.material.appbar.AppBarLayout>
+
     <FrameLayout
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         android:layout_marginStart="0dp"
         android:layout_marginEnd="0dp"
-        android:layout_gravity="bottom"
-        app:labelVisibilityMode="selected"
         android:background="?attr/colorPrimaryDark"
         app:itemHorizontalTranslationEnabled="true"
         app:itemIconTint="@color/bottom_nav_menu_items"
         app:itemTextColor="@color/bottom_nav_menu_items"
-        app:menu="@menu/bottom_nav_menu"/>
+        app:labelVisibilityMode="selected"
+        app:menu="@menu/bottom_nav_menu" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

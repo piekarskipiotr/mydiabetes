@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     @Suppress("DEPRECATION")
-    private fun changeLanguage(languageCode: String){
+    private fun changeLanguage(languageCode: String) {
         val config = resources.configuration
         val locale = Locale(languageCode)
 

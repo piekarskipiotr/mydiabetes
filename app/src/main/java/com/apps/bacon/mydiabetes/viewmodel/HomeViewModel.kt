@@ -12,7 +12,7 @@ class HomeViewModel @ViewModelInject
 constructor(
     @Named("home_repository")
     private val repository: HomeRepository
-) : ViewModel(){
+) : ViewModel() {
     var currentTag = MutableLiveData<Int>()
 
     var productsLiveData: MutableLiveData<List<Product>>? = null

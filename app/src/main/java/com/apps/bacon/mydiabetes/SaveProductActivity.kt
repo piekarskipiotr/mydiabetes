@@ -53,22 +53,22 @@ class SaveProductActivity : AppCompatActivity() {
 
         })
 
-        if(measureStatus){
-            if(bundle.get("PIECES") == bundle.get("CORRECT_PIECES")){
+        if (measureStatus) {
+            if (bundle.get("PIECES") == bundle.get("CORRECT_PIECES")) {
                 measureContainer.visibility = View.GONE
                 line.visibility = View.GONE
 
-            }else{
+            } else {
                 measureSwitch.text = "${bundle.get("PIECES")} / ${bundle.get("CORRECT_PIECES")} "
 
             }
 
-        }else{
-            if(bundle.get("WEIGHT") == bundle.get("CORRECT_WEIGHT")){
+        } else {
+            if (bundle.get("WEIGHT") == bundle.get("CORRECT_WEIGHT")) {
                 measureContainer.visibility = View.GONE
                 line.visibility = View.GONE
 
-            }else{
+            } else {
                 measureSwitch.text = "${bundle.get("WEIGHT")} / ${bundle.get("CORRECT_WEIGHT")}"
 
             }
@@ -76,13 +76,14 @@ class SaveProductActivity : AppCompatActivity() {
 
         measureSwitch.setOnCheckedChangeListener { _, isChecked ->
             val textInfo: String
-            if(isChecked){
-                if(measureStatus){
+            if (isChecked) {
+                if (measureStatus) {
                     pieces = bundle.get("CORRECT_PIECES") as Int
-                    textInfo = "(${resources.getString(R.string.for_smth)} $pieces ${resources.getString(R.string.pieces_shortcut)})"
+                    textInfo =
+                        "(${resources.getString(R.string.for_smth)} $pieces ${resources.getString(R.string.pieces_shortcut)})"
                     measureOfValues.text = textInfo
                     measureOfExchangers.text = textInfo
-                }else{
+                } else {
                     weight = bundle.get("CORRECT_WEIGHT") as Double
                     textInfo = "(${resources.getString(R.string.for_smth)} $weight g/ml)"
                     measureOfValues.text = textInfo
@@ -106,14 +107,15 @@ class SaveProductActivity : AppCompatActivity() {
                 )
                 pieChart(carbohydrateExchangers, proteinFatExchangers)
 
-            }else{
+            } else {
 
-                if(measureStatus){
+                if (measureStatus) {
                     pieces = bundle.get("PIECES") as Int
-                    textInfo = "(${resources.getString(R.string.for_smth)} $pieces ${resources.getString(R.string.pieces_shortcut)})"
+                    textInfo =
+                        "(${resources.getString(R.string.for_smth)} $pieces ${resources.getString(R.string.pieces_shortcut)})"
                     measureOfValues.text = textInfo
                     measureOfExchangers.text = textInfo
-                }else{
+                } else {
                     weight = bundle.get("WEIGHT") as Double
                     textInfo = "(${resources.getString(R.string.for_smth)} $weight g/ml)"
                     measureOfValues.text = textInfo
@@ -155,20 +157,20 @@ class SaveProductActivity : AppCompatActivity() {
 
         manualBarcode.setOnClickListener {
             intent = Intent(this, ProductBarcodeActivity::class.java)
-            if(manualBarcode.text != null)
+            if (manualBarcode.text != null)
                 intent.putExtra("BARCODE", false)
 
             startActivityForResult(intent, REQUEST_CODE_GET_BARCODE)
         }
 
         tagChipContainer.setOnCheckedChangeListener { _, checkedId ->
-            if (checkedId == 0){
+            if (checkedId == 0) {
                 selectedTagId = null
                 tagChipContainer.clearCheck()
                 intent = Intent(this, AddTagActivity::class.java)
                 startActivity(intent)
 
-            }else{
+            } else {
                 selectedTagId = checkedId
             }
 
@@ -178,7 +180,11 @@ class SaveProductActivity : AppCompatActivity() {
 
             when {
                 productViewModel.checkForProductExist(productName.text.toString()) -> {
-                    Toast.makeText(this, resources.getString(R.string.product_name_exists_error_message), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this,
+                        resources.getString(R.string.product_name_exists_error_message),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
                 productName.text.isNullOrEmpty() -> {
                     productName.setTextColor(ResourcesCompat.getColor(resources, R.color.red, null))
@@ -218,28 +224,28 @@ class SaveProductActivity : AppCompatActivity() {
         caloriesValue: Double?,
         proteinValue: Double?,
         fatValue: Double?,
-    ){
+    ) {
         carbohydrates.text = carbohydratesValue.toString().trimEnd()
         calories.text = caloriesValue.toString().trimEnd()
-        if(valueStatus){
+        if (valueStatus) {
             proteinContainer.visibility = View.GONE
             fatContainer.visibility = View.GONE
 
-        }else{
+        } else {
             protein.text = proteinValue.toString().trimEnd()
             fat.text = fatValue.toString().trimEnd()
 
         }
     }
 
-    private fun addChips(context: Context, listOfTags: List<Tag>){
+    private fun addChips(context: Context, listOfTags: List<Tag>) {
         tagChipContainer.removeAllViewsInLayout()
         tagChipContainer.addChip(context, resources.getString(R.string.add_tag), 0)
-        for (i in listOfTags.indices){
+        for (i in listOfTags.indices) {
             tagChipContainer.addChip(context, listOfTags[i].name, listOfTags[i].id)
         }
 
-        for(i in 10 until tagChipContainer.childCount){
+        for (i in 10 until tagChipContainer.childCount) {
             tagChipContainer.getChildAt(i).setOnLongClickListener {
                 dialogRemoveTag(it.id)
                 true
@@ -248,7 +254,7 @@ class SaveProductActivity : AppCompatActivity() {
 
     }
 
-    private fun ChipGroup.addChip(context: Context, label: String, ID: Int){
+    private fun ChipGroup.addChip(context: Context, label: String, ID: Int) {
         Chip(context, null, R.attr.CustomChip).apply {
             id = ID
             text = label
@@ -260,7 +266,7 @@ class SaveProductActivity : AppCompatActivity() {
         }
     }
 
-    private fun dialogRemoveTag(id: Int){
+    private fun dialogRemoveTag(id: Int) {
         val alertDialog: AlertDialog
         val builder = AlertDialog.Builder(this, R.style.DialogStyle)
         val dialogBinding = DialogDeleteTagBinding.inflate(LayoutInflater.from(this))
@@ -271,8 +277,8 @@ class SaveProductActivity : AppCompatActivity() {
         dialogBinding.tagNameText.text = tagViewModel.getTagById(id).name
 
         dialogBinding.backButton.setOnClickListener {
-                alertDialog.dismiss()
-            }
+            alertDialog.dismiss()
+        }
 
         dialogBinding.deleteButton.setOnClickListener {
             tagViewModel.deleteById(id)
@@ -281,13 +287,23 @@ class SaveProductActivity : AppCompatActivity() {
         alertDialog.show()
     }
 
-    private fun pieChart(carbohydrateExchangers: Double, proteinFatExchangers: Double){
+    private fun pieChart(carbohydrateExchangers: Double, proteinFatExchangers: Double) {
         val pieChart: PieChart = pieChart
         val data = ArrayList<PieEntry>()
-        if(carbohydrateExchangers != 0.0)
-            data.add(PieEntry(carbohydrateExchangers.toFloat(), resources.getString(R.string.pie_label_carbohydrate)))
-        if(proteinFatExchangers != 0.0)
-            data.add(PieEntry(proteinFatExchangers.toFloat(), resources.getString(R.string.pie_label_protein_fat)))
+        if (carbohydrateExchangers != 0.0)
+            data.add(
+                PieEntry(
+                    carbohydrateExchangers.toFloat(),
+                    resources.getString(R.string.pie_label_carbohydrate)
+                )
+            )
+        if (proteinFatExchangers != 0.0)
+            data.add(
+                PieEntry(
+                    proteinFatExchangers.toFloat(),
+                    resources.getString(R.string.pie_label_protein_fat)
+                )
+            )
 
         val dataSet = PieDataSet(data, "")
         dataSet.setColors(
@@ -316,9 +332,9 @@ class SaveProductActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        when(requestCode){
+        when (requestCode) {
             REQUEST_CODE_PRODUCT_NAME -> {
-                if(resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     data?.let {
                         productName.text = it.getStringExtra("PRODUCT_NAME").toString()
                     }
@@ -326,18 +342,24 @@ class SaveProductActivity : AppCompatActivity() {
             }
 
             REQUEST_CODE_GET_BARCODE -> {
-                if(resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     data?.let {
-                        when{
+                        when {
                             it.getBooleanExtra("DELETE_BARCODE", false) -> {
                                 manualBarcode.text = null
-                            }else -> {
+                            }
+                            else -> {
                                 val barcode = it.getStringExtra("BARCODE")
-                                val productWithBarcode = productViewModel.getProductByBarcode(barcode!!)
+                                val productWithBarcode =
+                                    productViewModel.getProductByBarcode(barcode!!)
 
-                                if(productWithBarcode != null){
-                                    Toast.makeText(this, resources.getString(R.string.barcode_exists_error_message), Toast.LENGTH_LONG).show()
-                                }else{
+                                if (productWithBarcode != null) {
+                                    Toast.makeText(
+                                        this,
+                                        resources.getString(R.string.barcode_exists_error_message),
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                } else {
                                     manualBarcode.text = barcode
                                 }
                             }
@@ -348,7 +370,7 @@ class SaveProductActivity : AppCompatActivity() {
         }
     }
 
-    companion object{
+    companion object {
         private const val REQUEST_CODE_PRODUCT_NAME = 1
         private const val REQUEST_CODE_GET_BARCODE = 3
     }

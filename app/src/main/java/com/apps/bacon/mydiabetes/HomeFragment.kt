@@ -27,15 +27,15 @@ class HomeFragment : Fragment(), ProductsAdapter.OnProductClickListener {
 
         homeViewModel.currentTag.observe(viewLifecycleOwner, { selectedTab ->
 
-            if(productViewModel.getAllByTag(selectedTab).hasObservers())
+            if (productViewModel.getAllByTag(selectedTab).hasObservers())
                 productViewModel.getAllByTag(selectedTab).removeObservers(viewLifecycleOwner)
 
-            if(selectedTab == 0){
+            if (selectedTab == 0) {
                 productViewModel.getAll().observe(viewLifecycleOwner, {
-                   productsAdapter.updateData(it)
+                    productsAdapter.updateData(it)
 
                 })
-            }else{
+            } else {
                 productViewModel.getAllByTag(selectedTab).observe(viewLifecycleOwner, {
                     productsAdapter.updateData(it)
                 })
@@ -51,10 +51,10 @@ class HomeFragment : Fragment(), ProductsAdapter.OnProductClickListener {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
-    private fun initRecyclerView(){
+    private fun initRecyclerView() {
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
-            productsAdapter = ProductsAdapter( this@HomeFragment)
+            productsAdapter = ProductsAdapter(this@HomeFragment)
             adapter = productsAdapter
 
         }

@@ -16,19 +16,19 @@ class HomeRepository constructor(
 
     fun getErrorInfo() = errorWithFetchData
 
-    fun productsApiCall(): MutableLiveData<List<Product>>{
+    fun productsApiCall(): MutableLiveData<List<Product>> {
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 val response = api.getProducts()
                 val data = arrayListOf<Product>()
-                if(response.isSuccessful){
-                    for(product in response.body()!!){
+                if (response.isSuccessful) {
+                    for (product in response.body()!!) {
                         data.add(product)
                     }
 
                     products.postValue(data)
                 }
-            }catch (e: Throwable){
+            } catch (e: Throwable) {
                 e.message?.let {
                     Log.d("HomeRepository:", it)
                 }

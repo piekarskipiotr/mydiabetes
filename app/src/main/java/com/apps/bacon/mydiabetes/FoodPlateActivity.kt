@@ -47,14 +47,18 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
 
         })
 
-        object : SwipeToRemove(){
+        object : SwipeToRemove() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 productViewModel.update(
                     foodPlateAdapter.getProduct(viewHolder.adapterPosition).apply {
                         inFoodPlate = false
                     }
                 )
-                Toast.makeText(this@FoodPlateActivity, resources.getString(R.string.removed_exclamation_mark), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@FoodPlateActivity,
+                    resources.getString(R.string.removed_exclamation_mark),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }.apply {
             ItemTouchHelper(this).attachToRecyclerView(foodRecyclerView)
@@ -65,7 +69,7 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
             bottomSheetDialog.show()
             sumValues()
             bottomDialogBinding.clearButton.setOnClickListener {
-                for(i in 0 until foodPlateAdapter.itemCount){
+                for (i in 0 until foodPlateAdapter.itemCount) {
                     productViewModel.update(
                         foodPlateAdapter.getProduct(i).apply {
                             inFoodPlate = false
@@ -81,19 +85,19 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
         }
     }
 
-    private fun initRecyclerView(){
+    private fun initRecyclerView() {
         foodRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
-            foodPlateAdapter = FoodPlateAdapter( this@FoodPlateActivity)
+            foodPlateAdapter = FoodPlateAdapter(this@FoodPlateActivity)
             adapter = foodPlateAdapter
         }
     }
 
-    private fun sumValues(){
+    private fun sumValues() {
         var carbohydrateExchangers = 0.0
         var proteinFatExchangers = 0.0
         var calories = 0.0
-        for(i in 0 until foodPlateAdapter.itemCount){
+        for (i in 0 until foodPlateAdapter.itemCount) {
             val view = foodRecyclerView.findViewHolderForAdapterPosition(i)!!.itemView
             carbohydrateExchangers += view.carbohydrateExchangers.text.toString().toDouble()
             proteinFatExchangers += view.proteinFatExchangers.text.toString().toDouble()
@@ -104,11 +108,25 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
         pieChart(carbohydrateExchangers, proteinFatExchangers, calories)
     }
 
-    private fun pieChart(carbohydrateExchangers: Double, proteinFatExchangers: Double, calories: Double){
+    private fun pieChart(
+        carbohydrateExchangers: Double,
+        proteinFatExchangers: Double,
+        calories: Double
+    ) {
         val pieChart: PieChart = bottomDialogBinding.pieChart
         val data = ArrayList<PieEntry>()
-        data.add(PieEntry(carbohydrateExchangers.toFloat(), resources.getString(R.string.pie_label_carbohydrate)))
-        data.add(PieEntry(proteinFatExchangers.toFloat(), resources.getString(R.string.pie_label_protein_fat)))
+        data.add(
+            PieEntry(
+                carbohydrateExchangers.toFloat(),
+                resources.getString(R.string.pie_label_carbohydrate)
+            )
+        )
+        data.add(
+            PieEntry(
+                proteinFatExchangers.toFloat(),
+                resources.getString(R.string.pie_label_protein_fat)
+            )
+        )
 
         val dataSet = PieDataSet(data, "")
         dataSet.setColors(
@@ -124,7 +142,7 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
         pieData.setValueFormatter(DefaultValueFormatter(1))
 
         pieChart.data = pieData
-        pieChart.centerText  = "$calories\n${resources.getString(R.string.calories_value)}"
+        pieChart.centerText = "$calories\n${resources.getString(R.string.calories_value)}"
         pieChart.description.isEnabled = false
 
         pieChart.legend.textColor = ContextCompat.getColor(this, R.color.independent)

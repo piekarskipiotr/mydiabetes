@@ -23,7 +23,7 @@ import java.util.concurrent.Executors
 
 typealias BarcodeListener = (barcode: String) -> Unit
 
-class ScannerCameraActivity : AppCompatActivity(){
+class ScannerCameraActivity : AppCompatActivity() {
     private var imageCapture: ImageCapture? = null
     private lateinit var cameraExecutor: ExecutorService
 
@@ -35,9 +35,9 @@ class ScannerCameraActivity : AppCompatActivity(){
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
 
-        if(allPermissionsGranted()){
+        if (allPermissionsGranted()) {
             startCamera()
-        }else{
+        } else {
             ActivityCompat.requestPermissions(
                 this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
             )
@@ -64,11 +64,11 @@ class ScannerCameraActivity : AppCompatActivity(){
                 .setBackpressureStrategy(STRATEGY_KEEP_ONLY_LATEST)
                 .build()
                 .also {
-                    it.setAnalyzer(cameraExecutor, BarcodeAnalyzer{ barcode ->
-                        if(barcode != tempBarcodeChecker){
+                    it.setAnalyzer(cameraExecutor, BarcodeAnalyzer { barcode ->
+                        if (barcode != tempBarcodeChecker) {
                             tempBarcodeChecker = barcode
 
-                        }else{
+                        } else {
                             intent.putExtra("BARCODE", barcode)
                             setResult(Activity.RESULT_OK, intent)
                             finish()
@@ -133,7 +133,7 @@ class ScannerCameraActivity : AppCompatActivity(){
         finish()
     }
 
-    companion object{
+    companion object {
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     }
@@ -147,12 +147,12 @@ class ScannerCameraActivity : AppCompatActivity(){
                 val scanner = BarcodeScanning.getClient()
                 scanner.process(image)
                     .addOnSuccessListener { barcode ->
-                        if(barcode.isNotEmpty()){
+                        if (barcode.isNotEmpty()) {
                             listener(barcode[0].rawValue!!)
 
                         }
                         imageProxy.close()
-                    }.addOnFailureListener{
+                    }.addOnFailureListener {
                         Log.e("Barcode", "Something went wrong!")
                     }
             }

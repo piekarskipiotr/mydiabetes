@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "images")
-data class Image (
+data class Image(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "image_id")
     var id: Int,

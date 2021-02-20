@@ -20,7 +20,7 @@ import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class CameraActivity : AppCompatActivity(){
+class CameraActivity : AppCompatActivity() {
     private var imageCapture: ImageCapture? = null
     private lateinit var cameraExecutor: ExecutorService
 
@@ -33,9 +33,9 @@ class CameraActivity : AppCompatActivity(){
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
 
-        if(allPermissionsGranted()){
+        if (allPermissionsGranted()) {
             startCamera()
-        }else{
+        } else {
             ActivityCompat.requestPermissions(
                 this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
             )
@@ -51,28 +51,34 @@ class CameraActivity : AppCompatActivity(){
         val imageCapture = imageCapture ?: return
 
         val photoFile = File(
-           getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+            getExternalFilesDir(Environment.DIRECTORY_PICTURES),
             "${System.currentTimeMillis()}.jpg"
         )
 
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
 
         imageCapture.takePicture(
-            outputOptions, ContextCompat.getMainExecutor(this), object : ImageCapture.OnImageSavedCallback{
-            override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                val imageUri = Uri.fromFile(photoFile)
+            outputOptions,
+            ContextCompat.getMainExecutor(this),
+            object : ImageCapture.OnImageSavedCallback {
+                override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+                    val imageUri = Uri.fromFile(photoFile)
 
-                intent.putExtra("IMAGE_URI", imageUri.toString())
-                setResult(Activity.RESULT_OK, intent)
-                finish()
+                    intent.putExtra("IMAGE_URI", imageUri.toString())
+                    setResult(Activity.RESULT_OK, intent)
+                    finish()
 
-            }
+                }
 
-            override fun onError(exception: ImageCaptureException) {
-                Log.e("CameraActivity:", "Photo capture failed: ${exception.message}", exception)
-            }
+                override fun onError(exception: ImageCaptureException) {
+                    Log.e(
+                        "CameraActivity:",
+                        "Photo capture failed: ${exception.message}",
+                        exception
+                    )
+                }
 
-        })
+            })
     }
 
     private fun startCamera() {
@@ -146,7 +152,7 @@ class CameraActivity : AppCompatActivity(){
         finish()
     }
 
-    companion object{
+    companion object {
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     }

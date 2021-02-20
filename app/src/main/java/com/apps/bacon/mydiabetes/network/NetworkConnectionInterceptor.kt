@@ -14,7 +14,7 @@ class NetworkConnectionInterceptor constructor(
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        if(!isConnected()){
+        if (!isConnected()) {
             throw NoConnectivityException()
         }
 
@@ -22,8 +22,9 @@ class NetworkConnectionInterceptor constructor(
         return chain.proceed(builder.build())
     }
 
-    private fun isConnected(): Boolean{
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    private fun isConnected(): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val network = connectivityManager.activeNetwork ?: return false
             val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
@@ -41,7 +42,7 @@ class NetworkConnectionInterceptor constructor(
         }
     }
 
-    class NoConnectivityException: IOException() {
+    class NoConnectivityException : IOException() {
         override val message: String
             get() = "No Internet Connection"
 

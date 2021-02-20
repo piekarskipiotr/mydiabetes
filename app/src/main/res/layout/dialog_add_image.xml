@@ -6,6 +6,7 @@
     android:background="@drawable/bottom_sheet_view_background_rounded"
     android:gravity="center"
     android:orientation="vertical">
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="3dp"
@@ -13,45 +14,49 @@
         android:layout_marginTop="15dp"
         android:layout_marginEnd="80dp"
         android:layout_marginBottom="30dp"
-        app:cardBackgroundColor="@color/independent"/>
+        app:cardBackgroundColor="@color/independent" />
 
     <GridLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:columnCount="2">
+
         <com.google.android.material.circularreveal.cardview.CircularRevealCardView
             android:id="@+id/cameraButton"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="60dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             app:cardBackgroundColor="@color/light_gray"
             app:cardCornerRadius="12dp">
+
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:padding="5dp"
                 android:src="@drawable/ic_round_photo_camera"
-                app:tint="@color/independent"/>
+                app:tint="@color/independent" />
         </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
         <com.google.android.material.circularreveal.cardview.CircularRevealCardView
             android:id="@+id/galleryButton"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="60dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             app:cardBackgroundColor="@color/light_gray"
             app:cardCornerRadius="12dp">
+
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="48dp"

@@ -12,4 +12,4 @@ data class Tag(
     @ColumnInfo(name = "tag_name")
     var name: String
 
-    )
+)

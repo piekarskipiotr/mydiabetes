@@ -13,7 +13,7 @@ class ImageViewModel @ViewModelInject
 constructor(
     @Named("image_repository")
     private val repository: ImageRepository
-) : ViewModel(){
+) : ViewModel() {
 
     fun getAll() = repository.getAll()
 

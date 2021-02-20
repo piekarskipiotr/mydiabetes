@@ -12,10 +12,10 @@ import kotlinx.android.synthetic.main.image_item.view.*
 
 class ImageAdapter constructor(
     private val listener: OnImageClickListener
-) : RecyclerView.Adapter<ImageAdapter.ViewHolder>(){
+) : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
     private var data: List<Image> = ArrayList()
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnLongClickListener{
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnLongClickListener {
         val image: ImageView = view.productImage
 
         init {
@@ -40,7 +40,7 @@ class ImageAdapter constructor(
 
     override fun getItemCount(): Int = data.size
 
-    fun updateData(dataList: List<Image>){
+    fun updateData(dataList: List<Image>) {
         data = dataList
         notifyDataSetChanged()
     }

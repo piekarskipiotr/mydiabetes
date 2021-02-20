@@ -4,7 +4,7 @@ import javax.inject.Inject
 
 class ImageRepository @Inject constructor(
     private val database: AppDatabase
-){
+) {
     fun getAll() = database.imageDao().getAll()
 
     fun getImageByProductId(id: Int) = database.imageDao().getImageByProductId(id)

@@ -28,11 +28,10 @@ class AddTagActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_tag)
 
-
-        if(intent.getBooleanExtra("TAG_SETTINGS", false))
+        if (intent.getBooleanExtra("TAG_SETTINGS", false))
             headerText.text = resources.getString(R.string.tag_management)
 
-        if(intent.getBooleanExtra("TAG_MANAGER", false)){
+        if (intent.getBooleanExtra("TAG_MANAGER", false)) {
             existingTagsLayout.visibility = View.VISIBLE
             tagViewModel.getAll().observe(this, {
                 addChips(this, it)
@@ -40,16 +39,16 @@ class AddTagActivity : AppCompatActivity() {
         }
 
         addTagButton.setOnClickListener {
-            if(tagNameTextInput.text.isNullOrEmpty())
+            if (tagNameTextInput.text.isNullOrEmpty())
                 tagNameTextInputLayout.error = errorMessage
-            else{
+            else {
                 tagNameTextInputLayout.error = null
                 tagViewModel.insert(Tag(0, tagNameTextInput.text.toString().trim()))
-                if(!intent.getBooleanExtra("TAG_SETTINGS", false)){
+                if (!intent.getBooleanExtra("TAG_SETTINGS", false)) {
                     intent.putExtra("NEW_TAG", true)
                     setResult(Activity.RESULT_OK, intent)
                     finish()
-                }else{
+                } else {
                     tagNameTextInput.text = null
                 }
 
@@ -61,11 +60,11 @@ class AddTagActivity : AppCompatActivity() {
         }
     }
 
-    private fun addChips(context: Context, listOfTags: List<Tag>){
+    private fun addChips(context: Context, listOfTags: List<Tag>) {
         tagChipContainer.removeAllViewsInLayout()
-        for (i in listOfTags.indices){
+        for (i in listOfTags.indices) {
             tagChipContainer.addChip(context, listOfTags[i].name, listOfTags[i].id)
-            if(!intent.getBooleanExtra("TAG_SETTINGS", false)){
+            if (!intent.getBooleanExtra("TAG_SETTINGS", false)) {
                 tagChipContainer[i].setOnClickListener {
                     intent.putExtra("TAG_ID", listOfTags[i].id)
                     setResult(Activity.RESULT_OK, intent)
@@ -74,7 +73,7 @@ class AddTagActivity : AppCompatActivity() {
             }
 
         }
-        for(i in 9 until tagChipContainer.childCount){
+        for (i in 9 until tagChipContainer.childCount) {
             tagChipContainer.getChildAt(i).setOnLongClickListener {
                 dialogRemoveTag(listOfTags[i])
                 true
@@ -82,12 +81,12 @@ class AddTagActivity : AppCompatActivity() {
         }
     }
 
-    private fun ChipGroup.addChip(context: Context, label: String, ID: Int){
+    private fun ChipGroup.addChip(context: Context, label: String, ID: Int) {
         Chip(context, null, R.attr.CustomChip).apply {
             id = ID
             text = label
             isClickable = true
-            if(!intent.getBooleanExtra("TAG_SETTINGS", false))
+            if (!intent.getBooleanExtra("TAG_SETTINGS", false))
                 isCheckable = true
             isCheckedIconVisible = false
             isFocusable = true
@@ -95,7 +94,7 @@ class AddTagActivity : AppCompatActivity() {
         }
     }
 
-    private fun dialogRemoveTag(tag: Tag){
+    private fun dialogRemoveTag(tag: Tag) {
         val alertDialog: AlertDialog
         val builder = AlertDialog.Builder(this, R.style.DialogStyle)
         val dialogBinding = DialogDeleteTagBinding.inflate(LayoutInflater.from(this))
@@ -117,9 +116,9 @@ class AddTagActivity : AppCompatActivity() {
         alertDialog.show()
     }
 
-    private fun removeTagFromProducts(tagId: Int){
+    private fun removeTagFromProducts(tagId: Int) {
         productViewModel.getAllByTag(tagId).observe(this, {
-            for (product in it){
+            for (product in it) {
                 product.tag = null
                 productViewModel.update(product)
             }

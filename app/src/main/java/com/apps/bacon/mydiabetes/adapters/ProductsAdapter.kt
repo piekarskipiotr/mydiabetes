@@ -15,10 +15,10 @@ import java.util.ArrayList
 
 class ProductsAdapter constructor(
     private val listener: OnProductClickListener
-    ) : RecyclerView.Adapter<ProductsAdapter.ViewHolder>(){
+) : RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
     private var data: List<Product> = ArrayList()
 
-   inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
         val productName: TextView = view.productName
         val measure: TextView = view.measure
         val carbohydrateExchangers: TextView = view.carbohydrateExchangers
@@ -43,12 +43,17 @@ class ProductsAdapter constructor(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (data[position].icon == null)
-            holder.icon.setImageDrawable(ContextCompat.getDrawable(holder.itemView.context, R.drawable.ic_round_dinner_dining))
+            holder.icon.setImageDrawable(
+                ContextCompat.getDrawable(
+                    holder.itemView.context,
+                    R.drawable.ic_round_dinner_dining
+                )
+            )
         else
             holder.icon.setImageURI(Uri.parse(data[position].icon))
 
         holder.productName.text = data[position].name
-        if(data[position].weight == null)
+        if (data[position].weight == null)
             holder.measure.text = data[position].pieces.toString()
         else
             holder.measure.text = data[position].weight.toString()
@@ -61,7 +66,7 @@ class ProductsAdapter constructor(
 
     override fun getItemCount(): Int = data.size
 
-    fun updateData(dataList: List<Product>){
+    fun updateData(dataList: List<Product>) {
         data = dataList
         notifyDataSetChanged()
     }
