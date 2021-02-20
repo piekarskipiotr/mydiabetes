@@ -8,6 +8,7 @@
         <item name="colorOnPrimary">@color/light_dark</item>
         <item name="colorAccent">@color/lavender_web</item>
         <item name="colorSecondary">@color/white</item>
+        <item name="colorControlActivated">#4d4b5b</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryDark</item>
         <!-- Customize your theme here. -->
@@ -20,7 +21,7 @@
     </style>
 
     <style name="CustomChipStyle" parent="Widget.MaterialComponents.Chip.Action">
-        <item name="chipBackgroundColor">@color/light_dark</item>
+        <item name="chipBackgroundColor">@color/chip_state</item>
     </style>
 
     <style name="SplashScreen" parent="Theme.MaterialComponents.NoActionBar">
