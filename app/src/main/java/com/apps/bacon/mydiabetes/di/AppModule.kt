@@ -1,7 +1,6 @@
 package com.apps.bacon.mydiabetes.di
 
 import android.content.Context
-import com.apps.bacon.mydiabetes.R
 import com.apps.bacon.mydiabetes.api.ProductsAPI
 import com.apps.bacon.mydiabetes.data.*
 import dagger.Module
@@ -49,5 +48,12 @@ object AppModule {
     fun provideImageRepository(
         database: AppDatabase
     ) = ImageRepository(database)
+
+    @Provides
+    @Singleton
+    @Named("meal_repository")
+    fun provideMealRepository(
+        database: AppDatabase
+    ) = MealRepository(database)
 
 }

@@ -11,11 +11,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-@Database(entities = [Product::class, Tag::class, Image::class], version = 1, exportSchema = false)
+@Database(
+    entities = [Product::class, Tag::class, Image::class, Meal::class],
+    version = 1,
+    exportSchema = false
+)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun productDao(): ProductDao
     abstract fun tagDao(): TagDao
     abstract fun imageDao(): ImageDao
+    abstract fun mealDao(): MealDao
 
     companion object {
         @Volatile
@@ -57,30 +62,6 @@ abstract class AppDatabase : RoomDatabase() {
             return instance!!
 
         }
-
-//        private val roomCallback = object : RoomDatabase.Callback(){
-//            override fun onCreate(db: SupportSQLiteDatabase) {
-//                super.onCreate(db)
-//
-//                CoroutineScope(Dispatchers.Main).launch{
-//                    for (i in preTagData)
-//                        instance!!.tagDao().insert(i)
-//
-//                }
-//            }
-//        }
-//
-//        private val preTagData = listOf(
-//            Tag(1, "Mięso"),
-//            Tag(2, "Ryby"),
-//            Tag(3, "Nabiał"),
-//            Tag(4, "Pieczywo"),
-//            Tag(5, "Warzywa i owoce"),
-//            Tag(6, "Słodycze i przekąski"),
-//            Tag(7, "Napoje"),
-//            Tag(8, "Orzechy"),
-//            Tag(9, "Inne"),
-//        )
     }
 
 }
