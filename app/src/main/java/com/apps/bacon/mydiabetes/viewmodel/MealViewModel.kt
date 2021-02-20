@@ -1,6 +1,7 @@
 package com.apps.bacon.mydiabetes.viewmodel
 
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.ViewModel
 import com.apps.bacon.mydiabetes.data.Meal
 import com.apps.bacon.mydiabetes.data.MealRepository
 import kotlinx.coroutines.CoroutineScope
@@ -12,7 +13,7 @@ class MealViewModel @ViewModelInject
 constructor(
     @Named("meal_repository")
     private val repository: MealRepository
-) {
+) : ViewModel() {
     fun getAll() = repository.getAll()
 
     fun insert(meal: Meal) = CoroutineScope(Dispatchers.Main).launch {

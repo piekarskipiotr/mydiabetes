@@ -4,42 +4,43 @@ import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.apps.bacon.mydiabetes.databinding.ActivityProductBarcodeBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_product_barcode.*
-import javax.inject.Inject
-import javax.inject.Named
 
 @AndroidEntryPoint
 class ProductBarcodeActivity : AppCompatActivity() {
     private val errorMessage: String = resources.getString(R.string.empty_field_message_error)
+    private lateinit var binding: ActivityProductBarcodeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_product_barcode)
+        binding = ActivityProductBarcodeBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         if (intent.getBooleanExtra("BARCODE", true)) {
-            deleteButton.visibility = View.GONE
+            binding.deleteButton.visibility = View.GONE
         }
 
-        saveButton.setOnClickListener {
-            if (barcodeTextInput.text.isNullOrEmpty())
-                barcodeTextInputLayout.error = errorMessage
+        binding.saveButton.setOnClickListener {
+            if (binding.barcodeTextInput.text.isNullOrEmpty())
+                binding.barcodeTextInputLayout.error = errorMessage
             else {
-                barcodeTextInputLayout.error = null
-                intent.putExtra("BARCODE", barcodeTextInput.text.toString().trim())
+                binding.barcodeTextInputLayout.error = null
+                intent.putExtra("BARCODE", binding.barcodeTextInput.text.toString().trim())
                 setResult(Activity.RESULT_OK, intent)
                 finish()
 
             }
         }
 
-        deleteButton.setOnClickListener {
+        binding.deleteButton.setOnClickListener {
             intent.putExtra("DELETE_BARCODE", true)
             setResult(Activity.RESULT_OK, intent)
             finish()
         }
 
-        backButton.setOnClickListener {
+        binding.backButton.setOnClickListener {
             setResult(Activity.RESULT_CANCELED, intent)
             finish()
         }

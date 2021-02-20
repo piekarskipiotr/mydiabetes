@@ -3,7 +3,6 @@ package com.apps.bacon.mydiabetes
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -12,6 +11,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.apps.bacon.mydiabetes.adapters.FoodPlateAdapter
+import com.apps.bacon.mydiabetes.databinding.ActivityFoodPlateBinding
 import com.apps.bacon.mydiabetes.databinding.DialogSummaryResultsBinding
 import com.apps.bacon.mydiabetes.utilities.SwipeToRemove
 import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
@@ -23,26 +23,26 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.DefaultValueFormatter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_food_plate.*
-import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.product_item_food_plate.view.*
 
 @AndroidEntryPoint
 class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickListener {
     private lateinit var foodPlateAdapter: FoodPlateAdapter
     private val productViewModel: ProductViewModel by viewModels()
     private lateinit var bottomDialogBinding: DialogSummaryResultsBinding
+    private lateinit var binding: ActivityFoodPlateBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_food_plate)
+        binding = ActivityFoodPlateBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
         bottomDialogBinding = DialogSummaryResultsBinding.inflate(layoutInflater)
         val bottomSheetDialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
 
         initRecyclerView()
         this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         productViewModel.getProductsInPlate().observe(this, {
-            calculateButton.isEnabled = it.isNotEmpty()
+            binding.calculateButton.isEnabled = it.isNotEmpty()
             foodPlateAdapter.updateData(it)
 
         })
@@ -61,10 +61,10 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
                 ).show()
             }
         }.apply {
-            ItemTouchHelper(this).attachToRecyclerView(foodRecyclerView)
+            ItemTouchHelper(this).attachToRecyclerView(binding.foodRecyclerView)
         }
 
-        calculateButton.setOnClickListener {
+        binding.calculateButton.setOnClickListener {
             bottomSheetDialog.setContentView(bottomDialogBinding.root)
             bottomSheetDialog.show()
             sumValues()
@@ -80,13 +80,13 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
             }
         }
 
-        backButton.setOnClickListener {
+        binding.backButton.setOnClickListener {
             onBackPressed()
         }
     }
 
     private fun initRecyclerView() {
-        foodRecyclerView.apply {
+        binding.foodRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             foodPlateAdapter = FoodPlateAdapter(this@FoodPlateActivity)
             adapter = foodPlateAdapter
@@ -98,10 +98,9 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
         var proteinFatExchangers = 0.0
         var calories = 0.0
         for (i in 0 until foodPlateAdapter.itemCount) {
-            val view = foodRecyclerView.findViewHolderForAdapterPosition(i)!!.itemView
-            carbohydrateExchangers += view.carbohydrateExchangers.text.toString().toDouble()
-            proteinFatExchangers += view.proteinFatExchangers.text.toString().toDouble()
-            calories += view.calories.text.toString().toDouble()
+            carbohydrateExchangers += foodPlateAdapter.getCarbohydrateExchangers(i)
+            proteinFatExchangers += foodPlateAdapter.getProteinFat(i)
+            calories += foodPlateAdapter.getCalories(i)!!
 
         }
 

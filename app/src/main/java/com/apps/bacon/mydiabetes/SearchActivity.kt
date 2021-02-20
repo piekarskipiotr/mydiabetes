@@ -12,10 +12,10 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apps.bacon.mydiabetes.adapters.ProductsAdapter
 import com.apps.bacon.mydiabetes.data.Product
+import com.apps.bacon.mydiabetes.databinding.ActivitySearchBinding
 import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_search.*
 import java.util.*
 
 @AndroidEntryPoint
@@ -23,6 +23,7 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
     private lateinit var productsAdapter: ProductsAdapter
     private lateinit var allProducts: List<Product>
     private val productViewModel: ProductViewModel by viewModels()
+    private lateinit var binding: ActivitySearchBinding
 
     @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,8 +31,11 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
         window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN
-        );
-        setContentView(R.layout.activity_search)
+        )
+
+        binding = ActivitySearchBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         val searchList = mutableListOf<Product>()
 
@@ -41,7 +45,7 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
             allProducts = it
         })
 
-        searchTextInput.onTextChanged {
+        binding.searchTextInput.onTextChanged {
             searchList.clear()
             for (i in allProducts) {
                 if (i.name.toLowerCase(Locale.getDefault())
@@ -53,25 +57,25 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
 
             when {
                 searchList.isEmpty() -> {
-                    textMessage.text = resources.getString(R.string.lack_product)
-                    textMessage.visibility = View.VISIBLE
-                    searchRecyclerView.visibility = View.GONE
+                    binding.textMessage.text = resources.getString(R.string.lack_product)
+                    binding.textMessage.visibility = View.VISIBLE
+                    binding.searchRecyclerView.visibility = View.GONE
 
                 }
-                searchTextInput.text.isNullOrEmpty() -> {
-                    textMessage.text =
+                binding.searchTextInput.text.isNullOrEmpty() -> {
+                    binding.textMessage.text =
                         "${resources.getString(R.string.enter_product_name_to_find)} \n \n ${
                             resources.getString(
                                 R.string.or
                             )
                         } \n \n ${resources.getString(R.string.scan_barcode)}"
-                    textMessage.visibility = View.VISIBLE
-                    searchRecyclerView.visibility = View.GONE
+                    binding.textMessage.visibility = View.VISIBLE
+                    binding.searchRecyclerView.visibility = View.GONE
 
                 }
                 else -> {
-                    textMessage.visibility = View.GONE
-                    searchRecyclerView.visibility = View.VISIBLE
+                    binding.textMessage.visibility = View.GONE
+                    binding.searchRecyclerView.visibility = View.VISIBLE
                     productsAdapter.updateData(searchList)
 
                 }
@@ -79,19 +83,19 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
 
         }
 
-        scanButton.setOnClickListener {
+        binding.scanButton.setOnClickListener {
             intent = Intent(this, ScannerCameraActivity::class.java)
             startActivityForResult(intent, REQUEST_CODE_GET_BARCODE)
         }
 
-        backButton.setOnClickListener {
+        binding.backButton.setOnClickListener {
             onBackPressed()
         }
 
     }
 
     private fun initRecyclerView() {
-        searchRecyclerView.apply {
+        binding.searchRecyclerView.apply {
             layoutManager = LinearLayoutManager(context).apply {
                 reverseLayout = true
             }

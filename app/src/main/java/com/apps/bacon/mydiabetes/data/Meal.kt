@@ -14,7 +14,7 @@ data class Meal(
     var name: String,
 
     @ColumnInfo(name = "list_of_products_id")
-    var productsList: List<Int>,
+    var productsList: String,
 
     @ColumnInfo(name = "icon")
     var icon: String?

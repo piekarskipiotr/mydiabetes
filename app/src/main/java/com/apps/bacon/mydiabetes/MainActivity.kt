@@ -5,17 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
-import com.apps.bacon.mydiabetes.api.ProductsAPI
-import com.apps.bacon.mydiabetes.data.Tag
-import com.apps.bacon.mydiabetes.viewmodel.TagViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
-import javax.inject.Inject
 
 private const val DELAY: Long = 1000
 

@@ -10,14 +10,17 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apps.bacon.mydiabetes.adapters.ProductsAdapter
+import com.apps.bacon.mydiabetes.databinding.FragmentHomeBinding
 import com.apps.bacon.mydiabetes.viewmodel.HomeViewModel
 import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_home.*
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), ProductsAdapter.OnProductClickListener {
     private lateinit var productsAdapter: ProductsAdapter
+
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,12 +50,18 @@ class HomeFragment : Fragment(), ProductsAdapter.OnProductClickListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+    ): View {
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
     private fun initRecyclerView() {
-        recyclerView.apply {
+        binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             productsAdapter = ProductsAdapter(this@HomeFragment)
             adapter = productsAdapter

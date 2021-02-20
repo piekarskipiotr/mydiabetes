@@ -52,6 +52,7 @@ class FoodPlateAdapter constructor(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val context = holder.itemView.context
+
         if (data[position].icon == null)
             holder.icon.setImageDrawable(
                 ContextCompat.getDrawable(
@@ -142,6 +143,18 @@ class FoodPlateAdapter constructor(
     fun updateData(dataList: List<Product>) {
         data = dataList
         notifyDataSetChanged()
+    }
+
+    fun getCarbohydrateExchangers(position: Int) : Double{
+        return data[position].carbohydrateExchangers
+    }
+
+    fun getProteinFat(position: Int) : Double{
+        return data[position].proteinFatExchangers
+    }
+
+    fun getCalories(position: Int) : Double? {
+        return data[position].calories
     }
 
     fun getProduct(position: Int): Product {

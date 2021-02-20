@@ -4,12 +4,16 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate.*
-import kotlinx.android.synthetic.main.activity_theme_settings.*
+import com.apps.bacon.mydiabetes.databinding.ActivityThemeSettingsBinding
 
 class ThemeSettings : AppCompatActivity() {
+    private lateinit var binding: ActivityThemeSettingsBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_theme_settings)
+        binding = ActivityThemeSettingsBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         val sharedPreference = this.getSharedPreferences(
             "APP_PREFERENCES",
@@ -17,12 +21,12 @@ class ThemeSettings : AppCompatActivity() {
         )
 
         when (sharedPreference.getInt("THEME", MODE_NIGHT_NO)) {
-            MODE_NIGHT_NO -> turnOffRadioButton.isChecked = true
-            MODE_NIGHT_YES -> turnOnRadioButton.isChecked = true
+            MODE_NIGHT_NO -> binding.turnOffRadioButton.isChecked = true
+            MODE_NIGHT_YES -> binding.turnOnRadioButton.isChecked = true
         }
 
-        turnOnRadioButton.setOnClickListener {
-            turnOffRadioButton.isChecked = false
+        binding.turnOnRadioButton.setOnClickListener {
+            binding.turnOffRadioButton.isChecked = false
             with(sharedPreference.edit()) {
                 putInt("THEME", MODE_NIGHT_YES)
                 apply()
@@ -30,8 +34,8 @@ class ThemeSettings : AppCompatActivity() {
             setDefaultNightMode(MODE_NIGHT_YES)
         }
 
-        turnOffRadioButton.setOnClickListener {
-            turnOnRadioButton.isChecked = false
+        binding.turnOffRadioButton.setOnClickListener {
+            binding.turnOnRadioButton.isChecked = false
             with(sharedPreference.edit()) {
                 putInt("THEME", MODE_NIGHT_NO)
                 apply()
@@ -39,7 +43,7 @@ class ThemeSettings : AppCompatActivity() {
             setDefaultNightMode(MODE_NIGHT_NO)
         }
 
-        backButton.setOnClickListener {
+        binding.backButton.setOnClickListener {
             onBackPressed()
         }
     }

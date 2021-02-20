@@ -15,9 +15,9 @@ import androidx.camera.core.ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.apps.bacon.mydiabetes.databinding.ActivityScannerCameraBinding
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
-import kotlinx.android.synthetic.main.activity_scanner_camera.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -26,10 +26,13 @@ typealias BarcodeListener = (barcode: String) -> Unit
 class ScannerCameraActivity : AppCompatActivity() {
     private var imageCapture: ImageCapture? = null
     private lateinit var cameraExecutor: ExecutorService
+    private lateinit var binding: ActivityScannerCameraBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_scanner_camera)
+        binding = ActivityScannerCameraBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
         window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN
@@ -53,7 +56,7 @@ class ScannerCameraActivity : AppCompatActivity() {
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
 
             val preview = Preview.Builder().build().also {
-                it.setSurfaceProvider(viewFinder.surfaceProvider)
+                it.setSurfaceProvider(binding.viewFinder.surfaceProvider)
             }
 
             imageCapture = ImageCapture.Builder()

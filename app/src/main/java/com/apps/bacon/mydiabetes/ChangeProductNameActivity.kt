@@ -3,29 +3,30 @@ package com.apps.bacon.mydiabetes
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import kotlinx.android.synthetic.main.activity_change_product_name.*
-import javax.inject.Inject
-import javax.inject.Named
+import com.apps.bacon.mydiabetes.databinding.ActivityChangeProductNameBinding
 
 class ChangeProductNameActivity : AppCompatActivity() {
     private val errorMessage: String = resources.getString(R.string.empty_field_message_error)
+    private lateinit var binding: ActivityChangeProductNameBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_change_product_name)
+        binding = ActivityChangeProductNameBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
-        changeNameButton.setOnClickListener {
-            if (productNameTextInput.text.isNullOrEmpty())
-                productNameTextInputLayout.error = errorMessage
+        binding.changeNameButton.setOnClickListener {
+            if (binding.productNameTextInput.text.isNullOrEmpty())
+                binding.productNameTextInputLayout.error = errorMessage
             else {
-                productNameTextInputLayout.error = null
-                intent.putExtra("PRODUCT_NAME", productNameTextInput.text.toString().trim())
+                binding.productNameTextInputLayout.error = null
+                intent.putExtra("PRODUCT_NAME", binding.productNameTextInput.text.toString().trim())
                 setResult(Activity.RESULT_OK, intent)
                 finish()
 
             }
         }
 
-        backButton.setOnClickListener {
+        binding.backButton.setOnClickListener {
             setResult(Activity.RESULT_CANCELED, intent)
             finish()
         }

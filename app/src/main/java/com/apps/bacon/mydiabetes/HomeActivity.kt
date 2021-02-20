@@ -12,24 +12,27 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE
 import com.apps.bacon.mydiabetes.data.*
+import com.apps.bacon.mydiabetes.databinding.ActivityHomeBinding
 import com.apps.bacon.mydiabetes.databinding.DialogFetchDataFromServerBinding
 import com.apps.bacon.mydiabetes.utilities.TagTranslator
 import com.apps.bacon.mydiabetes.viewmodel.*
 import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_home.*
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
     private lateinit var sharedPreference: SharedPreferences
     private lateinit var lang: String
+    private lateinit var binding: ActivityHomeBinding
+    private val tagViewModel: TagViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+        binding = ActivityHomeBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
-        supportFragmentManager.beginTransaction().replace(fragmentContainer.id, HomeFragment())
+        supportFragmentManager.beginTransaction().replace(binding.fragmentContainer.id, HomeFragment())
             .commit()
         sharedPreference = this.getSharedPreferences(
             "APP_PREFERENCES",
@@ -39,9 +42,7 @@ class HomeActivity : AppCompatActivity() {
 
         val homeViewModel: HomeViewModel by viewModels()
         val productViewModel: ProductViewModel by viewModels()
-        val tagViewModel: TagViewModel by viewModels()
 
-        TagTranslator().translate(tagViewModel, this)
 
         if (!homeViewModel.isErrorWithFetchData) {
             fetchDataDialog(homeViewModel)
@@ -53,13 +54,13 @@ class HomeActivity : AppCompatActivity() {
 
         productViewModel.getProductsInPlate().observe(this, {
             if (it.isEmpty()) {
-                notificationIconFoodPlate.visibility = View.GONE
+                binding.notificationIconFoodPlate.visibility = View.GONE
             } else {
-                notificationIconFoodPlate.visibility = View.VISIBLE
+                binding.notificationIconFoodPlate.visibility = View.VISIBLE
             }
         })
 
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 homeViewModel.currentTag.value = tab!!.tag as Int
             }
@@ -75,7 +76,7 @@ class HomeActivity : AppCompatActivity() {
         })
 
 
-        bottomNavigation.setOnNavigationItemSelectedListener { item ->
+        binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.home_nav -> {
                     changeFragment(
@@ -115,12 +116,12 @@ class HomeActivity : AppCompatActivity() {
 
         }
 
-        searchForProduct.setOnClickListener {
+        binding.searchForProduct.setOnClickListener {
             intent = Intent(this, SearchActivity::class.java)
             startActivity(intent)
         }
 
-        foodPlate.setOnClickListener {
+        binding.foodPlate.setOnClickListener {
             intent = Intent(this, FoodPlateActivity::class.java)
             startActivity(intent)
         }
@@ -128,17 +129,17 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun addTabs(listOfTags: List<Tag>) {
-        tabLayout.removeAllTabs()
-        tabLayout.addTab(
-            tabLayout.newTab().setText(resources.getString(R.string.all))
+        binding.tabLayout.removeAllTabs()
+        binding.tabLayout.addTab(
+            binding.tabLayout.newTab().setText(resources.getString(R.string.all))
                 .apply {
                     tag = 0
                 }, 0, true
         )
 
         for ((j, i) in listOfTags.indices.withIndex()) {
-            tabLayout.addTab(
-                tabLayout.newTab().setText(listOfTags[i].name)
+            binding.tabLayout.addTab(
+                binding.tabLayout.newTab().setText(listOfTags[i].name)
                     .apply {
                         tag = listOfTags[i].id
                     }, j + 1
@@ -148,12 +149,12 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun changeFragment(fragment: Fragment, fragmentTitle: String, visibility: Int) {
-        appBarText.text = fragmentTitle
-        tabLayout.visibility = visibility
+        binding.appBarText.text = fragmentTitle
+        binding.tabLayout.visibility = visibility
 
         supportFragmentManager.beginTransaction()
             .setTransition(TRANSIT_FRAGMENT_FADE)
-            .replace(fragmentContainer.id, fragment)
+            .replace(binding.fragmentContainer.id, fragment)
             .commit()
 
     }
@@ -198,6 +199,7 @@ class HomeActivity : AppCompatActivity() {
 
         lang = sharedPreference.getString("APP_LANGUAGE", "pl") as String
         if (oldLang != lang) {
+            TagTranslator().translate(tagViewModel, this)
             finish()
             startActivity(intent)
         }

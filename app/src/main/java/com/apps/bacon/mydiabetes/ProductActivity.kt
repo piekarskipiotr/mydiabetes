@@ -15,10 +15,7 @@ import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apps.bacon.mydiabetes.adapters.ImageAdapter
 import com.apps.bacon.mydiabetes.data.*
-import com.apps.bacon.mydiabetes.databinding.DialogAddImageBinding
-import com.apps.bacon.mydiabetes.databinding.DialogDeleteProductBinding
-import com.apps.bacon.mydiabetes.databinding.DialogManagerImageBinding
-import com.apps.bacon.mydiabetes.databinding.DialogManagerTagBinding
+import com.apps.bacon.mydiabetes.databinding.*
 import com.apps.bacon.mydiabetes.viewmodel.ImageViewModel
 import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
 import com.apps.bacon.mydiabetes.viewmodel.TagViewModel
@@ -32,10 +29,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_product.*
-import kotlinx.android.synthetic.main.activity_product.backButton
-import kotlinx.android.synthetic.main.activity_product.deleteButton
-import kotlinx.android.synthetic.main.dialog_delete_product.*
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -48,10 +41,13 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
     private val tagViewModel: TagViewModel by viewModels()
     private val imageViewModel: ImageViewModel by viewModels()
     private lateinit var imagesAdapter: ImageAdapter
+    private lateinit var binding: ActivityProductBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_product)
+        binding = ActivityProductBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         val bottomSheetDialogCameraViewBinding = DialogAddImageBinding.inflate(layoutInflater)
         val bottomSheetDialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
@@ -64,17 +60,17 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
             imagesAdapter.updateData(it)
         })
 
-        productName.setOnClickListener {
+        binding.productName.setOnClickListener {
             intent = Intent(this, ChangeProductNameActivity::class.java)
             startActivityForResult(intent, REQUEST_CODE_PRODUCT_NAME)
         }
 
-        scanBarcodeButton.setOnClickListener {
+        binding.scanBarcodeButton.setOnClickListener {
             intent = Intent(this, CameraActivity::class.java)
             startActivityForResult(intent, REQUEST_CODE_GET_BARCODE)
         }
 
-        manualBarcode.setOnClickListener {
+        binding.manualBarcode.setOnClickListener {
             intent = Intent(this, ProductBarcodeActivity::class.java)
             if (product.barcode != null)
                 intent.putExtra("BARCODE", false)
@@ -82,7 +78,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
             startActivityForResult(intent, REQUEST_CODE_GET_BARCODE)
         }
 
-        takePhotoButton.setOnClickListener {
+        binding.takePhotoButton.setOnClickListener {
             bottomSheetDialog.setContentView(bottomSheetDialogCameraViewBinding.root)
             bottomSheetDialog.show()
 
@@ -102,7 +98,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
         }
 
 
-        addButton.setOnClickListener {
+        binding.addButton.setOnClickListener {
             productViewModel.update(product.apply {
                 inFoodPlate = true
             })
@@ -111,17 +107,17 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
                 .show()
         }
 
-        backButton.setOnClickListener {
+        binding.backButton.setOnClickListener {
             onBackPressed()
         }
 
-        deleteButton.setOnClickListener {
+        binding.deleteButton.setOnClickListener {
             dialogDeleteProduct()
         }
     }
 
     private fun initRecyclerView() {
-        photosRecyclerView.apply {
+        binding.photosRecyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             imagesAdapter = ImageAdapter(this@ProductActivity)
             adapter = imagesAdapter
@@ -129,23 +125,23 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
     }
 
     private fun setProductInfo() {
-        productName.text = product.name
+        binding.productName.text = product.name
         val measureText: String = if (product.weight != null)
             "(${resources.getString(R.string.for_smth)} ${product.weight} g/ml)"
         else
             "(${resources.getString(R.string.for_smth)} ${product.pieces} ${resources.getString(R.string.pieces_shortcut)})"
 
-        measureOfProductValues.text = measureText
-        measureOfProductExchangers.text = measureText
+        binding.measureOfProductValues.text = measureText
+        binding.measureOfProductExchangers.text = measureText
 
-        carbohydrates.text = product.carbohydrates.toString()
-        calories.text = product.calories.toString()
+        binding.carbohydrates.text = product.carbohydrates.toString()
+        binding.calories.text = product.calories.toString()
         if (product.protein != null) {
-            protein.text = product.protein.toString()
-            fat.text = product.fat.toString()
+            binding.protein.text = product.protein.toString()
+            binding.fat.text = product.fat.toString()
         } else {
-            proteinContainer.visibility = View.GONE
-            fatContainer.visibility = View.GONE
+            binding.proteinContainer.visibility = View.GONE
+            binding.fatContainer.visibility = View.GONE
         }
 
         pieChart(product.carbohydrateExchangers, product.proteinFatExchangers)
@@ -158,16 +154,16 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
         }
 
         if (product.barcode == null) {
-            manualBarcode.text = resources.getString(R.string.barcode_manually)
+            binding.manualBarcode.text = resources.getString(R.string.barcode_manually)
         } else {
-            manualBarcode.text = product.barcode
+            binding.manualBarcode.text = product.barcode
         }
     }
 
     private fun addChip(label: String, ID: Int) {
-        tagChipContainer.removeAllViewsInLayout()
-        tagChipContainer.addChip(label, ID)
-        tagChipContainer[0].setOnClickListener {
+        binding.tagChipContainer.removeAllViewsInLayout()
+        binding.tagChipContainer.addChip(label, ID)
+        binding.tagChipContainer[0].setOnClickListener {
             if (product.tag == null) {
                 intent = Intent(this, AddTagActivity::class.java)
                 intent.putExtra("TAG_MANAGER", true)
@@ -277,7 +273,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
     }
 
     private fun pieChart(carbohydrateExchangers: Double, proteinFatExchangers: Double) {
-        val pieChart: PieChart = pieChart
+        val pieChart: PieChart = binding.pieChart
         val data = ArrayList<PieEntry>()
         if (carbohydrateExchangers != 0.0)
             data.add(

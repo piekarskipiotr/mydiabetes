@@ -10,62 +10,65 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.get
 import com.apps.bacon.mydiabetes.data.Tag
+import com.apps.bacon.mydiabetes.databinding.ActivityAddTagBinding
 import com.apps.bacon.mydiabetes.databinding.DialogDeleteTagBinding
 import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
 import com.apps.bacon.mydiabetes.viewmodel.TagViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_add_tag.*
 
 @AndroidEntryPoint
 class AddTagActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityAddTagBinding
     private val productViewModel: ProductViewModel by viewModels()
     private val tagViewModel: TagViewModel by viewModels()
     private val errorMessage: String = resources.getString(R.string.empty_field_message_error)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_tag)
+        binding = ActivityAddTagBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         if (intent.getBooleanExtra("TAG_SETTINGS", false))
-            headerText.text = resources.getString(R.string.tag_management)
+            binding.headerText.text = resources.getString(R.string.tag_management)
 
         if (intent.getBooleanExtra("TAG_MANAGER", false)) {
-            existingTagsLayout.visibility = View.VISIBLE
+            binding.existingTagsLayout.visibility = View.VISIBLE
             tagViewModel.getAll().observe(this, {
                 addChips(this, it)
             })
         }
 
-        addTagButton.setOnClickListener {
-            if (tagNameTextInput.text.isNullOrEmpty())
-                tagNameTextInputLayout.error = errorMessage
+        binding.addTagButton.setOnClickListener {
+            if (binding.tagNameTextInput.text.isNullOrEmpty())
+                binding.tagNameTextInputLayout.error = errorMessage
             else {
-                tagNameTextInputLayout.error = null
-                tagViewModel.insert(Tag(0, tagNameTextInput.text.toString().trim()))
+                binding.tagNameTextInputLayout.error = null
+                tagViewModel.insert(Tag(0, binding.tagNameTextInput.text.toString().trim()))
                 if (!intent.getBooleanExtra("TAG_SETTINGS", false)) {
                     intent.putExtra("NEW_TAG", true)
                     setResult(Activity.RESULT_OK, intent)
                     finish()
                 } else {
-                    tagNameTextInput.text = null
+                    binding.tagNameTextInput.text = null
                 }
 
             }
         }
 
-        backButton.setOnClickListener {
+        binding.backButton.setOnClickListener {
             onBackPressed()
         }
     }
 
     private fun addChips(context: Context, listOfTags: List<Tag>) {
-        tagChipContainer.removeAllViewsInLayout()
+        binding.tagChipContainer.removeAllViewsInLayout()
         for (i in listOfTags.indices) {
-            tagChipContainer.addChip(context, listOfTags[i].name, listOfTags[i].id)
+            binding.tagChipContainer.addChip(context, listOfTags[i].name, listOfTags[i].id)
             if (!intent.getBooleanExtra("TAG_SETTINGS", false)) {
-                tagChipContainer[i].setOnClickListener {
+                binding.tagChipContainer[i].setOnClickListener {
                     intent.putExtra("TAG_ID", listOfTags[i].id)
                     setResult(Activity.RESULT_OK, intent)
                     finish()
@@ -73,8 +76,8 @@ class AddTagActivity : AppCompatActivity() {
             }
 
         }
-        for (i in 9 until tagChipContainer.childCount) {
-            tagChipContainer.getChildAt(i).setOnLongClickListener {
+        for (i in 9 until binding.tagChipContainer.childCount) {
+            binding.tagChipContainer.getChildAt(i).setOnLongClickListener {
                 dialogRemoveTag(listOfTags[i])
                 true
             }

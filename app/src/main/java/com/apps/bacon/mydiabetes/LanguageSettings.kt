@@ -3,13 +3,16 @@ package com.apps.bacon.mydiabetes
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import kotlinx.android.synthetic.main.activity_language_settings.*
+import com.apps.bacon.mydiabetes.databinding.ActivityLanguageSettingsBinding
 import java.util.*
 
 class LanguageSettings : AppCompatActivity() {
+    private lateinit var binding: ActivityLanguageSettingsBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_language_settings)
+        binding = ActivityLanguageSettingsBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         val sharedPreference = this.getSharedPreferences(
             "APP_PREFERENCES",
@@ -17,12 +20,12 @@ class LanguageSettings : AppCompatActivity() {
         )
 
         when (sharedPreference.getString("APP_LANGUAGE", "pl")) {
-            "en" -> englishRadioButton.isChecked = true
-            "pl" -> polishRadioButton.isChecked = true
+            "en" -> binding.englishRadioButton.isChecked = true
+            "pl" -> binding.polishRadioButton.isChecked = true
         }
 
-        polishRadioButton.setOnClickListener {
-            englishRadioButton.isChecked = false
+        binding.polishRadioButton.setOnClickListener {
+            binding.englishRadioButton.isChecked = false
             with(sharedPreference.edit()) {
                 putString("APP_LANGUAGE", "pl")
                 apply()
@@ -32,8 +35,8 @@ class LanguageSettings : AppCompatActivity() {
 
         }
 
-        englishRadioButton.setOnClickListener {
-            polishRadioButton.isChecked = false
+        binding.englishRadioButton.setOnClickListener {
+            binding.polishRadioButton.isChecked = false
             with(sharedPreference.edit()) {
                 putString("APP_LANGUAGE", "en")
                 apply()
@@ -43,7 +46,7 @@ class LanguageSettings : AppCompatActivity() {
 
         }
 
-        backButton.setOnClickListener {
+        binding.backButton.setOnClickListener {
             onBackPressed()
         }
     }
