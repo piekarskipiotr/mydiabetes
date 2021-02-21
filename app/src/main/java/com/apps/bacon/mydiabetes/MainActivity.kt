@@ -20,8 +20,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val sharedPreference = this.getSharedPreferences("APP_PREFERENCES", Context.MODE_PRIVATE)
         val theme = sharedPreference.getInt("THEME", MODE_NIGHT_NO)
+        Log.d("CHUJ", Locale.getDefault().toLanguageTag())
         val defaultLang = if(Locale.getDefault().toLanguageTag() == "pl-PL")
-            "pl-PL"
+            "pl"
         else
             "en"
 

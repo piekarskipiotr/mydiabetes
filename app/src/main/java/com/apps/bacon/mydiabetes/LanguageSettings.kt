@@ -20,7 +20,7 @@ class LanguageSettings : AppCompatActivity() {
         )
 
         val defaultLang = if(Locale.getDefault().toLanguageTag() == "pl-PL")
-            "pl-PL"
+            "pl"
         else
             "en"
 
