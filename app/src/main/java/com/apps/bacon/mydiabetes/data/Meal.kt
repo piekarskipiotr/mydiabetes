@@ -14,7 +14,7 @@ data class Meal(
     var name: String,
 
     @ColumnInfo(name = "calories")
-    var calories: Double?,
+    var calories: Double,
 
     @ColumnInfo(name = "carbohydrateExchangers")
     var carbohydrateExchangers: Double,
