@@ -72,6 +72,6 @@ class ProductsAdapter constructor(
     }
 
     interface OnProductClickListener {
-        fun onProductClick(productID: Int)
+        fun onProductClick(productId: Int)
     }
 }

@@ -13,6 +13,15 @@ data class Meal(
     @ColumnInfo(name = "meal_name")
     var name: String,
 
+    @ColumnInfo(name = "calories")
+    var calories: Double?,
+
+    @ColumnInfo(name = "carbohydrateExchangers")
+    var carbohydrateExchangers: Double,
+
+    @ColumnInfo(name = "proteinFatExchangers")
+    var proteinFatExchangers: Double,
+
     @ColumnInfo(name = "list_of_products_id")
     var productsList: String,
 
