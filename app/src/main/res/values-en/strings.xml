@@ -86,4 +86,5 @@
     <string name="quantity">Quantity</string>
     <string name="piece">Piece</string>
     <string name="meals">Meals</string>
+    <string name="products">Products</string>
 </resources>

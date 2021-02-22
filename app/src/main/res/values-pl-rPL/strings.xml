@@ -87,4 +87,5 @@
     <string name="quantity">Ilość sztuk</string>
     <string name="piece">Sztuka</string>
     <string name="meals">Posiłki</string>
+    <string name="products">Produkty</string>
 </resources>
