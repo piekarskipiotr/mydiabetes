@@ -37,6 +37,9 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
         val view = binding.root
         setContentView(view)
 
+        binding.textMessage.text =
+            "${resources.getString(R.string.enter_product_name_to_find)} \n ${resources.getString(R.string.or)} \n ${resources.getString(R.string.scan_barcode)}"
+
         val searchList = mutableListOf<Product>()
 
         initRecyclerView()
@@ -64,11 +67,7 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
                 }
                 binding.searchTextInput.text.isNullOrEmpty() -> {
                     binding.textMessage.text =
-                        "${resources.getString(R.string.enter_product_name_to_find)} \n \n ${
-                            resources.getString(
-                                R.string.or
-                            )
-                        } \n \n ${resources.getString(R.string.scan_barcode)}"
+                        "${resources.getString(R.string.enter_product_name_to_find)} \n ${resources.getString(R.string.or)} \n ${resources.getString(R.string.scan_barcode)}"
                     binding.textMessage.visibility = View.VISIBLE
                     binding.searchRecyclerView.visibility = View.GONE
 
