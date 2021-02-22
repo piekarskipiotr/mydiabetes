@@ -18,11 +18,13 @@ import com.apps.bacon.mydiabetes.utilities.TagTranslator
 import com.apps.bacon.mydiabetes.viewmodel.*
 import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
     private lateinit var sharedPreference: SharedPreferences
     private lateinit var lang: String
+    private lateinit var defaultLang: String
     private lateinit var binding: ActivityHomeBinding
     private val tagViewModel: TagViewModel by viewModels()
 
@@ -38,7 +40,13 @@ class HomeActivity : AppCompatActivity() {
             "APP_PREFERENCES",
             Context.MODE_PRIVATE
         )
-        lang = sharedPreference.getString("APP_LANGUAGE", "pl") as String
+
+        defaultLang = if(Locale.getDefault().toLanguageTag() == "pl-PL")
+            "pl"
+        else
+            "en"
+
+        lang = sharedPreference.getString("APP_LANGUAGE", defaultLang) as String
 
         val homeViewModel: HomeViewModel by viewModels()
         val productViewModel: ProductViewModel by viewModels()
@@ -197,7 +205,7 @@ class HomeActivity : AppCompatActivity() {
         super.onResume()
         val oldLang = lang
 
-        lang = sharedPreference.getString("APP_LANGUAGE", "pl") as String
+        lang = sharedPreference.getString("APP_LANGUAGE", defaultLang) as String
         if (oldLang != lang) {
             TagTranslator().translate(tagViewModel, this)
             finish()

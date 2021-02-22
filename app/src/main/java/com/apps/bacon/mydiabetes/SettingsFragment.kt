@@ -6,9 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.apps.bacon.mydiabetes.databinding.FragmentAddProductBinding
 import com.apps.bacon.mydiabetes.databinding.FragmentSettingsBinding
-import kotlinx.android.synthetic.main.fragment_settings.*
 
 class SettingsFragment : Fragment() {
     private var _binding: FragmentSettingsBinding? = null
@@ -17,7 +15,7 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        tagManagerSettings.setOnClickListener {
+        binding.tagManagerSettings.setOnClickListener {
             val intent = Intent(requireActivity(), AddTagActivity::class.java)
             intent.putExtra("TAG_SETTINGS", true)
             intent.putExtra("TAG_MANAGER", true)
@@ -25,13 +23,13 @@ class SettingsFragment : Fragment() {
 
         }
 
-        themeChangerSettings.setOnClickListener {
+        binding.themeChangerSettings.setOnClickListener {
             val intent = Intent(requireActivity(), ThemeSettings::class.java)
             startActivity(intent)
 
         }
 
-        languageSettings.setOnClickListener {
+        binding.languageSettings.setOnClickListener {
             val intent = Intent(requireActivity(), LanguageSettings::class.java)
             startActivity(intent)
 
