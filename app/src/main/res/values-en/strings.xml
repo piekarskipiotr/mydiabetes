@@ -87,4 +87,5 @@
     <string name="piece">Piece</string>
     <string name="meals">Meals</string>
     <string name="products">Products</string>
+    <string name="del_meal_confimr_message">Are you sure you want to remove the meal? You can\'t take it back.</string>
 </resources>

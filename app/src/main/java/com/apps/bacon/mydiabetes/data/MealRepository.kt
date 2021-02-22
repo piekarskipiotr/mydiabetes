@@ -7,6 +7,8 @@ class MealRepository @Inject constructor(
 ) {
     fun getAll() = database.mealDao().getAll()
 
+    fun getMeal(id: Int) = database.mealDao().getMeal(id)
+
     suspend fun insert(meal: Meal) = database.mealDao().insert(meal)
 
     suspend fun update(meal: Meal) = database.mealDao().update(meal)

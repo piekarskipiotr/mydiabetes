@@ -16,6 +16,8 @@ constructor(
 ) : ViewModel() {
     fun getAll() = repository.getAll()
 
+    fun getMeal(id: Int) = repository.getMeal(id)
+
     fun insert(meal: Meal) = CoroutineScope(Dispatchers.Main).launch {
         repository.insert(meal)
     }

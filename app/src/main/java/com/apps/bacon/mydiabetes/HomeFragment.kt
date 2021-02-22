@@ -69,9 +69,9 @@ class HomeFragment : Fragment(), ProductsAdapter.OnProductClickListener {
         }
     }
 
-    override fun onProductClick(productID: Int) {
+    override fun onProductClick(productId: Int) {
         val intent = Intent(activity, ProductActivity::class.java)
-        intent.putExtra("PRODUCT_ID", productID)
+        intent.putExtra("PRODUCT_ID", productId)
         startActivity(intent)
     }
 }

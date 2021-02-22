@@ -153,9 +153,9 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
         pieChart.animate()
     }
 
-    override fun onProductClick(productID: Int) {
+    override fun onProductClick(productId: Int) {
         val intent = Intent(this, ProductActivity::class.java)
-        intent.putExtra("PRODUCT_ID", productID)
+        intent.putExtra("PRODUCT_ID", productId)
         startActivity(intent)
     }
 

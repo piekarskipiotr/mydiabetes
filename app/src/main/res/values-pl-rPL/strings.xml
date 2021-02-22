@@ -88,4 +88,5 @@
     <string name="piece">Sztuka</string>
     <string name="meals">Posiłki</string>
     <string name="products">Produkty</string>
+    <string name="del_meal_confimr_message">Jesteś pewien że chcesz usunąć posiłek? Nie możesz tego cofnąć.</string>
 </resources>
