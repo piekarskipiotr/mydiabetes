@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "meals")
 data class Meal(
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "product_id")
+    @ColumnInfo(name = "meal_id")
     var id: Int,
 
     @ColumnInfo(name = "meal_name")
