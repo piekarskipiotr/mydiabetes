@@ -10,8 +10,9 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.apps.bacon.mydiabetes.R
 import com.apps.bacon.mydiabetes.data.Meal
+import com.apps.bacon.mydiabetes.data.Product
 import com.apps.bacon.mydiabetes.databinding.MealItemBinding
-import java.util.ArrayList
+import java.util.*
 
 class MealsAdapter constructor(
     private val listener: OnMealClickListener
@@ -54,13 +55,18 @@ class MealsAdapter constructor(
             holder.icon.setImageURI(Uri.parse(data[position].icon))
 
         holder.mealName.text = data[position].name
-       
+
         holder.carbohydrateExchangers.text = data[position].carbohydrateExchangers.toString()
         holder.proteinFatExchangers.text = data[position].proteinFatExchangers.toString()
         holder.calories.text = data[position].calories.toString()
     }
 
     override fun getItemCount() = data.size
+
+    fun updateData(dataList: List<Meal>) {
+        data = dataList
+        notifyDataSetChanged()
+    }
 
     interface OnMealClickListener {
         fun onMealClick(mealId: Int)
