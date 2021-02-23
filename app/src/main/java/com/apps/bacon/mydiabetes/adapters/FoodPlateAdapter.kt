@@ -145,6 +145,10 @@ class FoodPlateAdapter constructor(
         notifyDataSetChanged()
     }
 
+    fun getData(): List<Product> {
+        return data
+    }
+
     fun getCarbohydrateExchangers(position: Int) : Double{
         return data[position].carbohydrateExchangers
     }

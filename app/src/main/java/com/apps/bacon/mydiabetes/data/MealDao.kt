@@ -11,6 +11,9 @@ interface MealDao {
     @Query("SELECT * FROM meals WHERE :id == meal_id")
     fun getMeal(id: Int): Meal
 
+    @Query("SELECT MAX(meal_id) FROM meals")
+    fun getLastId(): Int
+
     @Insert
     fun insert(meal: Meal)
 

@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.apps.bacon.mydiabetes.adapters.MealsAdapter
 import com.apps.bacon.mydiabetes.databinding.FragmentHomeBinding
 import com.apps.bacon.mydiabetes.viewmodel.MealViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MealsFragment : Fragment(), MealsAdapter.OnMealClickListener {
     private lateinit var mealsAdapter: MealsAdapter
 

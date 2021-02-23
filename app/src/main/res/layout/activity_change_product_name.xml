@@ -88,7 +88,8 @@
                         android:lines="1"
                         android:maxLength="25"
                         android:textCursorDrawable="@drawable/black_cursor"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:imeOptions="actionDone"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 

@@ -11,9 +11,13 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.apps.bacon.mydiabetes.adapters.FoodPlateAdapter
+import com.apps.bacon.mydiabetes.data.Meal
+import com.apps.bacon.mydiabetes.data.ProductMealJoin
 import com.apps.bacon.mydiabetes.databinding.ActivityFoodPlateBinding
+import com.apps.bacon.mydiabetes.databinding.DialogMealNameBinding
 import com.apps.bacon.mydiabetes.databinding.DialogSummaryResultsBinding
 import com.apps.bacon.mydiabetes.utilities.SwipeToRemove
+import com.apps.bacon.mydiabetes.viewmodel.MealViewModel
 import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.PieChart
@@ -30,6 +34,9 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
     private val productViewModel: ProductViewModel by viewModels()
     private lateinit var bottomDialogBinding: DialogSummaryResultsBinding
     private lateinit var binding: ActivityFoodPlateBinding
+    private var carbohydrateExchangers = 0.0
+    private var proteinFatExchangers = 0.0
+    private var calories = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,6 +85,38 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
                 }
                 bottomSheetDialog.dismiss()
             }
+
+            bottomDialogBinding.saveMealButton.setOnClickListener {
+                bottomSheetDialog.dismiss()
+                val bottomDialogMealNameBinding = DialogMealNameBinding.inflate(layoutInflater)
+                bottomSheetDialog.setContentView(bottomDialogMealNameBinding.root)
+                bottomSheetDialog.show()
+
+                val errorMessage = resources.getString(R.string.empty_field_message_error)
+
+                bottomDialogMealNameBinding.saveNameButton.setOnClickListener {
+                    if (bottomDialogMealNameBinding.mealNameTextInput.text.isNullOrEmpty())
+                        bottomDialogMealNameBinding.mealNameTextInputLayout.error = errorMessage
+                    else {
+                        bottomDialogMealNameBinding.mealNameTextInputLayout.error = null
+
+                        val mealViewModel: MealViewModel by viewModels()
+                        val meal = Meal(0, bottomDialogMealNameBinding.mealNameTextInput.text.toString().trim(), calories, carbohydrateExchangers, proteinFatExchangers, null)
+                        mealViewModel.insert(meal)
+                        val listOfProducts = foodPlateAdapter.getData()
+
+                        val mealId = mealViewModel.getLastId()
+                        for(product in listOfProducts){
+                            mealViewModel.insertPMJoin(ProductMealJoin(product.id, mealId))
+                        }
+                        bottomSheetDialog.dismiss()
+
+                        intent = Intent(this, MealActivity::class.java)
+                        intent.putExtra("MEAL_ID", mealId)
+                        startActivity(intent)
+                    }
+                }
+            }
         }
 
         binding.backButton.setOnClickListener {
@@ -94,9 +133,7 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
     }
 
     private fun sumValues() {
-        var carbohydrateExchangers = 0.0
-        var proteinFatExchangers = 0.0
-        var calories = 0.0
+
         for (i in 0 until foodPlateAdapter.itemCount) {
             carbohydrateExchangers += foodPlateAdapter.getCarbohydrateExchangers(i)
             proteinFatExchangers += foodPlateAdapter.getProteinFat(i)
@@ -106,6 +143,7 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
 
         pieChart(carbohydrateExchangers, proteinFatExchangers, calories)
     }
+
 
     private fun pieChart(
         carbohydrateExchangers: Double,

@@ -1,9 +1,12 @@
 package com.apps.bacon.mydiabetes
 
 import android.content.Intent
-import android.os.Bundle
-import androidx.activity.viewModels
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.view.LayoutInflater
+import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apps.bacon.mydiabetes.adapters.ImageAdapter
@@ -18,9 +21,13 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.DefaultValueFormatter
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import dagger.hilt.android.AndroidEntryPoint
+import java.io.ByteArrayOutputStream
+import java.io.InputStream
 
-class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener,
-    ImageAdapter.OnImageClickListener {
+@AndroidEntryPoint
+class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener, ImageAdapter.OnImageClickListener {
     private lateinit var productsAdapter: ProductsAdapter
     private lateinit var imageAdapter: ImageAdapter
     private lateinit var binding: ActivityMealBinding
@@ -46,8 +53,48 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
             startActivityForResult(intent, REQUEST_CODE_MEAL_NAME)
         }
 
-        binding.deleteButton.setOnClickListener {
+        val bottomSheetDialogCameraViewBinding = DialogAddImageBinding.inflate(layoutInflater)
+        val bottomSheetDialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
 
+        binding.takePhotoButton.setOnClickListener {
+            bottomSheetDialog.setContentView(bottomSheetDialogCameraViewBinding.root)
+            bottomSheetDialog.show()
+
+            bottomSheetDialogCameraViewBinding.cameraButton.setOnClickListener {
+                intent = Intent(this, CameraActivity::class.java)
+                startActivityForResult(intent, REQUEST_CODE_GET_IMAGE)
+                bottomSheetDialog.dismiss()
+            }
+
+            bottomSheetDialogCameraViewBinding.galleryButton.setOnClickListener {
+                val gallery = Intent(Intent.ACTION_PICK)
+                gallery.type = "image/*"
+
+                startActivityForResult(gallery, REQUEST_CODE_GET_IMAGE_FROM_GALLERY)
+                bottomSheetDialog.dismiss()
+            }
+        }
+
+        binding.deleteButton.setOnClickListener {
+            val alertDialog: AlertDialog
+            val builder = AlertDialog.Builder(this, R.style.DialogStyle)
+            val dialogBinding = DialogDeleteMealBinding.inflate(LayoutInflater.from(this))
+            builder.setView(dialogBinding.root)
+            alertDialog = builder.create()
+            alertDialog.setCanceledOnTouchOutside(false)
+
+            dialogBinding.mealName.text = meal.name
+
+            dialogBinding.backButton.setOnClickListener {
+                alertDialog.dismiss()
+            }
+
+            dialogBinding.deleteButton.setOnClickListener {
+                mealViewModel.delete(meal)
+                alertDialog.dismiss()
+                finish()
+            }
+            alertDialog.show()
         }
 
         binding.backButton.setOnClickListener {
@@ -55,8 +102,13 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
         }
     }
 
-    private fun setMealInfo() {
+    private fun setMealInfo(){
         binding.mealName.text = meal.name
+
+        mealViewModel.getProductsForMeal(meal.id).observe(this, {
+            productsAdapter.updateData(it)
+
+        })
 
         pieChart(meal.carbohydrateExchangers, meal.proteinFatExchangers, meal.calories)
     }
@@ -108,7 +160,7 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
         pieChart.animate()
     }
 
-    private fun initProductsRecyclerView() {
+    private fun initProductsRecyclerView(){
         binding.productsRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             productsAdapter = ProductsAdapter(this@MealActivity)
@@ -117,7 +169,7 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
         }
     }
 
-    private fun initPhotosRecyclerView() {
+    private fun initPhotosRecyclerView(){
         binding.photosRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             imageAdapter = ImageAdapter(this@MealActivity)
@@ -126,21 +178,69 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
         }
     }
 
+    private fun dialogImageManager(image: Image) {
+        val alertDialog: AlertDialog
+        val builder = AlertDialog.Builder(this, R.style.DialogStyle)
+        val dialogBinding = DialogManagerImageBinding.inflate(LayoutInflater.from(this))
+        builder.setView(dialogBinding.root)
+        alertDialog = builder.create()
+        alertDialog.setCanceledOnTouchOutside(false)
+
+        dialogBinding.imagePreview.setImageURI(Uri.parse(image.image))
+
+        dialogBinding.backButton.setOnClickListener {
+            alertDialog.dismiss()
+        }
+
+        dialogBinding.deleteButton.setOnClickListener {
+//            product.icon = null
+//            productViewModel.update(product)
+//            imageViewModel.delete(image)
+
+            alertDialog.dismiss()
+        }
+
+        dialogBinding.setAsIconButton.setOnClickListener {
+//            product.icon = image.image
+//            productViewModel.update(product)
+            alertDialog.dismiss()
+
+        }
+
+
+        alertDialog.show()
+    }
+
     override fun onProductClick(productId: Int) {
         intent = Intent(this, ProductActivity::class.java)
         intent.putExtra("PRODUCT_ID", productId)
         startActivity(intent)
     }
 
-    override fun onImageLongClick(image: Image) {
+    private fun getBytes(inputStream: InputStream): ByteArray {
+        val byteBuffer = ByteArrayOutputStream()
+        val bufferSize = 1024
+        val buffer = ByteArray(bufferSize)
 
+        while (true) {
+            val len = inputStream.read(buffer)
+            if (len != -1)
+                byteBuffer.write(buffer, 0, len)
+            else
+                break
+        }
+        return byteBuffer.toByteArray()
+    }
+
+    override fun onImageLongClick(image: Image) {
+        dialogImageManager(image)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
+        when(requestCode){
             REQUEST_CODE_MEAL_NAME -> {
-                when (resultCode) {
+                when(resultCode) {
                     RESULT_OK -> {
                         data?.let {
                             meal.name = it.getStringExtra("MEAL_NAME") as String
@@ -151,12 +251,43 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
                     }
                 }
             }
-
+//            REQUEST_CODE_GET_IMAGE -> {
+//                if (resultCode == RESULT_OK) {
+//                    data?.let {
+//                        val imageUri = it.getStringExtra("IMAGE_URI").toString()
+//                        imageViewModel.insert(
+//                            Image(0, product.id, imageUri)
+//                        )
+//                    }
+//                }
+//            }
+//
+//            REQUEST_CODE_GET_IMAGE_FROM_GALLERY -> {
+//                if (resultCode == RESULT_OK) {
+//                    data?.let {
+//                        val photoFile = File(
+//                            getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+//                            "${System.currentTimeMillis()}.jpg"
+//                        )
+//                        photoFile.createNewFile()
+//                        val out = FileOutputStream(photoFile)
+//                        out.write(
+//                            getBytes(this.contentResolver.openInputStream(it.data!!)!!)
+//                        )
+//                        out.close()
+//
+//                        imageViewModel.insert(
+//                            Image(0, product.id, Uri.fromFile(photoFile).toString())
+//                        )
+//                    }
+//                }
+//            }
         }
     }
 
-    companion object {
-
+    companion object{
+        private const val REQUEST_CODE_GET_IMAGE = 4
+        private const val REQUEST_CODE_GET_IMAGE_FROM_GALLERY = 5
         private const val REQUEST_CODE_MEAL_NAME = 6
     }
 
