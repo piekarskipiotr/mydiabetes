@@ -22,9 +22,6 @@ data class Meal(
     @ColumnInfo(name = "proteinFatExchangers")
     var proteinFatExchangers: Double,
 
-    @ColumnInfo(name = "list_of_products_id")
-    var productsList: String,
-
     @ColumnInfo(name = "icon")
     var icon: String?
 

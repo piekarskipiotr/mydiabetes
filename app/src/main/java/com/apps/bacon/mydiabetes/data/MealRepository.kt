@@ -14,4 +14,8 @@ class MealRepository @Inject constructor(
     suspend fun update(meal: Meal) = database.mealDao().update(meal)
 
     suspend fun delete(meal: Meal) = database.mealDao().delete(meal)
+
+    suspend fun insertPMJoin(productMealJoin: ProductMealJoin) = database.productMealJoin().insert(productMealJoin)
+
+    fun getProductsForMeal(mealId: Int) = database.productMealJoin().getProductsForMeal(mealId)
 }

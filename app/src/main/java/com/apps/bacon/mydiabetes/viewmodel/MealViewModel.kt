@@ -4,6 +4,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import com.apps.bacon.mydiabetes.data.Meal
 import com.apps.bacon.mydiabetes.data.MealRepository
+import com.apps.bacon.mydiabetes.data.ProductMealJoin
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,6 +19,8 @@ constructor(
 
     fun getMeal(id: Int) = repository.getMeal(id)
 
+    fun getProductsForMeal(mealId: Int) = repository.getProductsForMeal(mealId)
+
     fun insert(meal: Meal) = CoroutineScope(Dispatchers.Main).launch {
         repository.insert(meal)
     }
@@ -28,5 +31,9 @@ constructor(
 
     fun delete(meal: Meal) = CoroutineScope(Dispatchers.Main).launch {
         repository.delete(meal)
+    }
+
+    fun insertPMJoin(productMealJoin: ProductMealJoin) = CoroutineScope(Dispatchers.Main).launch {
+        repository.insertPMJoin(productMealJoin)
     }
 }
