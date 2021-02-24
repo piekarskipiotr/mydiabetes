@@ -28,11 +28,11 @@ interface ProductDao {
     fun getProductsInPlate(): LiveData<List<Product>>
 
     @Insert
-    fun insert(product: Product)
+    suspend fun insert(product: Product)
 
     @Update
-    fun update(product: Product)
+    suspend fun update(product: Product)
 
     @Delete
-    fun delete(product: Product)
+    suspend fun delete(product: Product)
 }

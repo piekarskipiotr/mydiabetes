@@ -15,12 +15,12 @@ interface MealDao {
     fun getLastId(): Int
 
     @Insert
-    fun insert(meal: Meal)
+    suspend fun insert(meal: Meal)
 
     @Update
-    fun update(meal: Meal)
+    suspend fun update(meal: Meal)
 
     @Delete
-    fun delete(meal: Meal)
+    suspend fun delete(meal: Meal)
 
 }

@@ -15,16 +15,16 @@ interface TagDao {
     fun getTagById(id: Int): Tag
 
     @Insert
-    fun insert(tag: Tag)
+    suspend fun insert(tag: Tag)
 
     @Update
-    fun update(tag: Tag)
+    suspend fun update(tag: Tag)
 
     @Delete
-    fun delete(tag: Tag)
+    suspend fun delete(tag: Tag)
 
     @Query("DELETE FROM tags WHERE tag_id == :id")
-    fun deleteById(id: Int)
+    suspend fun deleteById(id: Int)
 
 
 }

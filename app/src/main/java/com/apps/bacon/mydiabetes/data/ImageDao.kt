@@ -13,11 +13,11 @@ interface ImageDao {
     fun getImageByProductId(id: Int): LiveData<List<Image>>
 
     @Insert
-    fun insert(image: Image)
+    suspend fun insert(image: Image)
 
     @Update
-    fun update(image: Image)
+    suspend fun update(image: Image)
 
     @Delete
-    fun delete(image: Image)
+    suspend fun delete(image: Image)
 }

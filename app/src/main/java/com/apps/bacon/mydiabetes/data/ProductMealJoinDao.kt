@@ -9,11 +9,11 @@ interface ProductMealJoinDao {
     fun getProductsForMeal(mealId: Int): LiveData<List<Product>>
 
     @Insert
-    fun insert(productMealJoin: ProductMealJoin)
+    suspend fun insert(productMealJoin: ProductMealJoin)
 
     @Update
-    fun update(productMealJoin: ProductMealJoin)
+    suspend fun update(productMealJoin: ProductMealJoin)
 
     @Delete
-    fun delete(productMealJoin: ProductMealJoin)
+    suspend fun delete(productMealJoin: ProductMealJoin)
 }
