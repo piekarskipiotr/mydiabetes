@@ -19,6 +19,8 @@ constructor(
 
     fun getImageByProductId(id: Int) = repository.getImageByProductId(id)
 
+    fun getImageByMealId(id: Int) = repository.getImageByMealId(id)
+
     fun insert(image: Image) = CoroutineScope(Dispatchers.Main).launch {
         repository.insert(image)
     }

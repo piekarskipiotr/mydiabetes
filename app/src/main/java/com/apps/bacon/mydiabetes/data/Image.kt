@@ -11,7 +11,10 @@ data class Image(
     var id: Int,
 
     @ColumnInfo(name = "product_id")
-    var productId: Int,
+    var productId: Int?,
+
+    @ColumnInfo(name = "meal_id")
+    var mealId: Int?,
 
     @ColumnInfo(name = "image_string")
     var image: String

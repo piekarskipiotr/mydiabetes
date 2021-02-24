@@ -12,6 +12,9 @@ interface ImageDao {
     @Query("SELECT * FROM images WHERE product_id == :id")
     fun getImageByProductId(id: Int): LiveData<List<Image>>
 
+    @Query("SELECT * FROM images WHERE meal_id == :id")
+    fun getImageByMealId(id: Int): LiveData<List<Image>>
+
     @Insert
     suspend fun insert(image: Image)
 

@@ -9,6 +9,8 @@ class ImageRepository @Inject constructor(
 
     fun getImageByProductId(id: Int) = database.imageDao().getImageByProductId(id)
 
+    fun getImageByMealId(id: Int) = database.imageDao().getImageByMealId(id)
+
     suspend fun insert(image: Image) = database.imageDao().insert(image)
 
     suspend fun update(image: Image) = database.imageDao().update(image)

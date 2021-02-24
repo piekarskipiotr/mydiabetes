@@ -393,7 +393,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
                     data?.let {
                         val imageUri = it.getStringExtra("IMAGE_URI").toString()
                         imageViewModel.insert(
-                            Image(0, product.id, imageUri)
+                            Image(0, product.id, null, imageUri)
                         )
                     }
                 }
@@ -414,7 +414,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
                         out.close()
 
                         imageViewModel.insert(
-                            Image(0, product.id, Uri.fromFile(photoFile).toString())
+                            Image(0, product.id,null, Uri.fromFile(photoFile).toString())
                         )
                     }
                 }

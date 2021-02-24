@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.view.LayoutInflater
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -14,6 +15,7 @@ import com.apps.bacon.mydiabetes.adapters.ProductsAdapter
 import com.apps.bacon.mydiabetes.data.Image
 import com.apps.bacon.mydiabetes.data.Meal
 import com.apps.bacon.mydiabetes.databinding.*
+import com.apps.bacon.mydiabetes.viewmodel.ImageViewModel
 import com.apps.bacon.mydiabetes.viewmodel.MealViewModel
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.PieChart
@@ -24,6 +26,8 @@ import com.github.mikephil.charting.formatter.DefaultValueFormatter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 import java.io.InputStream
 
 @AndroidEntryPoint
@@ -33,6 +37,7 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
     private lateinit var binding: ActivityMealBinding
     private lateinit var meal: Meal
     private val mealViewModel: MealViewModel by viewModels()
+    private val imageViewModel: ImageViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,7 +95,14 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
             }
 
             dialogBinding.deleteButton.setOnClickListener {
+                val pmJoin = mealViewModel.getPMJoinByMealId(meal.id)
+                mealViewModel.deletePMJoin(pmJoin)
                 mealViewModel.delete(meal)
+                imageViewModel.getImageByMealId(meal.id).observe(this, {
+                    for(img in it){
+                        imageViewModel.delete(img)
+                    }
+                })
                 alertDialog.dismiss()
                 finish()
             }
@@ -108,6 +120,10 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
         mealViewModel.getProductsForMeal(meal.id).observe(this, {
             productsAdapter.updateData(it)
 
+        })
+
+        imageViewModel.getImageByMealId(meal.id).observe(this, {
+            imageAdapter.updateData(it)
         })
 
         pieChart(meal.carbohydrateExchangers, meal.proteinFatExchangers, meal.calories)
@@ -193,16 +209,16 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
         }
 
         dialogBinding.deleteButton.setOnClickListener {
-//            product.icon = null
-//            productViewModel.update(product)
-//            imageViewModel.delete(image)
+            meal.icon = null
+            mealViewModel.update(meal)
+            imageViewModel.delete(image)
 
             alertDialog.dismiss()
         }
 
         dialogBinding.setAsIconButton.setOnClickListener {
-//            product.icon = image.image
-//            productViewModel.update(product)
+            meal.icon = image.image
+            mealViewModel.update(meal)
             alertDialog.dismiss()
 
         }
@@ -251,37 +267,37 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
                     }
                 }
             }
-//            REQUEST_CODE_GET_IMAGE -> {
-//                if (resultCode == RESULT_OK) {
-//                    data?.let {
-//                        val imageUri = it.getStringExtra("IMAGE_URI").toString()
-//                        imageViewModel.insert(
-//                            Image(0, product.id, imageUri)
-//                        )
-//                    }
-//                }
-//            }
-//
-//            REQUEST_CODE_GET_IMAGE_FROM_GALLERY -> {
-//                if (resultCode == RESULT_OK) {
-//                    data?.let {
-//                        val photoFile = File(
-//                            getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-//                            "${System.currentTimeMillis()}.jpg"
-//                        )
-//                        photoFile.createNewFile()
-//                        val out = FileOutputStream(photoFile)
-//                        out.write(
-//                            getBytes(this.contentResolver.openInputStream(it.data!!)!!)
-//                        )
-//                        out.close()
-//
-//                        imageViewModel.insert(
-//                            Image(0, product.id, Uri.fromFile(photoFile).toString())
-//                        )
-//                    }
-//                }
-//            }
+            REQUEST_CODE_GET_IMAGE -> {
+                if (resultCode == RESULT_OK) {
+                    data?.let {
+                        val imageUri = it.getStringExtra("IMAGE_URI").toString()
+                        imageViewModel.insert(
+                            Image(0, null, meal.id, imageUri)
+                        )
+                    }
+                }
+            }
+
+            REQUEST_CODE_GET_IMAGE_FROM_GALLERY -> {
+                if (resultCode == RESULT_OK) {
+                    data?.let {
+                        val photoFile = File(
+                            getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                            "${System.currentTimeMillis()}.jpg"
+                        )
+                        photoFile.createNewFile()
+                        val out = FileOutputStream(photoFile)
+                        out.write(
+                            getBytes(this.contentResolver.openInputStream(it.data!!)!!)
+                        )
+                        out.close()
+
+                        imageViewModel.insert(
+                            Image(0, null, meal.id, Uri.fromFile(photoFile).toString())
+                        )
+                    }
+                }
+            }
         }
     }
 

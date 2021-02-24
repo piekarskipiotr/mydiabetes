@@ -101,14 +101,24 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
                         bottomDialogMealNameBinding.mealNameTextInputLayout.error = null
 
                         val mealViewModel: MealViewModel by viewModels()
-                        val meal = Meal(0, bottomDialogMealNameBinding.mealNameTextInput.text.toString().trim(), calories, carbohydrateExchangers, proteinFatExchangers, null)
+                        val mealId = mealViewModel.getLastId().inc()
+                        val meal = Meal(mealId, bottomDialogMealNameBinding.mealNameTextInput.text.toString().trim(), calories, carbohydrateExchangers, proteinFatExchangers, null)
+
                         mealViewModel.insert(meal)
                         val listOfProducts = foodPlateAdapter.getData()
 
-                        val mealId = mealViewModel.getLastId()
                         for(product in listOfProducts){
                             mealViewModel.insertPMJoin(ProductMealJoin(product.id, mealId))
                         }
+
+                        for (i in 0 until foodPlateAdapter.itemCount) {
+                            productViewModel.update(
+                                foodPlateAdapter.getProduct(i).apply {
+                                    inFoodPlate = false
+                                }
+                            )
+                        }
+
                         bottomSheetDialog.dismiss()
 
                         intent = Intent(this, MealActivity::class.java)

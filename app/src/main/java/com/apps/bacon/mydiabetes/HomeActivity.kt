@@ -52,9 +52,9 @@ class HomeActivity : AppCompatActivity() {
         val productViewModel: ProductViewModel by viewModels()
 
 
-        if (!homeViewModel.isErrorWithFetchData) {
-            fetchDataDialog(homeViewModel)
-        }
+//        if (!homeViewModel.isErrorWithFetchData) {
+//            fetchDataDialog(homeViewModel)
+//        }
 
         tagViewModel.getAll().observe(this, {
             addTabs(it)

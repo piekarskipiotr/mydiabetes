@@ -90,4 +90,5 @@
     <string name="del_meal_confimr_message">Are you sure you want to remove the meal? You can\'t take it back.</string>
     <string name="meal_name">Meal name</string>
     <string name="editing_meal_name_message">The meal name should match the actual product name. This will avoid search problems.</string>
+    <string name="editing_meal_name">Editing the meal name</string>
 </resources>
