@@ -91,4 +91,5 @@
     <string name="meal_name">Meal name</string>
     <string name="editing_meal_name_message">The meal name should match the actual product name. This will avoid search problems.</string>
     <string name="editing_meal_name">Editing the meal name</string>
+    <string name="delete_product_in_meal_message">The product cannot be deleted because it is in a saved meal.</string>
 </resources>

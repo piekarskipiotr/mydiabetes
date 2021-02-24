@@ -17,6 +17,7 @@ import com.apps.bacon.mydiabetes.adapters.ImageAdapter
 import com.apps.bacon.mydiabetes.data.*
 import com.apps.bacon.mydiabetes.databinding.*
 import com.apps.bacon.mydiabetes.viewmodel.ImageViewModel
+import com.apps.bacon.mydiabetes.viewmodel.MealViewModel
 import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
 import com.apps.bacon.mydiabetes.viewmodel.TagViewModel
 import com.github.mikephil.charting.animation.Easing
@@ -112,7 +113,11 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
         }
 
         binding.deleteButton.setOnClickListener {
-            dialogDeleteProduct()
+            val mealViewModel: MealViewModel by viewModels()
+            if(mealViewModel.isProductInMeal(product.id))
+                Toast.makeText(applicationContext, resources.getString(R.string.delete_product_in_meal_message), Toast.LENGTH_SHORT).show()
+            else
+                dialogDeleteProduct()
         }
     }
 

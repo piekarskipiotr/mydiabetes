@@ -92,4 +92,5 @@
     <string name="meal_name">Nazwa posiłku</string>
     <string name="editing_meal_name_message">Nazwa posiłku powinna być zgodna z faktyczną nazwą posiłku. Pozwoli to uniknąć problemów z wyszukiwaniem.</string>
     <string name="editing_meal_name">Edycja nazyw posiłku</string>
+    <string name="delete_product_in_meal_message">Nie można usunąć danego produktu ponieważ znajduje się on w zapisanym posiłku.</string>
 </resources>

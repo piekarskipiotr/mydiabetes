@@ -23,5 +23,7 @@ class MealRepository @Inject constructor(
 
     fun getPMJoinByMealId(id: Int) = database.productMealJoin().getPMJoinByMealId(id)
 
+    fun isProductInMeal(productId: Int) = database.productMealJoin().isProductInMeal(productId)
+
     suspend fun deletePMJoin(productMealJoin: ProductMealJoin) = database.productMealJoin().delete(productMealJoin)
 }

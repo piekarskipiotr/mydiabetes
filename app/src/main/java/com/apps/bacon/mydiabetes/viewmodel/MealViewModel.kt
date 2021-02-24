@@ -26,6 +26,8 @@ constructor(
 
     fun getLastId() = repository.getLastId()
 
+    fun isProductInMeal(productId: Int) = repository.isProductInMeal(productId)
+
     fun insert(meal: Meal) = CoroutineScope(Dispatchers.Main).launch {
         repository.insert(meal)
     }
