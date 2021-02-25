@@ -94,4 +94,6 @@
     <string name="delete_product_in_meal_message">The product cannot be deleted because it is in a saved meal.</string>
     <string name="export">Export</string>
     <string name="more_options">More options</string>
+    <string name="confirm_sending">Confirm sending</string>
+    <string name="export_message">If you intend to export several products / meals, do it from the position you find by going to the settings -> export many</string>
 </resources>

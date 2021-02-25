@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.view.LayoutInflater
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -99,11 +98,30 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
         alertDialog.setCanceledOnTouchOutside(false)
 
         dialogBinding.exportButton.setOnClickListener {
-            //export product dialog
+            dialogExport()
         }
 
         dialogBinding.deleteButton.setOnClickListener {
             dialogDeleteMeal()
+        }
+
+        dialogBinding.backButton.setOnClickListener {
+            alertDialog.dismiss()
+        }
+
+        alertDialog.show()
+    }
+
+    private fun dialogExport(){
+        val alertDialog: AlertDialog
+        val builder = AlertDialog.Builder(this, R.style.DialogStyle)
+        val dialogBinding = DialogExportBinding.inflate(LayoutInflater.from(this))
+        builder.setView(dialogBinding.root)
+        alertDialog = builder.create()
+        alertDialog.setCanceledOnTouchOutside(false)
+
+        dialogBinding.exportButton.setOnClickListener {
+
         }
 
         dialogBinding.backButton.setOnClickListener {
@@ -334,5 +352,4 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
         private const val REQUEST_CODE_GET_IMAGE_FROM_GALLERY = 5
         private const val REQUEST_CODE_MEAL_NAME = 6
     }
-
 }

@@ -95,4 +95,6 @@
     <string name="delete_product_in_meal_message">Nie można usunąć danego produktu ponieważ znajduje się on w zapisanym posiłku.</string>
     <string name="export">Eksportuj</string>
     <string name="more_options">Więcej opcji</string>
+    <string name="confirm_sending">Potwierdź wysłanie</string>
+    <string name="export_message">Jeśli zamierzasz wyeksportować kilka produktów/posiłków zrób to z pozycji, którą znajdziesz przechodząc do ustawienia -> eksportuj wiele</string>
 </resources>

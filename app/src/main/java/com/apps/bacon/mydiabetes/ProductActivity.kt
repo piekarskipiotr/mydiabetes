@@ -218,7 +218,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
         alertDialog.setCanceledOnTouchOutside(false)
 
         dialogBinding.exportButton.setOnClickListener {
-            //export product dialog
+            dialogExport()
         }
 
         dialogBinding.deleteButton.setOnClickListener {
@@ -227,6 +227,25 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
                 Toast.makeText(applicationContext, resources.getString(R.string.delete_product_in_meal_message), Toast.LENGTH_SHORT).show()
             else
                 dialogDeleteProduct()
+        }
+
+        dialogBinding.backButton.setOnClickListener {
+            alertDialog.dismiss()
+        }
+
+        alertDialog.show()
+    }
+
+    private fun dialogExport(){
+        val alertDialog: AlertDialog
+        val builder = AlertDialog.Builder(this, R.style.DialogStyle)
+        val dialogBinding = DialogExportBinding.inflate(LayoutInflater.from(this))
+        builder.setView(dialogBinding.root)
+        alertDialog = builder.create()
+        alertDialog.setCanceledOnTouchOutside(false)
+
+        dialogBinding.exportButton.setOnClickListener {
+
         }
 
         dialogBinding.backButton.setOnClickListener {
