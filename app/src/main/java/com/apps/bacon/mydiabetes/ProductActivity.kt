@@ -112,12 +112,8 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
             onBackPressed()
         }
 
-        binding.deleteButton.setOnClickListener {
-            val mealViewModel: MealViewModel by viewModels()
-            if(mealViewModel.isProductInMeal(product.id))
-                Toast.makeText(applicationContext, resources.getString(R.string.delete_product_in_meal_message), Toast.LENGTH_SHORT).show()
-            else
-                dialogDeleteProduct()
+        binding.moreButton.setOnClickListener {
+            dialogMore()
         }
     }
 
@@ -210,6 +206,33 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
             alertDialog.dismiss()
             finish()
         }
+        alertDialog.show()
+    }
+
+    private fun dialogMore(){
+        val alertDialog: AlertDialog
+        val builder = AlertDialog.Builder(this, R.style.DialogStyle)
+        val dialogBinding = DialogMoreBinding.inflate(LayoutInflater.from(this))
+        builder.setView(dialogBinding.root)
+        alertDialog = builder.create()
+        alertDialog.setCanceledOnTouchOutside(false)
+
+        dialogBinding.exportButton.setOnClickListener {
+            //export product dialog
+        }
+
+        dialogBinding.deleteButton.setOnClickListener {
+            val mealViewModel: MealViewModel by viewModels()
+            if(mealViewModel.isProductInMeal(product.id))
+                Toast.makeText(applicationContext, resources.getString(R.string.delete_product_in_meal_message), Toast.LENGTH_SHORT).show()
+            else
+                dialogDeleteProduct()
+        }
+
+        dialogBinding.backButton.setOnClickListener {
+            alertDialog.dismiss()
+        }
+
         alertDialog.show()
     }
 

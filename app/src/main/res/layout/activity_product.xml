@@ -29,7 +29,6 @@
                     android:layout_marginEnd="70dp"
                     android:paddingTop="20dp"
                     android:paddingBottom="20dp"
-                    android:text="Product Name"
                     android:textAlignment="center"
                     android:textSize="22sp"
                     android:textStyle="bold" />
@@ -48,7 +47,7 @@
                     app:tint="@color/independent" />
 
                 <ImageView
-                    android:id="@+id/deleteButton"
+                    android:id="@+id/moreButton"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_alignParentEnd="true"
@@ -58,7 +57,7 @@
                     android:clickable="true"
                     android:contentDescription="delete"
                     android:focusable="true"
-                    android:src="@drawable/ic_round_delete_forever"
+                    android:src="@drawable/ic_round_more_vert"
                     app:tint="@color/independent" />
             </RelativeLayout>
         </com.google.android.material.appbar.MaterialToolbar>

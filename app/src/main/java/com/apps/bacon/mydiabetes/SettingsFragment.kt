@@ -34,7 +34,6 @@ class SettingsFragment : Fragment() {
             startActivity(intent)
 
         }
-
     }
 
     override fun onCreateView(

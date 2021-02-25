@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.view.LayoutInflater
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -80,38 +81,65 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
             }
         }
 
-        binding.deleteButton.setOnClickListener {
-            val alertDialog: AlertDialog
-            val builder = AlertDialog.Builder(this, R.style.DialogStyle)
-            val dialogBinding = DialogDeleteMealBinding.inflate(LayoutInflater.from(this))
-            builder.setView(dialogBinding.root)
-            alertDialog = builder.create()
-            alertDialog.setCanceledOnTouchOutside(false)
-
-            dialogBinding.mealName.text = meal.name
-
-            dialogBinding.backButton.setOnClickListener {
-                alertDialog.dismiss()
-            }
-
-            dialogBinding.deleteButton.setOnClickListener {
-                val pmJoin = mealViewModel.getPMJoinByMealId(meal.id)
-                mealViewModel.deletePMJoin(pmJoin)
-                mealViewModel.delete(meal)
-                imageViewModel.getImageByMealId(meal.id).observe(this, {
-                    for(img in it){
-                        imageViewModel.delete(img)
-                    }
-                })
-                alertDialog.dismiss()
-                finish()
-            }
-            alertDialog.show()
+        binding.moreButton.setOnClickListener {
+            moreDialog()
         }
 
         binding.backButton.setOnClickListener {
             onBackPressed()
         }
+    }
+
+    private fun moreDialog(){
+        val alertDialog: AlertDialog
+        val builder = AlertDialog.Builder(this, R.style.DialogStyle)
+        val dialogBinding = DialogMoreBinding.inflate(LayoutInflater.from(this))
+        builder.setView(dialogBinding.root)
+        alertDialog = builder.create()
+        alertDialog.setCanceledOnTouchOutside(false)
+
+        dialogBinding.exportButton.setOnClickListener {
+            //export product dialog
+        }
+
+        dialogBinding.deleteButton.setOnClickListener {
+            dialogDeleteMeal()
+        }
+
+        dialogBinding.backButton.setOnClickListener {
+            alertDialog.dismiss()
+        }
+
+        alertDialog.show()
+    }
+
+    private fun dialogDeleteMeal(){
+        val alertDialog: AlertDialog
+        val builder = AlertDialog.Builder(this, R.style.DialogStyle)
+        val dialogBinding = DialogDeleteMealBinding.inflate(LayoutInflater.from(this))
+        builder.setView(dialogBinding.root)
+        alertDialog = builder.create()
+        alertDialog.setCanceledOnTouchOutside(false)
+
+        dialogBinding.mealName.text = meal.name
+
+        dialogBinding.backButton.setOnClickListener {
+            alertDialog.dismiss()
+        }
+
+        dialogBinding.deleteButton.setOnClickListener {
+            val pmJoin = mealViewModel.getPMJoinByMealId(meal.id)
+            mealViewModel.deletePMJoin(pmJoin)
+            mealViewModel.delete(meal)
+            imageViewModel.getImageByMealId(meal.id).observe(this, {
+                for(img in it){
+                    imageViewModel.delete(img)
+                }
+            })
+            alertDialog.dismiss()
+            finish()
+        }
+        alertDialog.show()
     }
 
     private fun setMealInfo(){
