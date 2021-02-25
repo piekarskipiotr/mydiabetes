@@ -21,19 +21,19 @@ constructor(
 
     fun getTagById(id: Int) = repository.getTagById(id)
 
-    fun insert(tag: Tag) = CoroutineScope(Dispatchers.Main).launch {
+    fun insert(tag: Tag) = CoroutineScope(Dispatchers.IO).launch {
         repository.insert(tag)
     }
 
-    fun update(tag: Tag) = CoroutineScope(Dispatchers.Main).launch {
+    fun update(tag: Tag) = CoroutineScope(Dispatchers.IO).launch {
         repository.update(tag)
     }
 
-    fun delete(tag: Tag) = CoroutineScope(Dispatchers.Main).launch {
+    fun delete(tag: Tag) = CoroutineScope(Dispatchers.IO).launch {
         repository.delete(tag)
     }
 
-    fun deleteById(id: Int) = CoroutineScope(Dispatchers.Main).launch {
+    fun deleteById(id: Int) = CoroutineScope(Dispatchers.IO).launch {
         repository.deleteById(id)
     }
 

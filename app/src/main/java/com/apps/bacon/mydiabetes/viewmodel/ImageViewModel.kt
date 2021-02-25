@@ -21,15 +21,15 @@ constructor(
 
     fun getImageByMealId(id: Int) = repository.getImageByMealId(id)
 
-    fun insert(image: Image) = CoroutineScope(Dispatchers.Main).launch {
+    fun insert(image: Image) = CoroutineScope(Dispatchers.IO).launch {
         repository.insert(image)
     }
 
-    fun update(image: Image) = CoroutineScope(Dispatchers.Main).launch {
+    fun update(image: Image) = CoroutineScope(Dispatchers.IO).launch {
         repository.update(image)
     }
 
-    fun delete(image: Image) = CoroutineScope(Dispatchers.Main).launch {
+    fun delete(image: Image) = CoroutineScope(Dispatchers.IO).launch {
         repository.delete(image)
     }
 

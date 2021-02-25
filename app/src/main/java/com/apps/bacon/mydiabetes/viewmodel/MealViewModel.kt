@@ -28,23 +28,23 @@ constructor(
 
     fun isProductInMeal(productId: Int) = repository.isProductInMeal(productId)
 
-    fun insert(meal: Meal) = CoroutineScope(Dispatchers.Main).launch {
+    fun insert(meal: Meal) = CoroutineScope(Dispatchers.IO).launch {
         repository.insert(meal)
     }
 
-    fun update(meal: Meal) = CoroutineScope(Dispatchers.Main).launch {
+    fun update(meal: Meal) = CoroutineScope(Dispatchers.IO).launch {
         repository.update(meal)
     }
 
-    fun delete(meal: Meal) = CoroutineScope(Dispatchers.Main).launch {
+    fun delete(meal: Meal) = CoroutineScope(Dispatchers.IO).launch {
         repository.delete(meal)
     }
 
-    fun insertPMJoin(productMealJoin: ProductMealJoin) = CoroutineScope(Dispatchers.Main).launch {
+    fun insertPMJoin(productMealJoin: ProductMealJoin) = CoroutineScope(Dispatchers.IO).launch {
         repository.insertPMJoin(productMealJoin)
     }
 
-    fun deletePMJoin(productMealJoin: ProductMealJoin) = CoroutineScope(Dispatchers.Main).launch {
+    fun deletePMJoin(productMealJoin: ProductMealJoin) = CoroutineScope(Dispatchers.IO).launch {
         repository.deletePMJoin(productMealJoin)
     }
 

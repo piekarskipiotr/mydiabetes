@@ -29,15 +29,15 @@ constructor(
 
     fun getProductsInPlate() = repository.getProductsInPlate()
 
-    fun insert(product: Product) = CoroutineScope(Dispatchers.Main).launch {
+    fun insert(product: Product) = CoroutineScope(Dispatchers.IO).launch {
         repository.insert(product)
     }
 
-    fun update(product: Product) = CoroutineScope(Dispatchers.Main).launch {
+    fun update(product: Product) = CoroutineScope(Dispatchers.IO).launch {
         repository.update(product)
     }
 
-    fun delete(product: Product) = CoroutineScope(Dispatchers.Main).launch {
+    fun delete(product: Product) = CoroutineScope(Dispatchers.IO).launch {
         repository.delete(product)
     }
 
