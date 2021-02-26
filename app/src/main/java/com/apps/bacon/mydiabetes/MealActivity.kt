@@ -165,7 +165,6 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
 
         mealViewModel.getProductsForMeal(meal.id).observe(this, {
             productsAdapter.updateData(it)
-
         })
 
         imageViewModel.getImageByMealId(meal.id).observe(this, {

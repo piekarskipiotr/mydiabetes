@@ -96,4 +96,5 @@
     <string name="more_options">More options</string>
     <string name="confirm_sending">Confirm sending</string>
     <string name="export_message">If you intend to export several products / meals, do it from the position you find by going to the settings -> export many</string>
+    <string name="export_many">Export many</string>
 </resources>

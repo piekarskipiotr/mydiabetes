@@ -17,8 +17,6 @@ constructor(
 
     var productsLiveData: MutableLiveData<List<Product>>? = null
 
-    val isErrorWithFetchData: Boolean = repository.getErrorInfo()
-
     fun getProducts(): LiveData<List<Product>>? {
         productsLiveData = repository.productsApiCall()
         return productsLiveData

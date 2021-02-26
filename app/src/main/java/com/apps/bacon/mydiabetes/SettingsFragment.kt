@@ -34,6 +34,11 @@ class SettingsFragment : Fragment() {
             startActivity(intent)
 
         }
+
+        binding.exportMany.setOnClickListener {
+            val intent = Intent(requireActivity(), ExportActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onCreateView(

@@ -12,53 +12,19 @@
     android:foreground="?android:attr/selectableItemBackground"
     android:padding="5dp">
 
-    <com.google.android.material.circularreveal.cardview.CircularRevealCardView
-        style="@style/lightCard"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/productContainer"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="-20dp"
-        android:layout_marginEnd="1dp">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/measureTextInputLayout"
-            style="@style/CustomInputLayout2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            app:suffixText="g/ml">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/measureTextInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:imeOptions="actionDone"
-                android:lines="1"
-                android:maxLength="5"
-                android:paddingStart="15dp"
-                android:paddingTop="15dp"
-                android:paddingEnd="5dp"
-                android:paddingBottom="15dp"
-                android:text="999.9"
-                android:textCursorDrawable="@drawable/black_cursor"
-                android:textSize="16sp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
     <LinearLayout
-        android:id="@+id/productContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
         <com.google.android.material.circularreveal.cardview.CircularRevealCardView
             android:layout_width="74dp"
             android:layout_height="74dp"
-            android:layout_marginStart="0dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
             android:layout_marginEnd="15dp"
+            android:layout_marginBottom="2dp"
+            android:background="?attr/colorPrimaryDark"
             app:cardCornerRadius="12dp">
 
             <ImageView
@@ -68,10 +34,10 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_round_dinner_dining" />
         </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="center_vertical"
             android:orientation="vertical">
 
             <TextView
@@ -79,6 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
+                android:maxEms="11"
                 android:maxLines="1"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -88,6 +55,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal">
+
+                <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+                    style="@style/lightCard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp">
+
+                    <TextView
+                        android:id="@+id/measure"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="2dp"
+                        android:text="16.97"
+                        android:textSize="12sp" />
+                </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
                 <com.google.android.material.circularreveal.cardview.CircularRevealCardView
                     android:layout_width="wrap_content"
@@ -145,4 +130,10 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+    <CheckBox
+        android:id="@+id/exportCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"/>
 </RelativeLayout>
