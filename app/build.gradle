@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -93,5 +94,11 @@ dependencies {
 
     //okHTTP
     implementation "com.squareup.okhttp3:okhttp:4.9.0"
+
+    //Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:26.5.0')
+
+    //Firebase SDK for Google Analytics
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 
 }
