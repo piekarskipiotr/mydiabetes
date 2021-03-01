@@ -32,8 +32,10 @@ import dagger.hilt.android.AndroidEntryPoint
 class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickListener {
     private lateinit var foodPlateAdapter: FoodPlateAdapter
     private val productViewModel: ProductViewModel by viewModels()
+    private val mealViewModel: MealViewModel by viewModels()
     private lateinit var bottomDialogBinding: DialogSummaryResultsBinding
     private lateinit var binding: ActivityFoodPlateBinding
+    private var newMealId = 0
     private var carbohydrateExchangers = 0.0
     private var proteinFatExchangers = 0.0
     private var calories = 0.0
@@ -45,6 +47,7 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
         setContentView(view)
         bottomDialogBinding = DialogSummaryResultsBinding.inflate(layoutInflater)
         val bottomSheetDialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
+        newMealId = mealViewModel.getLastId().inc()
 
         initRecyclerView()
         this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -99,16 +102,14 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
                         bottomDialogMealNameBinding.mealNameTextInputLayout.error = errorMessage
                     else {
                         bottomDialogMealNameBinding.mealNameTextInputLayout.error = null
-
-                        val mealViewModel: MealViewModel by viewModels()
-                        val mealId = mealViewModel.getLastId().inc()
-                        val meal = Meal(mealId, bottomDialogMealNameBinding.mealNameTextInput.text.toString().trim(), calories, carbohydrateExchangers, proteinFatExchangers, null)
-
+                        val mealName = bottomDialogMealNameBinding.mealNameTextInput.text.toString().trim()
+                        val meal = Meal(newMealId, mealName, calories, carbohydrateExchangers, proteinFatExchangers, null)
                         mealViewModel.insert(meal)
+
                         val listOfProducts = foodPlateAdapter.getData()
 
                         for(product in listOfProducts){
-                            mealViewModel.insertPMJoin(ProductMealJoin(product.id, mealId))
+                            mealViewModel.insertPMJoin(ProductMealJoin(product.id, meal.id))
                         }
 
                         for (i in 0 until foodPlateAdapter.itemCount) {
@@ -120,9 +121,8 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
                         }
 
                         bottomSheetDialog.dismiss()
-
                         intent = Intent(this, MealActivity::class.java)
-                        intent.putExtra("MEAL_ID", mealId)
+                        intent.putExtra("MEAL_ID", meal.id)
                         startActivity(intent)
                     }
                 }

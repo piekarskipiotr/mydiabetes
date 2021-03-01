@@ -22,7 +22,7 @@ constructor(
 
     fun getProductsForMeal(mealId: Int) = repository.getProductsForMeal(mealId)
 
-    fun getPMJoinByMealId(id: Int) = repository.getPMJoinByMealId(id)
+    fun getPMJbyMealId(mealId: Int) = repository.getPMJbyMealId(mealId)
 
     fun getLastId() = repository.getLastId()
 
@@ -44,9 +44,7 @@ constructor(
         repository.insertPMJoin(productMealJoin)
     }
 
-    fun deletePMJoin(productMealJoin: ProductMealJoin) = CoroutineScope(Dispatchers.IO).launch {
-        repository.deletePMJoin(productMealJoin)
+    fun deletePMJoin(mealId: Int) = CoroutineScope(Dispatchers.IO).launch {
+        repository.deletePMJoin(mealId)
     }
-
-
 }

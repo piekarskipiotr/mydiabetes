@@ -10,7 +10,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
 @Database(
     entities = [Product::class, Tag::class, Image::class, Meal::class, ProductMealJoin::class],
     version = 1,
@@ -21,7 +20,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun tagDao(): TagDao
     abstract fun imageDao(): ImageDao
     abstract fun mealDao(): MealDao
-    abstract fun productMealJoin(): ProductMealJoinDao
+    abstract fun productMealJoinDao(): ProductMealJoinDao
 
     companion object {
         @Volatile

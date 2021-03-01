@@ -146,14 +146,13 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
         }
 
         dialogBinding.deleteButton.setOnClickListener {
-            val pmJoin = mealViewModel.getPMJoinByMealId(meal.id)
-            mealViewModel.deletePMJoin(pmJoin)
-            mealViewModel.delete(meal)
+            mealViewModel.deletePMJoin(meal.id)
             imageViewModel.getImageByMealId(meal.id).observe(this, {
                 for(img in it){
                     imageViewModel.delete(img)
                 }
             })
+            mealViewModel.delete(meal)
             alertDialog.dismiss()
             finish()
         }

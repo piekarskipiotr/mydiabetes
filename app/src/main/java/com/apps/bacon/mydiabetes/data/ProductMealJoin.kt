@@ -2,6 +2,7 @@ package com.apps.bacon.mydiabetes.data
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.ForeignKey.CASCADE
 
 @Entity(
     tableName = "product_meal_join",
@@ -10,10 +11,12 @@ import androidx.room.ForeignKey
         entity = Product::class,
         parentColumns = ["product_id"],
         childColumns = ["productId"],
+        onDelete = CASCADE
     ), ForeignKey(
         entity = Meal::class,
         parentColumns = ["meal_id"],
-        childColumns = ["mealId"]
+        childColumns = ["mealId"],
+        onDelete = CASCADE
     )]
 )
 data class ProductMealJoin(
