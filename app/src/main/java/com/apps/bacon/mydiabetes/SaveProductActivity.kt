@@ -181,15 +181,8 @@ class SaveProductActivity : AppCompatActivity() {
         binding.saveButton.setOnClickListener {
 
             when {
-                productViewModel.checkForProductExist(binding.productName.text.toString()) -> {
-                    Toast.makeText(
-                        this,
-                        resources.getString(R.string.product_name_exists_error_message),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
                 binding.productName.text.isNullOrEmpty() -> {
-                    binding.productName.setTextColor(ResourcesCompat.getColor(resources, R.color.red, null))
+                    binding.productName.setHintTextColor(ResourcesCompat.getColor(resources, R.color.red, null))
 
                 }
                 else -> {
@@ -215,9 +208,7 @@ class SaveProductActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
             }
-
         }
-
     }
 
     private fun setTextValues(
@@ -338,6 +329,7 @@ class SaveProductActivity : AppCompatActivity() {
             REQUEST_CODE_PRODUCT_NAME -> {
                 if (resultCode == RESULT_OK) {
                     data?.let {
+                        binding.productName.hint = null
                         binding.productName.text = it.getStringExtra("PRODUCT_NAME").toString()
                     }
                 }
