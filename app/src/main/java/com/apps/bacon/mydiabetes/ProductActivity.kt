@@ -29,11 +29,13 @@ import com.github.mikephil.charting.formatter.DefaultValueFormatter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.firebase.database.DatabaseReference
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
@@ -43,6 +45,8 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
     private val imageViewModel: ImageViewModel by viewModels()
     private lateinit var imagesAdapter: ImageAdapter
     private lateinit var binding: ActivityProductBinding
+    @Inject
+    lateinit var database: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -245,7 +249,8 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
         alertDialog.setCanceledOnTouchOutside(false)
 
         dialogBinding.exportButton.setOnClickListener {
-
+            val productReference = database.child("Product")
+            productReference.child(product.name).setValue(product)
         }
 
         dialogBinding.backButton.setOnClickListener {

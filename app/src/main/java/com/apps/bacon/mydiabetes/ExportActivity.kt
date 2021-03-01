@@ -11,12 +11,17 @@ import com.apps.bacon.mydiabetes.databinding.ActivityExportBinding
 import com.apps.bacon.mydiabetes.viewmodel.MealViewModel
 import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
 import com.google.android.material.tabs.TabLayout
+import com.google.firebase.database.DatabaseReference
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ExportActivity : AppCompatActivity(), ExportProductsAdapter.OnExportProductListener,
     ExportMealsAdapter.OnExportMealListener {
     private lateinit var binding: ActivityExportBinding
+
+    @Inject
+    lateinit var database: DatabaseReference
     private val mealViewModel: MealViewModel by viewModels()
     val productsAdapter = ExportProductsAdapter(this@ExportActivity)
     val mealsAdapter = ExportMealsAdapter(this@ExportActivity)
@@ -71,10 +76,23 @@ class ExportActivity : AppCompatActivity(), ExportProductsAdapter.OnExportProduc
 
         addTabs()
 
-
         binding.exportButton.setOnClickListener {
+            val productReference = database.child("Product")
+            val mealReference = database.child("Meal")
+            val pmjReference = database.child("PMJ")
+
             val products = productsAdapter.getDataToExport()
             val meals = mealsAdapter.getDataToExport()
+
+            for (product in products) {
+                productReference.child(product.name).setValue(product)
+            }
+
+            for (meal in meals) {
+                mealReference.child(meal.name).setValue(meal)
+                val pmJoinList = mealViewModel.getPMJbyMealId(meal.id)
+                pmjReference.child(meal.name).setValue(pmJoinList)
+            }
         }
     }
 
@@ -105,9 +123,9 @@ class ExportActivity : AppCompatActivity(), ExportProductsAdapter.OnExportProduc
 
     override fun onMealCheckBoxClick(mealId: Int, isChecked: Boolean) {
         mealViewModel.getProductsForMeal(mealId).observe(this, {
-            if(isChecked){
+            if (isChecked) {
                 productsAdapter.addProductsThatAreConnectedWithMeal(it)
-            }else{
+            } else {
                 productsAdapter.removeProductsThatAreConnectedWithMeal(it)
             }
         })

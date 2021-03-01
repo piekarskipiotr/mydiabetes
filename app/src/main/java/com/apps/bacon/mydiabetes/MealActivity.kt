@@ -24,11 +24,13 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.DefaultValueFormatter
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.firebase.database.DatabaseReference
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener, ImageAdapter.OnImageClickListener {
@@ -38,6 +40,8 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
     private lateinit var meal: Meal
     private val mealViewModel: MealViewModel by viewModels()
     private val imageViewModel: ImageViewModel by viewModels()
+    @Inject
+    lateinit var database: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -121,7 +125,12 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
         alertDialog.setCanceledOnTouchOutside(false)
 
         dialogBinding.exportButton.setOnClickListener {
+            val mealReference = database.child("Meal")
+            mealReference.child(meal.name).setValue(meal)
 
+            val pmjReference = database.child("PMJ")
+            val pmJoinList = mealViewModel.getPMJbyMealId(meal.id)
+            pmjReference.child(meal.name).setValue(pmJoinList)
         }
 
         dialogBinding.backButton.setOnClickListener {
