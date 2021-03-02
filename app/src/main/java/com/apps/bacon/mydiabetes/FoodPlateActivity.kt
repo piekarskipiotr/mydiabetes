@@ -3,6 +3,7 @@ package com.apps.bacon.mydiabetes
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -16,6 +17,7 @@ import com.apps.bacon.mydiabetes.data.ProductMealJoin
 import com.apps.bacon.mydiabetes.databinding.ActivityFoodPlateBinding
 import com.apps.bacon.mydiabetes.databinding.DialogMealNameBinding
 import com.apps.bacon.mydiabetes.databinding.DialogSummaryResultsBinding
+import com.apps.bacon.mydiabetes.utilities.Calculations
 import com.apps.bacon.mydiabetes.utilities.SwipeToRemove
 import com.apps.bacon.mydiabetes.viewmodel.MealViewModel
 import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
@@ -153,10 +155,12 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
             calories += foodPlateAdapter.getCalories(i)!!
 
         }
+        carbohydrateExchangers = Calculations().roundToOneDecimal(carbohydrateExchangers)
+        proteinFatExchangers = Calculations().roundToOneDecimal(carbohydrateExchangers)
+        calories = Calculations().roundToOneDecimal(calories)
 
         pieChart(carbohydrateExchangers, proteinFatExchangers, calories)
     }
-
 
     private fun pieChart(
         carbohydrateExchangers: Double,
@@ -187,9 +191,7 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
         dataSet.valueTextColor = ContextCompat.getColor(this, R.color.black)
         dataSet.valueTextSize = 16f
 
-
         val pieData = PieData(dataSet)
-        pieData.setValueFormatter(DefaultValueFormatter(1))
 
         pieChart.data = pieData
         pieChart.centerText = "$calories\n${resources.getString(R.string.calories_value)}"

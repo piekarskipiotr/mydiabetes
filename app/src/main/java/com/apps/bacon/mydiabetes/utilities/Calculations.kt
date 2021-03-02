@@ -87,7 +87,7 @@ class Calculations {
         return roundToOneDecimal((protein * 4) + (fat * 9) + (carbohydrates * 4))
     }
 
-    private fun roundToOneDecimal(value: Double): Double {
+    fun roundToOneDecimal(value: Double): Double {
         return round(value * 10.0) / 10.0
     }
 
