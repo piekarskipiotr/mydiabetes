@@ -25,7 +25,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:paddingTop="15dp"
+                    android:paddingTop="5dp"
                     android:paddingBottom="0dp">
 
                     <RelativeLayout
@@ -276,7 +276,7 @@
             android:layout_marginStart="25dp"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="25dp"
-            android:layout_marginBottom="76dp"
+            android:layout_marginBottom="15dp"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
