@@ -25,6 +25,7 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.DefaultValueFormatter
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -76,6 +77,7 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
 
         binding.calculateButton.setOnClickListener {
             bottomSheetDialog.setContentView(bottomDialogBinding.root)
+            bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
             bottomSheetDialog.show()
             sumValues()
             bottomDialogBinding.clearButton.setOnClickListener {
@@ -93,6 +95,7 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
                 bottomSheetDialog.dismiss()
                 val bottomDialogMealNameBinding = DialogMealNameBinding.inflate(layoutInflater)
                 bottomSheetDialog.setContentView(bottomDialogMealNameBinding.root)
+                bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
                 bottomSheetDialog.show()
 
                 val errorMessage = resources.getString(R.string.empty_field_message_error)

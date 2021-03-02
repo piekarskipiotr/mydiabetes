@@ -23,6 +23,7 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.DefaultValueFormatter
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.database.DatabaseReference
 import dagger.hilt.android.AndroidEntryPoint
@@ -67,6 +68,7 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
 
         binding.takePhotoButton.setOnClickListener {
             bottomSheetDialog.setContentView(bottomSheetDialogCameraViewBinding.root)
+            bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
             bottomSheetDialog.show()
 
             bottomSheetDialogCameraViewBinding.cameraButton.setOnClickListener {

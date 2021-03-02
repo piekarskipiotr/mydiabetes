@@ -26,6 +26,7 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.DefaultValueFormatter
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -85,6 +86,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
 
         binding.takePhotoButton.setOnClickListener {
             bottomSheetDialog.setContentView(bottomSheetDialogCameraViewBinding.root)
+            bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
             bottomSheetDialog.show()
 
             bottomSheetDialogCameraViewBinding.cameraButton.setOnClickListener {

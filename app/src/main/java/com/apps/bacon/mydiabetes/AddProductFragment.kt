@@ -19,6 +19,7 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.DefaultValueFormatter
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
@@ -82,6 +83,7 @@ class AddProductFragment : Fragment() {
         binding.calculateButton.setOnClickListener {
             if (!checkForEmptyFields()) {
                 bottomSheetDialog.setContentView(bottomSheetDialogViewBinding.root)
+                bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
                 bottomSheetDialog.show()
                 val intent = Intent(requireActivity(), SaveProductActivity::class.java)
                 val weight: Double
