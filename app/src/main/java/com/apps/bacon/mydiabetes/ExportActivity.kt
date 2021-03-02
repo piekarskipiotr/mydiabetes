@@ -94,6 +94,10 @@ class ExportActivity : AppCompatActivity(), ExportProductsAdapter.OnExportProduc
                 pmjReference.child(meal.name).setValue(pmJoinList)
             }
         }
+
+        binding.backButton.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     private fun addTabs() {
