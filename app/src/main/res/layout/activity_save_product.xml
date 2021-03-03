@@ -406,7 +406,7 @@
                                 android:layout_gravity="center"
                                 android:layout_marginTop="5dp"
                                 android:layout_marginBottom="0dp"
-                                android:text="@string/barcode_manually" />
+                                android:hint="@string/barcode_manually"/>
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>

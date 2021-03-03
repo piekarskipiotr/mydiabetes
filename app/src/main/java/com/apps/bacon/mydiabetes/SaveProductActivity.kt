@@ -186,6 +186,11 @@ class SaveProductActivity : AppCompatActivity() {
 
                 }
                 else -> {
+                    val barcode = if(binding.manualBarcode.text.isNullOrEmpty())
+                        null
+                    else
+                        binding.manualBarcode.text.toString()
+
                     productViewModel.insert(
                         Product(
                             0,
@@ -199,7 +204,7 @@ class SaveProductActivity : AppCompatActivity() {
                             carbohydrateExchangers,
                             proteinFatExchangers,
                             selectedTagId,
-                            binding.manualBarcode.text.toString(),
+                            barcode,
                             false,
                             null
                         )
