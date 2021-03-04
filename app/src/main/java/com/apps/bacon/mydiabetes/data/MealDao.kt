@@ -23,4 +23,13 @@ interface MealDao {
     @Delete
     suspend fun delete(meal: Meal)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(meal: MealServer)
+
+    @Update
+    suspend fun update(meal: MealServer)
+
+    @Delete
+    suspend fun delete(meal: MealServer)
+
 }

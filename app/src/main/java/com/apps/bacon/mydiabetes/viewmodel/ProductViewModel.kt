@@ -41,4 +41,16 @@ constructor(
         repository.delete(product)
     }
 
+    fun insert(product: ProductServer) = CoroutineScope(Dispatchers.IO).launch {
+        repository.insert(product)
+    }
+
+    fun update(product: ProductServer) = CoroutineScope(Dispatchers.IO).launch {
+        repository.update(product)
+    }
+
+    fun delete(product: ProductServer) = CoroutineScope(Dispatchers.IO).launch {
+        repository.delete(product)
+    }
+
 }

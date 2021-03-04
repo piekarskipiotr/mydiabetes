@@ -5,15 +5,12 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE
 import com.apps.bacon.mydiabetes.data.*
 import com.apps.bacon.mydiabetes.databinding.ActivityHomeBinding
-import com.apps.bacon.mydiabetes.databinding.DialogFetchDataFromServerBinding
 import com.apps.bacon.mydiabetes.utilities.TagTranslator
 import com.apps.bacon.mydiabetes.viewmodel.*
 import com.google.android.material.tabs.TabLayout
@@ -51,11 +48,6 @@ class HomeActivity : AppCompatActivity() {
         val homeViewModel: HomeViewModel by viewModels()
         val productViewModel: ProductViewModel by viewModels()
 
-
-//        if (!homeViewModel.isErrorWithFetchData) {
-//            fetchDataDialog(homeViewModel)
-//        }
-
         tagViewModel.getAll().observe(this, {
             addTabs(it)
         })
@@ -82,7 +74,6 @@ class HomeActivity : AppCompatActivity() {
             }
 
         })
-
 
         binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
@@ -165,36 +156,6 @@ class HomeActivity : AppCompatActivity() {
             .replace(binding.fragmentContainer.id, fragment)
             .commit()
 
-    }
-
-    private fun fetchDataDialog(homeViewModel: HomeViewModel) {
-        val builder = AlertDialog.Builder(this, R.style.DialogStyle)
-        val dialogBinding = DialogFetchDataFromServerBinding.inflate(LayoutInflater.from(this))
-        builder.setView(dialogBinding.root)
-
-        val alertDialog: AlertDialog = builder.create()
-        alertDialog.setCanceledOnTouchOutside(false)
-
-        homeViewModel.getProducts()?.observe(this, {
-            val size = it.size
-            var i = 1
-
-            dialogBinding.fetchingDataProgressBar.max = size
-            for (product in it) {
-                dialogBinding.counterText.text = "$i/$size"
-                ++i
-
-                dialogBinding.productNameText.text = product.name
-                when (i) {
-                    size -> {
-                        homeViewModel.getProducts()!!.removeObservers(this)
-                        alertDialog.dismiss()
-                    }
-                }
-            }
-        })
-
-        alertDialog.show()
     }
 
     override fun onBackPressed() {

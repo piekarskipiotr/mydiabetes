@@ -11,7 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Database(
-    entities = [Product::class, Tag::class, Image::class, Meal::class, ProductMealJoin::class],
+    entities = [Product::class, Tag::class, Image::class, Meal::class, ProductMealJoin::class, ProductServer::class, MealServer::class],
     version = 1,
     exportSchema = false
 )

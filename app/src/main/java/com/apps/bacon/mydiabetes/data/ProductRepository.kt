@@ -25,4 +25,10 @@ class ProductRepository @Inject constructor(
 
     suspend fun delete(product: Product) = database.productDao().delete(product)
 
+    suspend fun insert(product: ProductServer) = database.productDao().insert(product)
+
+    suspend fun update(product: ProductServer) = database.productDao().update(product)
+
+    suspend fun delete(product: ProductServer) = database.productDao().delete(product)
+
 }

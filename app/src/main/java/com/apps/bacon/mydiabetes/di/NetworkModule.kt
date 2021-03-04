@@ -1,7 +1,7 @@
 package com.apps.bacon.mydiabetes.di
 
 import android.content.Context
-import com.apps.bacon.mydiabetes.api.ProductsAPI
+import com.apps.bacon.mydiabetes.api.SharedDataAPI
 import com.apps.bacon.mydiabetes.network.NetworkConnectionInterceptor
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -42,11 +42,10 @@ object NetworkModule {
     fun providesAPI(
         @Named("api_url") baseURL: String,
         okHttpClient: OkHttpClient.Builder
-    ): ProductsAPI = Retrofit.Builder()
+    ): SharedDataAPI = Retrofit.Builder()
         .baseUrl(baseURL)
         .addConverterFactory(GsonConverterFactory.create())
         .client(okHttpClient.build())
         .build()
-        .create(ProductsAPI::class.java)
-
+        .create(SharedDataAPI::class.java)
 }
