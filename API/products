@@ -1,6 +1,6 @@
 [
   {
-    "id": 50,
+    "id": 1,
     "name": "essa",
     "weight": 30.0,
     "pieces": null,
@@ -16,7 +16,7 @@
     "icon": null
   },
   {
-    "id": 50,
+    "id": 2,
     "name": "essa2",
     "weight": 30.0,
     "pieces": null,
