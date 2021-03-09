@@ -30,7 +30,6 @@ class AddProductFragment : Fragment() {
     private var measureStatus: Boolean = false
     private var valueStatus: Boolean = false
     private lateinit var bottomSheetDialogViewBinding: DialogCalculatedExchangersBinding
-
     private var _binding: FragmentAddProductBinding? = null
     private val binding get() = _binding!!
 
@@ -398,9 +397,14 @@ class AddProductFragment : Fragment() {
         }
     }
 
-    private fun listOfPieces() = listOf(binding.pieceTextInput.text, binding.correctPieceTextInput.text)
-    private fun listOfWeight() = listOf(binding.weightTextInput.text, binding.correctWeightTextInput.text)
-    private fun listOfProteinFat() = listOf(binding.proteinTextInput.text, binding.fatTextInput.text)
+    private fun listOfPieces() =
+        listOf(binding.pieceTextInput.text, binding.correctPieceTextInput.text)
+
+    private fun listOfWeight() =
+        listOf(binding.weightTextInput.text, binding.correctWeightTextInput.text)
+
+    private fun listOfProteinFat() =
+        listOf(binding.proteinTextInput.text, binding.fatTextInput.text)
 
     private fun pieChart(carbohydrateExchangers: Double, proteinFatExchangers: Double) {
         val pieChart: PieChart = bottomSheetDialogViewBinding.pieChart

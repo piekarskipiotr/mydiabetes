@@ -11,7 +11,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import com.apps.bacon.mydiabetes.data.*
+import com.apps.bacon.mydiabetes.data.entities.Product
+import com.apps.bacon.mydiabetes.data.entities.Tag
 import com.apps.bacon.mydiabetes.databinding.ActivitySaveProductBinding
 import com.apps.bacon.mydiabetes.databinding.DialogDeleteTagBinding
 import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
@@ -61,7 +62,8 @@ class SaveProductActivity : AppCompatActivity() {
                 binding.line.visibility = View.GONE
 
             } else {
-                binding.measureSwitch.text = "${bundle.get("PIECES")} / ${bundle.get("CORRECT_PIECES")} "
+                binding.measureSwitch.text =
+                    "${bundle.get("PIECES")} / ${bundle.get("CORRECT_PIECES")} "
 
             }
 
@@ -71,7 +73,8 @@ class SaveProductActivity : AppCompatActivity() {
                 binding.line.visibility = View.GONE
 
             } else {
-                binding.measureSwitch.text = "${bundle.get("WEIGHT")} / ${bundle.get("CORRECT_WEIGHT")}"
+                binding.measureSwitch.text =
+                    "${bundle.get("WEIGHT")} / ${bundle.get("CORRECT_WEIGHT")}"
 
             }
         }
@@ -182,11 +185,17 @@ class SaveProductActivity : AppCompatActivity() {
 
             when {
                 binding.productName.text.isNullOrEmpty() -> {
-                    binding.productName.setHintTextColor(ResourcesCompat.getColor(resources, R.color.red, null))
+                    binding.productName.setHintTextColor(
+                        ResourcesCompat.getColor(
+                            resources,
+                            R.color.red,
+                            null
+                        )
+                    )
 
                 }
                 else -> {
-                    val barcode = if(binding.manualBarcode.text.isNullOrEmpty())
+                    val barcode = if (binding.manualBarcode.text.isNullOrEmpty())
                         null
                     else
                         binding.manualBarcode.text.toString()

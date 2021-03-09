@@ -1,4 +1,4 @@
-package com.apps.bacon.mydiabetes.data
+package com.apps.bacon.mydiabetes.data.entities
 
 data class MyDiabetesInfo(
     var productsVersion: Int,

@@ -9,8 +9,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.apps.bacon.mydiabetes.R
-import com.apps.bacon.mydiabetes.data.Meal
-import com.apps.bacon.mydiabetes.data.Product
+import com.apps.bacon.mydiabetes.data.entities.Meal
 import com.apps.bacon.mydiabetes.databinding.MealItemBinding
 import java.util.*
 
@@ -32,13 +31,11 @@ class MealsAdapter constructor(
         }
 
         override fun onClick(v: View?) {
-            listener.onMealClick(data[adapterPosition].id)
+            listener.onMealClick(data[bindingAdapterPosition].id)
         }
-
-
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealsAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = MealItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(view)
     }
@@ -71,6 +68,4 @@ class MealsAdapter constructor(
     interface OnMealClickListener {
         fun onMealClick(mealId: Int)
     }
-
-
 }

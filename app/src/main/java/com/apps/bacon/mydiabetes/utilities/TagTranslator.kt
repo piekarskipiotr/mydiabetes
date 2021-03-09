@@ -23,7 +23,6 @@ class TagTranslator {
             val tag = tagViewModel.getTagById(i)
             tag.name = listOfTags[i.dec()]
             tagViewModel.update(tag)
-
         }
     }
 }

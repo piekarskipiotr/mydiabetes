@@ -1,8 +1,8 @@
 package com.apps.bacon.mydiabetes
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate.*
 import com.apps.bacon.mydiabetes.databinding.ActivityThemeSettingsBinding
 

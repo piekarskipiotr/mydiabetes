@@ -1,4 +1,4 @@
-package com.apps.bacon.mydiabetes.data
+package com.apps.bacon.mydiabetes.data.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -11,5 +11,4 @@ data class Tag(
 
     @ColumnInfo(name = "tag_name")
     var name: String
-
 )

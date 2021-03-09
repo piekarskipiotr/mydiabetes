@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import android.util.Log
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
@@ -45,6 +44,5 @@ class NetworkConnectionInterceptor constructor(
     class NoConnectivityException : IOException() {
         override val message: String
             get() = "No Internet Connection"
-
     }
 }

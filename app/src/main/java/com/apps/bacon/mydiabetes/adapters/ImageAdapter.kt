@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.apps.bacon.mydiabetes.data.Image
+import com.apps.bacon.mydiabetes.data.entities.Image
 import com.apps.bacon.mydiabetes.databinding.ImageItemBinding
 
 class ImageAdapter constructor(
@@ -14,7 +14,8 @@ class ImageAdapter constructor(
 ) : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
     private var data: List<Image> = ArrayList()
 
-    inner class ViewHolder(view: ImageItemBinding) : RecyclerView.ViewHolder(view.root), View.OnLongClickListener {
+    inner class ViewHolder(view: ImageItemBinding) : RecyclerView.ViewHolder(view.root),
+        View.OnLongClickListener {
         val image: ImageView = view.productImage
 
         init {
@@ -22,10 +23,9 @@ class ImageAdapter constructor(
         }
 
         override fun onLongClick(p0: View?): Boolean {
-            listener.onImageLongClick(data[adapterPosition])
+            listener.onImageLongClick(data[bindingAdapterPosition])
             return true
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -46,8 +46,6 @@ class ImageAdapter constructor(
 
     interface OnImageClickListener {
         fun onImageLongClick(image: Image)
-
     }
-
 }
 

@@ -92,9 +92,17 @@
     <string name="editing_meal_name_message">The meal name should match the actual product name. This will avoid search problems.</string>
     <string name="editing_meal_name">Editing the meal name</string>
     <string name="delete_product_in_meal_message">The product cannot be deleted because it is in a saved meal.</string>
-    <string name="export">Export</string>
+    <string name="share">Share</string>
     <string name="more_options">More options</string>
     <string name="confirm_sending">Confirm sending</string>
-    <string name="export_message">If you intend to export several products / meals, do it from the position you find by going to the settings -> export many</string>
-    <string name="export_many">Export many</string>
+    <string name="share_message">If you intend to share several products / meals, do it from the position you find by going to the settings -> share many</string>
+    <string name="share_many">Share many</string>
+    <string name="report">Report</string>
+    <string name="photos">Photos</string>
+    <string name="invalid_name">Invalid name</string>
+    <string name="value_mismatch">Value mismatch</string>
+    <string name="invalid_tag">Invalid tag</string>
+    <string name="photos_mismatch">Photos mismatch</string>
+    <string name="report_error_message">The content of the application has not been selected!</string>
+    <string name="meal_name_exist_error_message">A meal with that name already exists!</string>
 </resources>

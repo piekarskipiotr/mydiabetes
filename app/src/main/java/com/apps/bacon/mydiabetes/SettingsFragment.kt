@@ -36,7 +36,7 @@ class SettingsFragment : Fragment() {
         }
 
         binding.exportMany.setOnClickListener {
-            val intent = Intent(requireActivity(), ExportActivity::class.java)
+            val intent = Intent(requireActivity(), ShareActivity::class.java)
             startActivity(intent)
         }
     }

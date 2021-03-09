@@ -1,4 +1,4 @@
-package com.apps.bacon.mydiabetes.data
+package com.apps.bacon.mydiabetes.data.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -24,5 +24,4 @@ data class Meal(
 
     @ColumnInfo(name = "icon")
     var icon: String?
-
 )

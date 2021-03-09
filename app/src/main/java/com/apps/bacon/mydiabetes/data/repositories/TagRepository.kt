@@ -1,5 +1,7 @@
-package com.apps.bacon.mydiabetes.data
+package com.apps.bacon.mydiabetes.data.repositories
 
+import com.apps.bacon.mydiabetes.data.AppDatabase
+import com.apps.bacon.mydiabetes.data.entities.Tag
 import javax.inject.Inject
 
 class TagRepository @Inject constructor(
@@ -18,5 +20,4 @@ class TagRepository @Inject constructor(
     suspend fun delete(tag: Tag) = database.tagDao().delete(tag)
 
     suspend fun deleteById(id: Int) = database.tagDao().deleteById(id)
-
 }

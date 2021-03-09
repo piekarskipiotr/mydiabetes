@@ -1,8 +1,8 @@
 package com.apps.bacon.mydiabetes
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.apps.bacon.mydiabetes.databinding.ActivityLanguageSettingsBinding
 import java.util.*
 
@@ -19,7 +19,7 @@ class LanguageSettings : AppCompatActivity() {
             Context.MODE_PRIVATE
         )
 
-        val defaultLang = if(Locale.getDefault().toLanguageTag() == "pl-PL")
+        val defaultLang = if (Locale.getDefault().toLanguageTag() == "pl-PL")
             "pl"
         else
             "en"

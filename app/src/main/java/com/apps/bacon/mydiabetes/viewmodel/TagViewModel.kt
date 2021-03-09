@@ -2,9 +2,8 @@ package com.apps.bacon.mydiabetes.viewmodel
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
-import com.apps.bacon.mydiabetes.data.Product
-import com.apps.bacon.mydiabetes.data.Tag
-import com.apps.bacon.mydiabetes.data.TagRepository
+import com.apps.bacon.mydiabetes.data.entities.Tag
+import com.apps.bacon.mydiabetes.data.repositories.TagRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -36,5 +35,4 @@ constructor(
     fun deleteById(id: Int) = CoroutineScope(Dispatchers.IO).launch {
         repository.deleteById(id)
     }
-
 }

@@ -1,7 +1,8 @@
-package com.apps.bacon.mydiabetes.data
+package com.apps.bacon.mydiabetes.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.apps.bacon.mydiabetes.data.entities.Tag
 
 @Dao
 interface TagDao {
@@ -25,6 +26,4 @@ interface TagDao {
 
     @Query("DELETE FROM tags WHERE tag_id == :id")
     suspend fun deleteById(id: Int)
-
-
 }

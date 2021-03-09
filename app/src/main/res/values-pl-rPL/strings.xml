@@ -93,9 +93,17 @@
     <string name="editing_meal_name_message">Nazwa posiłku powinna być zgodna z faktyczną nazwą posiłku. Pozwoli to uniknąć problemów z wyszukiwaniem.</string>
     <string name="editing_meal_name">Edycja nazyw posiłku</string>
     <string name="delete_product_in_meal_message">Nie można usunąć danego produktu ponieważ znajduje się on w zapisanym posiłku.</string>
-    <string name="export">Eksportuj</string>
+    <string name="share">Udostępnij</string>
     <string name="more_options">Więcej opcji</string>
     <string name="confirm_sending">Potwierdź wysłanie</string>
-    <string name="export_message">Jeśli zamierzasz wyeksportować kilka produktów/posiłków zrób to z pozycji, którą znajdziesz przechodząc do ustawienia -> eksportuj wiele</string>
-    <string name="export_many">Eksportuj wiele</string>
+    <string name="share_message">Jeśli zamierzasz udostępnić kilka produktów/posiłków zrób to z pozycji, którą znajdziesz przechodząc do ustawienia -> Udostępnij wiele</string>
+    <string name="share_many">Udostępnij wiele</string>
+    <string name="report">Zgłoś</string>
+    <string name="photos">Zdjęcia</string>
+    <string name="invalid_name">Niepoprawna nazwa</string>
+    <string name="value_mismatch">Niezgodność wartości</string>
+    <string name="invalid_tag">Niepoprawny tag</string>
+    <string name="photos_mismatch">Niezgodność zdjęć</string>
+    <string name="report_error_message">Treść zgłoszenia nie została wybrana!</string>
+    <string name="meal_name_exist_error_message">Posiłek o takiej nazwie już istnieje!</string>
 </resources>
