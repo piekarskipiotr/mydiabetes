@@ -2,10 +2,8 @@ package com.apps.bacon.mydiabetes.viewmodel
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
-import com.apps.bacon.mydiabetes.data.Meal
-import com.apps.bacon.mydiabetes.data.MealRepository
-import com.apps.bacon.mydiabetes.data.MealServer
-import com.apps.bacon.mydiabetes.data.ProductMealJoin
+import com.apps.bacon.mydiabetes.data.entities.*
+import com.apps.bacon.mydiabetes.data.repositories.MealRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,18 +14,13 @@ constructor(
     @Named("meal_repository")
     private val repository: MealRepository
 ) : ViewModel() {
+    fun checkForMealExist(name: String) = repository.checkForMealExist(name)
 
     fun getAll() = repository.getAll()
 
     fun getMeal(id: Int) = repository.getMeal(id)
 
-    fun getProductsForMeal(mealId: Int) = repository.getProductsForMeal(mealId)
-
-    fun getPMJbyMealId(mealId: Int) = repository.getPMJbyMealId(mealId)
-
     fun getLastId() = repository.getLastId()
-
-    fun isProductInMeal(productId: Int) = repository.isProductInMeal(productId)
 
     fun insert(meal: Meal) = CoroutineScope(Dispatchers.IO).launch {
         repository.insert(meal)
@@ -41,23 +34,50 @@ constructor(
         repository.delete(meal)
     }
 
-    fun insert(meal: MealServer) = CoroutineScope(Dispatchers.IO).launch {
-        repository.insert(meal)
-    }
+    //pmj section
 
-    fun update(meal: MealServer) = CoroutineScope(Dispatchers.IO).launch {
-        repository.update(meal)
-    }
+    fun getProductsForMeal(mealId: Int) = repository.getProductsForMeal(mealId)
 
-    fun delete(meal: MealServer) = CoroutineScope(Dispatchers.IO).launch {
-        repository.delete(meal)
-    }
+    fun isProductInMeal(productId: Int) = repository.isProductInMeal(productId)
 
-    fun insertPMJoin(productMealJoin: ProductMealJoin) = CoroutineScope(Dispatchers.IO).launch {
-        repository.insertPMJoin(productMealJoin)
-    }
+    fun getPMJbyMealId(mealId: Int) = repository.getPMJbyMealId(mealId)
+
+    fun insertPMJoin(productMealJoin: ProductMealJoin) =
+        CoroutineScope(Dispatchers.IO).launch {
+            repository.insertPMJoin(productMealJoin)
+        }
 
     fun deletePMJoin(mealId: Int) = CoroutineScope(Dispatchers.IO).launch {
         repository.deletePMJoin(mealId)
     }
+
+    /*
+   * Below is section of statics functions
+   * */
+
+    fun checkForStaticMealExist(name: String) = repository.checkForStaticMealExist(name)
+
+    fun getAllStatics() = repository.getAllStatics()
+
+    fun getStaticMeal(id: Int) = repository.getStaticMeal(id)
+
+    fun insert(staticMeal: StaticMeal) = CoroutineScope(Dispatchers.IO).launch {
+        repository.insert(staticMeal)
+    }
+
+    //pmj section
+
+    fun getStaticProductsForStaticMeal(mealId: Int) = repository.getStaticProductsForStaticMeal(mealId)
+
+    fun getStaticProductsForMeal(mealId: Int) = repository.getStaticProductsForMeal(mealId)
+
+    fun insertPMJoin(staticProductMealJoin: StaticProductMealJoin) =
+        CoroutineScope(Dispatchers.IO).launch {
+            repository.insertPMJoin(staticProductMealJoin)
+        }
+
+    fun insertHPMJoin(hybridProductMealJoin: HybridProductMealJoin) =
+        CoroutineScope(Dispatchers.IO).launch {
+            repository.insertHPMJoin(hybridProductMealJoin)
+        }
 }

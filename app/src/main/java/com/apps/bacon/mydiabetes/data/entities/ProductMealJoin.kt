@@ -1,4 +1,4 @@
-package com.apps.bacon.mydiabetes.data
+package com.apps.bacon.mydiabetes.data.entities
 
 import androidx.room.Entity
 import androidx.room.ForeignKey

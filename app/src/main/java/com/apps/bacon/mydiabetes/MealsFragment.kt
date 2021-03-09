@@ -7,15 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apps.bacon.mydiabetes.adapters.MealsAdapter
+import com.apps.bacon.mydiabetes.adapters.StaticMealsAdapter
 import com.apps.bacon.mydiabetes.databinding.FragmentHomeBinding
 import com.apps.bacon.mydiabetes.viewmodel.MealViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MealsFragment : Fragment(), MealsAdapter.OnMealClickListener {
+class MealsFragment : Fragment(), MealsAdapter.OnMealClickListener,
+    StaticMealsAdapter.OnMealClickListener {
     private lateinit var mealsAdapter: MealsAdapter
+    private lateinit var staticMealsAdapter: StaticMealsAdapter
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -28,6 +32,11 @@ class MealsFragment : Fragment(), MealsAdapter.OnMealClickListener {
 
         mealViewModel.getAll().observe(viewLifecycleOwner, {
             mealsAdapter.updateData(it)
+
+        })
+
+        mealViewModel.getAllStatics().observe(viewLifecycleOwner, {
+            staticMealsAdapter.updateData(it)
 
         })
 
@@ -51,13 +60,21 @@ class MealsFragment : Fragment(), MealsAdapter.OnMealClickListener {
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             mealsAdapter = MealsAdapter(this@MealsFragment)
-            adapter = mealsAdapter
+            staticMealsAdapter = StaticMealsAdapter(this@MealsFragment)
+            val conAdapter = ConcatAdapter(mealsAdapter, staticMealsAdapter)
+            adapter = conAdapter
 
         }
     }
 
     override fun onMealClick(mealId: Int) {
         val intent = Intent(activity, MealActivity::class.java)
+        intent.putExtra("MEAL_ID", mealId)
+        startActivity(intent)
+    }
+
+    override fun onMealsClick(mealId: Int) {
+        val intent = Intent(activity, StaticMealActivity::class.java)
         intent.putExtra("MEAL_ID", mealId)
         startActivity(intent)
     }
