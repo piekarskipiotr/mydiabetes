@@ -15,6 +15,8 @@ import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apps.bacon.mydiabetes.adapters.ImageAdapter
 import com.apps.bacon.mydiabetes.data.*
+import com.apps.bacon.mydiabetes.data.entities.Image
+import com.apps.bacon.mydiabetes.data.entities.Product
 import com.apps.bacon.mydiabetes.databinding.*
 import com.apps.bacon.mydiabetes.viewmodel.ImageViewModel
 import com.apps.bacon.mydiabetes.viewmodel.MealViewModel
@@ -46,6 +48,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
     private val imageViewModel: ImageViewModel by viewModels()
     private lateinit var imagesAdapter: ImageAdapter
     private lateinit var binding: ActivityProductBinding
+
     @Inject
     lateinit var database: DatabaseReference
 
@@ -58,6 +61,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
         val bottomSheetDialogCameraViewBinding = DialogAddImageBinding.inflate(layoutInflater)
         val bottomSheetDialog = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
         val productId = intent.getIntExtra("PRODUCT_ID", -1)
+
         product = productViewModel.getProduct(productId)
         initRecyclerView()
         setProductInfo()
@@ -103,7 +107,6 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
                 bottomSheetDialog.dismiss()
             }
         }
-
 
         binding.addButton.setOnClickListener {
             productViewModel.update(product.apply {
@@ -209,13 +212,12 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
 
         dialogBinding.deleteButton.setOnClickListener {
             productViewModel.delete(product)
-            alertDialog.dismiss()
             finish()
         }
         alertDialog.show()
     }
 
-    private fun dialogMore(){
+    private fun dialogMore() {
         val alertDialog: AlertDialog
         val builder = AlertDialog.Builder(this, R.style.DialogStyle)
         val dialogBinding = DialogMoreBinding.inflate(LayoutInflater.from(this))
@@ -229,8 +231,12 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
 
         dialogBinding.deleteButton.setOnClickListener {
             val mealViewModel: MealViewModel by viewModels()
-            if(mealViewModel.isProductInMeal(product.id))
-                Toast.makeText(applicationContext, resources.getString(R.string.delete_product_in_meal_message), Toast.LENGTH_SHORT).show()
+            if (mealViewModel.isProductInMeal(product.id))
+                Toast.makeText(
+                    applicationContext,
+                    resources.getString(R.string.delete_product_in_meal_message),
+                    Toast.LENGTH_SHORT
+                ).show()
             else
                 dialogDeleteProduct()
         }
@@ -242,17 +248,18 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
         alertDialog.show()
     }
 
-    private fun dialogExport(){
+    private fun dialogExport() {
         val alertDialog: AlertDialog
         val builder = AlertDialog.Builder(this, R.style.DialogStyle)
-        val dialogBinding = DialogExportBinding.inflate(LayoutInflater.from(this))
+        val dialogBinding = DialogShareBinding.inflate(LayoutInflater.from(this))
         builder.setView(dialogBinding.root)
         alertDialog = builder.create()
         alertDialog.setCanceledOnTouchOutside(false)
 
-        dialogBinding.exportButton.setOnClickListener {
-            val productReference = database.child("Product")
-            productReference.child(product.name).setValue(product)
+        dialogBinding.shareButton.setOnClickListener {
+            val productReference = database.child("Product/${product.name}")
+            productReference.child(System.currentTimeMillis().toString()).setValue(product)
+            alertDialog.dismiss()
         }
 
         dialogBinding.backButton.setOnClickListener {
@@ -409,12 +416,17 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
 
                             }
                             else -> {
-                                val barcode = it.getStringExtra("BARCODE")
+                                val barcode = it.getStringExtra("BARCODE")!!
                                 val productWithBarcode = productViewModel.getProductByBarcode(
-                                    barcode!!
+                                    barcode
                                 )
 
-                                if (productWithBarcode != null) {
+                                val staticProductWithBarcode =
+                                    productViewModel.getStaticProductByBarcode(
+                                        barcode
+                                    )
+
+                                if (productWithBarcode != null && staticProductWithBarcode != null) {
                                     Toast.makeText(
                                         this,
                                         resources.getString(R.string.barcode_exists_error_message),
@@ -435,7 +447,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
             REQUEST_CODE_PRODUCT_NAME -> {
                 if (resultCode == RESULT_OK) {
                     data?.let {
-                        product.name = it.getStringExtra("PRODUCT_NAME").toString()
+                        product.name = it.getStringExtra("PRODUCT_NAME") as String
                         productViewModel.update(product)
                         setProductInfo()
                     }
@@ -468,7 +480,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
                         out.close()
 
                         imageViewModel.insert(
-                            Image(0, product.id,null, Uri.fromFile(photoFile).toString())
+                            Image(0, product.id, null, Uri.fromFile(photoFile).toString())
                         )
                     }
                 }

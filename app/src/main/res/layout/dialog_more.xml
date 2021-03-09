@@ -6,32 +6,24 @@
     android:background="@drawable/dialog_background_rounded"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
+    <ImageView
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:layout_gravity="center"
         android:layout_marginTop="15dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="15dp"
+        android:src="@drawable/ic_round_help_center" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="0dp"
         android:layout_marginBottom="45dp"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="58dp"
-            android:layout_height="58dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
-            android:src="@drawable/ic_round_help_center" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/more_options"
-            android:textAlignment="center"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
+        android:text="@string/more_options"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -52,7 +44,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
             android:gravity="center"
-            android:text="@string/export"
+            android:text="@string/share"
             android:textColor="@color/strong_yellow"
             android:textSize="16sp"
             android:textStyle="bold" />

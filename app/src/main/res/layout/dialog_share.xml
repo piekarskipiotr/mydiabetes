@@ -38,7 +38,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="0dp"
-            android:text="@string/export_message"
+            android:text="@string/share_message"
             android:textAlignment="center"
             android:textSize="14sp" />
 
@@ -50,7 +50,7 @@
         android:background="?attr/colorPrimary" />
 
     <LinearLayout
-        android:id="@+id/exportButton"
+        android:id="@+id/shareButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -63,7 +63,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
             android:gravity="center"
-            android:text="@string/export"
+            android:text="@string/share"
             android:textColor="@color/strong_yellow"
             android:textSize="16sp"
             android:textStyle="bold" />

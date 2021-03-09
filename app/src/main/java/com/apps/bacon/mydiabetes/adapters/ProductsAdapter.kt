@@ -9,16 +9,17 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.apps.bacon.mydiabetes.R
-import com.apps.bacon.mydiabetes.data.Product
+import com.apps.bacon.mydiabetes.data.entities.Product
 import com.apps.bacon.mydiabetes.databinding.ProductItemBinding
-import java.util.ArrayList
+import java.util.*
 
 class ProductsAdapter constructor(
     private val listener: OnProductClickListener
 ) : RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
     private var data: List<Product> = ArrayList()
 
-    inner class ViewHolder(view: ProductItemBinding) : RecyclerView.ViewHolder(view.root), View.OnClickListener {
+    inner class ViewHolder(view: ProductItemBinding) : RecyclerView.ViewHolder(view.root),
+        View.OnClickListener {
         val productName: TextView = view.productName
         val measure: TextView = view.measure
         val carbohydrateExchangers: TextView = view.carbohydrateExchangers
@@ -31,9 +32,8 @@ class ProductsAdapter constructor(
         }
 
         override fun onClick(p0: View?) {
-            listener.onProductClick(data[adapterPosition].id)
+            listener.onProductClick(data[bindingAdapterPosition].id)
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

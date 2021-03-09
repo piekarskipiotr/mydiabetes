@@ -2,18 +2,20 @@ package com.apps.bacon.mydiabetes
 
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.view.LayoutInflater
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apps.bacon.mydiabetes.adapters.ImageAdapter
 import com.apps.bacon.mydiabetes.adapters.ProductsAdapter
-import com.apps.bacon.mydiabetes.data.Image
-import com.apps.bacon.mydiabetes.data.Meal
+import com.apps.bacon.mydiabetes.adapters.StaticProductsAdapter
+import com.apps.bacon.mydiabetes.data.entities.Image
+import com.apps.bacon.mydiabetes.data.entities.Meal
 import com.apps.bacon.mydiabetes.databinding.*
 import com.apps.bacon.mydiabetes.viewmodel.ImageViewModel
 import com.apps.bacon.mydiabetes.viewmodel.MealViewModel
@@ -34,13 +36,16 @@ import java.io.InputStream
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener, ImageAdapter.OnImageClickListener {
+class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener,
+    StaticProductsAdapter.OnProductClickListener, ImageAdapter.OnImageClickListener {
     private lateinit var productsAdapter: ProductsAdapter
+    private lateinit var staticProductsAdapter: StaticProductsAdapter
     private lateinit var imageAdapter: ImageAdapter
     private lateinit var binding: ActivityMealBinding
     private lateinit var meal: Meal
     private val mealViewModel: MealViewModel by viewModels()
     private val imageViewModel: ImageViewModel by viewModels()
+
     @Inject
     lateinit var database: DatabaseReference
 
@@ -95,7 +100,7 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
         }
     }
 
-    private fun moreDialog(){
+    private fun moreDialog() {
         val alertDialog: AlertDialog
         val builder = AlertDialog.Builder(this, R.style.DialogStyle)
         val dialogBinding = DialogMoreBinding.inflate(LayoutInflater.from(this))
@@ -118,15 +123,15 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
         alertDialog.show()
     }
 
-    private fun dialogExport(){
+    private fun dialogExport() {
         val alertDialog: AlertDialog
         val builder = AlertDialog.Builder(this, R.style.DialogStyle)
-        val dialogBinding = DialogExportBinding.inflate(LayoutInflater.from(this))
+        val dialogBinding = DialogShareBinding.inflate(LayoutInflater.from(this))
         builder.setView(dialogBinding.root)
         alertDialog = builder.create()
         alertDialog.setCanceledOnTouchOutside(false)
 
-        dialogBinding.exportButton.setOnClickListener {
+        dialogBinding.shareButton.setOnClickListener {
             val mealReference = database.child("Meal")
             mealReference.child(meal.name).setValue(meal)
 
@@ -142,7 +147,7 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
         alertDialog.show()
     }
 
-    private fun dialogDeleteMeal(){
+    private fun dialogDeleteMeal() {
         val alertDialog: AlertDialog
         val builder = AlertDialog.Builder(this, R.style.DialogStyle)
         val dialogBinding = DialogDeleteMealBinding.inflate(LayoutInflater.from(this))
@@ -159,22 +164,25 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
         dialogBinding.deleteButton.setOnClickListener {
             mealViewModel.deletePMJoin(meal.id)
             imageViewModel.getImageByMealId(meal.id).observe(this, {
-                for(img in it){
+                for (img in it) {
                     imageViewModel.delete(img)
                 }
             })
             mealViewModel.delete(meal)
-            alertDialog.dismiss()
             finish()
         }
         alertDialog.show()
     }
 
-    private fun setMealInfo(){
+    private fun setMealInfo() {
         binding.mealName.text = meal.name
 
         mealViewModel.getProductsForMeal(meal.id).observe(this, {
             productsAdapter.updateData(it)
+        })
+
+        mealViewModel.getStaticProductsForMeal(meal.id).observe(this, {
+            staticProductsAdapter.updateData(it)
         })
 
         imageViewModel.getImageByMealId(meal.id).observe(this, {
@@ -231,16 +239,18 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
         pieChart.animate()
     }
 
-    private fun initProductsRecyclerView(){
+    private fun initProductsRecyclerView() {
         binding.productsRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             productsAdapter = ProductsAdapter(this@MealActivity)
-            adapter = productsAdapter
+            staticProductsAdapter = StaticProductsAdapter(this@MealActivity)
+            val conAdapter = ConcatAdapter(productsAdapter, staticProductsAdapter)
+            adapter = conAdapter
 
         }
     }
 
-    private fun initPhotosRecyclerView(){
+    private fun initPhotosRecyclerView() {
         binding.photosRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             imageAdapter = ImageAdapter(this@MealActivity)
@@ -282,12 +292,6 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
         alertDialog.show()
     }
 
-    override fun onProductClick(productId: Int) {
-        intent = Intent(this, ProductActivity::class.java)
-        intent.putExtra("PRODUCT_ID", productId)
-        startActivity(intent)
-    }
-
     private fun getBytes(inputStream: InputStream): ByteArray {
         val byteBuffer = ByteArrayOutputStream()
         val bufferSize = 1024
@@ -303,20 +307,31 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
         return byteBuffer.toByteArray()
     }
 
+    override fun onProductClick(productId: Int) {
+        intent = Intent(this, ProductActivity::class.java)
+        intent.putExtra("PRODUCT_ID", productId)
+        startActivity(intent)
+    }
+
+    override fun onStaticProductClick(productId: Int) {
+        intent = Intent(this, StaticProductActivity::class.java)
+        intent.putExtra("PRODUCT_ID", productId)
+        startActivity(intent)
+    }
+
     override fun onImageLongClick(image: Image) {
         dialogImageManager(image)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        when(requestCode){
+        when (requestCode) {
             REQUEST_CODE_MEAL_NAME -> {
-                when(resultCode) {
+                when (resultCode) {
                     RESULT_OK -> {
                         data?.let {
                             meal.name = it.getStringExtra("MEAL_NAME") as String
                             binding.mealName.text = meal.name
-
                             mealViewModel.update(meal)
                         }
                     }
@@ -356,9 +371,11 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
         }
     }
 
-    companion object{
+    companion object {
         private const val REQUEST_CODE_GET_IMAGE = 4
         private const val REQUEST_CODE_GET_IMAGE_FROM_GALLERY = 5
         private const val REQUEST_CODE_MEAL_NAME = 6
     }
+
+
 }
