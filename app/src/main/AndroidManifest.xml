@@ -18,6 +18,7 @@
         android:theme="@style/Theme.MyDiabetes">
         <activity android:name=".StaticMealActivity" />
         <activity android:name=".StaticProductActivity" />
+        <activity android:name=".ShareActivity" />
         <activity android:name=".ChangeMealNameActivity" />
         <activity android:name=".MealActivity" />
         <activity android:name=".LanguageSettings" />

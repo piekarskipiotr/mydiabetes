@@ -5,9 +5,9 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.apps.bacon.mydiabetes.adapters.ExportMealsAdapter
-import com.apps.bacon.mydiabetes.adapters.ExportProductsAdapter
-import com.apps.bacon.mydiabetes.databinding.ActivityExportBinding
+import com.apps.bacon.mydiabetes.adapters.ShareMealsAdapter
+import com.apps.bacon.mydiabetes.adapters.ShareProductsAdapter
+import com.apps.bacon.mydiabetes.databinding.ActivityShareBinding
 import com.apps.bacon.mydiabetes.viewmodel.MealViewModel
 import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
 import com.google.android.material.tabs.TabLayout
@@ -16,24 +16,23 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ExportActivity : AppCompatActivity(), ExportProductsAdapter.OnExportProductListener,
-    ExportMealsAdapter.OnExportMealListener {
-    private lateinit var binding: ActivityExportBinding
+class ShareActivity : AppCompatActivity(), ShareProductsAdapter.OnShareProductListener,
+    ShareMealsAdapter.OnShareMealListener {
+    private lateinit var binding: ActivityShareBinding
 
     @Inject
     lateinit var database: DatabaseReference
     private val mealViewModel: MealViewModel by viewModels()
-    val productsAdapter = ExportProductsAdapter(this@ExportActivity)
-    val mealsAdapter = ExportMealsAdapter(this@ExportActivity)
+    val productsAdapter = ShareProductsAdapter(this@ShareActivity)
+    val mealsAdapter = ShareMealsAdapter(this@ShareActivity)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityExportBinding.inflate(layoutInflater)
+        binding = ActivityShareBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
         val productViewModel: ProductViewModel by viewModels()
-        val mealViewModel: MealViewModel by viewModels()
 
         productViewModel.getAll().observe(this, {
             productsAdapter.updateData(it)
@@ -60,7 +59,6 @@ class ExportActivity : AppCompatActivity(), ExportProductsAdapter.OnExportProduc
                 }
                 binding.recyclerView.apply {
                     adapter = mAdapter
-
                 }
             }
 
@@ -71,17 +69,18 @@ class ExportActivity : AppCompatActivity(), ExportProductsAdapter.OnExportProduc
             override fun onTabReselected(tab: TabLayout.Tab?) {
 
             }
-
         })
 
         addTabs()
 
-        binding.exportButton.setOnClickListener {
-            val productReference = database.child("Product")
-            val mealReference = database.child("Meal")
-            val pmjReference = database.child("PMJ")
+        binding.shareButton.setOnClickListener {
+            val path = System.currentTimeMillis()
+            val productReference = database.child("$path/Product")
+            val mealReference = database.child("$path/Meal")
+            val pmjReference = database.child("$path/PMJ")
+            val hPMJReference = database.child("$path/HPMJ")
 
-            val products = productsAdapter.getDataToExport()
+            val products = productsAdapter.getDataToShare()
             val meals = mealsAdapter.getDataToExport()
 
             for (product in products) {
@@ -90,6 +89,11 @@ class ExportActivity : AppCompatActivity(), ExportProductsAdapter.OnExportProduc
 
             for (meal in meals) {
                 mealReference.child(meal.name).setValue(meal)
+                mealViewModel.getStaticProductsForMeal(meal.id).observe(this, {
+                    if (!it.isNullOrEmpty()) {
+                        hPMJReference.child(meal.name).setValue(it)
+                    }
+                })
                 val pmJoinList = mealViewModel.getPMJbyMealId(meal.id)
                 pmjReference.child(meal.name).setValue(pmJoinList)
             }

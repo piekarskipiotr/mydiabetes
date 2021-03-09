@@ -5,6 +5,9 @@ import com.apps.bacon.mydiabetes.api.SharedDataAPI
 import com.apps.bacon.mydiabetes.network.NetworkConnectionInterceptor
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.ktx.storage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,8 +23,12 @@ import javax.inject.Singleton
 @InstallIn(ApplicationComponent::class)
 object NetworkModule {
     @Provides
+    fun providesFirebaseStorage(): StorageReference = Firebase.storage.reference
+
+    @Provides
     @Named("firebase_database_url")
-    fun providesFirebaseDatabaseUrl(): String = "https://mydiabetes-6500f-default-rtdb.europe-west1.firebasedatabase.app/"
+    fun providesFirebaseDatabaseUrl(): String =
+        "https://mydiabetes-6500f-default-rtdb.europe-west1.firebasedatabase.app/"
 
     @Provides
     fun providesFirebaseDatabase(
@@ -30,12 +37,14 @@ object NetworkModule {
 
     @Provides
     @Named("api_url")
-    fun providesBaseUrl(): String = "https://raw.githubusercontent.com/piekarskipiotr/mydiabetes/master/API/"
+    fun providesBaseUrl(): String =
+        "https://raw.githubusercontent.com/piekarskipiotr/mydiabetes/master/API/"
 
     @Provides
     fun providesOkHttpClient(
         @ApplicationContext context: Context
-    ): OkHttpClient.Builder = OkHttpClient.Builder().addInterceptor(NetworkConnectionInterceptor(context))
+    ): OkHttpClient.Builder =
+        OkHttpClient.Builder().addInterceptor(NetworkConnectionInterceptor(context))
 
     @Provides
     @Singleton

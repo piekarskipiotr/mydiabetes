@@ -12,11 +12,11 @@
     android:foreground="?android:attr/selectableItemBackground"
     android:padding="5dp">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <com.google.android.material.circularreveal.cardview.CircularRevealCardView
             android:layout_width="74dp"
             android:layout_height="74dp"
@@ -28,12 +28,13 @@
             app:cardCornerRadius="12dp">
 
             <ImageView
-                android:id="@+id/mealIcon"
+                android:id="@+id/productIcon"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_round_dinner_dining" />
         </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -41,7 +42,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/mealName"
+                android:id="@+id/productName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -55,6 +56,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal">
+
+                <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+                    style="@style/lightCard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp">
+
+                    <TextView
+                        android:id="@+id/measure"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="2dp"
+                        android:text="16.97"
+                        android:textSize="12sp" />
+                </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
                 <com.google.android.material.circularreveal.cardview.CircularRevealCardView
                     android:layout_width="wrap_content"
@@ -112,10 +131,12 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
     <CheckBox
         android:id="@+id/exportCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true" />
+
 </RelativeLayout>
