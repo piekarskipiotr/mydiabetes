@@ -102,7 +102,18 @@ dependencies {
     //Firebase SDK for Google Analytics
     implementation 'com.google.firebase:firebase-analytics-ktx'
 
-    // Declare the dependency for the Realtime Database library
+    //Firebase Realtime Database library
     implementation 'com.google.firebase:firebase-database'
 
+    //Firebase storage
+    implementation 'com.google.firebase:firebase-storage-ktx'
+
+    //Glide
+    implementation ('com.github.bumptech.glide:glide:4.12.0'){
+        exclude group: "com.android.support"
+    }
+    kapt 'com.github.bumptech.glide:compiler:4.12.0'
+    implementation ("com.github.bumptech.glide:glide:4.12.0@aar") {
+        transitive = true
+    }
 }

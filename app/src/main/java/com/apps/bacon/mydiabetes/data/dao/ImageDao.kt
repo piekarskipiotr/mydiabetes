@@ -1,7 +1,8 @@
-package com.apps.bacon.mydiabetes.data
+package com.apps.bacon.mydiabetes.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.apps.bacon.mydiabetes.data.entities.Image
 
 @Dao
 interface ImageDao {
