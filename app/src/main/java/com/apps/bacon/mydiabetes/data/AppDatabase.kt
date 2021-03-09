@@ -6,12 +6,23 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.apps.bacon.mydiabetes.R
+import com.apps.bacon.mydiabetes.data.dao.*
+import com.apps.bacon.mydiabetes.data.entities.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Database(
-    entities = [Product::class, Tag::class, Image::class, Meal::class, ProductMealJoin::class, ProductServer::class, MealServer::class],
+    entities = [
+        Product::class,
+        Tag::class,
+        Image::class,
+        Meal::class,
+        ProductMealJoin::class,
+        StaticProduct::class,
+        StaticMeal::class,
+        StaticProductMealJoin::class
+    ],
     version = 1,
     exportSchema = false
 )
@@ -53,15 +64,12 @@ abstract class AppDatabase : RoomDatabase() {
                             CoroutineScope(Dispatchers.Main).launch {
                                 for (tag in preTagData)
                                     instance!!.tagDao().insert(tag)
-
                             }
                         }
                     })
                     .allowMainThreadQueries()
                     .build()
             return instance!!
-
         }
     }
-
 }

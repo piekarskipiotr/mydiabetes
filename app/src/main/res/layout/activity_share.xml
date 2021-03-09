@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ExportActivity">
+    tools:context=".ShareActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <com.google.android.material.appbar.MaterialToolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
             android:background="?attr/colorPrimaryDark">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/appBarText"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_centerHorizontal="true"
@@ -28,7 +28,7 @@
                     android:paddingTop="20dp"
                     android:paddingEnd="16dp"
                     android:paddingBottom="20dp"
-                    android:text="@string/export_many"
+                    android:text="@string/share_many"
                     android:textSize="22sp"
                     android:textStyle="bold" />
 
@@ -46,6 +46,7 @@
                     app:tint="@color/independent" />
             </RelativeLayout>
         </com.google.android.material.appbar.MaterialToolbar>
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
@@ -65,14 +66,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/exportButton"/>
+            android:layout_above="@id/shareButton" />
 
         <com.google.android.material.circularreveal.cardview.CircularRevealCardView
-            android:id="@+id/exportButton"
+            android:id="@+id/shareButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -81,6 +83,7 @@
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
             app:cardBackgroundColor="@color/green">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -88,7 +91,7 @@
                 android:layout_marginBottom="15dp"
                 android:gravity="center"
                 android:paddingBottom="5dp"
-                android:text="@string/export"
+                android:text="@string/share"
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </com.google.android.material.circularreveal.cardview.CircularRevealCardView>

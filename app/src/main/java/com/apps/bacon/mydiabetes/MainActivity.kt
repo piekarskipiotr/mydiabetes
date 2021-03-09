@@ -60,11 +60,17 @@ class MainActivity : AppCompatActivity() {
                     for (meal in it) {
                         mealViewModel.insert(meal)
                     }
+                    mainViewModel.getPMJ()?.observe(this, { pmjList ->
+                        for (pmj in pmjList) {
+                            mealViewModel.insertPMJoin(pmj)
+                        }
+                    })
                     with(sharedPreference.edit()) {
                         putInt("MEALS_VERSION", version.mealsVersion)
                         apply()
                     }
                 })
+
             }
         })
 

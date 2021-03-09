@@ -1,8 +1,9 @@
 package com.apps.bacon.mydiabetes.di
 
 import android.content.Context
-import com.apps.bacon.mydiabetes.api.ProductsAPI
+import com.apps.bacon.mydiabetes.api.SharedDataAPI
 import com.apps.bacon.mydiabetes.data.*
+import com.apps.bacon.mydiabetes.data.repositories.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,10 +24,10 @@ object AppModule {
 
     @Provides
     @Singleton
-    @Named("home_repository")
-    fun provideHomeRepository(
-        api: ProductsAPI
-    ) = HomeRepository(api)
+    @Named("main_repository")
+    fun provideMainRepository(
+        api: SharedDataAPI
+    ) = MainRepository(api)
 
     @Provides
     @Singleton

@@ -1,11 +1,11 @@
-package com.apps.bacon.mydiabetes.data
+package com.apps.bacon.mydiabetes.data.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "product_server")
-data class ProductServer(
+@Entity(tableName = "static_products")
+data class StaticProduct(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "product_id")
     var id: Int,
