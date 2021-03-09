@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.apps.bacon.mydiabetes.R
-import com.apps.bacon.mydiabetes.data.Product
+import com.apps.bacon.mydiabetes.data.entities.Product
 import com.apps.bacon.mydiabetes.databinding.ProductItemFoodPlateBinding
 import com.apps.bacon.mydiabetes.utilities.Calculations
 import com.google.android.material.textfield.TextInputEditText
@@ -23,7 +23,8 @@ class FoodPlateAdapter constructor(
 ) : RecyclerView.Adapter<FoodPlateAdapter.ViewHolder>() {
     private var data: List<Product> = ArrayList()
 
-    inner class ViewHolder(view: ProductItemFoodPlateBinding) : RecyclerView.ViewHolder(view.root), View.OnClickListener {
+    inner class ViewHolder(view: ProductItemFoodPlateBinding) : RecyclerView.ViewHolder(view.root),
+        View.OnClickListener {
         val productName: TextView = view.productName
         val measure: TextInputEditText = view.measureTextInput
         val measureLayout: TextInputLayout = view.measureTextInputLayout
@@ -34,14 +35,11 @@ class FoodPlateAdapter constructor(
 
         init {
             itemView.setOnClickListener(this)
-
         }
 
         override fun onClick(p0: View?) {
-            listener.onProductClick(data[adapterPosition].id)
-
+            listener.onProductClick(data[bindingAdapterPosition].id)
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -82,17 +80,10 @@ class FoodPlateAdapter constructor(
 
         holder.measure.onTextChanged {
             val value: String = when {
-                it.isNullOrEmpty() -> {
-                    "0"
-                }
-                it[0] == '.' -> {
-                    "0$it"
-                }
-                else -> {
-                    it.toString()
-                }
+                it.isNullOrEmpty() -> "0"
+                it[0] == '.' -> "0$it"
+                else -> it.toString()
             }
-
 
             if (data[position].weight == null) {
                 holder.carbohydrateExchangers.text = Calculations()
@@ -132,9 +123,7 @@ class FoodPlateAdapter constructor(
                         data[position].calories!!, data[position].weight!!, value.toDouble()
                     )
                     .toString()
-
             }
-
         }
     }
 
@@ -149,25 +138,20 @@ class FoodPlateAdapter constructor(
         return data
     }
 
-    fun getCarbohydrateExchangers(position: Int) : Double{
+    fun getCarbohydrateExchangers(position: Int): Double {
         return data[position].carbohydrateExchangers
     }
 
-    fun getProteinFat(position: Int) : Double{
+    fun getProteinFat(position: Int): Double {
         return data[position].proteinFatExchangers
     }
 
-    fun getCalories(position: Int) : Double? {
+    fun getCalories(position: Int): Double? {
         return data[position].calories
     }
 
     fun getProduct(position: Int): Product {
         return data[position]
-    }
-
-    interface OnProductClickListener {
-        fun onProductClick(productId: Int)
-
     }
 
     private fun TextInputEditText.onTextChanged(onTextChanged: (CharSequence?) -> Unit) {
@@ -193,5 +177,9 @@ class FoodPlateAdapter constructor(
                 }
             }
         })
+    }
+
+    interface OnProductClickListener {
+        fun onProductClick(productId: Int)
     }
 }

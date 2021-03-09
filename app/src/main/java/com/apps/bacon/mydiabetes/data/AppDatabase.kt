@@ -21,7 +21,8 @@ import kotlinx.coroutines.launch
         ProductMealJoin::class,
         StaticProduct::class,
         StaticMeal::class,
-        StaticProductMealJoin::class
+        StaticProductMealJoin::class,
+        HybridProductMealJoin::class
     ],
     version = 1,
     exportSchema = false
