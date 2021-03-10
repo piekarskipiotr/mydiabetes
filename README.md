@@ -49,18 +49,19 @@ fun proteinFatExchangersByCal(cal: Double, carbohydrates: Double): Double{
 ℹ **The end result of the calculation is rounded up to one decimal place**.
 	
 ## 🛠 Technologies
-Project is created with **Kotlin**.
+Project is created with **Kotlin** and using **Firebase**.
 
 📚 Libraries (already in use):
-* [ROOM](https://developer.android.com/jetpack/androidx/releases/room)
-* [Lifecycle](https://developer.android.com/jetpack/androidx/releases/lifecycle)
-* [Kotlin Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html)
-* [ML Kit](https://developers.google.com/ml-kit)
 * [CameraX](https://developer.android.com/training/camerax)
+* [Glide](https://github.com/bumptech/glide)
 * [Hilt](https://developer.android.com/training/dependency-injection/hilt-android)
+* [Kotlin Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html)
+* [Lifecycle](https://developer.android.com/jetpack/androidx/releases/lifecycle)
+* [ML Kit](https://developers.google.com/ml-kit)
 * [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart)
-* [Retrofit](https://square.github.io/retrofit/)
 * [OkHttp](https://square.github.io/okhttp/)
+* [Retrofit](https://square.github.io/retrofit/)
+* [ROOM](https://developer.android.com/jetpack/androidx/releases/room)
 
 ## 💡 Features
 * Easliy calculate carbohydrates and protein-fat exchangers
@@ -69,9 +70,9 @@ Project is created with **Kotlin**.
 * Food plate (just like shopping cart)
 * Support for English and Polish language
 * Saving meals
+* Creating a common database of products and meals by users
 
 #### 🎯 TO DO:
-* Creating a common database of products and meals by users
 * Searching by image
 
 ## ☄ Download
