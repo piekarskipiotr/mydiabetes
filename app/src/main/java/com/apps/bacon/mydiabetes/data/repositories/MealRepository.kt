@@ -12,6 +12,8 @@ class MealRepository @Inject constructor(
 
     fun getAll() = database.mealDao().getAll()
 
+    fun getAllPaging() = database.mealDao().getAllPaging()
+
     fun getMeal(id: Int) = database.mealDao().getMeal(id)
 
     fun getLastId() = database.mealDao().getLastId()
@@ -42,6 +44,8 @@ class MealRepository @Inject constructor(
     fun checkForStaticMealExist(name: String) = database.mealDao().checkForStaticMealExist(name)
 
     fun getAllStatics() = database.mealDao().getAllStatics()
+
+    fun getAllStaticsPaging() = database.mealDao().getAllStaticsPaging()
 
     fun getStaticMeal(id: Int) = database.mealDao().getStaticMeal(id)
 

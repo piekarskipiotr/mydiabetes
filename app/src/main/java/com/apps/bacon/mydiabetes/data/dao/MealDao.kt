@@ -1,8 +1,10 @@
 package com.apps.bacon.mydiabetes.data.dao
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.room.*
 import com.apps.bacon.mydiabetes.data.entities.Meal
+import com.apps.bacon.mydiabetes.data.entities.Product
 import com.apps.bacon.mydiabetes.data.entities.StaticMeal
 
 @Dao
@@ -12,6 +14,9 @@ interface MealDao {
 
     @Query("SELECT * FROM meals")
     fun getAll(): LiveData<List<Meal>>
+
+    @Query("SELECT * FROM meals")
+    fun getAllPaging(): DataSource.Factory<Int, Meal>
 
     @Query("SELECT * FROM meals WHERE :id == meal_id")
     fun getMeal(id: Int): Meal
@@ -37,6 +42,9 @@ interface MealDao {
 
     @Query("SELECT * FROM static_meals")
     fun getAllStatics(): LiveData<List<StaticMeal>>
+
+    @Query("SELECT * FROM static_meals")
+    fun getAllStaticsPaging(): DataSource.Factory<Int, StaticMeal>
 
     @Query("SELECT * FROM static_meals WHERE :id == meal_id")
     fun getStaticMeal(id: Int): StaticMeal

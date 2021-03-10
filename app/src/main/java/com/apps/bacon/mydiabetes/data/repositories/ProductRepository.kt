@@ -1,5 +1,6 @@
 package com.apps.bacon.mydiabetes.data.repositories
 
+import androidx.paging.DataSource
 import com.apps.bacon.mydiabetes.data.AppDatabase
 import com.apps.bacon.mydiabetes.data.entities.Product
 import com.apps.bacon.mydiabetes.data.entities.StaticProduct
@@ -12,7 +13,11 @@ class ProductRepository @Inject constructor(
 
     fun getAll() = database.productDao().getAll()
 
+    fun getAllPaging() = database.productDao().getAllPaging()
+
     fun getAllByTag(tagId: Int) = database.productDao().getAllByTag(tagId)
+
+    fun getAllByTagPaging(tagId: Int) = database.productDao().getAllByTagPaging(tagId)
 
     fun getProduct(id: Int) = database.productDao().getProduct(id)
 
@@ -34,7 +39,11 @@ class ProductRepository @Inject constructor(
 
     fun getAllStatics() = database.productDao().getAllStatics()
 
+    fun getAllStaticsPaging() = database.productDao().getAllStaticsPaging()
+
     fun getAllStaticsByTag(tagId: Int) = database.productDao().getAllStaticsByTag(tagId)
+
+    fun getAllStaticsByTagPaging(tagId: Int) = database.productDao().getAllStaticsByTagPaging(tagId)
 
     fun getStaticProduct(id: Int) = database.productDao().getStaticProduct(id)
 

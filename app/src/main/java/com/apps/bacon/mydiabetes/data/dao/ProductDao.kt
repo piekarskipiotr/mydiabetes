@@ -1,6 +1,7 @@
 package com.apps.bacon.mydiabetes.data.dao
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.room.*
 import com.apps.bacon.mydiabetes.data.entities.Product
 import com.apps.bacon.mydiabetes.data.entities.StaticProduct
@@ -14,14 +15,17 @@ interface ProductDao {
     @Query("SELECT * FROM products")
     fun getAll(): LiveData<List<Product>>
 
+    @Query("SELECT * FROM products")
+    fun getAllPaging(): DataSource.Factory<Int, Product>
+
     @Query("SELECT * FROM products WHERE :tagId == product_tag")
     fun getAllByTag(tagId: Int): LiveData<List<Product>>
 
+    @Query("SELECT * FROM products WHERE :tagId == product_tag")
+    fun getAllByTagPaging(tagId: Int): DataSource.Factory<Int, Product>
+
     @Query("SELECT * FROM products WHERE :id == product_id")
     fun getProduct(id: Int): Product
-
-//    @Query("SELECT * FROM products WHERE :name == product_name")
-//    fun getProductByName(name: String): Product
 
     @Query("SELECT * FROM products WHERE :barcode == barcode")
     fun getProductByBarcode(barcode: String): Product?
@@ -48,14 +52,17 @@ interface ProductDao {
     @Query("SELECT * FROM static_products")
     fun getAllStatics(): LiveData<List<StaticProduct>>
 
+    @Query("SELECT * FROM static_products")
+    fun getAllStaticsPaging(): DataSource.Factory<Int, StaticProduct>
+
     @Query("SELECT * FROM static_products WHERE :tagId == product_tag")
     fun getAllStaticsByTag(tagId: Int): LiveData<List<StaticProduct>>
 
+    @Query("SELECT * FROM static_products WHERE :tagId == product_tag")
+    fun getAllStaticsByTagPaging(tagId: Int): DataSource.Factory<Int, StaticProduct>
+
     @Query("SELECT * FROM static_products WHERE :id == product_id")
     fun getStaticProduct(id: Int): StaticProduct
-
-//    @Query("SELECT * FROM static_product WHERE :name == product_name")
-//    fun getStaticProductByName(name: String): StaticProduct
 
     @Query("SELECT * FROM static_products WHERE :barcode == barcode")
     fun getStaticProductByBarcode(barcode: String): StaticProduct?

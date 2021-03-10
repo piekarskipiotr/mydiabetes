@@ -2,6 +2,7 @@ package com.apps.bacon.mydiabetes
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.apps.bacon.mydiabetes.adapters.PagingProductsAdapter
+import com.apps.bacon.mydiabetes.adapters.PagingStaticProductsAdapter
 import com.apps.bacon.mydiabetes.adapters.ProductsAdapter
 import com.apps.bacon.mydiabetes.adapters.StaticProductsAdapter
 import com.apps.bacon.mydiabetes.databinding.FragmentHomeBinding
@@ -18,10 +21,10 @@ import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(), ProductsAdapter.OnProductClickListener,
-    StaticProductsAdapter.OnProductClickListener {
-    private lateinit var productsAdapter: ProductsAdapter
-    private lateinit var staticProductsAdapter: StaticProductsAdapter
+class HomeFragment : Fragment(), PagingProductsAdapter.OnProductClickListener,
+    PagingStaticProductsAdapter.OnProductClickListener {
+    private lateinit var productsAdapter: PagingProductsAdapter
+    private lateinit var staticProductsAdapter: PagingStaticProductsAdapter
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -30,34 +33,31 @@ class HomeFragment : Fragment(), ProductsAdapter.OnProductClickListener,
         super.onViewCreated(view, savedInstanceState)
         val homeViewModel by activityViewModels<HomeViewModel>()
         val productViewModel: ProductViewModel by viewModels()
+
         initRecyclerView()
 
         homeViewModel.currentTag.observe(viewLifecycleOwner, { selectedTab ->
 
-            if (productViewModel.getAllByTag(selectedTab).hasObservers()) {
-                productViewModel.getAllByTag(selectedTab).removeObservers(viewLifecycleOwner)
-                productViewModel.getAllStaticsByTag(selectedTab).removeObservers(viewLifecycleOwner)
-            }
-
             if (selectedTab == 0) {
-                productViewModel.getAll().observe(viewLifecycleOwner, {
-                    productsAdapter.updateData(it)
-
+                productViewModel.getPagingListOfProducts().observe(viewLifecycleOwner, {
+                    productsAdapter.submitList(it)
                 })
-                productViewModel.getAllStatics().observe(viewLifecycleOwner, {
-                    staticProductsAdapter.updateData(it)
+
+                productViewModel.getPagingListOfStaticProducts().observe(viewLifecycleOwner, {
+                    staticProductsAdapter.submitList(it)
 
                 })
             } else {
-                productViewModel.getAllByTag(selectedTab).observe(viewLifecycleOwner, {
-                    productsAdapter.updateData(it)
+                productViewModel.getPagingListOfProductsByTag(selectedTab).observe(viewLifecycleOwner, {
+                    productsAdapter.submitList(it)
                 })
 
-                productViewModel.getAllStaticsByTag(selectedTab).observe(viewLifecycleOwner, {
-                    staticProductsAdapter.updateData(it)
+                productViewModel.getPagingListOfStaticProductsByTag(selectedTab).observe(viewLifecycleOwner, {
+                    staticProductsAdapter.submitList(it)
                 })
             }
         })
+
     }
 
     override fun onCreateView(
@@ -77,8 +77,8 @@ class HomeFragment : Fragment(), ProductsAdapter.OnProductClickListener,
     private fun initRecyclerView() {
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
-            productsAdapter = ProductsAdapter(this@HomeFragment)
-            staticProductsAdapter = StaticProductsAdapter(this@HomeFragment)
+            productsAdapter = PagingProductsAdapter(this@HomeFragment)
+            staticProductsAdapter = PagingStaticProductsAdapter(this@HomeFragment)
             val concatAdapter = ConcatAdapter(productsAdapter, staticProductsAdapter)
             adapter = concatAdapter
 

@@ -1,7 +1,11 @@
 package com.apps.bacon.mydiabetes.viewmodel
 
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.paging.Config
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.apps.bacon.mydiabetes.data.entities.*
 import com.apps.bacon.mydiabetes.data.repositories.MealRepository
 import kotlinx.coroutines.CoroutineScope
@@ -14,9 +18,19 @@ constructor(
     @Named("meal_repository")
     private val repository: MealRepository
 ) : ViewModel() {
+    private val myPagingConfig = Config(
+        pageSize = 6,
+        prefetchDistance = 150,
+        enablePlaceholders = true
+    )
+
     fun checkForMealExist(name: String) = repository.checkForMealExist(name)
 
     fun getAll() = repository.getAll()
+
+    fun getPagingListOfMeals(): LiveData<PagedList<Meal>> {
+        return LivePagedListBuilder(repository.getAllPaging(), myPagingConfig).build()
+    }
 
     fun getMeal(id: Int) = repository.getMeal(id)
 
@@ -58,6 +72,10 @@ constructor(
     fun checkForStaticMealExist(name: String) = repository.checkForStaticMealExist(name)
 
     fun getAllStatics() = repository.getAllStatics()
+
+    fun getPagingListOfStaticMeals(): LiveData<PagedList<StaticMeal>> {
+        return LivePagedListBuilder(repository.getAllStaticsPaging(), myPagingConfig).build()
+    }
 
     fun getStaticMeal(id: Int) = repository.getStaticMeal(id)
 
