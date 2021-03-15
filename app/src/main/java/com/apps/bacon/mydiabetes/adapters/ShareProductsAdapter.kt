@@ -114,6 +114,14 @@ class ShareProductsAdapter constructor(
         }
     }
 
+    fun selectAllProducts() {
+        for(product in data){
+            checkedList.append(product.id, true)
+            dataToShare.add(product)
+        }
+        notifyDataSetChanged()
+    }
+
     fun updateData(dataList: List<Product>) {
         data = dataList
         notifyDataSetChanged()

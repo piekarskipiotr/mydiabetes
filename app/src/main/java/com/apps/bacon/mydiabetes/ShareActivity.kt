@@ -48,17 +48,25 @@ class ShareActivity : AppCompatActivity(), ShareProductsAdapter.OnShareProductLi
 
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                val mAdapter = when (tab?.position) {
+                when(tab?.position){
                     0 -> {
-                        productsAdapter
+                        binding.recyclerView.apply {
+                            adapter = productsAdapter
+                        }
+
+                        binding.selectAllButton.setOnClickListener {
+                            productsAdapter.selectAllProducts()
+                        }
                     }
                     1 -> {
-                        mealsAdapter
+                        binding.recyclerView.apply {
+                            adapter = mealsAdapter
+                        }
+
+                        binding.selectAllButton.setOnClickListener {
+                            mealsAdapter.selectAllMeals()
+                        }
                     }
-                    else -> null
-                }
-                binding.recyclerView.apply {
-                    adapter = mAdapter
                 }
             }
 

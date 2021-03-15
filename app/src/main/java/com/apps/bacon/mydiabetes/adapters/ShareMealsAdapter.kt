@@ -20,7 +20,7 @@ class ShareMealsAdapter constructor(
     private val listener: OnShareMealListener
 ) : RecyclerView.Adapter<ShareMealsAdapter.ViewHolder>() {
     private var data: List<Meal> = ArrayList()
-    private var dataToExport: MutableList<Meal> = ArrayList()
+    private var dataToShare: MutableList<Meal> = ArrayList()
     private var checkedList = SparseBooleanArray()
 
     inner class ViewHolder(view: MealToShareItemBinding) : RecyclerView.ViewHolder(view.root),
@@ -77,10 +77,10 @@ class ShareMealsAdapter constructor(
         holder.toShare.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 checkedList.append(data[position].id, true)
-                dataToExport.add(data[position])
+                dataToShare.add(data[position])
             } else {
                 checkedList.remove(data[position].id, true)
-                dataToExport.remove(data[position])
+                dataToShare.remove(data[position])
             }
         }
     }
@@ -88,7 +88,16 @@ class ShareMealsAdapter constructor(
     override fun getItemCount() = data.size
 
     fun getDataToExport(): List<Meal> {
-        return dataToExport
+        return dataToShare
+    }
+
+    fun selectAllMeals() {
+        for(meal in data){
+            checkedList.append(meal.id, true)
+            dataToShare.add(meal)
+            listener.onMealCheckBoxClick(meal.id, true)
+        }
+        notifyDataSetChanged()
     }
 
     fun updateData(dataList: List<Meal>) {

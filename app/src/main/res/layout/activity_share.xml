@@ -44,6 +44,21 @@
                     android:foreground="?android:attr/selectableItemBackground"
                     android:src="@drawable/ic_round_arrow_back"
                     app:tint="@color/independent" />
+
+                <ImageView
+                    android:id="@+id/selectAllButton"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginEnd="16dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:src="@drawable/ic_baseline_done_all"
+                    app:tint="@color/independent" />
+
             </RelativeLayout>
         </com.google.android.material.appbar.MaterialToolbar>
 
