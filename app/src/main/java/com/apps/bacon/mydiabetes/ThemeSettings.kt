@@ -29,6 +29,7 @@ class ThemeSettings : AppCompatActivity() {
             binding.turnOffRadioButton.isChecked = false
             with(sharedPreference.edit()) {
                 putInt("THEME", MODE_NIGHT_YES)
+                putBoolean("THEME_HAS_CHANGED", true)
                 apply()
             }
             setDefaultNightMode(MODE_NIGHT_YES)
@@ -38,6 +39,7 @@ class ThemeSettings : AppCompatActivity() {
             binding.turnOnRadioButton.isChecked = false
             with(sharedPreference.edit()) {
                 putInt("THEME", MODE_NIGHT_NO)
+                putBoolean("THEME_HAS_CHANGED", true)
                 apply()
             }
             setDefaultNightMode(MODE_NIGHT_NO)

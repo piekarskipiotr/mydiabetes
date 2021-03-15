@@ -175,5 +175,13 @@ class HomeActivity : AppCompatActivity() {
             finish()
             startActivity(intent)
         }
+
+        if(sharedPreference.getBoolean("THEME_HAS_CHANGED", false)){
+            with(sharedPreference.edit()) {
+                putBoolean("THEME_HAS_CHANGED", false)
+                apply()
+            }
+            binding.bottomNavigation.selectedItemId = R.id.settings_nav
+        }
     }
 }
