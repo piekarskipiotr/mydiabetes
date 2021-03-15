@@ -31,6 +31,7 @@ import com.github.mikephil.charting.data.PieEntry
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.*
 
 @AndroidEntryPoint
 class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickListener,
@@ -42,7 +43,7 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
     private val mealViewModel: MealViewModel by viewModels()
     private lateinit var bottomDialogBinding: DialogSummaryResultsBinding
     private lateinit var binding: ActivityFoodPlateBinding
-    private var newMealId = 0
+    private var newMealId = -1
     private var carbohydrateExchangers = 0.0
     private var proteinFatExchangers = 0.0
     private var calories = 0.0
@@ -131,16 +132,20 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
 
                 bottomDialogMealNameBinding.saveNameButton.setOnClickListener {
                     when {
-                        bottomDialogMealNameBinding.mealNameTextInput.text.isNullOrEmpty() -> bottomDialogMealNameBinding.mealNameTextInputLayout.error =
-                            errorEmptyMessage
-                        mealViewModel.checkForMealExist(bottomDialogMealNameBinding.mealNameTextInput.text.toString()) -> bottomDialogMealNameBinding.mealNameTextInputLayout.error =
-                            errorAlreadyExistsNameMessage
-                        mealViewModel.checkForStaticMealExist(bottomDialogMealNameBinding.mealNameTextInput.text.toString()) -> bottomDialogMealNameBinding.mealNameTextInputLayout.error =
-                            errorAlreadyExistsNameMessage
+                        bottomDialogMealNameBinding.mealNameTextInput.text.isNullOrEmpty() ->
+                            bottomDialogMealNameBinding.mealNameTextInputLayout.error =
+                                errorEmptyMessage
+                        mealViewModel.checkForMealExist(bottomDialogMealNameBinding.mealNameTextInput.text.toString()) ->
+                            bottomDialogMealNameBinding.mealNameTextInputLayout.error =
+                                errorAlreadyExistsNameMessage
+                        mealViewModel.checkForStaticMealExist(bottomDialogMealNameBinding.mealNameTextInput.text.toString()) ->
+                            bottomDialogMealNameBinding.mealNameTextInputLayout.error =
+                                errorAlreadyExistsNameMessage
                         else -> {
                             bottomDialogMealNameBinding.mealNameTextInputLayout.error = null
                             val mealName =
                                 bottomDialogMealNameBinding.mealNameTextInput.text.toString().trim()
+
                             val meal = Meal(
                                 newMealId,
                                 mealName,
@@ -149,38 +154,44 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
                                 proteinFatExchangers,
                                 null
                             )
-                            mealViewModel.insert(meal)
+
+                            runBlocking(Dispatchers.Default) {
+                                mealViewModel.insert(meal)
+                            }
 
                             val listOfProducts = foodPlateAdapter.getData()
-                            val listOfStaticProducts = staticFoodPlateAdapter.getData()
 
                             for (product in listOfProducts) {
-                                mealViewModel.insertPMJoin(ProductMealJoin(product.id, meal.id))
+                                productViewModel.update(product.apply {
+                                    inFoodPlate = false
+                                })
+
+                                runBlocking(Dispatchers.Default) {
+                                    mealViewModel.insertPMJoin(
+                                        ProductMealJoin(
+                                            product.id,
+                                            meal.id
+                                        )
+                                    )
+                                }
                             }
+
+                            val listOfStaticProducts = staticFoodPlateAdapter.getData()
 
                             for (product in listOfStaticProducts) {
-                                mealViewModel.insertHPMJoin(
-                                    HybridProductMealJoin(
-                                        product.id,
-                                        meal.id
+
+                                productViewModel.update(product.apply {
+                                    inFoodPlate = false
+                                })
+
+                                runBlocking(Dispatchers.Default) {
+                                    mealViewModel.insertHPMJoin(
+                                        HybridProductMealJoin(
+                                            product.id,
+                                            meal.id
+                                        )
                                     )
-                                )
-                            }
-
-                            for (i in 0 until foodPlateAdapter.itemCount) {
-                                productViewModel.update(
-                                    foodPlateAdapter.getProduct(i).apply {
-                                        inFoodPlate = false
-                                    }
-                                )
-                            }
-
-                            for (i in 0 until staticFoodPlateAdapter.itemCount) {
-                                productViewModel.update(
-                                    staticFoodPlateAdapter.getProduct(i).apply {
-                                        inFoodPlate = false
-                                    }
-                                )
+                                }
                             }
 
                             bottomSheetDialog.dismiss()

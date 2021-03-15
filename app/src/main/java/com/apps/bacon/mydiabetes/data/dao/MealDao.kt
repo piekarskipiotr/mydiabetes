@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.room.*
 import com.apps.bacon.mydiabetes.data.entities.Meal
-import com.apps.bacon.mydiabetes.data.entities.Product
 import com.apps.bacon.mydiabetes.data.entities.StaticMeal
 
 @Dao
