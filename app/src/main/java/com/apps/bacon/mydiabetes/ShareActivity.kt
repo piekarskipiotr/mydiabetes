@@ -2,6 +2,7 @@ package com.apps.bacon.mydiabetes
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -48,7 +49,7 @@ class ShareActivity : AppCompatActivity(), ShareProductsAdapter.OnShareProductLi
 
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                when(tab?.position){
+                when (tab?.position) {
                     0 -> {
                         binding.recyclerView.apply {
                             adapter = productsAdapter
@@ -89,7 +90,7 @@ class ShareActivity : AppCompatActivity(), ShareProductsAdapter.OnShareProductLi
             val hPMJReference = database.child("$path/HPMJ")
 
             val products = productsAdapter.getDataToShare()
-            val meals = mealsAdapter.getDataToExport()
+            val meals = mealsAdapter.getDataToShare()
 
             for (product in products) {
                 productReference.child(product.name).setValue(product)

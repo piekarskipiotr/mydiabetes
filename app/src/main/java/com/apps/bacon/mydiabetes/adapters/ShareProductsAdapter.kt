@@ -104,6 +104,7 @@ class ShareProductsAdapter constructor(
 
             isFromMealList.append(product.id, true)
         }
+        notifyDataSetChanged()
     }
 
     fun removeProductsThatAreConnectedWithMeal(listOfProducts: List<Product>) {
@@ -112,12 +113,14 @@ class ShareProductsAdapter constructor(
             checkedList.remove(product.id, true)
             isFromMealList.remove(product.id, true)
         }
+        notifyDataSetChanged()
     }
 
     fun selectAllProducts() {
-        for(product in data){
-            checkedList.append(product.id, true)
-            dataToShare.add(product)
+        for (product in data) {
+            if(!checkedList.get(product.id, false)){
+                checkedList.append(product.id, true)
+            }
         }
         notifyDataSetChanged()
     }

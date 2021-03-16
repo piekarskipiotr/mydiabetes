@@ -87,14 +87,13 @@ class ShareMealsAdapter constructor(
 
     override fun getItemCount() = data.size
 
-    fun getDataToExport(): List<Meal> {
+    fun getDataToShare(): List<Meal> {
         return dataToShare
     }
 
     fun selectAllMeals() {
         for(meal in data){
             checkedList.append(meal.id, true)
-            dataToShare.add(meal)
             listener.onMealCheckBoxClick(meal.id, true)
         }
         notifyDataSetChanged()
