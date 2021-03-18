@@ -13,7 +13,8 @@
     "tag": null,
     "barcode": null,
     "inFoodPlate": null,
-    "icon": null
+    "icon": null,
+    "isEditable": false
   },
   {
     "id": 2,
@@ -29,6 +30,7 @@
     "tag": null,
     "barcode": null,
     "inFoodPlate": null,
-    "icon": null
+    "icon": null,
+    "isEditable": false
   }
 ]
