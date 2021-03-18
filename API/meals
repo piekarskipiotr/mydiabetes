@@ -5,7 +5,8 @@
     "calories": 800.0,
     "carbohydrateExchangers": 5.0,
     "proteinFatExchangers": 100.0,
-    "icon": null
+    "icon": null,
+    "isEditable": false
   },
   {
    "id": 2,
@@ -13,6 +14,7 @@
     "calories": 800.0,
     "carbohydrateExchangers": 5.0,
     "proteinFatExchangers": 100.0,
-    "icon": null
+    "icon": null,
+    "isEditable": false
   }
 ]
