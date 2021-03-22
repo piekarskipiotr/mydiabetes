@@ -16,6 +16,8 @@ constructor(
     @Named("tag_repository")
     private val repository: TagRepository
 ) : ViewModel() {
+    fun checkForTagExist(name: String) = repository.checkForTagExist(name)
+
     fun getAll() = repository.getAll()
 
     fun getLastId() = repository.getLastId()

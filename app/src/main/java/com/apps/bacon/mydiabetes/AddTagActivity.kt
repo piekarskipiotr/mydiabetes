@@ -23,15 +23,12 @@ class AddTagActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddTagBinding
     private val productViewModel: ProductViewModel by viewModels()
     private val tagViewModel: TagViewModel by viewModels()
-    private lateinit var errorMessage: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddTagBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
-        errorMessage = resources.getString(R.string.empty_field_message_error)
 
         if (intent.getBooleanExtra("TAG_SETTINGS", false))
             binding.headerText.text = resources.getString(R.string.tag_management)
@@ -43,20 +40,24 @@ class AddTagActivity : AppCompatActivity() {
             })
         }
 
-        binding.addTagButton.setOnClickListener {
-            if (binding.tagNameTextInput.text.isNullOrEmpty())
-                binding.tagNameTextInputLayout.error = errorMessage
-            else {
-                binding.tagNameTextInputLayout.error = null
-                tagViewModel.insert(Tag(0, binding.tagNameTextInput.text.toString().trim()))
-                if (!intent.getBooleanExtra("TAG_SETTINGS", false)) {
-                    intent.putExtra("NEW_TAG", true)
-                    setResult(Activity.RESULT_OK, intent)
-                    finish()
-                } else {
-                    binding.tagNameTextInput.text = null
-                }
+        val errorEmptyMessage = resources.getString(R.string.empty_field_message_error)
+        val errorAlreadyExistsNameMessage = resources.getString(R.string.tag_name_exists_error_message)
 
+        binding.addTagButton.setOnClickListener {
+            when {
+                binding.tagNameTextInput.text.isNullOrEmpty() -> binding.tagNameTextInputLayout.error = errorEmptyMessage
+                tagViewModel.checkForTagExist(binding.tagNameTextInput.text.toString().trim()) -> binding.tagNameTextInputLayout.error = errorAlreadyExistsNameMessage
+                else -> {
+                    binding.tagNameTextInputLayout.error = null
+                    tagViewModel.insert(Tag(0, binding.tagNameTextInput.text.toString().trim()))
+                    if (!intent.getBooleanExtra("TAG_SETTINGS", false)) {
+                        intent.putExtra("NEW_TAG", true)
+                        setResult(Activity.RESULT_OK, intent)
+                        finish()
+                    } else {
+                        binding.tagNameTextInput.text = null
+                    }
+                }
             }
         }
 

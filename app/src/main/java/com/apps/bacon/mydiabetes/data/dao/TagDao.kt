@@ -6,6 +6,9 @@ import com.apps.bacon.mydiabetes.data.entities.Tag
 
 @Dao
 interface TagDao {
+    @Query("SELECT EXISTS(SELECT * FROM tags WHERE tag_name == :name)")
+    fun checkForTagExist(name: String): Boolean
+
     @Query("SELECT * FROM tags")
     fun getAll(): LiveData<List<Tag>>
 

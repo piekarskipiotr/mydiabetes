@@ -105,4 +105,5 @@
     <string name="photos_mismatch">Photos mismatch</string>
     <string name="report_error_message">The content of the application has not been selected!</string>
     <string name="meal_name_exist_error_message">A meal with that name already exists!</string>
+    <string name="tag_name_exists_error_message">A tag with that name already exists!</string>
 </resources>

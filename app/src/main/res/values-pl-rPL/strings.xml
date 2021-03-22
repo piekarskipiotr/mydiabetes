@@ -106,4 +106,5 @@
     <string name="photos_mismatch">Niezgodność zdjęć</string>
     <string name="report_error_message">Treść zgłoszenia nie została wybrana!</string>
     <string name="meal_name_exist_error_message">Posiłek o takiej nazwie już istnieje!</string>
+    <string name="tag_name_exists_error_message">Tag o takiej nazwie już istnieje!</string>
 </resources>
