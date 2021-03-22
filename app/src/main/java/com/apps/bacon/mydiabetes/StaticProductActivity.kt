@@ -67,15 +67,20 @@ class StaticProductActivity : AppCompatActivity() {
             dialogReport()
         }
 
-        binding.addButton.setOnClickListener {
-            productViewModel.update(staticProduct.apply {
-                inFoodPlate = true
-            })
-
-            Toast.makeText(this, resources.getString(R.string.product_added), Toast.LENGTH_SHORT)
-                .show()
+        if(staticProduct.inFoodPlate){
+            binding.addButton.isClickable = false
+            binding.addButton.alpha = 0.8f
+        }else{
+            binding.addButton.setOnClickListener {
+                productViewModel.update(staticProduct.apply {
+                    inFoodPlate = true
+                })
+                binding.addButton.isClickable = false
+                binding.addButton.alpha = 0.8f
+                Toast.makeText(this, resources.getString(R.string.product_added), Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
-
     }
 
     private fun initRecyclerView() {

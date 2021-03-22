@@ -108,13 +108,19 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
             }
         }
 
-        binding.addButton.setOnClickListener {
-            productViewModel.update(product.apply {
-                inFoodPlate = true
-            })
-
-            Toast.makeText(this, resources.getString(R.string.product_added), Toast.LENGTH_SHORT)
-                .show()
+        if(product.inFoodPlate){
+            binding.addButton.isClickable = false
+            binding.addButton.alpha = 0.8f
+        }else{
+            binding.addButton.setOnClickListener {
+                productViewModel.update(product.apply {
+                    inFoodPlate = true
+                })
+                binding.addButton.isClickable = false
+                binding.addButton.alpha = 0.8f
+                Toast.makeText(this, resources.getString(R.string.product_added), Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
 
         binding.backButton.setOnClickListener {
