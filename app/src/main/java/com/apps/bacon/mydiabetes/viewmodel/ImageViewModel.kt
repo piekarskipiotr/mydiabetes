@@ -41,8 +41,8 @@ constructor(
 
     fun getURL(storageReference: StorageReference,
                type: String,
-               id: Int): LiveData<List<String>>? {
-        urls = repository.getImageURLS(storageReference, type, id)
+               name: String): LiveData<List<String>>? {
+        urls = repository.getImageURLS(storageReference, type, name)
 
         return urls
     }

@@ -25,21 +25,21 @@ class ImageRepository @Inject constructor(
 
     suspend fun delete(image: Image) = database.imageDao().delete(image)
 
-    private val imageURLs = MutableLiveData<List<String>>()
-
-    fun getImageURLS(
+   fun getImageURLS(
         storageReference: StorageReference,
         type: String,
-        id: Int
+        name: String
     ): MutableLiveData<List<String>> {
+        val imageURLs = MutableLiveData<List<String>>()
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                storageReference.child("${type}_images/$id").listAll().addOnCompleteListener {
-                    for (image in it.result.items) {
-                        image.downloadUrl.addOnCompleteListener { u ->
-                            imageURLs.value = imageURLs.value.orEmpty() + u.result.toString()
+                storageReference.child("${type}_images/$name/").listAll().addOnSuccessListener {
+                    for (image in it.items) {
+                        image.downloadUrl.addOnSuccessListener { url ->
+                            imageURLs.value = imageURLs.value.orEmpty() + url.toString()
                         }
                     }
+
                 }
             } catch (e: Exception) {
                 Log.e("FirebaseStorage:", e.toString())
