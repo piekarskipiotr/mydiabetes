@@ -1,10 +1,10 @@
 [
   {
-    "productId":1,
-    "mealId":1
+    "productName": "essa",
+    "mealName": "essa"
   },
   {
-    "productId":2,
-    "mealId":1
+    "productName": "essa2",
+    "mealName": "essa"
   }
 ]
