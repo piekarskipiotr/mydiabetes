@@ -45,7 +45,11 @@ constructor(
 
     fun getProductsInPlate() = repository.getProductsInPlate()
 
-    fun insert(product: Product) = CoroutineScope(Dispatchers.IO).launch {
+    fun renamePMJProductName(product: Product, oldName: String, newName: String) = CoroutineScope(Dispatchers.Default).launch {
+        repository.renamePMJProductName(product, oldName, newName)
+    }
+
+    fun insert(product: Product) = CoroutineScope(Dispatchers.Default).launch {
         repository.insert(product)
     }
 

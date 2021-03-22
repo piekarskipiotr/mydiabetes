@@ -25,6 +25,8 @@ class ProductRepository @Inject constructor(
 
     fun getProductsInPlate() = database.productDao().getProductsInPlate()
 
+    suspend fun renamePMJProductName(product: Product, oldName: String, newName: String) = database.productMealJoinDao().renamePMJProductName(product, oldName, newName)
+
     suspend fun insert(product: Product) = database.productDao().insert(product)
 
     suspend fun update(product: Product) = database.productDao().update(product)

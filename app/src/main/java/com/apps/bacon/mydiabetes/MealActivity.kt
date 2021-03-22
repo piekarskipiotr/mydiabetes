@@ -320,9 +320,14 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
                 when (resultCode) {
                     RESULT_OK -> {
                         data?.let {
-                            meal.name = it.getStringExtra("MEAL_NAME") as String
-                            binding.mealName.text = meal.name
-                            mealViewModel.update(meal)
+                            val oldName = meal.name
+                            val newName = it.getStringExtra("MEAL_NAME") as String
+                            mealViewModel.renamePMJMealName(meal, oldName, newName)
+                            binding.mealName.text = newName
+                            mealViewModel.getProductsForMeal(oldName).removeObservers(this)
+                            mealViewModel.getProductsForMeal(newName).observe(this, { products ->
+                                productsAdapter.updateData(products)
+                            })
                         }
                     }
                 }

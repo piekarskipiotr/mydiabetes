@@ -440,9 +440,10 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
             REQUEST_CODE_PRODUCT_NAME -> {
                 if (resultCode == RESULT_OK) {
                     data?.let {
-                        product.name = it.getStringExtra("PRODUCT_NAME") as String
-                        productViewModel.update(product)
-                        setProductInfo()
+                        val oldName = product.name
+                        val newName = it.getStringExtra("PRODUCT_NAME") as String
+                        productViewModel.renamePMJProductName(product, oldName, newName)
+                        binding.productName.text = newName
                     }
                 }
             }

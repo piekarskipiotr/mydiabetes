@@ -32,18 +32,40 @@ interface ProductMealJoinDao {
     suspend fun deleteByMealName(name: String)
 
     /*
-    * Below is section of statics queries
-    * */
+        Rename selection below
+     */
 
-    @Query("SELECT * FROM static_products INNER JOIN static_product_meal_join ON static_products.product_id = static_product_meal_join.productId WHERE static_product_meal_join.mealId = :mealId")
-    fun getStaticProductsForStaticMeal(mealId: Int): LiveData<List<StaticProduct>>
+    @Update
+    suspend fun update(product: Product)
 
-    @Query("SELECT * FROM static_products INNER JOIN hybrid_product_meal_join ON static_products.product_id = hybrid_product_meal_join.productId WHERE hybrid_product_meal_join.mealId = :mealId")
-    fun getStaticProductsForMeal(mealId: Int): LiveData<List<StaticProduct>>
+    @Update
+    suspend fun update(meal: Meal)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(staticProductMealJoin: StaticProductMealJoin)
+    @Transaction
+    suspend fun renamePMJProductName(product: Product, oldName: String, newName: String){
+        product.name = newName
+        val list = getPMJoinByProductName(oldName)
+        for(pmj in list){
+            delete(pmj)
+        }
+        update(product)
+        for(pmj in list){
+            pmj.productName = newName
+            insert(pmj)
+        }
+    }
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(hybridProductMealJoin: HybridProductMealJoin)
+    @Transaction
+    suspend fun renamePMJMealName(meal: Meal, oldName: String, newName: String){
+        meal.name = newName
+        val list = getPMJoinByMealName(oldName)
+        for(pmj in list){
+            delete(pmj)
+        }
+        update(meal)
+        for(pmj in list){
+            pmj.mealName = newName
+            insert(pmj)
+        }
+    }
 }
