@@ -48,7 +48,6 @@ class LanguageSettings : AppCompatActivity() {
             }
 
             changeLanguage("en")
-
         }
 
         binding.backButton.setOnClickListener {
@@ -66,5 +65,10 @@ class LanguageSettings : AppCompatActivity() {
         resources.updateConfiguration(config, resources.displayMetrics)
 
         recreate()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        this.finish()
     }
 }

@@ -172,8 +172,8 @@ class HomeActivity : AppCompatActivity() {
         lang = sharedPreference.getString("APP_LANGUAGE", defaultLang) as String
         if (oldLang != lang) {
             TagTranslator().translate(tagViewModel, this)
-            finish()
-            startActivity(intent)
+            recreate()
+            binding.bottomNavigation.selectedItemId = R.id.home_nav
         }
 
         if(sharedPreference.getBoolean("THEME_HAS_CHANGED", false)){
