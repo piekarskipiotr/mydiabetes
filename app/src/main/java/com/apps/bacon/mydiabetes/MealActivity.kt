@@ -9,11 +9,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apps.bacon.mydiabetes.adapters.ImageAdapter
 import com.apps.bacon.mydiabetes.adapters.ProductsAdapter
-import com.apps.bacon.mydiabetes.adapters.StaticProductsAdapter
 import com.apps.bacon.mydiabetes.data.entities.Image
 import com.apps.bacon.mydiabetes.data.entities.Meal
 import com.apps.bacon.mydiabetes.databinding.*
@@ -36,10 +34,8 @@ import java.io.InputStream
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener,
-    StaticProductsAdapter.OnProductClickListener, ImageAdapter.OnImageClickListener {
+class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener, ImageAdapter.OnImageClickListener {
     private lateinit var productsAdapter: ProductsAdapter
-    private lateinit var staticProductsAdapter: StaticProductsAdapter
     private lateinit var imageAdapter: ImageAdapter
     private lateinit var binding: ActivityMealBinding
     private lateinit var meal: Meal
@@ -136,7 +132,7 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
             mealReference.child(meal.name).setValue(meal)
 
             val pmjReference = database.child("PMJ")
-            val pmJoinList = mealViewModel.getPMJbyMealId(meal.id)
+            val pmJoinList = mealViewModel.getPMJbyMealName(meal.name)
             pmjReference.child(meal.name).setValue(pmJoinList)
         }
 
@@ -162,7 +158,7 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
         }
 
         dialogBinding.deleteButton.setOnClickListener {
-            mealViewModel.deletePMJoin(meal.id)
+            mealViewModel.deletePMJoin(meal.name)
             imageViewModel.getImageByMealId(meal.id).observe(this, {
                 for (img in it) {
                     imageViewModel.delete(img)
@@ -177,12 +173,8 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
     private fun setMealInfo() {
         binding.mealName.text = meal.name
 
-        mealViewModel.getProductsForMeal(meal.id).observe(this, {
+        mealViewModel.getProductsForMeal(meal.name).observe(this, {
             productsAdapter.updateData(it)
-        })
-
-        mealViewModel.getStaticProductsForMeal(meal.id).observe(this, {
-            staticProductsAdapter.updateData(it)
         })
 
         imageViewModel.getImageByMealId(meal.id).observe(this, {
@@ -243,9 +235,7 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
         binding.productsRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             productsAdapter = ProductsAdapter(this@MealActivity)
-            staticProductsAdapter = StaticProductsAdapter(this@MealActivity)
-            val conAdapter = ConcatAdapter(productsAdapter, staticProductsAdapter)
-            adapter = conAdapter
+            adapter = productsAdapter
 
         }
     }
@@ -307,16 +297,16 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
         return byteBuffer.toByteArray()
     }
 
-    override fun onProductClick(productId: Int) {
-        intent = Intent(this, ProductActivity::class.java)
-        intent.putExtra("PRODUCT_ID", productId)
-        startActivity(intent)
-    }
-
-    override fun onStaticProductClick(productId: Int) {
-        intent = Intent(this, StaticProductActivity::class.java)
-        intent.putExtra("PRODUCT_ID", productId)
-        startActivity(intent)
+    override fun onProductClick(productId: Int, isEditable: Boolean) {
+        if(isEditable){
+            intent = Intent(this, ProductActivity::class.java)
+            intent.putExtra("PRODUCT_ID", productId)
+            startActivity(intent)
+        }else{
+            intent = Intent(this, StaticProductActivity::class.java)
+            intent.putExtra("PRODUCT_ID", productId)
+            startActivity(intent)
+        }
     }
 
     override fun onImageLongClick(image: Image) {
@@ -376,6 +366,4 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
         private const val REQUEST_CODE_GET_IMAGE_FROM_GALLERY = 5
         private const val REQUEST_CODE_MEAL_NAME = 6
     }
-
-
 }

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apps.bacon.mydiabetes.databinding.ImageItemBinding
 import com.bumptech.glide.Glide
 
-class StaticImageAdapter : RecyclerView.Adapter<StaticImageAdapter.ViewHolder>() {
+class StaticImageAdapter: RecyclerView.Adapter<StaticImageAdapter.ViewHolder>() {
     private var data: List<String> = ArrayList()
 
     inner class ViewHolder(view: ImageItemBinding) : RecyclerView.ViewHolder(view.root) {

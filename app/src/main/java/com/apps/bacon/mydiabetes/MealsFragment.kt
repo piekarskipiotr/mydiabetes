@@ -7,21 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.apps.bacon.mydiabetes.adapters.MealsAdapter
 import com.apps.bacon.mydiabetes.adapters.PagingMealsAdapter
-import com.apps.bacon.mydiabetes.adapters.PagingStaticMealsAdapter
-import com.apps.bacon.mydiabetes.adapters.StaticMealsAdapter
 import com.apps.bacon.mydiabetes.databinding.FragmentHomeBinding
 import com.apps.bacon.mydiabetes.viewmodel.MealViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MealsFragment : Fragment(), PagingMealsAdapter.OnMealClickListener, PagingStaticMealsAdapter.OnMealClickListener{
+class MealsFragment : Fragment(), PagingMealsAdapter.OnMealClickListener{
     private lateinit var mealsAdapter: PagingMealsAdapter
-    private lateinit var staticMealsAdapter: PagingStaticMealsAdapter
-
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
@@ -35,12 +29,6 @@ class MealsFragment : Fragment(), PagingMealsAdapter.OnMealClickListener, Paging
             mealsAdapter.submitList(it)
 
         })
-
-        mealViewModel.getPagingListOfStaticMeals().observe(viewLifecycleOwner, {
-            staticMealsAdapter.submitList(it)
-
-        })
-
     }
 
     override fun onCreateView(
@@ -61,23 +49,20 @@ class MealsFragment : Fragment(), PagingMealsAdapter.OnMealClickListener, Paging
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             mealsAdapter = PagingMealsAdapter(this@MealsFragment)
-            staticMealsAdapter = PagingStaticMealsAdapter(this@MealsFragment)
-            val conAdapter = ConcatAdapter(mealsAdapter, staticMealsAdapter)
-            adapter = conAdapter
+            adapter = mealsAdapter
 
         }
     }
 
-    override fun onMealClick(mealId: Int) {
-        val intent = Intent(activity, MealActivity::class.java)
-        intent.putExtra("MEAL_ID", mealId)
-        startActivity(intent)
+    override fun onMealClick(mealId: Int, isEditable: Boolean) {
+        if (isEditable) {
+            val intent = Intent(activity, MealActivity::class.java)
+            intent.putExtra("MEAL_ID", mealId)
+            startActivity(intent)
+        } else {
+            val intent = Intent(activity, StaticMealActivity::class.java)
+            intent.putExtra("MEAL_ID", mealId)
+            startActivity(intent)
+        }
     }
-
-    override fun onStaticMealClick(mealId: Int) {
-        val intent = Intent(activity, StaticMealActivity::class.java)
-        intent.putExtra("MEAL_ID", mealId)
-        startActivity(intent)
-    }
-
 }

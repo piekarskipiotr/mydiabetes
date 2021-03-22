@@ -1,7 +1,6 @@
 package com.apps.bacon.mydiabetes.adapters
 
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +12,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apps.bacon.mydiabetes.R
 import com.apps.bacon.mydiabetes.data.entities.Meal
-import com.apps.bacon.mydiabetes.data.entities.Product
 import com.apps.bacon.mydiabetes.databinding.MealItemBinding
-import java.util.*
 
 class PagingMealsAdapter constructor(
     private val listener: OnMealClickListener
@@ -34,7 +31,7 @@ class PagingMealsAdapter constructor(
         }
 
         override fun onClick(v: View?) {
-            getItem(bindingAdapterPosition)?.let { listener.onMealClick(it.id) }
+            getItem(bindingAdapterPosition)?.let { listener.onMealClick(it.id, it.isEditable) }
         }
     }
 
@@ -65,7 +62,7 @@ class PagingMealsAdapter constructor(
     }
 
     interface OnMealClickListener {
-        fun onMealClick(mealId: Int)
+        fun onMealClick(mealId: Int, isEditable: Boolean)
     }
 
     companion object {

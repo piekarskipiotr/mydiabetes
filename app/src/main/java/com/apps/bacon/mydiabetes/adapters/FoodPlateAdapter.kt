@@ -38,7 +38,7 @@ class FoodPlateAdapter constructor(
         }
 
         override fun onClick(p0: View?) {
-            listener.onProductClick(data[bindingAdapterPosition].id)
+            listener.onProductClick(data[bindingAdapterPosition].id, data[bindingAdapterPosition].isEditable)
         }
     }
 
@@ -180,6 +180,6 @@ class FoodPlateAdapter constructor(
     }
 
     interface OnProductClickListener {
-        fun onProductClick(productId: Int)
+        fun onProductClick(productId: Int, isEditable: Boolean)
     }
 }

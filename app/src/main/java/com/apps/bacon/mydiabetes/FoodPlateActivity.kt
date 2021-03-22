@@ -7,13 +7,10 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.apps.bacon.mydiabetes.adapters.FoodPlateAdapter
-import com.apps.bacon.mydiabetes.adapters.StaticFoodPlateAdapter
-import com.apps.bacon.mydiabetes.data.entities.HybridProductMealJoin
 import com.apps.bacon.mydiabetes.data.entities.Meal
 import com.apps.bacon.mydiabetes.data.entities.ProductMealJoin
 import com.apps.bacon.mydiabetes.databinding.ActivityFoodPlateBinding
@@ -34,16 +31,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 
 @AndroidEntryPoint
-class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickListener,
-    StaticFoodPlateAdapter.OnProductClickListener {
+class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickListener {
     private lateinit var foodPlateAdapter: FoodPlateAdapter
-    private lateinit var staticFoodPlateAdapter: StaticFoodPlateAdapter
-    private lateinit var conAdapter: ConcatAdapter
     private val productViewModel: ProductViewModel by viewModels()
     private val mealViewModel: MealViewModel by viewModels()
     private lateinit var bottomDialogBinding: DialogSummaryResultsBinding
     private lateinit var binding: ActivityFoodPlateBinding
-    private var newMealId = -1
+    private var newMealId = 0
     private var carbohydrateExchangers = 0.0
     private var proteinFatExchangers = 0.0
     private var calories = 0.0
@@ -62,30 +56,16 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
 
         productViewModel.getProductsInPlate().observe(this, {
             foodPlateAdapter.updateData(it)
-            binding.calculateButton.isEnabled = conAdapter.itemCount != 0
-        })
-
-        productViewModel.getStaticProductsInPlate().observe(this, {
-            staticFoodPlateAdapter.updateData(it)
-            binding.calculateButton.isEnabled = conAdapter.itemCount != 0
+            binding.calculateButton.isEnabled = foodPlateAdapter.itemCount != 0
         })
 
         object : SwipeToRemove() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                try {
-                    productViewModel.update(
-                        foodPlateAdapter.getProduct(viewHolder.bindingAdapterPosition).apply {
-                            inFoodPlate = false
-                        }
-                    )
-                } catch (e: Exception) {
-                    productViewModel.update(
-                        staticFoodPlateAdapter.getProduct(viewHolder.bindingAdapterPosition).apply {
-                            inFoodPlate = false
-                        }
-                    )
-                }
-
+                productViewModel.update(
+                    foodPlateAdapter.getProduct(viewHolder.bindingAdapterPosition).apply {
+                        inFoodPlate = false
+                    }
+                )
                 Toast.makeText(
                     this@FoodPlateActivity,
                     resources.getString(R.string.removed_exclamation_mark),
@@ -105,13 +85,6 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
                 for (i in 0 until foodPlateAdapter.itemCount) {
                     productViewModel.update(
                         foodPlateAdapter.getProduct(i).apply {
-                            inFoodPlate = false
-                        }
-                    )
-                }
-                for (i in 0 until staticFoodPlateAdapter.itemCount) {
-                    productViewModel.update(
-                        staticFoodPlateAdapter.getProduct(i).apply {
                             inFoodPlate = false
                         }
                     )
@@ -138,9 +111,6 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
                         mealViewModel.checkForMealExist(bottomDialogMealNameBinding.mealNameTextInput.text.toString()) ->
                             bottomDialogMealNameBinding.mealNameTextInputLayout.error =
                                 errorAlreadyExistsNameMessage
-                        mealViewModel.checkForStaticMealExist(bottomDialogMealNameBinding.mealNameTextInput.text.toString()) ->
-                            bottomDialogMealNameBinding.mealNameTextInputLayout.error =
-                                errorAlreadyExistsNameMessage
                         else -> {
                             bottomDialogMealNameBinding.mealNameTextInputLayout.error = null
                             val mealName =
@@ -152,10 +122,11 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
                                 calories,
                                 carbohydrateExchangers,
                                 proteinFatExchangers,
-                                null
+                                null,
+                                true
                             )
 
-                            runBlocking(Dispatchers.Default) {
+                            runBlocking {
                                 mealViewModel.insert(meal)
                             }
 
@@ -166,29 +137,11 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
                                     inFoodPlate = false
                                 })
 
-                                runBlocking(Dispatchers.Default) {
+                                runBlocking {
                                     mealViewModel.insertPMJoin(
                                         ProductMealJoin(
-                                            product.id,
-                                            meal.id
-                                        )
-                                    )
-                                }
-                            }
-
-                            val listOfStaticProducts = staticFoodPlateAdapter.getData()
-
-                            for (product in listOfStaticProducts) {
-
-                                productViewModel.update(product.apply {
-                                    inFoodPlate = false
-                                })
-
-                                runBlocking(Dispatchers.Default) {
-                                    mealViewModel.insertHPMJoin(
-                                        HybridProductMealJoin(
-                                            product.id,
-                                            meal.id
+                                            product.name,
+                                            meal.name
                                         )
                                     )
                                 }
@@ -213,9 +166,7 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
         binding.foodRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             foodPlateAdapter = FoodPlateAdapter(this@FoodPlateActivity)
-            staticFoodPlateAdapter = StaticFoodPlateAdapter(this@FoodPlateActivity)
-            conAdapter = ConcatAdapter(foodPlateAdapter, staticFoodPlateAdapter)
-            adapter = conAdapter
+            adapter = foodPlateAdapter
         }
     }
 
@@ -225,13 +176,6 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
             carbohydrateExchangers += foodPlateAdapter.getCarbohydrateExchangers(i)
             proteinFatExchangers += foodPlateAdapter.getProteinFat(i)
             calories += foodPlateAdapter.getCalories(i)!!
-
-        }
-
-        for (i in 0 until staticFoodPlateAdapter.itemCount) {
-            carbohydrateExchangers += staticFoodPlateAdapter.getCarbohydrateExchangers(i)
-            proteinFatExchangers += staticFoodPlateAdapter.getProteinFat(i)
-            calories += staticFoodPlateAdapter.getCalories(i)!!
 
         }
 
@@ -286,17 +230,15 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
         pieChart.animate()
     }
 
-    override fun onProductClick(productId: Int) {
-        val intent = Intent(this, ProductActivity::class.java)
-        intent.putExtra("PRODUCT_ID", productId)
-        startActivity(intent)
+    override fun onProductClick(productId: Int, isEditable: Boolean) {
+        if(isEditable){
+            val intent = Intent(this, ProductActivity::class.java)
+            intent.putExtra("PRODUCT_ID", productId)
+            startActivity(intent)
+        }else{
+            val intent = Intent(this, StaticProductActivity::class.java)
+            intent.putExtra("PRODUCT_ID", productId)
+            startActivity(intent)
+        }
     }
-
-    override fun onStaticProductClick(productId: Int) {
-        val intent = Intent(this, StaticProductActivity::class.java)
-        intent.putExtra("PRODUCT_ID", productId)
-        startActivity(intent)
-    }
-
-
 }

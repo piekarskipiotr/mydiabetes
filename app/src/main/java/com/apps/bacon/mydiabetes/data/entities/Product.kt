@@ -2,9 +2,10 @@ package com.apps.bacon.mydiabetes.data.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "products")
+@Entity(tableName = "products", indices = [Index(value = ["product_name"], unique = true)])
 data class Product(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "product_id")
@@ -47,5 +48,8 @@ data class Product(
     var inFoodPlate: Boolean,
 
     @ColumnInfo(name = "icon")
-    var icon: String?
+    var icon: String?,
+
+    @ColumnInfo(name = "is_editable")
+    var isEditable: Boolean
 )

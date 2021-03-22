@@ -35,7 +35,7 @@ class ShareMealsAdapter constructor(
         init {
             itemView.setOnClickListener(this)
             toShare.setOnClickListener {
-                listener.onMealCheckBoxClick(data[bindingAdapterPosition].id, toShare.isChecked)
+                listener.onMealCheckBoxClick(data[bindingAdapterPosition].name, toShare.isChecked)
             }
         }
 
@@ -94,7 +94,7 @@ class ShareMealsAdapter constructor(
     fun selectAllMeals() {
         for(meal in data){
             checkedList.append(meal.id, true)
-            listener.onMealCheckBoxClick(meal.id, true)
+            listener.onMealCheckBoxClick(meal.name, true)
         }
         notifyDataSetChanged()
     }
@@ -106,6 +106,6 @@ class ShareMealsAdapter constructor(
 
     interface OnShareMealListener {
         fun onMealClick(mealId: Int)
-        fun onMealCheckBoxClick(mealId: Int, isChecked: Boolean)
+        fun onMealCheckBoxClick(name: String, isChecked: Boolean)
     }
 }

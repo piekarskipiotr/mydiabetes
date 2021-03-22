@@ -12,6 +12,8 @@ class MealRepository @Inject constructor(
 
     fun getAll() = database.mealDao().getAll()
 
+    fun getAllLocal() = database.mealDao().getAllLocal()
+
     fun getAllPaging() = database.mealDao().getAllPaging()
 
     fun getMeal(id: Int) = database.mealDao().getMeal(id)
@@ -26,41 +28,17 @@ class MealRepository @Inject constructor(
 
     //pmj section
 
-    fun getProductsForMeal(mealId: Int) = database.productMealJoinDao().getProductsForMeal(mealId)
+    fun getProductsForMeal(name: String) = database.productMealJoinDao().getProductsForMeal(name)
 
-    fun isProductInMeal(productId: Int) = database.productMealJoinDao().isProductInMeal(productId)
+    fun isProductInMeal(name: String) = database.productMealJoinDao().isProductInMeal(name)
 
-    fun getPMJbyMealId(mealId: Int) = database.productMealJoinDao().getPMJoinByMealId(mealId)
+    fun getPMJbyMealName(name: String) = database.productMealJoinDao().getPMJoinByMealName(name)
 
+
+    suspend fun renamePMJMealName(meal: Meal, oldName: String, newName: String) = database.productMealJoinDao().renamePMJMealName(meal, oldName, newName)
     suspend fun insertPMJoin(productMealJoin: ProductMealJoin) =
         database.productMealJoinDao().insert(productMealJoin)
 
-    suspend fun deletePMJoin(mealId: Int) = database.productMealJoinDao().deleteByMealId(mealId)
-
-    /*
-   * Below is section of statics functions
-   * */
-
-    fun checkForStaticMealExist(name: String) = database.mealDao().checkForStaticMealExist(name)
-
-    fun getAllStatics() = database.mealDao().getAllStatics()
-
-    fun getAllStaticsPaging() = database.mealDao().getAllStaticsPaging()
-
-    fun getStaticMeal(id: Int) = database.mealDao().getStaticMeal(id)
-
-    suspend fun insert(staticMeal: StaticMeal) = database.mealDao().insert(staticMeal)
-
-    //static pmj section
-
-    fun getStaticProductsForStaticMeal(mealId: Int) = database.productMealJoinDao().getStaticProductsForStaticMeal(mealId)
-
-    fun getStaticProductsForMeal(mealId: Int) = database.productMealJoinDao().getStaticProductsForMeal(mealId)
-
-    suspend fun insertPMJoin(staticProductMealJoin: StaticProductMealJoin) =
-        database.productMealJoinDao().insert(staticProductMealJoin)
-
-    suspend fun insertHPMJoin(hybridProductMealJoin: HybridProductMealJoin) =
-        database.productMealJoinDao().insert(hybridProductMealJoin)
+    suspend fun deletePMJoin(name: String) = database.productMealJoinDao().deleteByMealName(name)
 }
 

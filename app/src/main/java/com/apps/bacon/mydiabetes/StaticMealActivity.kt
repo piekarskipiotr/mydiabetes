@@ -10,9 +10,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.apps.bacon.mydiabetes.adapters.ProductsAdapter
 import com.apps.bacon.mydiabetes.adapters.StaticImageAdapter
-import com.apps.bacon.mydiabetes.adapters.StaticProductsAdapter
-import com.apps.bacon.mydiabetes.data.entities.StaticMeal
+import com.apps.bacon.mydiabetes.data.entities.Meal
 import com.apps.bacon.mydiabetes.databinding.ActivityStaticMealBinding
 import com.apps.bacon.mydiabetes.databinding.DialogReportBinding
 import com.apps.bacon.mydiabetes.viewmodel.ImageViewModel
@@ -29,11 +29,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class StaticMealActivity : AppCompatActivity(), StaticProductsAdapter.OnProductClickListener {
-    private lateinit var staticProductsAdapter: StaticProductsAdapter
+class StaticMealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener {
+    private lateinit var productsAdapter: ProductsAdapter
     private lateinit var staticImageAdapter: StaticImageAdapter
     private lateinit var binding: ActivityStaticMealBinding
-    private lateinit var staticMeal: StaticMeal
+    private lateinit var staticMeal: Meal
     private val mealViewModel: MealViewModel by viewModels()
 
     @Inject
@@ -49,7 +49,7 @@ class StaticMealActivity : AppCompatActivity(), StaticProductsAdapter.OnProductC
         setContentView(view)
 
         val mealId = intent.getIntExtra("MEAL_ID", -1)
-        staticMeal = mealViewModel.getStaticMeal(mealId)
+        staticMeal = mealViewModel.getMeal(mealId)
 
         setMealInfo()
 
@@ -58,7 +58,7 @@ class StaticMealActivity : AppCompatActivity(), StaticProductsAdapter.OnProductC
 
         val imageViewModel: ImageViewModel by viewModels()
 
-        imageViewModel.getURL(storageReference, "meal", staticMeal.id)?.observe(this, {
+        imageViewModel.getURL(storageReference, "meal", staticMeal.name)?.observe(this, {
             staticImageAdapter.updateData(it)
         })
 
@@ -113,8 +113,8 @@ class StaticMealActivity : AppCompatActivity(), StaticProductsAdapter.OnProductC
             }
 
             if (errorMassage != null) {
-                val productReference = database.child("Meal Errors/${staticMeal.name}")
-                productReference.child(System.currentTimeMillis().toString()).setValue(errorMassage)
+                val productReference = database.child("Meal Errors/${staticMeal.name}/${System.currentTimeMillis()}/")
+                productReference.setValue(errorMassage)
                 alertDialog.dismiss()
             } else {
                 Toast.makeText(
@@ -136,8 +136,8 @@ class StaticMealActivity : AppCompatActivity(), StaticProductsAdapter.OnProductC
     private fun setMealInfo() {
         binding.mealName.text = staticMeal.name
 
-        mealViewModel.getStaticProductsForStaticMeal(staticMeal.id).observe(this, {
-            staticProductsAdapter.updateData(it)
+        mealViewModel.getProductsForMeal(staticMeal.name).observe(this, {
+            productsAdapter.updateData(it)
         })
 
         pieChart(
@@ -197,22 +197,22 @@ class StaticMealActivity : AppCompatActivity(), StaticProductsAdapter.OnProductC
     private fun initProductsRecyclerView() {
         binding.productsRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
-            staticProductsAdapter = StaticProductsAdapter(this@StaticMealActivity)
-            adapter = staticProductsAdapter
+            productsAdapter = ProductsAdapter(this@StaticMealActivity)
+            adapter = productsAdapter
 
         }
     }
 
     private fun initPhotosRecyclerView() {
         binding.photosRecyclerView.apply {
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             staticImageAdapter = StaticImageAdapter()
             adapter = staticImageAdapter
 
         }
     }
 
-    override fun onStaticProductClick(productId: Int) {
+    override fun onProductClick(productId: Int, isEditable: Boolean) {
         intent = Intent(this, StaticProductActivity::class.java)
         intent.putExtra("PRODUCT_ID", productId)
         startActivity(intent)

@@ -231,7 +231,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
 
         dialogBinding.deleteButton.setOnClickListener {
             val mealViewModel: MealViewModel by viewModels()
-            if (mealViewModel.isProductInMeal(product.id))
+            if (mealViewModel.isProductInMeal(product.name))
                 Toast.makeText(
                     applicationContext,
                     resources.getString(R.string.delete_product_in_meal_message),
@@ -420,13 +420,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
                                 val productWithBarcode = productViewModel.getProductByBarcode(
                                     barcode
                                 )
-
-                                val staticProductWithBarcode =
-                                    productViewModel.getStaticProductByBarcode(
-                                        barcode
-                                    )
-
-                                if (productWithBarcode != null && staticProductWithBarcode != null) {
+                                if (productWithBarcode != null) {
                                     Toast.makeText(
                                         this,
                                         resources.getString(R.string.barcode_exists_error_message),
@@ -436,7 +430,6 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
                                     product.barcode = barcode
                                     productViewModel.update(product)
                                     setProductInfo()
-
                                 }
                             }
                         }

@@ -28,8 +28,6 @@ class ChangeMealNameActivity : AppCompatActivity() {
                     errorEmptyMessage
                 mealViewModel.checkForMealExist(binding.mealNameTextInput.text.toString()) -> binding.mealNameTextInputLayout.error =
                     errorAlreadyExistsNameMessage
-                mealViewModel.checkForStaticMealExist(binding.mealNameTextInput.text.toString()) -> binding.mealNameTextInputLayout.error =
-                    errorAlreadyExistsNameMessage
                 else -> {
                     binding.mealNameTextInputLayout.error = null
                     intent.putExtra("MEAL_NAME", binding.mealNameTextInput.text.toString().trim())

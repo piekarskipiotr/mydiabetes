@@ -28,6 +28,8 @@ constructor(
 
     fun getAll() = repository.getAll()
 
+    fun getAllLocal() = repository.getAllLocal()
+
     fun getPagingListOfMeals(): LiveData<PagedList<Meal>> {
         return LivePagedListBuilder(repository.getAllPaging(), myPagingConfig).build()
     }
@@ -36,66 +38,37 @@ constructor(
 
     fun getLastId() = repository.getLastId()
 
-    fun insert(meal: Meal) = CoroutineScope(Dispatchers.IO).launch {
+    fun insert(meal: Meal) = CoroutineScope(Dispatchers.Default).launch {
         repository.insert(meal)
     }
 
-    fun update(meal: Meal) = CoroutineScope(Dispatchers.IO).launch {
+    fun update(meal: Meal) = CoroutineScope(Dispatchers.Default).launch {
         repository.update(meal)
     }
 
-    fun delete(meal: Meal) = CoroutineScope(Dispatchers.IO).launch {
+    fun delete(meal: Meal) = CoroutineScope(Dispatchers.Default).launch {
         repository.delete(meal)
     }
 
     //pmj section
 
-    fun getProductsForMeal(mealId: Int) = repository.getProductsForMeal(mealId)
+    fun getProductsForMeal(name: String) = repository.getProductsForMeal(name)
 
-    fun isProductInMeal(productId: Int) = repository.isProductInMeal(productId)
+    fun isProductInMeal(name: String) = repository.isProductInMeal(name)
 
-    fun getPMJbyMealId(mealId: Int) = repository.getPMJbyMealId(mealId)
+    fun getPMJbyMealName(name: String) = repository.getPMJbyMealName(name)
 
+
+    fun renamePMJMealName(meal: Meal, oldName: String, newName: String) =
+        CoroutineScope(Dispatchers.Default).launch {
+            repository.renamePMJMealName(meal, oldName, newName)
+        }
     fun insertPMJoin(productMealJoin: ProductMealJoin) =
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.Default).launch {
             repository.insertPMJoin(productMealJoin)
         }
 
-    fun deletePMJoin(mealId: Int) = CoroutineScope(Dispatchers.IO).launch {
-        repository.deletePMJoin(mealId)
+    fun deletePMJoin(name: String) = CoroutineScope(Dispatchers.Default).launch {
+        repository.deletePMJoin(name)
     }
-
-    /*
-   * Below is section of statics functions
-   * */
-
-    fun checkForStaticMealExist(name: String) = repository.checkForStaticMealExist(name)
-
-    fun getAllStatics() = repository.getAllStatics()
-
-    fun getPagingListOfStaticMeals(): LiveData<PagedList<StaticMeal>> {
-        return LivePagedListBuilder(repository.getAllStaticsPaging(), myPagingConfig).build()
-    }
-
-    fun getStaticMeal(id: Int) = repository.getStaticMeal(id)
-
-    fun insert(staticMeal: StaticMeal) = CoroutineScope(Dispatchers.IO).launch {
-        repository.insert(staticMeal)
-    }
-
-    //pmj section
-
-    fun getStaticProductsForStaticMeal(mealId: Int) = repository.getStaticProductsForStaticMeal(mealId)
-
-    fun getStaticProductsForMeal(mealId: Int) = repository.getStaticProductsForMeal(mealId)
-
-    fun insertPMJoin(staticProductMealJoin: StaticProductMealJoin) =
-        CoroutineScope(Dispatchers.IO).launch {
-            repository.insertPMJoin(staticProductMealJoin)
-        }
-
-    fun insertHPMJoin(hybridProductMealJoin: HybridProductMealJoin) =
-        CoroutineScope(Dispatchers.IO).launch {
-            repository.insertHPMJoin(hybridProductMealJoin)
-        }
 }

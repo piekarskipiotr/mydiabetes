@@ -2,7 +2,6 @@ package com.apps.bacon.mydiabetes
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,11 +34,11 @@ class ShareActivity : AppCompatActivity(), ShareProductsAdapter.OnShareProductLi
 
         val productViewModel: ProductViewModel by viewModels()
 
-        productViewModel.getAll().observe(this, {
+        productViewModel.getAllLocal().observe(this, {
             productsAdapter.updateData(it)
         })
 
-        mealViewModel.getAll().observe(this, {
+        mealViewModel.getAllLocal().observe(this, {
             mealsAdapter.updateData(it)
         })
 
@@ -98,12 +97,12 @@ class ShareActivity : AppCompatActivity(), ShareProductsAdapter.OnShareProductLi
 
             for (meal in meals) {
                 mealReference.child(meal.name).setValue(meal)
-                mealViewModel.getStaticProductsForMeal(meal.id).observe(this, {
+                mealViewModel.getProductsForMeal(meal.name).observe(this, {
                     if (!it.isNullOrEmpty()) {
                         hPMJReference.child(meal.name).setValue(it)
                     }
                 })
-                val pmJoinList = mealViewModel.getPMJbyMealId(meal.id)
+                val pmJoinList = mealViewModel.getPMJbyMealName(meal.name)
                 pmjReference.child(meal.name).setValue(pmJoinList)
             }
         }
@@ -138,8 +137,8 @@ class ShareActivity : AppCompatActivity(), ShareProductsAdapter.OnShareProductLi
         startActivity(intent)
     }
 
-    override fun onMealCheckBoxClick(mealId: Int, isChecked: Boolean) {
-        mealViewModel.getProductsForMeal(mealId).observe(this, {
+    override fun onMealCheckBoxClick(name: String, isChecked: Boolean) {
+        mealViewModel.getProductsForMeal(name).observe(this, {
             if (isChecked) {
                 productsAdapter.addProductsThatAreConnectedWithMeal(it)
             } else {

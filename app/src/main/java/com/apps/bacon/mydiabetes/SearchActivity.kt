@@ -4,18 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apps.bacon.mydiabetes.adapters.ProductsAdapter
-import com.apps.bacon.mydiabetes.adapters.StaticProductsAdapter
 import com.apps.bacon.mydiabetes.data.entities.Product
-import com.apps.bacon.mydiabetes.data.entities.StaticProduct
 import com.apps.bacon.mydiabetes.databinding.ActivitySearchBinding
 import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
 import com.google.android.material.textfield.TextInputEditText
@@ -23,12 +19,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 @AndroidEntryPoint
-class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener,
-    StaticProductsAdapter.OnProductClickListener {
+class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener {
     private lateinit var productsAdapter: ProductsAdapter
-    private lateinit var staticProductsAdapter: StaticProductsAdapter
     private lateinit var allProducts: List<Product>
-    private lateinit var allStaticProducts: List<StaticProduct>
     private val productViewModel: ProductViewModel by viewModels()
     private lateinit var binding: ActivitySearchBinding
 
@@ -52,7 +45,6 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
             }"
 
         val searchList = mutableListOf<Product>()
-        val staticSearchList = mutableListOf<StaticProduct>()
 
         initRecyclerView()
 
@@ -60,13 +52,8 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
             allProducts = it
         })
 
-        productViewModel.getAllStatics().observe(this, {
-            allStaticProducts = it
-        })
-
         binding.searchTextInput.onTextChanged {
             searchList.clear()
-            staticSearchList.clear()
 
             for (i in allProducts) {
                 if (i.name.toLowerCase(Locale.getDefault())
@@ -76,16 +63,9 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
                 }
             }
 
-            for (i in allStaticProducts) {
-                if (i.name.toLowerCase(Locale.getDefault())
-                        .contains(it.toString().toLowerCase(Locale.getDefault()))
-                ) {
-                    staticSearchList.add(i)
-                }
-            }
 
             when {
-                searchList.isEmpty() and staticSearchList.isEmpty() -> {
+                searchList.isEmpty() -> {
                     binding.textMessage.text = resources.getString(R.string.lack_product)
                     binding.textMessage.visibility = View.VISIBLE
                     binding.searchRecyclerView.visibility = View.GONE
@@ -109,10 +89,6 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
                     if (searchList.isNotEmpty()) {
                         productsAdapter.updateData(searchList)
                     }
-
-                    if (staticSearchList.isNotEmpty()) {
-                        staticProductsAdapter.updateData(staticSearchList)
-                    }
                 }
             }
 
@@ -135,23 +111,20 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
                 reverseLayout = true
             }
             productsAdapter = ProductsAdapter(this@SearchActivity)
-            staticProductsAdapter = StaticProductsAdapter(this@SearchActivity)
-            val conAdapter = ConcatAdapter(productsAdapter, staticProductsAdapter)
-            adapter = conAdapter
-
+            adapter = productsAdapter
         }
     }
 
-    override fun onProductClick(productId: Int) {
-        intent = Intent(this, ProductActivity::class.java)
-        intent.putExtra("PRODUCT_ID", productId)
-        startActivity(intent)
-    }
-
-    override fun onStaticProductClick(productId: Int) {
-        intent = Intent(this, StaticProductActivity::class.java)
-        intent.putExtra("PRODUCT_ID", productId)
-        startActivity(intent)
+    override fun onProductClick(productId: Int, isEditable: Boolean) {
+        if(isEditable){
+            intent = Intent(this, ProductActivity::class.java)
+            intent.putExtra("PRODUCT_ID", productId)
+            startActivity(intent)
+        }else{
+            intent = Intent(this, StaticProductActivity::class.java)
+            intent.putExtra("PRODUCT_ID", productId)
+            startActivity(intent)
+        }
     }
 
     private fun TextInputEditText.onTextChanged(onTextChanged: (CharSequence?) -> Unit) {
@@ -182,20 +155,14 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
                             productViewModel.getProductByBarcode(barcode)
 
                         if (product == null) {
-                            val staticProduct =
-                                productViewModel.getStaticProductByBarcode(barcode)
-                            if (staticProduct == null) {
-                                Toast.makeText(
-                                    this,
-                                    resources.getString(R.string.search_by_barcode_error_message),
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            } else {
-                                onStaticProductClick(staticProduct.id)
-                            }
+                            Toast.makeText(
+                                this,
+                                resources.getString(R.string.search_by_barcode_error_message),
+                                Toast.LENGTH_LONG
+                            ).show()
 
                         } else {
-                            onProductClick(product.id)
+                            onProductClick(product.id, product.isEditable)
                         }
                     }
                 }
@@ -206,6 +173,4 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
     companion object {
         private const val REQUEST_CODE_GET_BARCODE = 2
     }
-
-
 }

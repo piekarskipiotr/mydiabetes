@@ -4,10 +4,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.apps.bacon.mydiabetes.data.entities.MyDiabetesInfo
-import com.apps.bacon.mydiabetes.data.entities.StaticMeal
-import com.apps.bacon.mydiabetes.data.entities.StaticProduct
-import com.apps.bacon.mydiabetes.data.entities.StaticProductMealJoin
+import com.apps.bacon.mydiabetes.data.entities.*
 import com.apps.bacon.mydiabetes.data.repositories.MainRepository
 import javax.inject.Named
 
@@ -18,25 +15,25 @@ constructor(
 ) : ViewModel() {
     var myDiabetesInfo: MutableLiveData<MyDiabetesInfo>? = null
 
-    var products: MutableLiveData<List<StaticProduct>>? = null
+    var products: MutableLiveData<List<Product>>? = null
 
-    var meals: MutableLiveData<List<StaticMeal>>? = null
+    var meals: MutableLiveData<List<Meal>>? = null
 
-    var pmj: MutableLiveData<List<StaticProductMealJoin>>? = null
+    var pmj: MutableLiveData<List<ProductMealJoin>>? = null
 
-    fun getProducts(): LiveData<List<StaticProduct>>? {
+    fun getProducts(): LiveData<List<Product>>? {
         products = repository.productsApiCall()
         return products
 
     }
 
-    fun getMeals(): LiveData<List<StaticMeal>>? {
+    fun getMeals(): LiveData<List<Meal>>? {
         meals = repository.mealsApiCall()
         return meals
 
     }
 
-    fun getPMJ(): LiveData<List<StaticProductMealJoin>>? {
+    fun getPMJ(): LiveData<List<ProductMealJoin>>? {
         pmj = repository.pmjApiCall()
         return pmj
 

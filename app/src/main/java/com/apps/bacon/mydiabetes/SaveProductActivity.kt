@@ -215,7 +215,8 @@ class SaveProductActivity : AppCompatActivity() {
                             selectedTagId,
                             barcode,
                             false,
-                            null
+                            null,
+                            true
                         )
                     )
                     intent = Intent(this, HomeActivity::class.java)

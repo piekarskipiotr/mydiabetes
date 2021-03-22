@@ -18,11 +18,7 @@ import kotlinx.coroutines.launch
         Tag::class,
         Image::class,
         Meal::class,
-        ProductMealJoin::class,
-        StaticProduct::class,
-        StaticMeal::class,
-        StaticProductMealJoin::class,
-        HybridProductMealJoin::class
+        ProductMealJoin::class
     ],
     version = 1,
     exportSchema = false
@@ -62,7 +58,7 @@ abstract class AppDatabase : RoomDatabase() {
                                 Tag(8, context.getString(R.string.nuts)),
                                 Tag(9, context.getString(R.string.others))
                             )
-                            CoroutineScope(Dispatchers.Main).launch {
+                            CoroutineScope(Dispatchers.Default).launch {
                                 for (tag in preTagData)
                                     instance!!.tagDao().insert(tag)
                             }

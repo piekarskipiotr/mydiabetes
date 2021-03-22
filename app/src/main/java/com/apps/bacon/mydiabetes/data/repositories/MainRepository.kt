@@ -3,10 +3,7 @@ package com.apps.bacon.mydiabetes.data.repositories
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.apps.bacon.mydiabetes.api.SharedDataAPI
-import com.apps.bacon.mydiabetes.data.entities.MyDiabetesInfo
-import com.apps.bacon.mydiabetes.data.entities.StaticMeal
-import com.apps.bacon.mydiabetes.data.entities.StaticProduct
-import com.apps.bacon.mydiabetes.data.entities.StaticProductMealJoin
+import com.apps.bacon.mydiabetes.data.entities.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -14,19 +11,19 @@ import kotlinx.coroutines.launch
 class MainRepository constructor(
     private val api: SharedDataAPI
 ) {
-    private val products = MutableLiveData<List<StaticProduct>>()
+    private val products = MutableLiveData<List<Product>>()
 
-    private val meals = MutableLiveData<List<StaticMeal>>()
+    private val meals = MutableLiveData<List<Meal>>()
 
-    private val pmj = MutableLiveData<List<StaticProductMealJoin>>()
+    private val pmj = MutableLiveData<List<ProductMealJoin>>()
 
     private var myDiabetesInfo = MutableLiveData<MyDiabetesInfo>()
 
-    fun productsApiCall(): MutableLiveData<List<StaticProduct>> {
+    fun productsApiCall(): MutableLiveData<List<Product>> {
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 val response = api.getProducts()
-                val data = arrayListOf<StaticProduct>()
+                val data = arrayListOf<Product>()
                 if (response.isSuccessful) {
                     for (product in response.body()!!) {
                         data.add(product)
@@ -44,11 +41,11 @@ class MainRepository constructor(
         return products
     }
 
-    fun mealsApiCall(): MutableLiveData<List<StaticMeal>> {
+    fun mealsApiCall(): MutableLiveData<List<Meal>> {
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 val response = api.getMeals()
-                val data = arrayListOf<StaticMeal>()
+                val data = arrayListOf<Meal>()
                 if (response.isSuccessful) {
                     for (meal in response.body()!!) {
                         data.add(meal)
@@ -66,11 +63,11 @@ class MainRepository constructor(
         return meals
     }
 
-    fun pmjApiCall(): MutableLiveData<List<StaticProductMealJoin>> {
+    fun pmjApiCall(): MutableLiveData<List<ProductMealJoin>> {
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 val response = api.getPMJ()
-                val data = arrayListOf<StaticProductMealJoin>()
+                val data = arrayListOf<ProductMealJoin>()
                 if (response.isSuccessful) {
                     for (pmj in response.body()!!) {
                         data.add(pmj)

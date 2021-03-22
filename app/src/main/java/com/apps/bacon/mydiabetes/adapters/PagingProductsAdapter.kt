@@ -1,7 +1,6 @@
 package com.apps.bacon.mydiabetes.adapters
 
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apps.bacon.mydiabetes.R
 import com.apps.bacon.mydiabetes.data.entities.Product
 import com.apps.bacon.mydiabetes.databinding.ProductItemBinding
-import java.util.*
 
 class PagingProductsAdapter constructor(
     private val listener: OnProductClickListener
@@ -34,7 +32,7 @@ class PagingProductsAdapter constructor(
         }
 
         override fun onClick(p0: View?) {
-            getItem(bindingAdapterPosition)?.let { listener.onProductClick(it.id) }
+            getItem(bindingAdapterPosition)?.let { listener.onProductClick(it.id, it.isEditable) }
         }
     }
 
@@ -69,7 +67,7 @@ class PagingProductsAdapter constructor(
     }
 
     interface OnProductClickListener {
-        fun onProductClick(productId: Int)
+        fun onProductClick(productId: Int, isEditable: Boolean)
     }
 
     companion object {
@@ -78,7 +76,8 @@ class PagingProductsAdapter constructor(
                 oldItem.id == newItem.id
 
             override fun areContentsTheSame(
-                oldItem: Product, newItem: Product) = oldItem == newItem
+                oldItem: Product, newItem: Product
+            ) = oldItem == newItem
         }
     }
 }

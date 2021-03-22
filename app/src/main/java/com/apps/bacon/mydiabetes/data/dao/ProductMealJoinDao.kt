@@ -1,28 +1,35 @@
 package com.apps.bacon.mydiabetes.data.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.apps.bacon.mydiabetes.data.entities.*
 
 @Dao
 interface ProductMealJoinDao {
-    @Query("SELECT * FROM products INNER JOIN product_meal_join ON products.product_id = product_meal_join.productId WHERE product_meal_join.mealId = :mealId")
-    fun getProductsForMeal(mealId: Int): LiveData<List<Product>>
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
+    @Query("SELECT * FROM products INNER JOIN product_meal_join ON products.product_name == product_meal_join.product_name WHERE product_meal_join.meal_name = :name ORDER BY products.product_name ASC")
+    fun getProductsForMeal(name: String): LiveData<List<Product>>
 
-    @Query("SELECT * FROM products INNER JOIN product_meal_join ON products.product_id = product_meal_join.productId WHERE product_meal_join.productId = :productId")
-    fun isProductInMeal(productId: Int): Boolean
+    @Query("SELECT * FROM products INNER JOIN product_meal_join ON products.product_name == product_meal_join.product_name WHERE product_meal_join.product_name = :name")
+    fun isProductInMeal(name: String): Boolean
 
-    @Query("SELECT * FROM product_meal_join WHERE product_meal_join.mealId = :mealId")
-    fun getPMJoinByMealId(mealId: Int): List<ProductMealJoin>
+    @Query("SELECT * FROM product_meal_join WHERE product_meal_join.meal_name == :name")
+    fun getPMJoinByMealName(name: String): List<ProductMealJoin>
+
+    @Query("SELECT * FROM product_meal_join WHERE product_meal_join.product_name == :name")
+    fun getPMJoinByProductName(name: String): List<ProductMealJoin>
 
     @Insert
     suspend fun insert(productMealJoin: ProductMealJoin)
 
-    @Query("DELETE FROM product_meal_join WHERE mealId == :mealId")
-    suspend fun deleteByMealId(mealId: Int)
+    @Update
+    suspend fun update(productMealJoin: ProductMealJoin)
+
+    @Delete
+    suspend fun delete(productMealJoin: ProductMealJoin)
+
+    @Query("DELETE FROM product_meal_join WHERE meal_name == :name")
+    suspend fun deleteByMealName(name: String)
 
     /*
     * Below is section of statics queries

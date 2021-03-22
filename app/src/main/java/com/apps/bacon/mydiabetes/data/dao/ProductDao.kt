@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.room.*
 import com.apps.bacon.mydiabetes.data.entities.Product
-import com.apps.bacon.mydiabetes.data.entities.StaticProduct
 
 @Dao
 interface ProductDao {
@@ -14,6 +13,9 @@ interface ProductDao {
 
     @Query("SELECT * FROM products")
     fun getAll(): LiveData<List<Product>>
+
+    @Query("SELECT * FROM products WHERE is_editable == 1")
+    fun getAllLocal(): LiveData<List<Product>>
 
     @Query("SELECT * FROM products")
     fun getAllPaging(): DataSource.Factory<Int, Product>
@@ -33,7 +35,7 @@ interface ProductDao {
     @Query("SELECT * FROM products WHERE in_food_plate == 1")
     fun getProductsInPlate(): LiveData<List<Product>>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(product: Product)
 
     @Update
@@ -41,38 +43,4 @@ interface ProductDao {
 
     @Delete
     suspend fun delete(product: Product)
-
-    /*
-    * Below is section of statics queries
-    * */
-
-    @Query("SELECT EXISTS(SELECT * FROM static_products WHERE :name == static_products.product_name)")
-    fun checkForStaticProductExist(name: String): Boolean
-
-    @Query("SELECT * FROM static_products")
-    fun getAllStatics(): LiveData<List<StaticProduct>>
-
-    @Query("SELECT * FROM static_products")
-    fun getAllStaticsPaging(): DataSource.Factory<Int, StaticProduct>
-
-    @Query("SELECT * FROM static_products WHERE :tagId == product_tag")
-    fun getAllStaticsByTag(tagId: Int): LiveData<List<StaticProduct>>
-
-    @Query("SELECT * FROM static_products WHERE :tagId == product_tag")
-    fun getAllStaticsByTagPaging(tagId: Int): DataSource.Factory<Int, StaticProduct>
-
-    @Query("SELECT * FROM static_products WHERE :id == product_id")
-    fun getStaticProduct(id: Int): StaticProduct
-
-    @Query("SELECT * FROM static_products WHERE :barcode == barcode")
-    fun getStaticProductByBarcode(barcode: String): StaticProduct?
-
-    @Query("SELECT * FROM static_products WHERE in_food_plate == 1")
-    fun getStaticProductsInPlate(): LiveData<List<StaticProduct>>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(staticProduct: StaticProduct)
-
-    @Update
-    suspend fun update(staticProduct: StaticProduct)
 }

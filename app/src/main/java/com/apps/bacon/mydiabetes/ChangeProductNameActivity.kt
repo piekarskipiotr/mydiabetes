@@ -29,8 +29,6 @@ class ChangeProductNameActivity : AppCompatActivity() {
                     errorEmptyMessage
                 productViewModel.checkForProductExist(binding.productNameTextInput.text.toString()) -> binding.productNameTextInputLayout.error =
                     errorAlreadyExistsNameMessage
-                productViewModel.checkForStaticProductExist(binding.productNameTextInput.text.toString()) -> binding.productNameTextInputLayout.error =
-                    errorAlreadyExistsNameMessage
                 else -> {
                     binding.productNameTextInputLayout.error = null
                     intent.putExtra(

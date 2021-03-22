@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apps.bacon.mydiabetes.adapters.StaticImageAdapter
-import com.apps.bacon.mydiabetes.data.entities.StaticProduct
+import com.apps.bacon.mydiabetes.data.entities.Product
 import com.apps.bacon.mydiabetes.databinding.ActivityStaticProductBinding
 import com.apps.bacon.mydiabetes.databinding.DialogReportBinding
 import com.apps.bacon.mydiabetes.viewmodel.ImageViewModel
@@ -31,7 +31,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class StaticProductActivity : AppCompatActivity() {
-    private lateinit var staticProduct: StaticProduct
+    private lateinit var staticProduct: Product
     private val productViewModel: ProductViewModel by viewModels()
     private val tagViewModel: TagViewModel by viewModels()
     private lateinit var imagesAdapterStatic: StaticImageAdapter
@@ -49,13 +49,13 @@ class StaticProductActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         val productId = intent.getIntExtra("PRODUCT_ID", -1)
-        staticProduct = productViewModel.getStaticProduct(productId)
+        staticProduct = productViewModel.getProduct(productId)
 
         initRecyclerView()
         setProductInfo()
 
         val imageViewModel: ImageViewModel by viewModels()
-        imageViewModel.getURL(storageReference, "product", staticProduct.id)?.observe(this, {
+        imageViewModel.getURL(storageReference, "product", staticProduct.name)?.observe(this, {
             imagesAdapterStatic.updateData(it)
         })
 
