@@ -11,19 +11,19 @@ interface ProductDao {
     @Query("SELECT EXISTS(SELECT * FROM products WHERE :name == products.product_name)")
     fun checkForProductExist(name: String): Boolean
 
-    @Query("SELECT * FROM products")
+    @Query("SELECT * FROM products ORDER BY product_name ASC")
     fun getAll(): LiveData<List<Product>>
 
-    @Query("SELECT * FROM products WHERE is_editable == 1")
+    @Query("SELECT * FROM products WHERE is_editable == 1 ORDER BY product_name ASC")
     fun getAllLocal(): LiveData<List<Product>>
 
-    @Query("SELECT * FROM products")
+    @Query("SELECT * FROM products ORDER BY product_name ASC")
     fun getAllPaging(): DataSource.Factory<Int, Product>
 
-    @Query("SELECT * FROM products WHERE :tagId == product_tag")
+    @Query("SELECT * FROM products WHERE :tagId == product_tag ORDER BY product_name ASC")
     fun getAllByTag(tagId: Int): LiveData<List<Product>>
 
-    @Query("SELECT * FROM products WHERE :tagId == product_tag")
+    @Query("SELECT * FROM products WHERE :tagId == product_tag ORDER BY product_name ASC")
     fun getAllByTagPaging(tagId: Int): DataSource.Factory<Int, Product>
 
     @Query("SELECT * FROM products WHERE :id == product_id")

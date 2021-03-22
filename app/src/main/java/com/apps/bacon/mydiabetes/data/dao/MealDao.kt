@@ -10,13 +10,13 @@ interface MealDao {
     @Query("SELECT EXISTS(SELECT * FROM meals WHERE :name == meal_name)")
     fun checkForMealExist(name: String): Boolean
 
-    @Query("SELECT * FROM meals")
+    @Query("SELECT * FROM meals ORDER BY meal_name ASC")
     fun getAll(): LiveData<List<Meal>>
 
-    @Query("SELECT * FROM meals WHERE is_editable == 1")
+    @Query("SELECT * FROM meals WHERE is_editable == 1 ORDER BY meal_name ASC")
     fun getAllLocal(): LiveData<List<Meal>>
 
-    @Query("SELECT * FROM meals")
+    @Query("SELECT * FROM meals ORDER BY meal_name ASC")
     fun getAllPaging(): DataSource.Factory<Int, Meal>
 
     @Query("SELECT * FROM meals WHERE :id == meal_id")
