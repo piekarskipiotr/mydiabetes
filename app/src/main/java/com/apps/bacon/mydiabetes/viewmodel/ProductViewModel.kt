@@ -7,12 +7,15 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.apps.bacon.mydiabetes.data.entities.Product
 import com.apps.bacon.mydiabetes.data.repositories.ProductRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import javax.inject.Named
 
-class ProductViewModel @ViewModelInject
+@HiltViewModel
+class ProductViewModel @Inject
 constructor(
     @Named("product_repository")
     private val repository: ProductRepository

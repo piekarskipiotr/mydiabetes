@@ -1,15 +1,17 @@
 package com.apps.bacon.mydiabetes.viewmodel
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import com.apps.bacon.mydiabetes.data.entities.Tag
 import com.apps.bacon.mydiabetes.data.repositories.TagRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import javax.inject.Named
 
-class TagViewModel @ViewModelInject
+@HiltViewModel
+class TagViewModel @Inject
 constructor(
     @Named("tag_repository")
     private val repository: TagRepository

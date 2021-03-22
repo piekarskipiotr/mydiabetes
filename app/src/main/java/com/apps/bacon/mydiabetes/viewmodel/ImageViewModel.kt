@@ -1,18 +1,20 @@
 package com.apps.bacon.mydiabetes.viewmodel
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.apps.bacon.mydiabetes.data.entities.Image
 import com.apps.bacon.mydiabetes.data.repositories.ImageRepository
 import com.google.firebase.storage.StorageReference
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import javax.inject.Named
 
-class ImageViewModel @ViewModelInject
+@HiltViewModel
+class ImageViewModel @Inject
 constructor(
     @Named("image_repository")
     private val repository: ImageRepository

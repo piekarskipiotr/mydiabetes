@@ -1,6 +1,5 @@
 package com.apps.bacon.mydiabetes.viewmodel
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.Config
@@ -8,12 +7,15 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.apps.bacon.mydiabetes.data.entities.*
 import com.apps.bacon.mydiabetes.data.repositories.MealRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import javax.inject.Named
 
-class MealViewModel @ViewModelInject
+@HiltViewModel
+class MealViewModel @Inject
 constructor(
     @Named("meal_repository")
     private val repository: MealRepository

@@ -1,14 +1,16 @@
 package com.apps.bacon.mydiabetes.viewmodel
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.apps.bacon.mydiabetes.data.entities.*
 import com.apps.bacon.mydiabetes.data.repositories.MainRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import javax.inject.Named
 
-class MainViewModel @ViewModelInject
+@HiltViewModel
+class MainViewModel @Inject
 constructor(
     @Named("main_repository")
     private val repository: MainRepository
