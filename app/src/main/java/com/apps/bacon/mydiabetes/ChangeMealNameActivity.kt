@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.apps.bacon.mydiabetes.databinding.ActivityChangeMealNameBinding
 import com.apps.bacon.mydiabetes.viewmodel.MealViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class ChangeMealNameActivity : AppCompatActivity() {
@@ -26,7 +27,11 @@ class ChangeMealNameActivity : AppCompatActivity() {
             when {
                 binding.mealNameTextInput.text.isNullOrEmpty() -> binding.mealNameTextInputLayout.error =
                     errorEmptyMessage
-                mealViewModel.checkForMealExist(binding.mealNameTextInput.text.toString()) -> binding.mealNameTextInputLayout.error =
+                mealViewModel.checkForMealExist(
+                    binding.mealNameTextInput.text.toString().trim().toLowerCase(
+                        Locale.ROOT
+                    )
+                ) -> binding.mealNameTextInputLayout.error =
                     errorAlreadyExistsNameMessage
                 else -> {
                     binding.mealNameTextInputLayout.error = null

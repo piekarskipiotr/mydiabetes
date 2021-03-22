@@ -7,7 +7,7 @@ import com.apps.bacon.mydiabetes.data.entities.Meal
 
 @Dao
 interface MealDao {
-    @Query("SELECT EXISTS(SELECT * FROM meals WHERE :name == meal_name)")
+    @Query("SELECT EXISTS(SELECT * FROM meals WHERE LOWER(meal_name) == :name)")
     fun checkForMealExist(name: String): Boolean
 
     @Query("SELECT * FROM meals ORDER BY meal_name ASC")
@@ -19,7 +19,7 @@ interface MealDao {
     @Query("SELECT * FROM meals ORDER BY meal_name ASC")
     fun getAllPaging(): DataSource.Factory<Int, Meal>
 
-    @Query("SELECT * FROM meals WHERE :id == meal_id")
+    @Query("SELECT * FROM meals WHERE meal_id == :id ")
     fun getMeal(id: Int): Meal
 
     @Query("SELECT MAX(meal_id) FROM meals")

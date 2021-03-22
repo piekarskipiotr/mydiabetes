@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.apps.bacon.mydiabetes.databinding.ActivityChangeProductNameBinding
 import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class ChangeProductNameActivity : AppCompatActivity() {
@@ -27,7 +28,11 @@ class ChangeProductNameActivity : AppCompatActivity() {
             when {
                 binding.productNameTextInput.text.isNullOrEmpty() -> binding.productNameTextInputLayout.error =
                     errorEmptyMessage
-                productViewModel.checkForProductExist(binding.productNameTextInput.text.toString()) -> binding.productNameTextInputLayout.error =
+                productViewModel.checkForProductExist(
+                    binding.productNameTextInput.text.toString().trim().toLowerCase(
+                        Locale.ROOT
+                    )
+                ) -> binding.productNameTextInputLayout.error =
                     errorAlreadyExistsNameMessage
                 else -> {
                     binding.productNameTextInputLayout.error = null

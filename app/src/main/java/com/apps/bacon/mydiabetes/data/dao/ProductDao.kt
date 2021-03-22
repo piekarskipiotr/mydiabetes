@@ -8,7 +8,7 @@ import com.apps.bacon.mydiabetes.data.entities.Product
 @Dao
 interface ProductDao {
 
-    @Query("SELECT EXISTS(SELECT * FROM products WHERE :name == products.product_name)")
+    @Query("SELECT EXISTS(SELECT * FROM products WHERE LOWER(products.product_name) == :name)")
     fun checkForProductExist(name: String): Boolean
 
     @Query("SELECT * FROM products ORDER BY product_name ASC")
@@ -20,16 +20,16 @@ interface ProductDao {
     @Query("SELECT * FROM products ORDER BY product_name ASC")
     fun getAllPaging(): DataSource.Factory<Int, Product>
 
-    @Query("SELECT * FROM products WHERE :tagId == product_tag ORDER BY product_name ASC")
+    @Query("SELECT * FROM products WHERE product_tag == :tagId ORDER BY product_name ASC")
     fun getAllByTag(tagId: Int): LiveData<List<Product>>
 
-    @Query("SELECT * FROM products WHERE :tagId == product_tag ORDER BY product_name ASC")
+    @Query("SELECT * FROM products WHERE product_tag == :tagId ORDER BY product_name ASC")
     fun getAllByTagPaging(tagId: Int): DataSource.Factory<Int, Product>
 
-    @Query("SELECT * FROM products WHERE :id == product_id")
+    @Query("SELECT * FROM products WHERE product_id == :id")
     fun getProduct(id: Int): Product
 
-    @Query("SELECT * FROM products WHERE :barcode == barcode")
+    @Query("SELECT * FROM products WHERE barcode == :barcode")
     fun getProductByBarcode(barcode: String): Product?
 
     @Query("SELECT * FROM products WHERE in_food_plate == 1")

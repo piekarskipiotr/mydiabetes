@@ -17,6 +17,7 @@ import com.apps.bacon.mydiabetes.viewmodel.TagViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class AddTagActivity : AppCompatActivity() {
@@ -41,12 +42,17 @@ class AddTagActivity : AppCompatActivity() {
         }
 
         val errorEmptyMessage = resources.getString(R.string.empty_field_message_error)
-        val errorAlreadyExistsNameMessage = resources.getString(R.string.tag_name_exists_error_message)
+        val errorAlreadyExistsNameMessage =
+            resources.getString(R.string.tag_name_exists_error_message)
 
         binding.addTagButton.setOnClickListener {
             when {
-                binding.tagNameTextInput.text.isNullOrEmpty() -> binding.tagNameTextInputLayout.error = errorEmptyMessage
-                tagViewModel.checkForTagExist(binding.tagNameTextInput.text.toString().trim()) -> binding.tagNameTextInputLayout.error = errorAlreadyExistsNameMessage
+                binding.tagNameTextInput.text.isNullOrEmpty() -> binding.tagNameTextInputLayout.error =
+                    errorEmptyMessage
+                tagViewModel.checkForTagExist(
+                    binding.tagNameTextInput.text.toString().trim()
+                        .toLowerCase(Locale.ROOT)
+                ) -> binding.tagNameTextInputLayout.error = errorAlreadyExistsNameMessage
                 else -> {
                     binding.tagNameTextInputLayout.error = null
                     tagViewModel.insert(Tag(0, binding.tagNameTextInput.text.toString().trim()))
