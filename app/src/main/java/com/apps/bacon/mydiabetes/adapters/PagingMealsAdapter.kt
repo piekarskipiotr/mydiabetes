@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apps.bacon.mydiabetes.R
 import com.apps.bacon.mydiabetes.data.entities.Meal
 import com.apps.bacon.mydiabetes.databinding.MealItemBinding
+import com.bumptech.glide.Glide
 
 class PagingMealsAdapter constructor(
     private val listener: OnMealClickListener
@@ -50,8 +51,13 @@ class PagingMealsAdapter constructor(
                         R.drawable.ic_round_dinner_dining
                     )
                 )
-            else
-                holder.icon.setImageURI(Uri.parse(meal.icon))
+            else{
+                if(meal.isEditable)
+                    holder.icon.setImageURI(Uri.parse(meal.icon))
+                else
+                    Glide.with(holder.itemView).load(meal.icon).into(holder.icon)
+            }
+
 
             holder.mealName.text = meal.name
 

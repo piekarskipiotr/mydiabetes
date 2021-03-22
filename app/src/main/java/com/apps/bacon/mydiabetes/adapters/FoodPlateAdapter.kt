@@ -15,6 +15,7 @@ import com.apps.bacon.mydiabetes.R
 import com.apps.bacon.mydiabetes.data.entities.Product
 import com.apps.bacon.mydiabetes.databinding.ProductItemFoodPlateBinding
 import com.apps.bacon.mydiabetes.utilities.Calculations
+import com.bumptech.glide.Glide
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
@@ -50,33 +51,37 @@ class FoodPlateAdapter constructor(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val context = holder.itemView.context
-
-        if (data[position].icon == null)
+        val product = data[position]
+        if (product.icon == null)
             holder.icon.setImageDrawable(
                 ContextCompat.getDrawable(
                     context,
                     R.drawable.ic_round_dinner_dining
                 )
             )
-        else
-            holder.icon.setImageURI(Uri.parse(data[position].icon))
+        else{
+            if(product.isEditable)
+                holder.icon.setImageURI(Uri.parse(product.icon))
+            else
+                Glide.with(holder.itemView).load(product.icon).into(holder.icon)
+        }
 
-        holder.productName.text = data[position].name
-        if (data[position].weight == null) {
-            holder.measure.setText(data[position].pieces.toString())
+        holder.productName.text = product.name
+        if (product.weight == null) {
+            holder.measure.setText(product.pieces.toString())
             holder.measureLayout.suffixText = context.resources.getString(R.string.pieces_shortcut)
             holder.measure.inputType =
                 InputType.TYPE_NUMBER_FLAG_SIGNED or InputType.TYPE_CLASS_NUMBER
         } else {
-            holder.measure.setText(data[position].weight.toString())
+            holder.measure.setText(product.weight.toString())
             holder.measureLayout.suffixText = "g/ml"
             holder.measure.inputType =
                 InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_CLASS_NUMBER
         }
 
-        holder.carbohydrateExchangers.text = data[position].carbohydrateExchangers.toString()
-        holder.proteinFatExchangers.text = data[position].proteinFatExchangers.toString()
-        holder.calories.text = data[position].calories.toString()
+        holder.carbohydrateExchangers.text = product.carbohydrateExchangers.toString()
+        holder.proteinFatExchangers.text = product.proteinFatExchangers.toString()
+        holder.calories.text = product.calories.toString()
 
         holder.measure.onTextChanged {
             val value: String = when {
@@ -85,42 +90,42 @@ class FoodPlateAdapter constructor(
                 else -> it.toString()
             }
 
-            if (data[position].weight == null) {
+            if (product.weight == null) {
                 holder.carbohydrateExchangers.text = Calculations()
                     .carbohydrateExchangesByPieces(
-                        data[position].carbohydrateExchangers,
-                        data[position].pieces!!,
+                        product.carbohydrateExchangers,
+                        product.pieces!!,
                         value.toInt()
                     )
                     .toString()
                 holder.proteinFatExchangers.text = Calculations()
                     .proteinFatExchangersByPieces(
-                        data[position].proteinFatExchangers, data[position].pieces!!, value.toInt()
+                        product.proteinFatExchangers, product.pieces!!, value.toInt()
                     )
                     .toString()
                 holder.calories.text = Calculations()
                     .caloriesByPieces(
-                        data[position].calories!!, data[position].pieces!!, value.toInt()
+                        product.calories!!, product.pieces!!, value.toInt()
                     )
                     .toString()
             } else {
                 holder.carbohydrateExchangers.text = Calculations()
                     .carbohydrateExchangesByWeight(
-                        data[position].carbohydrateExchangers,
-                        data[position].weight!!,
+                        product.carbohydrateExchangers,
+                        product.weight!!,
                         value.toDouble()
                     )
                     .toString()
                 holder.proteinFatExchangers.text = Calculations()
                     .proteinFatExchangersByWeight(
-                        data[position].proteinFatExchangers,
-                        data[position].weight!!,
+                        product.proteinFatExchangers,
+                        product.weight!!,
                         value.toDouble()
                     )
                     .toString()
                 holder.calories.text = Calculations()
                     .caloriesByWeight(
-                        data[position].calories!!, data[position].weight!!, value.toDouble()
+                        product.calories!!, product.weight!!, value.toDouble()
                     )
                     .toString()
             }

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apps.bacon.mydiabetes.R
 import com.apps.bacon.mydiabetes.data.entities.Meal
 import com.apps.bacon.mydiabetes.databinding.MealItemBinding
+import com.bumptech.glide.Glide
 import java.util.*
 
 class MealsAdapter constructor(
@@ -41,21 +42,27 @@ class MealsAdapter constructor(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (data[position].icon == null)
+        val meal = data[position]
+
+        if (meal.icon == null)
             holder.icon.setImageDrawable(
                 ContextCompat.getDrawable(
                     holder.itemView.context,
                     R.drawable.ic_round_dinner_dining
                 )
             )
-        else
-            holder.icon.setImageURI(Uri.parse(data[position].icon))
+        else{
+            if(meal.isEditable)
+                holder.icon.setImageURI(Uri.parse(meal.icon))
+            else
+                Glide.with(holder.itemView).load(meal.icon).into(holder.icon)
+        }
 
-        holder.mealName.text = data[position].name
+        holder.mealName.text = meal.name
 
-        holder.carbohydrateExchangers.text = data[position].carbohydrateExchangers.toString()
-        holder.proteinFatExchangers.text = data[position].proteinFatExchangers.toString()
-        holder.calories.text = data[position].calories.toString()
+        holder.carbohydrateExchangers.text = meal.carbohydrateExchangers.toString()
+        holder.proteinFatExchangers.text = meal.proteinFatExchangers.toString()
+        holder.calories.text = meal.calories.toString()
     }
 
     override fun getItemCount() = data.size

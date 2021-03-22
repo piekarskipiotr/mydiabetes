@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apps.bacon.mydiabetes.R
 import com.apps.bacon.mydiabetes.data.entities.Product
 import com.apps.bacon.mydiabetes.databinding.ProductItemBinding
+import com.bumptech.glide.Glide
 import java.util.*
 
 class ProductsAdapter constructor(
@@ -32,7 +33,10 @@ class ProductsAdapter constructor(
         }
 
         override fun onClick(p0: View?) {
-            listener.onProductClick(data[bindingAdapterPosition].id, data[bindingAdapterPosition].isEditable)
+            listener.onProductClick(
+                data[bindingAdapterPosition].id,
+                data[bindingAdapterPosition].isEditable
+            )
         }
     }
 
@@ -42,25 +46,31 @@ class ProductsAdapter constructor(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (data[position].icon == null)
+        val product = data[position]
+
+        if (product.icon == null)
             holder.icon.setImageDrawable(
                 ContextCompat.getDrawable(
                     holder.itemView.context,
                     R.drawable.ic_round_dinner_dining
                 )
             )
-        else
-            holder.icon.setImageURI(Uri.parse(data[position].icon))
+        else{
+            if(product.isEditable)
+                holder.icon.setImageURI(Uri.parse(product.icon))
+            else
+                Glide.with(holder.itemView).load(product.icon).into(holder.icon)
+        }
 
-        holder.productName.text = data[position].name
-        if (data[position].weight == null)
-            holder.measure.text = data[position].pieces.toString()
+        holder.productName.text = product.name
+        if (product.weight == null)
+            holder.measure.text = product.pieces.toString()
         else
-            holder.measure.text = data[position].weight.toString()
+            holder.measure.text = product.weight.toString()
 
-        holder.carbohydrateExchangers.text = data[position].carbohydrateExchangers.toString()
-        holder.proteinFatExchangers.text = data[position].proteinFatExchangers.toString()
-        holder.calories.text = data[position].calories.toString()
+        holder.carbohydrateExchangers.text = product.carbohydrateExchangers.toString()
+        holder.proteinFatExchangers.text = product.proteinFatExchangers.toString()
+        holder.calories.text = product.calories.toString()
 
     }
 

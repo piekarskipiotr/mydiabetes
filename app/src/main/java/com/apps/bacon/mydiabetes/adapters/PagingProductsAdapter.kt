@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apps.bacon.mydiabetes.R
 import com.apps.bacon.mydiabetes.data.entities.Product
 import com.apps.bacon.mydiabetes.databinding.ProductItemBinding
+import com.bumptech.glide.Glide
 
 class PagingProductsAdapter constructor(
     private val listener: OnProductClickListener
@@ -51,8 +52,12 @@ class PagingProductsAdapter constructor(
                         R.drawable.ic_round_dinner_dining
                     )
                 )
-            else
-                holder.icon.setImageURI(Uri.parse(product.icon))
+            else{
+                if(product.isEditable)
+                    holder.icon.setImageURI(Uri.parse(product.icon))
+                else
+                    Glide.with(holder.itemView).load(product.icon).into(holder.icon)
+            }
 
             holder.productName.text = product.name
             if (product.weight == null)
