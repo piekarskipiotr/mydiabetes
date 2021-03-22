@@ -264,4 +264,8 @@ class StaticProductActivity : AppCompatActivity() {
         pieChart.animate()
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        this.finish()
+    }
 }

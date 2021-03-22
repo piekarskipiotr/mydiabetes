@@ -1,5 +1,6 @@
 package com.apps.bacon.mydiabetes
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
@@ -240,5 +241,10 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
             intent.putExtra("PRODUCT_ID", productId)
             startActivity(intent)
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        this.finish()
     }
 }

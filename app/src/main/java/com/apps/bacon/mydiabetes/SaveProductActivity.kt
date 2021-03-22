@@ -380,6 +380,11 @@ class SaveProductActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        this.finish()
+    }
+
     companion object {
         private const val REQUEST_CODE_PRODUCT_NAME = 1
         private const val REQUEST_CODE_GET_BARCODE = 3

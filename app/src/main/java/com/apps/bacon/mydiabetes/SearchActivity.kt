@@ -170,6 +170,11 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        this.finish()
+    }
+
     companion object {
         private const val REQUEST_CODE_GET_BARCODE = 2
     }

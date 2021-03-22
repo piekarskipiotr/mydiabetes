@@ -366,6 +366,11 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        this.finish()
+    }
+
     companion object {
         private const val REQUEST_CODE_GET_IMAGE = 4
         private const val REQUEST_CODE_GET_IMAGE_FROM_GALLERY = 5

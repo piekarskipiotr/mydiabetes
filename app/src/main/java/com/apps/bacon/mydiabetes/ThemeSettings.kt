@@ -49,4 +49,9 @@ class ThemeSettings : AppCompatActivity() {
             onBackPressed()
         }
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        this.finish()
+    }
 }

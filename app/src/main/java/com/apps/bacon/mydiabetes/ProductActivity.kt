@@ -507,6 +507,11 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
         dialogImageManager(image)
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        this.finish()
+    }
+
     companion object {
         private const val REQUEST_CODE_GET_TAG = 1
         private const val REQUEST_CODE_GET_BARCODE = 2

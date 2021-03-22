@@ -217,4 +217,9 @@ class StaticMealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickLi
         intent.putExtra("PRODUCT_ID", productId)
         startActivity(intent)
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        this.finish()
+    }
 }

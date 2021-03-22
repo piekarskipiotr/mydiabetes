@@ -50,6 +50,7 @@ class ChangeProductNameActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         setResult(Activity.RESULT_CANCELED, intent)
-        finish()
+        super.onBackPressed()
+        this.finish()
     }
 }

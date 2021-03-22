@@ -146,4 +146,9 @@ class ShareActivity : AppCompatActivity(), ShareProductsAdapter.OnShareProductLi
             }
         })
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        this.finish()
+    }
 }
