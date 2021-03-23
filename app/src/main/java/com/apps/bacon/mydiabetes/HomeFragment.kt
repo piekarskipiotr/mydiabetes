@@ -2,18 +2,22 @@ package com.apps.bacon.mydiabetes
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apps.bacon.mydiabetes.adapters.PagingProductsAdapter
 import com.apps.bacon.mydiabetes.databinding.FragmentHomeBinding
 import com.apps.bacon.mydiabetes.viewmodel.HomeViewModel
 import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), PagingProductsAdapter.OnProductClickListener {
@@ -29,19 +33,20 @@ class HomeFragment : Fragment(), PagingProductsAdapter.OnProductClickListener {
         initRecyclerView()
 
         homeViewModel.currentTag.observe(viewLifecycleOwner, { selectedTab ->
-
             if (selectedTab == 0) {
-                productViewModel.getPagingListOfProducts().observe(viewLifecycleOwner, {
-                    productsAdapter.submitList(it)
-                })
+               viewLifecycleOwner.lifecycleScope.launch{
+                    productViewModel.getPagingListOfProducts().collectLatest {
+                        productsAdapter.submitData(it)
+                    }
+                }
             } else {
-                productViewModel.getPagingListOfProductsByTag(selectedTab)
-                    .observe(viewLifecycleOwner, {
-                        productsAdapter.submitList(it)
-                    })
+                viewLifecycleOwner.lifecycleScope.launch{
+                    productViewModel.getPagingListOfProductsByTag(selectedTab).collectLatest {
+                        productsAdapter.submitData(it)
+                    }
+                }
             }
         })
-
     }
 
     override fun onCreateView(

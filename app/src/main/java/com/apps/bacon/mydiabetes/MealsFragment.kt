@@ -7,11 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apps.bacon.mydiabetes.adapters.PagingMealsAdapter
 import com.apps.bacon.mydiabetes.databinding.FragmentHomeBinding
 import com.apps.bacon.mydiabetes.viewmodel.MealViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MealsFragment : Fragment(), PagingMealsAdapter.OnMealClickListener{
@@ -25,10 +28,11 @@ class MealsFragment : Fragment(), PagingMealsAdapter.OnMealClickListener{
 
         initRecyclerView()
 
-        mealViewModel.getPagingListOfMeals().observe(viewLifecycleOwner, {
-            mealsAdapter.submitList(it)
-
-        })
+        viewLifecycleOwner.lifecycleScope.launch {
+            mealViewModel.getPagingListOfMeals().collectLatest {
+                mealsAdapter.submitData(it)
+            }
+        }
     }
 
     override fun onCreateView(

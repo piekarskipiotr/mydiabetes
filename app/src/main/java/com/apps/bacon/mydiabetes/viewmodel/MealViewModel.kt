@@ -2,9 +2,8 @@ package com.apps.bacon.mydiabetes.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.paging.Config
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
+import androidx.lifecycle.viewModelScope
+import androidx.paging.*
 import com.apps.bacon.mydiabetes.data.entities.*
 import com.apps.bacon.mydiabetes.data.repositories.MealRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,10 +19,10 @@ constructor(
     @Named("meal_repository")
     private val repository: MealRepository
 ) : ViewModel() {
-    private val myPagingConfig = Config(
-        pageSize = 6,
-        prefetchDistance = 150,
-        enablePlaceholders = true
+    private val myPagingConfig = PagingConfig(
+        pageSize = 20,
+        enablePlaceholders = true,
+        prefetchDistance = 5
     )
 
     fun checkForMealExist(name: String) = repository.checkForMealExist(name)
@@ -32,9 +31,9 @@ constructor(
 
     fun getAllLocal() = repository.getAllLocal()
 
-    fun getPagingListOfMeals(): LiveData<PagedList<Meal>> {
-        return LivePagedListBuilder(repository.getAllPaging(), myPagingConfig).build()
-    }
+    fun getPagingListOfMeals() = Pager(
+        config = myPagingConfig, pagingSourceFactory = { repository.getAllPaging() }
+    ).flow.cachedIn(viewModelScope)
 
     fun getMeal(id: Int) = repository.getMeal(id)
 

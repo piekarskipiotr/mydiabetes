@@ -1,10 +1,8 @@
 package com.apps.bacon.mydiabetes.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.paging.Config
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
+import androidx.lifecycle.viewModelScope
+import androidx.paging.*
 import com.apps.bacon.mydiabetes.data.entities.Product
 import com.apps.bacon.mydiabetes.data.repositories.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,10 +18,10 @@ constructor(
     @Named("product_repository")
     private val repository: ProductRepository
 ) : ViewModel() {
-    private val myPagingConfig = Config(
-        pageSize = 15,
-        prefetchDistance = 10,
-        enablePlaceholders = true
+    private val myPagingConfig = PagingConfig(
+        pageSize = 20,
+        enablePlaceholders = true,
+        prefetchDistance = 5
     )
 
     fun checkForProductExist(name: String) = repository.checkForProductExist(name)
@@ -32,15 +30,15 @@ constructor(
 
     fun getAllLocal() = repository.getAllLocal()
 
-    fun getPagingListOfProducts(): LiveData<PagedList<Product>> {
-        return LivePagedListBuilder(repository.getAllPaging(), myPagingConfig).build()
-    }
+    fun getPagingListOfProducts() = Pager(
+        config = myPagingConfig, pagingSourceFactory = { repository.getAllPaging() }
+    ).flow.cachedIn(viewModelScope)
 
     fun getAllByTag(tagId: Int) = repository.getAllByTag(tagId)
 
-    fun getPagingListOfProductsByTag(tagId: Int): LiveData<PagedList<Product>> {
-        return LivePagedListBuilder(repository.getAllByTagPaging(tagId), myPagingConfig).build()
-    }
+    fun getPagingListOfProductsByTag(tagId: Int) = Pager(
+        config = myPagingConfig, pagingSourceFactory = { repository.getAllByTagPaging(tagId) }
+    ).flow.cachedIn(viewModelScope)
 
     fun getProduct(id: Int) = repository.getProduct(id)
 
@@ -48,9 +46,10 @@ constructor(
 
     fun getProductsInPlate() = repository.getProductsInPlate()
 
-    fun renamePMJProductName(product: Product, oldName: String, newName: String) = CoroutineScope(Dispatchers.Default).launch {
-        repository.renamePMJProductName(product, oldName, newName)
-    }
+    fun renamePMJProductName(product: Product, oldName: String, newName: String) =
+        CoroutineScope(Dispatchers.Default).launch {
+            repository.renamePMJProductName(product, oldName, newName)
+        }
 
     fun insert(product: Product) = CoroutineScope(Dispatchers.Default).launch {
         repository.insert(product)

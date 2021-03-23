@@ -2,6 +2,7 @@ package com.apps.bacon.mydiabetes.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
+import androidx.paging.PagingSource
 import androidx.room.*
 import com.apps.bacon.mydiabetes.data.entities.Meal
 
@@ -17,7 +18,7 @@ interface MealDao {
     fun getAllLocal(): LiveData<List<Meal>>
 
     @Query("SELECT * FROM meals ORDER BY meal_name ASC")
-    fun getAllPaging(): DataSource.Factory<Int, Meal>
+    fun getAllPaging(): PagingSource<Int, Meal>
 
     @Query("SELECT * FROM meals WHERE meal_id == :id ")
     fun getMeal(id: Int): Meal

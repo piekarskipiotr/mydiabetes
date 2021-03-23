@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.paging.PagedListAdapter
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apps.bacon.mydiabetes.R
@@ -17,7 +17,7 @@ import com.bumptech.glide.Glide
 
 class PagingProductsAdapter constructor(
     private val listener: OnProductClickListener
-) : PagedListAdapter<Product, PagingProductsAdapter.ViewHolder>(DIFF_CALLBACK) {
+) : PagingDataAdapter<Product, PagingProductsAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     inner class ViewHolder(view: ProductItemBinding) : RecyclerView.ViewHolder(view.root),
         View.OnClickListener {
