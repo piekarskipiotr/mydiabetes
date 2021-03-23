@@ -7,6 +7,7 @@ import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -72,12 +73,12 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
 
         binding.productName.setOnClickListener {
             intent = Intent(this, ChangeProductNameActivity::class.java)
-            startActivityForResult(intent, REQUEST_CODE_PRODUCT_NAME)
+            getProductName.launch(intent)
         }
 
         binding.scanBarcodeButton.setOnClickListener {
             intent = Intent(this, CameraActivity::class.java)
-            startActivityForResult(intent, REQUEST_CODE_GET_BARCODE)
+            getBarcode.launch(intent)
         }
 
         binding.manualBarcode.setOnClickListener {
@@ -85,7 +86,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
             if (product.barcode != null)
                 intent.putExtra("BARCODE", false)
 
-            startActivityForResult(intent, REQUEST_CODE_GET_BARCODE)
+            getBarcode.launch(intent)
         }
 
         binding.takePhotoButton.setOnClickListener {
@@ -95,7 +96,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
 
             bottomSheetDialogCameraViewBinding.cameraButton.setOnClickListener {
                 intent = Intent(this, CameraActivity::class.java)
-                startActivityForResult(intent, REQUEST_CODE_GET_IMAGE)
+                getImage.launch(intent)
                 bottomSheetDialog.dismiss()
             }
 
@@ -103,22 +104,26 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
                 val gallery = Intent(Intent.ACTION_PICK)
                 gallery.type = "image/*"
 
-                startActivityForResult(gallery, REQUEST_CODE_GET_IMAGE_FROM_GALLERY)
+                getImageFromGallery.launch(gallery)
                 bottomSheetDialog.dismiss()
             }
         }
 
-        if(product.inFoodPlate){
+        if (product.inFoodPlate) {
             binding.addButton.isClickable = false
             binding.addButton.alpha = 0.8f
-        }else{
+        } else {
             binding.addButton.setOnClickListener {
                 productViewModel.update(product.apply {
                     inFoodPlate = true
                 })
                 binding.addButton.isClickable = false
                 binding.addButton.alpha = 0.8f
-                Toast.makeText(this, resources.getString(R.string.product_added), Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    this,
+                    resources.getString(R.string.product_added),
+                    Toast.LENGTH_SHORT
+                )
                     .show()
             }
         }
@@ -162,9 +167,11 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
 
         pieChart(product.carbohydrateExchangers, product.proteinFatExchangers)
 
-        if (product.tag == null)
+        if (product.tag == null){
+            //the line below is to initialize view model if it has never been used before
+            tagViewModel.hashCode()
             addChip(resources.getString(R.string.set_the_tag), 0)
-        else {
+        } else {
             val tag = tagViewModel.getTagById(product.tag!!)
             addChip(tag.name, tag.id)
         }
@@ -183,12 +190,10 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
             if (product.tag == null) {
                 intent = Intent(this, AddTagActivity::class.java)
                 intent.putExtra("TAG_MANAGER", true)
-                startActivityForResult(intent, REQUEST_CODE_GET_TAG)
+                getTag.launch(intent)
             } else
                 dialogManagerTag(label)
-
         }
-
     }
 
     private fun ChipGroup.addChip(label: String, ID: Int) {
@@ -299,7 +304,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
         dialogBinding.changeButton.setOnClickListener {
             intent = Intent(this, AddTagActivity::class.java)
             intent.putExtra("TAG_MANAGER", true)
-            startActivityForResult(intent, REQUEST_CODE_GET_TAG)
+            getTag.launch(intent)
             alertDialog.dismiss()
 
         }
@@ -382,111 +387,100 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
         pieChart.animate()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            REQUEST_CODE_GET_TAG -> {
-                when (resultCode) {
-                    RESULT_OK -> {
-                        data?.let {
-                            when {
-                                it.getBooleanExtra("NEW_TAG", false) -> {
-                                    product.tag = tagViewModel.getLastId()
-                                }
-                                else -> {
-                                    product.tag = it.getIntExtra("TAG_ID", -1)
-
-                                }
-                            }
-                            productViewModel.update(product)
-                            setProductInfo()
-                        }
-                    }
-
-                    RESULT_CANCELED -> {
-                        product.tag = null
-                        productViewModel.update(product)
-                        setProductInfo()
-                    }
+    private val getProductName =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
+            if (activityResult.resultCode == RESULT_OK) {
+                activityResult.data?.let {
+                    val oldName = product.name
+                    val newName = it.getStringExtra("PRODUCT_NAME") as String
+                    productViewModel.renamePMJProductName(product, oldName, newName)
+                    binding.productName.text = newName
                 }
             }
+        }
 
-            REQUEST_CODE_GET_BARCODE -> {
-                if (resultCode == RESULT_OK) {
-                    data?.let {
-                        when {
-                            it.getBooleanExtra("DELETE_BARCODE", false) -> {
-                                product.barcode = null
-                                productViewModel.update(product)
-                                setProductInfo()
+    private val getTag =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
+            if (activityResult.resultCode == RESULT_OK) {
+                activityResult.data?.let {
+                    if (it.getBooleanExtra("NEW_TAG", false))
+                        product.tag = tagViewModel.getLastId()
+                    else
+                        product.tag = it.getIntExtra("TAG_ID", -1)
 
-                            }
-                            else -> {
-                                val barcode = it.getStringExtra("BARCODE")!!
-                                val productWithBarcode = productViewModel.getProductByBarcode(
-                                    barcode
-                                )
-                                if (productWithBarcode != null) {
-                                    Toast.makeText(
-                                        this,
-                                        resources.getString(R.string.barcode_exists_error_message),
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                } else {
-                                    product.barcode = barcode
-                                    productViewModel.update(product)
-                                    setProductInfo()
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            REQUEST_CODE_PRODUCT_NAME -> {
-                if (resultCode == RESULT_OK) {
-                    data?.let {
-                        val oldName = product.name
-                        val newName = it.getStringExtra("PRODUCT_NAME") as String
-                        productViewModel.renamePMJProductName(product, oldName, newName)
-                        binding.productName.text = newName
-                    }
-                }
-            }
-
-            REQUEST_CODE_GET_IMAGE -> {
-                if (resultCode == RESULT_OK) {
-                    data?.let {
-                        val imageUri = it.getStringExtra("IMAGE_URI").toString()
-                        imageViewModel.insert(
-                            Image(0, product.id, null, imageUri)
-                        )
-                    }
-                }
-            }
-
-            REQUEST_CODE_GET_IMAGE_FROM_GALLERY -> {
-                if (resultCode == RESULT_OK) {
-                    data?.let {
-                        val photoFile = File(
-                            getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-                            "${System.currentTimeMillis()}.jpg"
-                        )
-                        photoFile.createNewFile()
-                        val out = FileOutputStream(photoFile)
-                        out.write(
-                            getBytes(this.contentResolver.openInputStream(it.data!!)!!)
-                        )
-                        out.close()
-
-                        imageViewModel.insert(
-                            Image(0, product.id, null, Uri.fromFile(photoFile).toString())
-                        )
+                    productViewModel.update(product)
+                    if (product.tag == null)
+                        addChip(resources.getString(R.string.set_the_tag), 0)
+                    else {
+                        val tag = tagViewModel.getTagById(product.tag!!)
+                        addChip(tag.name, tag.id)
                     }
                 }
             }
         }
-    }
+
+    private val getBarcode =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
+            if (activityResult.resultCode == RESULT_OK) {
+                activityResult.data?.let {
+                    if (it.getBooleanExtra("DELETE_BARCODE", false)) {
+                        product.barcode = null
+                        productViewModel.update(product)
+                        setProductInfo()
+                    } else {
+                        val barcode = it.getStringExtra("BARCODE")!!
+                        val productWithBarcode = productViewModel.getProductByBarcode(
+                            barcode
+                        )
+                        if (productWithBarcode != null) {
+                            Toast.makeText(
+                                this,
+                                resources.getString(R.string.barcode_exists_error_message),
+                                Toast.LENGTH_LONG
+                            ).show()
+                        } else {
+                            product.barcode = barcode
+                            productViewModel.update(product)
+                            setProductInfo()
+                        }
+                    }
+                }
+            }
+        }
+
+    private val getImage =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
+            if (activityResult.resultCode == RESULT_OK) {
+                activityResult.data?.let {
+                    val imageUri = it.getStringExtra("IMAGE_URI").toString()
+                    imageViewModel.insert(
+                        Image(0, product.id, null, imageUri)
+                    )
+                }
+            }
+        }
+
+    private val getImageFromGallery =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
+            if (activityResult.resultCode == RESULT_OK) {
+                activityResult.data?.let {
+                    val photoFile = File(
+                        getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                        "${System.currentTimeMillis()}.jpg"
+                    )
+                    photoFile.createNewFile()
+                    val out = FileOutputStream(photoFile)
+                    out.write(
+                        getBytes(this.contentResolver.openInputStream(it.data!!)!!)
+                    )
+                    out.close()
+
+                    imageViewModel.insert(
+                        Image(0, product.id, null, Uri.fromFile(photoFile).toString())
+                    )
+                }
+            }
+        }
 
     private fun getBytes(inputStream: InputStream): ByteArray {
         val byteBuffer = ByteArrayOutputStream()
@@ -510,13 +504,5 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
     override fun onBackPressed() {
         super.onBackPressed()
         this.finish()
-    }
-
-    companion object {
-        private const val REQUEST_CODE_GET_TAG = 1
-        private const val REQUEST_CODE_GET_BARCODE = 2
-        private const val REQUEST_CODE_PRODUCT_NAME = 3
-        private const val REQUEST_CODE_GET_IMAGE = 4
-        private const val REQUEST_CODE_GET_IMAGE_FROM_GALLERY = 5
     }
 }

@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -96,7 +97,7 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
 
         binding.scanButton.setOnClickListener {
             intent = Intent(this, ScannerCameraActivity::class.java)
-            startActivityForResult(intent, REQUEST_CODE_GET_BARCODE)
+            getBarcode.launch(intent)
         }
 
         binding.backButton.setOnClickListener {
@@ -116,11 +117,11 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
     }
 
     override fun onProductClick(productId: Int, isEditable: Boolean) {
-        if(isEditable){
+        if (isEditable) {
             intent = Intent(this, ProductActivity::class.java)
             intent.putExtra("PRODUCT_ID", productId)
             startActivity(intent)
-        }else{
+        } else {
             intent = Intent(this, StaticProductActivity::class.java)
             intent.putExtra("PRODUCT_ID", productId)
             startActivity(intent)
@@ -144,38 +145,30 @@ class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListen
         })
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            REQUEST_CODE_GET_BARCODE -> {
-                if (resultCode == RESULT_OK) {
-                    data?.let {
-                        val barcode = it.getStringExtra("BARCODE")!!
-                        val product =
-                            productViewModel.getProductByBarcode(barcode)
+    private val getBarcode =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
+            if (activityResult.resultCode == RESULT_OK) {
+                activityResult.data?.let {
+                    val barcode = it.getStringExtra("BARCODE")!!
+                    val product =
+                        productViewModel.getProductByBarcode(barcode)
 
-                        if (product == null) {
-                            Toast.makeText(
-                                this,
-                                resources.getString(R.string.search_by_barcode_error_message),
-                                Toast.LENGTH_LONG
-                            ).show()
+                    if (product == null) {
+                        Toast.makeText(
+                            this,
+                            resources.getString(R.string.search_by_barcode_error_message),
+                            Toast.LENGTH_LONG
+                        ).show()
 
-                        } else {
-                            onProductClick(product.id, product.isEditable)
-                        }
+                    } else {
+                        onProductClick(product.id, product.isEditable)
                     }
                 }
             }
         }
-    }
 
     override fun onBackPressed() {
         super.onBackPressed()
         this.finish()
-    }
-
-    companion object {
-        private const val REQUEST_CODE_GET_BARCODE = 2
     }
 }

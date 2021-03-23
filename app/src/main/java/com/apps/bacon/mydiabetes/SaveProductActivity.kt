@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -152,12 +153,12 @@ class SaveProductActivity : AppCompatActivity() {
 
         binding.productName.setOnClickListener {
             intent = Intent(this, ChangeProductNameActivity::class.java)
-            startActivityForResult(intent, REQUEST_CODE_PRODUCT_NAME)
+            getProductName.launch(intent)
         }
 
         binding.scanBarcodeButton.setOnClickListener {
             intent = Intent(this, ScannerCameraActivity::class.java)
-            startActivityForResult(intent, REQUEST_CODE_GET_BARCODE)
+            getBarcode.launch(intent)
         }
 
         binding.manualBarcode.setOnClickListener {
@@ -165,7 +166,7 @@ class SaveProductActivity : AppCompatActivity() {
             if (binding.manualBarcode.text != null)
                 intent.putExtra("BARCODE", false)
 
-            startActivityForResult(intent, REQUEST_CODE_GET_BARCODE)
+            getBarcode.launch(intent)
         }
 
         binding.tagChipContainer.setOnCheckedChangeListener { _, checkedId ->
@@ -339,54 +340,43 @@ class SaveProductActivity : AppCompatActivity() {
         pieChart.animate()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            REQUEST_CODE_PRODUCT_NAME -> {
-                if (resultCode == RESULT_OK) {
-                    data?.let {
-                        binding.productName.hint = null
-                        binding.productName.text = it.getStringExtra("PRODUCT_NAME").toString()
-                    }
+    private val getProductName =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
+            if (activityResult.resultCode == RESULT_OK) {
+                activityResult.data?.let {
+                    binding.productName.hint = null
+                    binding.productName.text = it.getStringExtra("PRODUCT_NAME").toString()
                 }
             }
+        }
 
-            REQUEST_CODE_GET_BARCODE -> {
-                if (resultCode == RESULT_OK) {
-                    data?.let {
-                        when {
-                            it.getBooleanExtra("DELETE_BARCODE", false) -> {
-                                binding.manualBarcode.text = null
-                            }
-                            else -> {
-                                val barcode = it.getStringExtra("BARCODE")
-                                val productWithBarcode =
-                                    productViewModel.getProductByBarcode(barcode!!)
+    private val getBarcode =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
+            if (activityResult.resultCode == RESULT_OK) {
+                activityResult.data?.let {
+                    if (it.getBooleanExtra("DELETE_BARCODE", false))
+                        binding.manualBarcode.text = null
+                    else {
+                        val barcode = it.getStringExtra("BARCODE")
+                        val productWithBarcode =
+                            productViewModel.getProductByBarcode(barcode!!)
 
-                                if (productWithBarcode != null) {
-                                    Toast.makeText(
-                                        this,
-                                        resources.getString(R.string.barcode_exists_error_message),
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                } else {
-                                    binding.manualBarcode.text = barcode
-                                }
-                            }
+                        if (productWithBarcode != null) {
+                            Toast.makeText(
+                                this,
+                                resources.getString(R.string.barcode_exists_error_message),
+                                Toast.LENGTH_LONG
+                            ).show()
+                        } else {
+                            binding.manualBarcode.text = barcode
                         }
                     }
                 }
             }
         }
-    }
 
     override fun onBackPressed() {
         super.onBackPressed()
         this.finish()
-    }
-
-    companion object {
-        private const val REQUEST_CODE_PRODUCT_NAME = 1
-        private const val REQUEST_CODE_GET_BARCODE = 3
     }
 }

@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.view.LayoutInflater
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -34,7 +35,8 @@ import java.io.InputStream
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener, ImageAdapter.OnImageClickListener {
+class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener,
+    ImageAdapter.OnImageClickListener {
     private lateinit var productsAdapter: ProductsAdapter
     private lateinit var imageAdapter: ImageAdapter
     private lateinit var binding: ActivityMealBinding
@@ -61,7 +63,7 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
 
         binding.mealName.setOnClickListener {
             intent = Intent(this, ChangeMealNameActivity::class.java)
-            startActivityForResult(intent, REQUEST_CODE_MEAL_NAME)
+            getMealName.launch(intent)
         }
 
         val bottomSheetDialogCameraViewBinding = DialogAddImageBinding.inflate(layoutInflater)
@@ -74,7 +76,7 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
 
             bottomSheetDialogCameraViewBinding.cameraButton.setOnClickListener {
                 intent = Intent(this, CameraActivity::class.java)
-                startActivityForResult(intent, REQUEST_CODE_GET_IMAGE)
+                getImage.launch(intent)
                 bottomSheetDialog.dismiss()
             }
 
@@ -82,7 +84,7 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
                 val gallery = Intent(Intent.ACTION_PICK)
                 gallery.type = "image/*"
 
-                startActivityForResult(gallery, REQUEST_CODE_GET_IMAGE_FROM_GALLERY)
+                getImageFromGallery.launch(gallery)
                 bottomSheetDialog.dismiss()
             }
         }
@@ -298,11 +300,11 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
     }
 
     override fun onProductClick(productId: Int, isEditable: Boolean) {
-        if(isEditable){
+        if (isEditable) {
             intent = Intent(this, ProductActivity::class.java)
             intent.putExtra("PRODUCT_ID", productId)
             startActivity(intent)
-        }else{
+        } else {
             intent = Intent(this, StaticProductActivity::class.java)
             intent.putExtra("PRODUCT_ID", productId)
             startActivity(intent)
@@ -313,67 +315,58 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
         dialogImageManager(image)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            REQUEST_CODE_MEAL_NAME -> {
-                when (resultCode) {
-                    RESULT_OK -> {
-                        data?.let {
-                            val oldName = meal.name
-                            val newName = it.getStringExtra("MEAL_NAME") as String
-                            mealViewModel.renamePMJMealName(meal, oldName, newName)
-                            binding.mealName.text = newName
-                            mealViewModel.getProductsForMeal(oldName).removeObservers(this)
-                            mealViewModel.getProductsForMeal(newName).observe(this, { products ->
-                                productsAdapter.updateData(products)
-                            })
-                        }
-                    }
-                }
-            }
-            REQUEST_CODE_GET_IMAGE -> {
-                if (resultCode == RESULT_OK) {
-                    data?.let {
-                        val imageUri = it.getStringExtra("IMAGE_URI").toString()
-                        imageViewModel.insert(
-                            Image(0, null, meal.id, imageUri)
-                        )
-                    }
-                }
-            }
-
-            REQUEST_CODE_GET_IMAGE_FROM_GALLERY -> {
-                if (resultCode == RESULT_OK) {
-                    data?.let {
-                        val photoFile = File(
-                            getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-                            "${System.currentTimeMillis()}.jpg"
-                        )
-                        photoFile.createNewFile()
-                        val out = FileOutputStream(photoFile)
-                        out.write(
-                            getBytes(this.contentResolver.openInputStream(it.data!!)!!)
-                        )
-                        out.close()
-
-                        imageViewModel.insert(
-                            Image(0, null, meal.id, Uri.fromFile(photoFile).toString())
-                        )
-                    }
+    private val getMealName =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
+            if (activityResult.resultCode == RESULT_OK) {
+                activityResult.data?.let {
+                    val oldName = meal.name
+                    val newName = it.getStringExtra("MEAL_NAME") as String
+                    mealViewModel.renamePMJMealName(meal, oldName, newName)
+                    binding.mealName.text = newName
+                    mealViewModel.getProductsForMeal(oldName).removeObservers(this)
+                    mealViewModel.getProductsForMeal(newName).observe(this, { products ->
+                        productsAdapter.updateData(products)
+                    })
                 }
             }
         }
-    }
+
+    private val getImage =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
+            if (activityResult.resultCode == RESULT_OK) {
+                activityResult.data?.let {
+                    val imageUri = it.getStringExtra("IMAGE_URI").toString()
+                    imageViewModel.insert(
+                        Image(0, null, meal.id, imageUri)
+                    )
+                }
+            }
+        }
+
+    private val getImageFromGallery =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
+            if (activityResult.resultCode == RESULT_OK) {
+                activityResult.data?.let {
+                    val photoFile = File(
+                        getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                        "${System.currentTimeMillis()}.jpg"
+                    )
+                    photoFile.createNewFile()
+                    val out = FileOutputStream(photoFile)
+                    out.write(
+                        getBytes(this.contentResolver.openInputStream(it.data!!)!!)
+                    )
+                    out.close()
+
+                    imageViewModel.insert(
+                        Image(0, null, meal.id, Uri.fromFile(photoFile).toString())
+                    )
+                }
+            }
+        }
 
     override fun onBackPressed() {
         super.onBackPressed()
         this.finish()
-    }
-
-    companion object {
-        private const val REQUEST_CODE_GET_IMAGE = 4
-        private const val REQUEST_CODE_GET_IMAGE_FROM_GALLERY = 5
-        private const val REQUEST_CODE_MEAL_NAME = 6
     }
 }
