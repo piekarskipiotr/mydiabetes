@@ -70,7 +70,7 @@ class AddProductFragment : Fragment() {
             ).show()
         }
 
-        binding.pieceTextInputLayout.setEndIconOnClickListener {
+        binding.correctPieceTextInputLayout.setEndIconOnClickListener {
             Toast.makeText(
                 requireActivity(),
                 resources.getString(R.string.correct_pieces_icon_message),
