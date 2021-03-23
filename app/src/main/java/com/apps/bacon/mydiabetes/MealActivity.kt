@@ -63,6 +63,7 @@ class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener
 
         binding.mealName.setOnClickListener {
             intent = Intent(this, ChangeMealNameActivity::class.java)
+            intent.putExtra("CURRENT_NAME", meal.name)
             getMealName.launch(intent)
         }
 

@@ -18,6 +18,11 @@ class ChangeMealNameActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        val currentName = intent.getStringExtra("CURRENT_NAME") as String
+        if (currentName.isNotEmpty()) {
+            binding.mealNameTextInput.setText(currentName)
+        }
+
         val errorEmptyMessage = resources.getString(R.string.empty_field_message_error)
         val errorAlreadyExistsNameMessage =
             resources.getString(R.string.meal_name_exist_error_message)
@@ -30,9 +35,9 @@ class ChangeMealNameActivity : AppCompatActivity() {
                 mealViewModel.checkForMealExist(
                     binding.mealNameTextInput.text.toString().trim().toLowerCase(
                         Locale.ROOT
-                    )
-                ) -> binding.mealNameTextInputLayout.error =
-                    errorAlreadyExistsNameMessage
+                    ), currentName
+                ) -> binding.mealNameTextInputLayout.error = errorAlreadyExistsNameMessage
+                binding.mealNameTextInput.text.toString().trim() == currentName -> onBackPressed()
                 else -> {
                     binding.mealNameTextInputLayout.error = null
                     intent.putExtra("MEAL_NAME", binding.mealNameTextInput.text.toString().trim())

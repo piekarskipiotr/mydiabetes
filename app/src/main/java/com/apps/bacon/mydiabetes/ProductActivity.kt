@@ -73,6 +73,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
 
         binding.productName.setOnClickListener {
             intent = Intent(this, ChangeProductNameActivity::class.java)
+            intent.putExtra("CURRENT_NAME", product.name)
             getProductName.launch(intent)
         }
 
@@ -339,7 +340,6 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
             alertDialog.dismiss()
 
         }
-
 
         alertDialog.show()
     }

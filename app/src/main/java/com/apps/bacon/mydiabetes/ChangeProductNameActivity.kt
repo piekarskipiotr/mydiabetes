@@ -18,6 +18,11 @@ class ChangeProductNameActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        val currentName: String? = intent.getStringExtra("CURRENT_NAME")
+        if (currentName != null) {
+            binding.productNameTextInput.setText(currentName)
+        }
+
         val productViewModel: ProductViewModel by viewModels()
 
         val errorEmptyMessage = resources.getString(R.string.empty_field_message_error)
@@ -29,11 +34,10 @@ class ChangeProductNameActivity : AppCompatActivity() {
                 binding.productNameTextInput.text.isNullOrEmpty() -> binding.productNameTextInputLayout.error =
                     errorEmptyMessage
                 productViewModel.checkForProductExist(
-                    binding.productNameTextInput.text.toString().trim().toLowerCase(
-                        Locale.ROOT
-                    )
-                ) -> binding.productNameTextInputLayout.error =
-                    errorAlreadyExistsNameMessage
+                    binding.productNameTextInput.text.toString().trim().toLowerCase(Locale.ROOT),
+                    currentName
+                ) -> binding.productNameTextInputLayout.error = errorAlreadyExistsNameMessage
+                binding.productNameTextInput.text.toString().trim() == currentName -> onBackPressed()
                 else -> {
                     binding.productNameTextInputLayout.error = null
                     intent.putExtra(
@@ -42,7 +46,6 @@ class ChangeProductNameActivity : AppCompatActivity() {
                     )
                     setResult(Activity.RESULT_OK, intent)
                     finish()
-
                 }
             }
         }

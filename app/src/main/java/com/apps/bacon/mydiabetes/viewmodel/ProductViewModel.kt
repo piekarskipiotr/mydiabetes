@@ -2,13 +2,16 @@ package com.apps.bacon.mydiabetes.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.*
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
 import com.apps.bacon.mydiabetes.data.entities.Product
 import com.apps.bacon.mydiabetes.data.repositories.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -24,9 +27,19 @@ constructor(
         prefetchDistance = 5
     )
 
-    fun checkForProductExist(name: String) = repository.checkForProductExist(name)
+    fun checkForProductExist(name: String, currentName: String?): Boolean {
+        return if (currentName.equals(name, ignoreCase = true))
+            false
+        else
+            repository.checkForProductExist(name)
+    }
 
-    fun checkForBarcodeExist(barcode: String) = repository.checkForBarcodeExist(barcode)
+    fun checkForBarcodeExist(barcode: String, currentBarcode: String?): Boolean {
+        return if (barcode == currentBarcode)
+            false
+        else
+            repository.checkForBarcodeExist(barcode)
+    }
 
     fun getAll() = repository.getAll()
 
@@ -65,3 +78,4 @@ constructor(
         repository.delete(product)
     }
 }
+

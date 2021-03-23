@@ -109,7 +109,7 @@ class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickLi
                         bottomDialogMealNameBinding.mealNameTextInput.text.isNullOrEmpty() ->
                             bottomDialogMealNameBinding.mealNameTextInputLayout.error =
                                 errorEmptyMessage
-                        mealViewModel.checkForMealExist(bottomDialogMealNameBinding.mealNameTextInput.text.toString()) ->
+                        mealViewModel.checkForMealExist(bottomDialogMealNameBinding.mealNameTextInput.text.toString(), null) ->
                             bottomDialogMealNameBinding.mealNameTextInputLayout.error =
                                 errorAlreadyExistsNameMessage
                         else -> {

@@ -153,6 +153,9 @@ class SaveProductActivity : AppCompatActivity() {
 
         binding.productName.setOnClickListener {
             intent = Intent(this, ChangeProductNameActivity::class.java)
+            val currentName = binding.productName.text.toString()
+            if(currentName.isNotEmpty())
+                intent.putExtra("CURRENT_NAME", currentName)
             getProductName.launch(intent)
         }
 

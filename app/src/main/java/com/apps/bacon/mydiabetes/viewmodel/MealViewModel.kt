@@ -1,6 +1,5 @@
 package com.apps.bacon.mydiabetes.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
@@ -25,7 +24,12 @@ constructor(
         prefetchDistance = 5
     )
 
-    fun checkForMealExist(name: String) = repository.checkForMealExist(name)
+    fun checkForMealExist(name: String, currentName: String?): Boolean {
+        return if (currentName.equals(name, ignoreCase = true))
+            false
+        else
+            repository.checkForMealExist(name)
+    }
 
     fun getAll() = repository.getAll()
 

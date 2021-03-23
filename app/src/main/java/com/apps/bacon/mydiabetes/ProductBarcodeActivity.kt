@@ -19,20 +19,27 @@ class ProductBarcodeActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        if (intent.getBooleanExtra("BARCODE", true)) {
+        val currentBarcode: String? = intent.getStringExtra("BARCODE")
+        if (currentBarcode != null) {
             binding.deleteButton.visibility = View.GONE
+            binding.barcodeTextInput.setText(currentBarcode)
         }
+
         val errorMessage = resources.getString(R.string.empty_field_message_error)
+
         val errorAlreadyExistsBarcodeMessage =
             resources.getString(R.string.barcode_exists_error_message)
+
         val productViewModel: ProductViewModel by viewModels()
+
         binding.saveButton.setOnClickListener {
             when {
                 binding.barcodeTextInput.text.isNullOrEmpty() -> binding.barcodeTextInputLayout.error =
                     errorMessage
                 productViewModel.checkForBarcodeExist(
-                    binding.barcodeTextInput.text.toString().trim()
+                    binding.barcodeTextInput.text.toString().trim(), currentBarcode
                 ) -> binding.barcodeTextInputLayout.error = errorAlreadyExistsBarcodeMessage
+                binding.barcodeTextInput.text.toString().trim() == currentBarcode -> onBackPressed()
                 else -> {
                     binding.barcodeTextInputLayout.error = null
                     intent.putExtra("BARCODE", binding.barcodeTextInput.text.toString().trim())
@@ -40,8 +47,6 @@ class ProductBarcodeActivity : AppCompatActivity() {
                     finish()
                 }
             }
-
-
         }
 
         binding.deleteButton.setOnClickListener {
