@@ -9,6 +9,8 @@ class ProductRepository @Inject constructor(
 ) {
     fun checkForProductExist(name: String) = database.productDao().checkForProductExist(name)
 
+    fun checkForBarcodeExist(barcode: String) = database.productDao().checkForBarcodeExist(barcode)
+
     fun getAll() = database.productDao().getAll()
 
     fun getAllLocal() = database.productDao().getAllLocal()

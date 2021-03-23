@@ -358,18 +358,7 @@ class SaveProductActivity : AppCompatActivity() {
                         binding.manualBarcode.text = null
                     else {
                         val barcode = it.getStringExtra("BARCODE")
-                        val productWithBarcode =
-                            productViewModel.getProductByBarcode(barcode!!)
-
-                        if (productWithBarcode != null) {
-                            Toast.makeText(
-                                this,
-                                resources.getString(R.string.barcode_exists_error_message),
-                                Toast.LENGTH_LONG
-                            ).show()
-                        } else {
-                            binding.manualBarcode.text = barcode
-                        }
+                        binding.manualBarcode.text = barcode
                     }
                 }
             }

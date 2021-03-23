@@ -26,6 +26,8 @@ constructor(
 
     fun checkForProductExist(name: String) = repository.checkForProductExist(name)
 
+    fun checkForBarcodeExist(barcode: String) = repository.checkForBarcodeExist(barcode)
+
     fun getAll() = repository.getAll()
 
     fun getAllLocal() = repository.getAllLocal()

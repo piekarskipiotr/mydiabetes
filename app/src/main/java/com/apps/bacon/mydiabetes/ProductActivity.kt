@@ -429,20 +429,9 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
                         setProductInfo()
                     } else {
                         val barcode = it.getStringExtra("BARCODE")!!
-                        val productWithBarcode = productViewModel.getProductByBarcode(
-                            barcode
-                        )
-                        if (productWithBarcode != null) {
-                            Toast.makeText(
-                                this,
-                                resources.getString(R.string.barcode_exists_error_message),
-                                Toast.LENGTH_LONG
-                            ).show()
-                        } else {
-                            product.barcode = barcode
-                            productViewModel.update(product)
-                            setProductInfo()
-                        }
+                        product.barcode = barcode
+                        productViewModel.update(product)
+                        setProductInfo()
                     }
                 }
             }

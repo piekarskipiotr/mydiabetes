@@ -12,6 +12,9 @@ interface ProductDao {
     @Query("SELECT EXISTS(SELECT * FROM products WHERE LOWER(products.product_name) == :name)")
     fun checkForProductExist(name: String): Boolean
 
+    @Query("SELECT EXISTS(SELECT * FROM products WHERE products.barcode == :barcode)")
+    fun checkForBarcodeExist(barcode: String): Boolean
+
     @Query("SELECT * FROM products ORDER BY product_name ASC")
     fun getAll(): LiveData<List<Product>>
 
