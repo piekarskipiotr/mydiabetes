@@ -78,7 +78,7 @@ class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
         }
 
         binding.scanBarcodeButton.setOnClickListener {
-            intent = Intent(this, CameraActivity::class.java)
+            intent = Intent(this, ScannerCameraActivity::class.java)
             getBarcode.launch(intent)
         }
 
