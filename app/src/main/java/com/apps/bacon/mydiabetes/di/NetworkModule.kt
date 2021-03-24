@@ -38,7 +38,7 @@ object NetworkModule {
     @Provides
     @Named("api_url")
     fun providesBaseUrl(): String =
-        "https://raw.githubusercontent.com/piekarskipiotr/mydiabetes/master/API/"
+        "https://piekarskipiotr.github.io/mydiabetes/API/"
 
     @Provides
     fun providesOkHttpClient(
