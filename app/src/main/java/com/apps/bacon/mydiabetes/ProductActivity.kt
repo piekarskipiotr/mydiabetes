@@ -84,7 +84,7 @@ class ProductActivity : BaseActivity(), ImageAdapter.OnImageClickListener {
         binding.manualBarcode.setOnClickListener {
             intent = Intent(this, ProductBarcodeActivity::class.java)
             if (product.barcode != null)
-                intent.putExtra("BARCODE", false)
+                intent.putExtra("BARCODE", product.barcode)
 
             getBarcode.launch(intent)
         }

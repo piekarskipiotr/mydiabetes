@@ -165,7 +165,7 @@ class SaveProductActivity : BaseActivity() {
         binding.manualBarcode.setOnClickListener {
             intent = Intent(this, ProductBarcodeActivity::class.java)
             if (binding.manualBarcode.text != null)
-                intent.putExtra("BARCODE", false)
+                intent.putExtra("BARCODE", binding.manualBarcode.text.toString())
 
             getBarcode.launch(intent)
         }
@@ -355,10 +355,12 @@ class SaveProductActivity : BaseActivity() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
             if (activityResult.resultCode == RESULT_OK) {
                 activityResult.data?.let {
-                    if (it.getBooleanExtra("DELETE_BARCODE", false))
+                    if (it.getBooleanExtra("DELETE_BARCODE", false)){
+                        binding.manualBarcode.hint = resources.getString(R.string.barcode_manually)
                         binding.manualBarcode.text = null
-                    else {
+                    } else {
                         val barcode = it.getStringExtra("BARCODE")
+                        binding.manualBarcode.hint = null
                         binding.manualBarcode.text = barcode
                     }
                 }
