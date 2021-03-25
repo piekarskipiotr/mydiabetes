@@ -14,7 +14,7 @@
     "barcode" : "5201360521210",
     "inFoodPlate" : false,
     "icon" : "https://firebasestorage.googleapis.com/v0/b/mydiabetes-6500f.appspot.com/o/product_images%2F7%20days%20kakaowy%2F7days_kakaowy_icon.jpg?alt=media&token=fbbb087e-491e-435c-9c57-8eb8b33383f2",
-    "editable" : false,
+    "isEditable" : false
   },
   {
     "id" : 0,
@@ -31,7 +31,7 @@
     "barcode" : "5449000000996",
     "inFoodPlate" : false,
     "icon" : "https://firebasestorage.googleapis.com/v0/b/mydiabetes-6500f.appspot.com/o/product_images%2FCocaCola%2Fcocacola.jpg?alt=media&token=f74346e0-0d05-4b68-9b72-ede637c81f61",
-    "editable" : false
+    "isEditable" : false
   },
   {
     "id" : 0,
@@ -48,7 +48,7 @@
     "barcode" : "5905187001190",
     "inFoodPlate" : false,
     "icon" : "https://firebasestorage.googleapis.com/v0/b/mydiabetes-6500f.appspot.com/o/product_images%2FMonster%20munch%20original%2Fmonster_munch_original.jpg?alt=media&token=55f49205-89ba-4a12-8a85-0e6ea59ffede",
-    "editable" : false
+    "isEditable" : false
   },
   {
     "id" : 0,
@@ -65,7 +65,7 @@
     "barcode" : "5900497310338",
     "inFoodPlate" : false,
     "icon" : "https://firebasestorage.googleapis.com/v0/b/mydiabetes-6500f.appspot.com/o/product_images%2FPepsi%2Fpepsi.jpg?alt=media&token=b379ef92-ded9-4849-b129-422d18827f4a",
-    "editable" : false
+    "isEditable" : false
   },
   {
     "id" : 0,
@@ -82,6 +82,6 @@
     "barcode" : "5900862024570",
     "inFoodPlate" : false,
     "icon" : "https://firebasestorage.googleapis.com/v0/b/mydiabetes-6500f.appspot.com/o/product_images%2FPrincessa%20longa%20kokosowa%2Fprincessa_longa_kokosowa_icon.jpg?alt=media&token=11d46239-0ac9-4a39-aeb5-83d183d1f258",
-    "editable" : false
+    "isEditable" : false
   }
 ]
