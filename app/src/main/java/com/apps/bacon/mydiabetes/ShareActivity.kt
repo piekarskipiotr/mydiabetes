@@ -2,6 +2,8 @@ package com.apps.bacon.mydiabetes
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apps.bacon.mydiabetes.adapters.ShareMealsAdapter
@@ -89,7 +91,6 @@ class ShareActivity : BaseActivity(), ShareProductsAdapter.OnShareProductListene
 
             val products = productsAdapter.getDataToShare()
             val meals = mealsAdapter.getDataToShare()
-
             for (product in products) {
                 productReference.child(product.name).setValue(product)
             }
@@ -104,6 +105,9 @@ class ShareActivity : BaseActivity(), ShareProductsAdapter.OnShareProductListene
                 val pmJoinList = mealViewModel.getPMJbyMealName(meal.name)
                 pmjReference.child(meal.name).setValue(pmJoinList)
             }
+            
+            Toast.makeText(this, R.string.sent, Toast.LENGTH_SHORT).show()
+            onBackPressed()
         }
 
         binding.backButton.setOnClickListener {
@@ -121,7 +125,6 @@ class ShareActivity : BaseActivity(), ShareProductsAdapter.OnShareProductListene
         binding.tabLayout.addTab(
             binding.tabLayout.newTab().setText(resources.getString(R.string.meals)), 1
         )
-
     }
 
     override fun onProductClick(productId: Int) {

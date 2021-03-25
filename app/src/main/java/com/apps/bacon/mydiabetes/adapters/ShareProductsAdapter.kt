@@ -124,6 +124,7 @@ class ShareProductsAdapter constructor(
         for (product in data) {
             if (!checkedList.get(product.id, false)) {
                 checkedList.append(product.id, true)
+                dataToShare.add(product)
             }
         }
 

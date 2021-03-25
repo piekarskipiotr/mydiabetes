@@ -95,6 +95,7 @@ class ShareMealsAdapter constructor(
     fun selectAllMeals() {
         for (meal in data) {
             checkedList.append(meal.id, true)
+            dataToShare.add(meal)
             listener.onMealCheckBoxClick(meal.name, true)
         }
         notifyDataSetChanged()
