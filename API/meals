@@ -1,20 +1,2 @@
 [
-  {
-    "id": 1,
-    "name": "essa",
-    "calories": 800.0,
-    "carbohydrateExchangers": 5.0,
-    "proteinFatExchangers": 100.0,
-    "icon": null,
-    "isEditable": false
-  },
-  {
-   "id": 2,
-    "name": "essa2",
-    "calories": 800.0,
-    "carbohydrateExchangers": 5.0,
-    "proteinFatExchangers": 100.0,
-    "icon": null,
-    "isEditable": false
-  }
 ]
