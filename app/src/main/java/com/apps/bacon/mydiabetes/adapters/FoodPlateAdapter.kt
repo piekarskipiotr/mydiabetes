@@ -151,7 +151,7 @@ class FoodPlateAdapter constructor(
         return data[position].carbohydrateExchangers
     }
 
-    fun getProteinFat(position: Int): Double {
+    fun getProteinFatExchangers(position: Int): Double {
         return data[position].proteinFatExchangers
     }
 
