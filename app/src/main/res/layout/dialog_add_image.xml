@@ -41,6 +41,7 @@
                 android:padding="5dp"
                 android:src="@drawable/ic_round_photo_camera"
                 app:tint="@color/independent" />
+
         </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
         <com.google.android.material.circularreveal.cardview.CircularRevealCardView
@@ -63,9 +64,8 @@
                 android:padding="5dp"
                 android:src="@drawable/ic_round_photo_library"
                 app:tint="@color/independent" />
+
         </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
-
     </GridLayout>
-
 </LinearLayout>

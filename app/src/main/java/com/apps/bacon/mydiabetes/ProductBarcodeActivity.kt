@@ -4,7 +4,6 @@ import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import com.apps.bacon.mydiabetes.databinding.ActivityProductBarcodeBinding
 import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
 import dagger.hilt.android.AndroidEntryPoint

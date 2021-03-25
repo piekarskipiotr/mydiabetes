@@ -2,7 +2,7 @@ package com.apps.bacon.mydiabetes.di
 
 import android.content.Context
 import com.apps.bacon.mydiabetes.api.SharedDataAPI
-import com.apps.bacon.mydiabetes.data.*
+import com.apps.bacon.mydiabetes.data.AppDatabase
 import com.apps.bacon.mydiabetes.data.repositories.*
 import dagger.Module
 import dagger.Provides
@@ -15,7 +15,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-
     @Provides
     @Singleton
     fun provideRunningDatabase(
@@ -56,5 +55,4 @@ object AppModule {
     fun provideMealRepository(
         database: AppDatabase
     ) = MealRepository(database)
-
 }

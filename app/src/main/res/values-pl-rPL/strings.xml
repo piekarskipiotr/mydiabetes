@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MyDiabetes</string>
+    <string name="app_name">myDiabetes</string>
     <string name="pieces_shortcut">sztk.</string>
     <string name="meat">Mięsa</string>
     <string name="fish">Ryby</string>

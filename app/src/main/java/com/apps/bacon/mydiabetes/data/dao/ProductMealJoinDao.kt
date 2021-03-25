@@ -2,7 +2,9 @@ package com.apps.bacon.mydiabetes.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.apps.bacon.mydiabetes.data.entities.*
+import com.apps.bacon.mydiabetes.data.entities.Meal
+import com.apps.bacon.mydiabetes.data.entities.Product
+import com.apps.bacon.mydiabetes.data.entities.ProductMealJoin
 
 @Dao
 interface ProductMealJoinDao {
@@ -42,28 +44,28 @@ interface ProductMealJoinDao {
     suspend fun update(meal: Meal)
 
     @Transaction
-    suspend fun renamePMJProductName(product: Product, oldName: String, newName: String){
+    suspend fun renamePMJProductName(product: Product, oldName: String, newName: String) {
         product.name = newName
         val list = getPMJoinByProductName(oldName)
-        for(pmj in list){
+        for (pmj in list) {
             delete(pmj)
         }
         update(product)
-        for(pmj in list){
+        for (pmj in list) {
             pmj.productName = newName
             insert(pmj)
         }
     }
 
     @Transaction
-    suspend fun renamePMJMealName(meal: Meal, oldName: String, newName: String){
+    suspend fun renamePMJMealName(meal: Meal, oldName: String, newName: String) {
         meal.name = newName
         val list = getPMJoinByMealName(oldName)
-        for(pmj in list){
+        for (pmj in list) {
             delete(pmj)
         }
         update(meal)
-        for(pmj in list){
+        for (pmj in list) {
             pmj.mealName = newName
             insert(pmj)
         }

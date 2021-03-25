@@ -1,14 +1,17 @@
 package com.apps.bacon.mydiabetes.data.entities
 
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
+import androidx.room.Index
 
 @Entity(
     tableName = "product_meal_join",
     indices = [
         Index("product_name"),
         Index("meal_name")
-              ],
+    ],
     primaryKeys = ["product_name", "meal_name"],
     foreignKeys = [ForeignKey(
         entity = Product::class,

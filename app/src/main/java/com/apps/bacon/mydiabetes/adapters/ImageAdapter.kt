@@ -34,7 +34,8 @@ class ImageAdapter constructor(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.image.setImageURI(Uri.parse(data[position].image))
+        val image = data[position]
+        holder.image.setImageURI(Uri.parse(image.image))
     }
 
     override fun getItemCount(): Int = data.size

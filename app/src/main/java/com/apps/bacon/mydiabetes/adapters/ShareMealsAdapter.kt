@@ -54,7 +54,9 @@ class ShareMealsAdapter constructor(
     }
 
     override fun onBindViewHolder(holder: ShareMealsAdapter.ViewHolder, position: Int) {
-        if (data[position].icon == null)
+        val meal = data[position]
+
+        if (meal.icon == null)
             holder.icon.setImageDrawable(
                 ContextCompat.getDrawable(
                     holder.itemView.context,
@@ -62,25 +64,24 @@ class ShareMealsAdapter constructor(
                 )
             )
         else
-            holder.icon.setImageURI(Uri.parse(data[position].icon))
+            holder.icon.setImageURI(Uri.parse(meal.icon))
 
-        holder.mealName.text = data[position].name
+        holder.mealName.text = meal.name
+        holder.carbohydrateExchangers.text = meal.carbohydrateExchangers.toString()
+        holder.proteinFatExchangers.text = meal.proteinFatExchangers.toString()
+        holder.calories.text = meal.calories.toString()
 
-        holder.carbohydrateExchangers.text = data[position].carbohydrateExchangers.toString()
-        holder.proteinFatExchangers.text = data[position].proteinFatExchangers.toString()
-        holder.calories.text = data[position].calories.toString()
-
-        if (checkedList.get(data[position].id, false)) {
+        if (checkedList.get(meal.id, false)) {
             holder.toShare.isChecked = true
         }
 
         holder.toShare.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                checkedList.append(data[position].id, true)
-                dataToShare.add(data[position])
+                checkedList.append(meal.id, true)
+                dataToShare.add(meal)
             } else {
-                checkedList.remove(data[position].id, true)
-                dataToShare.remove(data[position])
+                checkedList.remove(meal.id, true)
+                dataToShare.remove(meal)
             }
         }
     }
@@ -92,7 +93,7 @@ class ShareMealsAdapter constructor(
     }
 
     fun selectAllMeals() {
-        for(meal in data){
+        for (meal in data) {
             checkedList.append(meal.id, true)
             listener.onMealCheckBoxClick(meal.name, true)
         }

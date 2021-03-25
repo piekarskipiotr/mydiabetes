@@ -43,6 +43,7 @@ class PagingMealsAdapter constructor(
 
     override fun onBindViewHolder(holder: PagingMealsAdapter.ViewHolder, position: Int) {
         val meal: Meal? = getItem(position)
+
         meal?.let {
             if (meal.icon == null)
                 holder.icon.setImageDrawable(
@@ -51,16 +52,14 @@ class PagingMealsAdapter constructor(
                         R.drawable.ic_round_dinner_dining
                     )
                 )
-            else{
-                if(meal.isEditable)
+            else {
+                if (meal.isEditable)
                     holder.icon.setImageURI(Uri.parse(meal.icon))
                 else
                     Glide.with(holder.itemView).load(meal.icon).into(holder.icon)
             }
 
-
             holder.mealName.text = meal.name
-
             holder.carbohydrateExchangers.text = meal.carbohydrateExchangers.toString()
             holder.proteinFatExchangers.text = meal.proteinFatExchangers.toString()
             holder.calories.text = meal.calories.toString()
@@ -77,7 +76,8 @@ class PagingMealsAdapter constructor(
                 oldItem.id == newItem.id
 
             override fun areContentsTheSame(
-                oldItem: Meal, newItem: Meal) = oldItem == newItem
+                oldItem: Meal, newItem: Meal
+            ) = oldItem == newItem
         }
     }
 }

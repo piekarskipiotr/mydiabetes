@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyDiabetes</string>
+    <string name="app_name">myDiabetes</string>
     <string name="add" translatable="false">Add</string>
     <string name="settings" translatable="false">Settings</string>
     <string name="home_page" translatable="false">Homepage</string>

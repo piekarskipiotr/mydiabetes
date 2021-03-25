@@ -59,6 +59,7 @@
                     android:focusable="true"
                     android:src="@drawable/ic_round_more_vert"
                     app:tint="@color/independent" />
+
             </RelativeLayout>
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -115,6 +116,7 @@
                                 android:layout_height="match_parent"
                                 android:gravity="start|center_vertical"
                                 android:textSize="14sp" />
+
                         </LinearLayout>
 
                         <RelativeLayout
@@ -145,6 +147,7 @@
                                     android:layout_marginBottom="2dp"
                                     android:text="16.97"
                                     android:textSize="16sp" />
+
                             </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
                         </RelativeLayout>
@@ -177,6 +180,7 @@
                                     android:layout_marginBottom="2dp"
                                     android:text="88.0"
                                     android:textSize="16sp" />
+
                             </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
                         </RelativeLayout>
@@ -210,6 +214,7 @@
                                     android:layout_marginBottom="2dp"
                                     android:text="26.97"
                                     android:textSize="16sp" />
+
                             </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
                         </RelativeLayout>
@@ -243,6 +248,7 @@
                                     android:layout_marginBottom="2dp"
                                     android:text="88.0"
                                     android:textSize="16sp" />
+
                             </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
                         </RelativeLayout>
@@ -285,6 +291,7 @@
                                 android:layout_height="match_parent"
                                 android:gravity="start|center_vertical"
                                 android:textSize="14sp" />
+
                         </LinearLayout>
 
                         <com.github.mikephil.charting.charts.PieChart
@@ -323,9 +330,7 @@
                             android:id="@+id/tagChipContainer"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="15dp">
-
-                        </com.google.android.material.chip.ChipGroup>
+                            android:layout_marginBottom="15dp"/>
 
                     </LinearLayout>
 
@@ -372,6 +377,7 @@
                                     android:textSize="18sp"
                                     android:textStyle="bold"
                                     app:drawableEndCompat="@drawable/ic_round_scan" />
+
                             </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
                             <TextView
@@ -381,6 +387,7 @@
                                 android:layout_gravity="center"
                                 android:layout_marginTop="5dp"
                                 android:layout_marginBottom="0dp" />
+
                         </LinearLayout>
 
                         <LinearLayout
@@ -408,6 +415,7 @@
                                     android:textSize="18sp"
                                     android:textStyle="bold"
                                     app:drawableEndCompat="@drawable/ic_round_photo_camera" />
+
                             </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
                             <androidx.recyclerview.widget.RecyclerView
@@ -416,11 +424,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="15dp"
                                 android:layout_marginBottom="15dp" />
+
                         </LinearLayout>
 
                     </LinearLayout>
-
-
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
         </LinearLayout>
@@ -446,6 +453,8 @@
                 android:text="@string/add"
                 android:textSize="18sp"
                 android:textStyle="bold" />
+
         </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
     </RelativeLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

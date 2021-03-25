@@ -2,8 +2,11 @@ package com.apps.bacon.mydiabetes.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.*
-import com.apps.bacon.mydiabetes.data.entities.*
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
+import com.apps.bacon.mydiabetes.data.entities.Meal
+import com.apps.bacon.mydiabetes.data.entities.ProductMealJoin
 import com.apps.bacon.mydiabetes.data.repositories.MealRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -68,6 +71,7 @@ constructor(
         CoroutineScope(Dispatchers.Default).launch {
             repository.renamePMJMealName(meal, oldName, newName)
         }
+
     fun insertPMJoin(productMealJoin: ProductMealJoin) =
         CoroutineScope(Dispatchers.Default).launch {
             repository.insertPMJoin(productMealJoin)

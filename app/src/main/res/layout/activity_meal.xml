@@ -60,6 +60,7 @@
                     android:focusable="true"
                     android:src="@drawable/ic_round_more_vert"
                     app:tint="@color/independent" />
+
             </RelativeLayout>
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -149,7 +150,6 @@
                     android:layout_marginBottom="15dp"
                     android:background="@color/independent" />
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -179,6 +179,7 @@
                             android:textSize="18sp"
                             android:textStyle="bold"
                             app:drawableEndCompat="@drawable/ic_round_photo_camera" />
+
                     </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -187,10 +188,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:layout_marginBottom="15dp" />
+
                 </LinearLayout>
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

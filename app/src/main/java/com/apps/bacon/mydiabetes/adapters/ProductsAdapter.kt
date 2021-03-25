@@ -55,8 +55,8 @@ class ProductsAdapter constructor(
                     R.drawable.ic_round_dinner_dining
                 )
             )
-        else{
-            if(product.isEditable)
+        else {
+            if (product.isEditable)
                 holder.icon.setImageURI(Uri.parse(product.icon))
             else
                 Glide.with(holder.itemView).load(product.icon).into(holder.icon)

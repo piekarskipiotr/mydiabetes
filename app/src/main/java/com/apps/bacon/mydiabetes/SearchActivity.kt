@@ -9,7 +9,6 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apps.bacon.mydiabetes.adapters.ProductsAdapter
 import com.apps.bacon.mydiabetes.data.entities.Product

@@ -6,7 +6,6 @@ import com.apps.bacon.mydiabetes.data.entities.Image
 
 @Dao
 interface ImageDao {
-
     @Query("SELECT * FROM images")
     fun getAll(): LiveData<List<Image>>
 

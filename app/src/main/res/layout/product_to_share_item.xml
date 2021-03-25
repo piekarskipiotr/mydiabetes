@@ -33,6 +33,7 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_round_dinner_dining" />
+
         </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
         <LinearLayout
@@ -73,6 +74,7 @@
                         android:layout_marginBottom="2dp"
                         android:text="16.97"
                         android:textSize="12sp" />
+
                 </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
                 <com.google.android.material.circularreveal.cardview.CircularRevealCardView
@@ -91,6 +93,7 @@
                         android:layout_marginBottom="2dp"
                         android:text="16.97"
                         android:textSize="12sp" />
+
                 </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
                 <com.google.android.material.circularreveal.cardview.CircularRevealCardView
@@ -109,6 +112,7 @@
                         android:layout_marginBottom="2dp"
                         android:text="16.97"
                         android:textSize="12sp" />
+
                 </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
                 <com.google.android.material.circularreveal.cardview.CircularRevealCardView
@@ -127,6 +131,7 @@
                         android:layout_marginBottom="2dp"
                         android:text="16.97"
                         android:textSize="12sp" />
+
                 </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
             </LinearLayout>
         </LinearLayout>

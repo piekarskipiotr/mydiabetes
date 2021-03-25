@@ -109,6 +109,8 @@
                 android:text="@string/share"
                 android:textSize="18sp"
                 android:textStyle="bold" />
+
         </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
     </RelativeLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

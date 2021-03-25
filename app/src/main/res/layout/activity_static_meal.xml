@@ -60,6 +60,7 @@
                     android:focusable="true"
                     android:src="@drawable/ic_baseline_report_problem"
                     app:tint="@color/independent" />
+
             </RelativeLayout>
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -179,5 +180,4 @@
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

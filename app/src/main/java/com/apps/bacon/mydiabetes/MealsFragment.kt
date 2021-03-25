@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MealsFragment : Fragment(), PagingMealsAdapter.OnMealClickListener{
+class MealsFragment : Fragment(), PagingMealsAdapter.OnMealClickListener {
     private lateinit var mealsAdapter: PagingMealsAdapter
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!

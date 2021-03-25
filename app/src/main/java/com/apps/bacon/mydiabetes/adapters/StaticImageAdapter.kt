@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apps.bacon.mydiabetes.databinding.ImageItemBinding
 import com.bumptech.glide.Glide
 
-class StaticImageAdapter: RecyclerView.Adapter<StaticImageAdapter.ViewHolder>() {
+class StaticImageAdapter : RecyclerView.Adapter<StaticImageAdapter.ViewHolder>() {
     private var data: List<String> = ArrayList()
 
     inner class ViewHolder(view: ImageItemBinding) : RecyclerView.ViewHolder(view.root) {
@@ -20,7 +20,8 @@ class StaticImageAdapter: RecyclerView.Adapter<StaticImageAdapter.ViewHolder>() 
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Glide.with(holder.itemView).load(data[position]).into(holder.image)
+        val image = data[position]
+        Glide.with(holder.itemView).load(image).into(holder.image)
     }
 
     override fun getItemCount(): Int = data.size

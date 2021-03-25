@@ -33,13 +33,13 @@ class HomeFragment : Fragment(), PagingProductsAdapter.OnProductClickListener {
 
         homeViewModel.currentTag.observe(viewLifecycleOwner, { selectedTab ->
             if (selectedTab == 0) {
-               viewLifecycleOwner.lifecycleScope.launch{
+                viewLifecycleOwner.lifecycleScope.launch {
                     productViewModel.getPagingListOfProducts().collectLatest {
                         productsAdapter.submitData(it)
                     }
                 }
             } else {
-                viewLifecycleOwner.lifecycleScope.launch{
+                viewLifecycleOwner.lifecycleScope.launch {
                     productViewModel.getPagingListOfProductsByTag(selectedTab).collectLatest {
                         productsAdapter.submitData(it)
                     }

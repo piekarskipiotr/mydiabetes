@@ -42,7 +42,9 @@
                     android:focusable="true"
                     android:src="@drawable/ic_round_arrow_back"
                     app:tint="@color/independent" />
+
             </RelativeLayout>
+
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -97,8 +99,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerInParent="true" />
+
         </RelativeLayout>
 
     </LinearLayout>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -5,11 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.apps.bacon.mydiabetes.data.entities.Product
@@ -154,7 +152,7 @@ class SaveProductActivity : BaseActivity() {
         binding.productName.setOnClickListener {
             intent = Intent(this, ChangeProductNameActivity::class.java)
             val currentName = binding.productName.text.toString()
-            if(currentName.isNotEmpty())
+            if (currentName.isNotEmpty())
                 intent.putExtra("CURRENT_NAME", currentName)
             getProductName.launch(intent)
         }

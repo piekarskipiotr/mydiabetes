@@ -77,6 +77,7 @@
             android:textColor="@color/strong_yellow"
             android:textSize="16sp"
             android:textStyle="bold" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -102,6 +103,7 @@
             android:textColor="@color/red"
             android:textSize="16sp"
             android:textStyle="bold" />
+
     </LinearLayout>
 
     <LinearLayout

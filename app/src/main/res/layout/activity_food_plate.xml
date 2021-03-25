@@ -42,7 +42,9 @@
                     android:focusable="true"
                     android:src="@drawable/ic_round_arrow_back"
                     app:tint="@color/independent" />
+
             </RelativeLayout>
+
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -59,7 +61,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/foodRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
         </LinearLayout>
 
@@ -84,6 +86,8 @@
                 android:text="@string/calculate"
                 android:textSize="18sp"
                 android:textStyle="bold" />
+
         </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
     </RelativeLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

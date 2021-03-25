@@ -5,12 +5,16 @@ import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import java.util.*
 
-open class BaseActivity : AppCompatActivity(){
+open class BaseActivity : AppCompatActivity() {
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(newBase)
-        val sharedPreferences = getSharedPreferences("APP_PREFERENCES",
-            Context.MODE_PRIVATE)
-        val defaultLang = if (Locale.getDefault().toLanguageTag() == "pl-PL" || Locale.getDefault().toLanguageTag() == "pl")
+        val sharedPreferences = getSharedPreferences(
+            "APP_PREFERENCES",
+            Context.MODE_PRIVATE
+        )
+        val defaultLang = if (Locale.getDefault().toLanguageTag() == "pl-PL" || Locale.getDefault()
+                .toLanguageTag() == "pl"
+        )
             "pl"
         else
             "en"

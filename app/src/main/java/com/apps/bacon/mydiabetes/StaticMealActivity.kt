@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apps.bacon.mydiabetes.adapters.ProductsAdapter
@@ -113,7 +112,8 @@ class StaticMealActivity : BaseActivity(), ProductsAdapter.OnProductClickListene
             }
 
             if (errorMassage != null) {
-                val productReference = database.child("Meal Errors/${staticMeal.name}/${System.currentTimeMillis()}/")
+                val productReference =
+                    database.child("Meal Errors/${staticMeal.name}/${System.currentTimeMillis()}/")
                 productReference.setValue(errorMassage)
                 alertDialog.dismiss()
             } else {

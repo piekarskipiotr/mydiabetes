@@ -44,6 +44,7 @@ class PagingProductsAdapter constructor(
 
     override fun onBindViewHolder(holder: PagingProductsAdapter.ViewHolder, position: Int) {
         val product: Product? = getItem(position)
+
         product?.let {
             if (product.icon == null)
                 holder.icon.setImageDrawable(
@@ -52,8 +53,8 @@ class PagingProductsAdapter constructor(
                         R.drawable.ic_round_dinner_dining
                     )
                 )
-            else{
-                if(product.isEditable)
+            else {
+                if (product.isEditable)
                     holder.icon.setImageURI(Uri.parse(product.icon))
                 else
                     Glide.with(holder.itemView).load(product.icon).into(holder.icon)

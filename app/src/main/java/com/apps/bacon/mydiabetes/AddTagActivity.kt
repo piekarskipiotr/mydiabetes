@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
 import com.apps.bacon.mydiabetes.data.entities.Tag
 import com.apps.bacon.mydiabetes.databinding.ActivityAddTagBinding

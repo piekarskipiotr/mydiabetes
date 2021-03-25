@@ -1,14 +1,12 @@
 package com.apps.bacon.mydiabetes.data.dao
 
 import androidx.lifecycle.LiveData
-import androidx.paging.DataSource
 import androidx.paging.PagingSource
 import androidx.room.*
 import com.apps.bacon.mydiabetes.data.entities.Product
 
 @Dao
 interface ProductDao {
-
     @Query("SELECT EXISTS(SELECT * FROM products WHERE LOWER(products.product_name) == :name)")
     fun checkForProductExist(name: String): Boolean
 

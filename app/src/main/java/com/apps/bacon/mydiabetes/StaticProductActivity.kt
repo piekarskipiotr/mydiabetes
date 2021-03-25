@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apps.bacon.mydiabetes.adapters.StaticImageAdapter
@@ -67,17 +66,21 @@ class StaticProductActivity : BaseActivity() {
             dialogReport()
         }
 
-        if(staticProduct.inFoodPlate){
+        if (staticProduct.inFoodPlate) {
             binding.addButton.isClickable = false
             binding.addButton.alpha = 0.8f
-        }else{
+        } else {
             binding.addButton.setOnClickListener {
                 productViewModel.update(staticProduct.apply {
                     inFoodPlate = true
                 })
                 binding.addButton.isClickable = false
                 binding.addButton.alpha = 0.8f
-                Toast.makeText(this, resources.getString(R.string.product_added), Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    this,
+                    resources.getString(R.string.product_added),
+                    Toast.LENGTH_SHORT
+                )
                     .show()
             }
         }

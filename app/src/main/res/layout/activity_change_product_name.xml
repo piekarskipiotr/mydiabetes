@@ -44,6 +44,7 @@
                     android:focusable="true"
                     android:src="@drawable/ic_round_arrow_back"
                     app:tint="@color/independent" />
+
             </RelativeLayout>
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -84,12 +85,12 @@
                         android:id="@+id/productNameTextInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:imeOptions="actionDone"
                         android:inputType="text"
                         android:lines="1"
                         android:maxLength="25"
                         android:textCursorDrawable="@drawable/black_cursor"
-                        android:textSize="16sp"
-                        android:imeOptions="actionDone"/>
+                        android:textSize="16sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -99,6 +100,7 @@
                     android:layout_alignParentStart="true"
                     android:text="@string/editing_product_name_layout_message"
                     android:textSize="14sp" />
+
             </LinearLayout>
 
         </LinearLayout>
@@ -124,6 +126,7 @@
                 android:text="@string/rename"
                 android:textSize="18sp"
                 android:textStyle="bold" />
+
         </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
     </RelativeLayout>

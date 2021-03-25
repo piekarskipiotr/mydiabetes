@@ -3,7 +3,10 @@ package com.apps.bacon.mydiabetes.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.apps.bacon.mydiabetes.data.entities.*
+import com.apps.bacon.mydiabetes.data.entities.Meal
+import com.apps.bacon.mydiabetes.data.entities.MyDiabetesInfo
+import com.apps.bacon.mydiabetes.data.entities.Product
+import com.apps.bacon.mydiabetes.data.entities.ProductMealJoin
 import com.apps.bacon.mydiabetes.data.repositories.MainRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

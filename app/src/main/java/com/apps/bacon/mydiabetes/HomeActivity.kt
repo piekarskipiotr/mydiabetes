@@ -150,9 +150,10 @@ class HomeActivity : BaseActivity() {
     override fun onStart() {
         super.onStart()
 
-        val isActivityAfterLangChange = sharedPreference.getBoolean("ACTIVITY_AFTER_LANGUAGE_CHANGE", false)
-        if(isActivityAfterLangChange){
-            with(sharedPreference.edit()){
+        val isActivityAfterLangChange =
+            sharedPreference.getBoolean("ACTIVITY_AFTER_LANGUAGE_CHANGE", false)
+        if (isActivityAfterLangChange) {
+            with(sharedPreference.edit()) {
                 putBoolean("ACTIVITY_AFTER_LANGUAGE_CHANGE", false)
                 apply()
             }
@@ -165,7 +166,7 @@ class HomeActivity : BaseActivity() {
 
         val isLangChanged = sharedPreference.getBoolean("LANGUAGE_CHANGED", false)
         if (isLangChanged) {
-            with(sharedPreference.edit()){
+            with(sharedPreference.edit()) {
                 putBoolean("LANGUAGE_CHANGED", false)
                 putBoolean("ACTIVITY_AFTER_LANGUAGE_CHANGE", true)
                 apply()
@@ -174,7 +175,7 @@ class HomeActivity : BaseActivity() {
             binding.bottomNavigation.selectedItemId = R.id.home_nav
         }
 
-        if(sharedPreference.getBoolean("THEME_CHANGED", false)){
+        if (sharedPreference.getBoolean("THEME_CHANGED", false)) {
             with(sharedPreference.edit()) {
                 putBoolean("THEME_CHANGED", false)
                 apply()

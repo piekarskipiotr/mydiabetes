@@ -11,7 +11,6 @@ import android.util.Size
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.*
 import androidx.camera.core.ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST
 import androidx.camera.lifecycle.ProcessCameraProvider

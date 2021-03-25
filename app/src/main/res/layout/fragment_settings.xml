@@ -51,6 +51,7 @@
                 android:layout_marginBottom="15dp"
                 android:text="@string/dark_mode"
                 android:textSize="16sp" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -77,6 +78,7 @@
                 android:layout_marginBottom="15dp"
                 android:text="@string/lang"
                 android:textSize="16sp" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -103,8 +105,7 @@
                 android:layout_marginBottom="15dp"
                 android:text="@string/share_many"
                 android:textSize="16sp" />
+
         </LinearLayout>
     </LinearLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

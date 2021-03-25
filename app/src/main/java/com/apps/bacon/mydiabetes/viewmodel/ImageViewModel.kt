@@ -39,9 +39,11 @@ constructor(
 
     var urls: MutableLiveData<List<String>>? = null
 
-    fun getURL(storageReference: StorageReference,
-               type: String,
-               name: String): LiveData<List<String>>? {
+    fun getURL(
+        storageReference: StorageReference,
+        type: String,
+        name: String
+    ): LiveData<List<String>>? {
         urls = repository.getImageURLS(storageReference, type, name)
 
         return urls

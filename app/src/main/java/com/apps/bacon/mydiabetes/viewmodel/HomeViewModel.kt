@@ -5,5 +5,4 @@ import androidx.lifecycle.ViewModel
 
 class HomeViewModel : ViewModel() {
     var currentTag = MutableLiveData<Int>()
-
 }

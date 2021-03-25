@@ -39,7 +39,10 @@ class FoodPlateAdapter constructor(
         }
 
         override fun onClick(p0: View?) {
-            listener.onProductClick(data[bindingAdapterPosition].id, data[bindingAdapterPosition].isEditable)
+            listener.onProductClick(
+                data[bindingAdapterPosition].id,
+                data[bindingAdapterPosition].isEditable
+            )
         }
     }
 
@@ -52,6 +55,7 @@ class FoodPlateAdapter constructor(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val context = holder.itemView.context
         val product = data[position]
+
         if (product.icon == null)
             holder.icon.setImageDrawable(
                 ContextCompat.getDrawable(
@@ -59,8 +63,8 @@ class FoodPlateAdapter constructor(
                     R.drawable.ic_round_dinner_dining
                 )
             )
-        else{
-            if(product.isEditable)
+        else {
+            if (product.isEditable)
                 holder.icon.setImageURI(Uri.parse(product.icon))
             else
                 Glide.with(holder.itemView).load(product.icon).into(holder.icon)
@@ -168,7 +172,6 @@ class FoodPlateAdapter constructor(
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 onTextChanged.invoke(p0)
-
             }
 
             override fun afterTextChanged(p0: Editable?) {

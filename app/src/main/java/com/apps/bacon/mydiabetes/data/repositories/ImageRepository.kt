@@ -25,7 +25,7 @@ class ImageRepository @Inject constructor(
 
     suspend fun delete(image: Image) = database.imageDao().delete(image)
 
-   fun getImageURLS(
+    fun getImageURLS(
         storageReference: StorageReference,
         type: String,
         name: String

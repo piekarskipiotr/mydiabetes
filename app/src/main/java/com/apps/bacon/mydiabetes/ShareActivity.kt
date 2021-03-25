@@ -3,7 +3,6 @@ package com.apps.bacon.mydiabetes
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apps.bacon.mydiabetes.adapters.ShareMealsAdapter
 import com.apps.bacon.mydiabetes.adapters.ShareProductsAdapter

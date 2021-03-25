@@ -1,12 +1,10 @@
 package com.apps.bacon.mydiabetes
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -109,7 +107,10 @@ class FoodPlateActivity : BaseActivity(), FoodPlateAdapter.OnProductClickListene
                         bottomDialogMealNameBinding.mealNameTextInput.text.isNullOrEmpty() ->
                             bottomDialogMealNameBinding.mealNameTextInputLayout.error =
                                 errorEmptyMessage
-                        mealViewModel.checkForMealExist(bottomDialogMealNameBinding.mealNameTextInput.text.toString(), null) ->
+                        mealViewModel.checkForMealExist(
+                            bottomDialogMealNameBinding.mealNameTextInput.text.toString(),
+                            null
+                        ) ->
                             bottomDialogMealNameBinding.mealNameTextInputLayout.error =
                                 errorAlreadyExistsNameMessage
                         else -> {
@@ -232,11 +233,11 @@ class FoodPlateActivity : BaseActivity(), FoodPlateAdapter.OnProductClickListene
     }
 
     override fun onProductClick(productId: Int, isEditable: Boolean) {
-        if(isEditable){
+        if (isEditable) {
             val intent = Intent(this, ProductActivity::class.java)
             intent.putExtra("PRODUCT_ID", productId)
             startActivity(intent)
-        }else{
+        } else {
             val intent = Intent(this, StaticProductActivity::class.java)
             intent.putExtra("PRODUCT_ID", productId)
             startActivity(intent)

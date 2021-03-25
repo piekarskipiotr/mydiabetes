@@ -53,7 +53,9 @@ class ShareProductsAdapter constructor(
     }
 
     override fun onBindViewHolder(holder: ShareProductsAdapter.ViewHolder, position: Int) {
-        if (data[position].icon == null)
+        val product = data[position]
+
+        if (product.icon == null)
             holder.icon.setImageDrawable(
                 ContextCompat.getDrawable(
                     holder.itemView.context,
@@ -61,30 +63,30 @@ class ShareProductsAdapter constructor(
                 )
             )
         else
-            holder.icon.setImageURI(Uri.parse(data[position].icon))
+            holder.icon.setImageURI(Uri.parse(product.icon))
 
-        holder.productName.text = data[position].name
-        if (data[position].weight == null)
-            holder.measure.text = data[position].pieces.toString()
+        holder.productName.text = product.name
+        if (product.weight == null)
+            holder.measure.text = product.pieces.toString()
         else
-            holder.measure.text = data[position].weight.toString()
+            holder.measure.text = product.weight.toString()
 
-        holder.carbohydrateExchangers.text = data[position].carbohydrateExchangers.toString()
-        holder.proteinFatExchangers.text = data[position].proteinFatExchangers.toString()
-        holder.calories.text = data[position].calories.toString()
+        holder.carbohydrateExchangers.text = product.carbohydrateExchangers.toString()
+        holder.proteinFatExchangers.text = product.proteinFatExchangers.toString()
+        holder.calories.text = product.calories.toString()
 
-        if (checkedList.get(data[position].id, false)) {
+        if (checkedList.get(product.id, false)) {
             holder.toShare.isChecked = true
-            holder.toShare.isClickable = !isFromMealList.get(data[position].id, false)
+            holder.toShare.isClickable = !isFromMealList.get(product.id, false)
         }
 
         holder.toShare.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                checkedList.append(data[position].id, true)
-                dataToShare.add(data[position])
+                checkedList.append(product.id, true)
+                dataToShare.add(product)
             } else {
-                checkedList.remove(data[position].id, true)
-                dataToShare.remove(data[position])
+                checkedList.remove(product.id, true)
+                dataToShare.remove(product)
             }
         }
     }
@@ -104,6 +106,7 @@ class ShareProductsAdapter constructor(
 
             isFromMealList.append(product.id, true)
         }
+
         notifyDataSetChanged()
     }
 
@@ -113,15 +116,17 @@ class ShareProductsAdapter constructor(
             checkedList.remove(product.id, true)
             isFromMealList.remove(product.id, true)
         }
+
         notifyDataSetChanged()
     }
 
     fun selectAllProducts() {
         for (product in data) {
-            if(!checkedList.get(product.id, false)){
+            if (!checkedList.get(product.id, false)) {
                 checkedList.append(product.id, true)
             }
         }
+
         notifyDataSetChanged()
     }
 

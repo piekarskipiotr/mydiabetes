@@ -1,13 +1,13 @@
 package com.apps.bacon.mydiabetes.data.repositories
 
 import com.apps.bacon.mydiabetes.data.AppDatabase
-import com.apps.bacon.mydiabetes.data.entities.*
+import com.apps.bacon.mydiabetes.data.entities.Meal
+import com.apps.bacon.mydiabetes.data.entities.ProductMealJoin
 import javax.inject.Inject
 
 class MealRepository @Inject constructor(
     private val database: AppDatabase
 ) {
-
     fun checkForMealExist(name: String) = database.mealDao().checkForMealExist(name)
 
     fun getAll() = database.mealDao().getAll()
@@ -35,7 +35,9 @@ class MealRepository @Inject constructor(
     fun getPMJbyMealName(name: String) = database.productMealJoinDao().getPMJoinByMealName(name)
 
 
-    suspend fun renamePMJMealName(meal: Meal, oldName: String, newName: String) = database.productMealJoinDao().renamePMJMealName(meal, oldName, newName)
+    suspend fun renamePMJMealName(meal: Meal, oldName: String, newName: String) =
+        database.productMealJoinDao().renamePMJMealName(meal, oldName, newName)
+
     suspend fun insertPMJoin(productMealJoin: ProductMealJoin) =
         database.productMealJoinDao().insert(productMealJoin)
 

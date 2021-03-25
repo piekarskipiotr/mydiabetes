@@ -3,7 +3,6 @@ package com.apps.bacon.mydiabetes
 import android.app.Activity
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import com.apps.bacon.mydiabetes.databinding.ActivityChangeMealNameBinding
 import com.apps.bacon.mydiabetes.viewmodel.MealViewModel
 import dagger.hilt.android.AndroidEntryPoint

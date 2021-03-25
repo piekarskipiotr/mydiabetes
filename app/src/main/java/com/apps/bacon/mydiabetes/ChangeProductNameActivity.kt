@@ -3,7 +3,6 @@ package com.apps.bacon.mydiabetes
 import android.app.Activity
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import com.apps.bacon.mydiabetes.databinding.ActivityChangeProductNameBinding
 import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,7 +36,8 @@ class ChangeProductNameActivity : BaseActivity() {
                     binding.productNameTextInput.text.toString().trim().toLowerCase(Locale.ROOT),
                     currentName
                 ) -> binding.productNameTextInputLayout.error = errorAlreadyExistsNameMessage
-                binding.productNameTextInput.text.toString().trim() == currentName -> onBackPressed()
+                binding.productNameTextInput.text.toString()
+                    .trim() == currentName -> onBackPressed()
                 else -> {
                     binding.productNameTextInputLayout.error = null
                     intent.putExtra(
