@@ -35,7 +35,7 @@ import java.io.InputStream
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener,
+class MealActivity : BaseActivity(), ProductsAdapter.OnProductClickListener,
     ImageAdapter.OnImageClickListener {
     private lateinit var productsAdapter: ProductsAdapter
     private lateinit var imageAdapter: ImageAdapter

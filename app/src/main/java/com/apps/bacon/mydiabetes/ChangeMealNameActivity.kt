@@ -10,7 +10,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 @AndroidEntryPoint
-class ChangeMealNameActivity : AppCompatActivity() {
+class ChangeMealNameActivity : BaseActivity() {
     private lateinit var binding: ActivityChangeMealNameBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

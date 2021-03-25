@@ -32,7 +32,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 
 @AndroidEntryPoint
-class FoodPlateActivity : AppCompatActivity(), FoodPlateAdapter.OnProductClickListener {
+class FoodPlateActivity : BaseActivity(), FoodPlateAdapter.OnProductClickListener {
     private lateinit var foodPlateAdapter: FoodPlateAdapter
     private val productViewModel: ProductViewModel by viewModels()
     private val mealViewModel: MealViewModel by viewModels()

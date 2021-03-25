@@ -20,7 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 @AndroidEntryPoint
-class AddTagActivity : AppCompatActivity() {
+class AddTagActivity : BaseActivity() {
     private lateinit var binding: ActivityAddTagBinding
     private val productViewModel: ProductViewModel by viewModels()
     private val tagViewModel: TagViewModel by viewModels()
@@ -75,10 +75,11 @@ class AddTagActivity : AppCompatActivity() {
     private fun addChips(context: Context, listOfTags: List<Tag>) {
         binding.tagChipContainer.removeAllViewsInLayout()
         for (i in listOfTags.indices) {
-            binding.tagChipContainer.addChip(context, listOfTags[i].name, listOfTags[i].id)
+            val tag = listOfTags[i]
+            binding.tagChipContainer.addChip(context, tag.name, tag.id)
             if (!intent.getBooleanExtra("TAG_SETTINGS", false)) {
                 binding.tagChipContainer[i].setOnClickListener {
-                    intent.putExtra("TAG_ID", listOfTags[i].id)
+                    intent.putExtra("TAG_ID", tag.id)
                     setResult(Activity.RESULT_OK, intent)
                     finish()
                 }

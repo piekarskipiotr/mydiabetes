@@ -29,7 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class StaticMealActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener {
+class StaticMealActivity : BaseActivity(), ProductsAdapter.OnProductClickListener {
     private lateinit var productsAdapter: ProductsAdapter
     private lateinit var staticImageAdapter: StaticImageAdapter
     private lateinit var binding: ActivityStaticMealBinding

@@ -10,7 +10,7 @@ import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ProductBarcodeActivity : AppCompatActivity() {
+class ProductBarcodeActivity : BaseActivity() {
     private lateinit var binding: ActivityProductBarcodeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

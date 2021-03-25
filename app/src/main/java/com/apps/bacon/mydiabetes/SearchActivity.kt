@@ -20,7 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 @AndroidEntryPoint
-class SearchActivity : AppCompatActivity(), ProductsAdapter.OnProductClickListener {
+class SearchActivity : BaseActivity(), ProductsAdapter.OnProductClickListener {
     private lateinit var productsAdapter: ProductsAdapter
     private lateinit var allProducts: List<Product>
     private val productViewModel: ProductViewModel by viewModels()

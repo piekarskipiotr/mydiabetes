@@ -2,11 +2,10 @@ package com.apps.bacon.mydiabetes
 
 import android.content.Context
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.apps.bacon.mydiabetes.databinding.ActivityLanguageSettingsBinding
 import java.util.*
 
-class LanguageSettings : AppCompatActivity() {
+class LanguageSettings : BaseActivity() {
     private lateinit var binding: ActivityLanguageSettingsBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,7 +18,7 @@ class LanguageSettings : AppCompatActivity() {
             Context.MODE_PRIVATE
         )
 
-        val defaultLang = if (Locale.getDefault().toLanguageTag() == "pl-PL")
+        val defaultLang = if (Locale.getDefault().toLanguageTag() == "pl")
             "pl"
         else
             "en"
@@ -32,39 +31,28 @@ class LanguageSettings : AppCompatActivity() {
         binding.polishRadioButton.setOnClickListener {
             binding.englishRadioButton.isChecked = false
             with(sharedPreference.edit()) {
+                putBoolean("LANGUAGE_CHANGED", true)
                 putString("APP_LANGUAGE", "pl")
                 apply()
             }
 
-            changeLanguage("pl")
-
+            recreate()
         }
 
         binding.englishRadioButton.setOnClickListener {
             binding.polishRadioButton.isChecked = false
             with(sharedPreference.edit()) {
+                putBoolean("LANGUAGE_CHANGED", true)
                 putString("APP_LANGUAGE", "en")
                 apply()
             }
 
-            changeLanguage("en")
+            recreate()
         }
 
         binding.backButton.setOnClickListener {
             onBackPressed()
         }
-    }
-
-    @Suppress("DEPRECATION")
-    private fun changeLanguage(languageCode: String) {
-        val config = resources.configuration
-        val locale = Locale(languageCode)
-
-        Locale.setDefault(locale)
-        config.setLocale(locale)
-        resources.updateConfiguration(config, resources.displayMetrics)
-
-        recreate()
     }
 
     override fun onBackPressed() {

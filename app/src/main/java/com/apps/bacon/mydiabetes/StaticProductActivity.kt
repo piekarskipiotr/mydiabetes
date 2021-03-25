@@ -30,7 +30,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class StaticProductActivity : AppCompatActivity() {
+class StaticProductActivity : BaseActivity() {
     private lateinit var staticProduct: Product
     private val productViewModel: ProductViewModel by viewModels()
     private val tagViewModel: TagViewModel by viewModels()

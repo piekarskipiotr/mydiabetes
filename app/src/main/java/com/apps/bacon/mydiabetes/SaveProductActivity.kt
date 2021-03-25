@@ -29,7 +29,7 @@ import com.google.android.material.chip.ChipGroup
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SaveProductActivity : AppCompatActivity() {
+class SaveProductActivity : BaseActivity() {
     private val tagViewModel: TagViewModel by viewModels()
     private val productViewModel: ProductViewModel by viewModels()
     private lateinit var binding: ActivitySaveProductBinding

@@ -42,7 +42,7 @@ import java.io.InputStream
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ProductActivity : AppCompatActivity(), ImageAdapter.OnImageClickListener {
+class ProductActivity : BaseActivity(), ImageAdapter.OnImageClickListener {
     private lateinit var product: Product
     private val productViewModel: ProductViewModel by viewModels()
     private val tagViewModel: TagViewModel by viewModels()

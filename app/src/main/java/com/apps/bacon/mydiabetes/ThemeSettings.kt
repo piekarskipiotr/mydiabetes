@@ -1,13 +1,14 @@
 package com.apps.bacon.mydiabetes
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate.*
 import com.apps.bacon.mydiabetes.databinding.ActivityThemeSettingsBinding
 
-class ThemeSettings : AppCompatActivity() {
+class ThemeSettings : BaseActivity() {
     private lateinit var binding: ActivityThemeSettingsBinding
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -15,33 +16,35 @@ class ThemeSettings : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        val sharedPreference = this.getSharedPreferences(
+        sharedPreferences = this.getSharedPreferences(
             "APP_PREFERENCES",
             Context.MODE_PRIVATE
         )
 
-        when (sharedPreference.getInt("THEME", MODE_NIGHT_NO)) {
+        when (sharedPreferences.getInt("THEME", MODE_NIGHT_NO)) {
             MODE_NIGHT_NO -> binding.turnOffRadioButton.isChecked = true
             MODE_NIGHT_YES -> binding.turnOnRadioButton.isChecked = true
         }
 
         binding.turnOnRadioButton.setOnClickListener {
             binding.turnOffRadioButton.isChecked = false
-            with(sharedPreference.edit()) {
+            with(sharedPreferences.edit()) {
                 putInt("THEME", MODE_NIGHT_YES)
-                putBoolean("THEME_HAS_CHANGED", true)
+                putBoolean("THEME_CHANGED", true)
                 apply()
             }
+
             setDefaultNightMode(MODE_NIGHT_YES)
         }
 
         binding.turnOffRadioButton.setOnClickListener {
             binding.turnOnRadioButton.isChecked = false
-            with(sharedPreference.edit()) {
+            with(sharedPreferences.edit()) {
                 putInt("THEME", MODE_NIGHT_NO)
-                putBoolean("THEME_HAS_CHANGED", true)
+                putBoolean("THEME_CHANGED", true)
                 apply()
             }
+
             setDefaultNightMode(MODE_NIGHT_NO)
         }
 

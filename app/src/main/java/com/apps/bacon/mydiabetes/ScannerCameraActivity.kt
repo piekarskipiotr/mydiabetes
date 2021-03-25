@@ -23,7 +23,7 @@ import java.util.concurrent.Executors
 
 typealias BarcodeListener = (barcode: String) -> Unit
 
-class ScannerCameraActivity : AppCompatActivity() {
+class ScannerCameraActivity : BaseActivity() {
     private var imageCapture: ImageCapture? = null
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var binding: ActivityScannerCameraBinding
@@ -143,7 +143,7 @@ class ScannerCameraActivity : AppCompatActivity() {
 
     private class BarcodeAnalyzer(private val listener: BarcodeListener) : ImageAnalysis.Analyzer {
 
-        @SuppressLint("UnsafeExperimentalUsageError")
+        @SuppressLint("UnsafeExperimentalUsageError", "UnsafeOptInUsageError")
         override fun analyze(imageProxy: ImageProxy) {
             imageProxy.image?.let {
                 val image = InputImage.fromMediaImage(it, imageProxy.imageInfo.rotationDegrees)

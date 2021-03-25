@@ -16,7 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ShareActivity : AppCompatActivity(), ShareProductsAdapter.OnShareProductListener,
+class ShareActivity : BaseActivity(), ShareProductsAdapter.OnShareProductListener,
     ShareMealsAdapter.OnShareMealListener {
     private lateinit var binding: ActivityShareBinding
 

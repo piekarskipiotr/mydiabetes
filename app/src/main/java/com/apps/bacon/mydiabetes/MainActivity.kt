@@ -93,6 +93,5 @@ class MainActivity : AppCompatActivity() {
         resources.updateConfiguration(config, resources.displayMetrics)
     }
 
-    override fun onBackPressed() {
-    }
+    override fun onBackPressed() {}
 }

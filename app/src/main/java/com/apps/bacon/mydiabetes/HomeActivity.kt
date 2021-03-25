@@ -6,7 +6,6 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE
 import com.apps.bacon.mydiabetes.data.entities.Tag
@@ -17,13 +16,10 @@ import com.apps.bacon.mydiabetes.viewmodel.ProductViewModel
 import com.apps.bacon.mydiabetes.viewmodel.TagViewModel
 import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 @AndroidEntryPoint
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : BaseActivity() {
     private lateinit var sharedPreference: SharedPreferences
-    private lateinit var lang: String
-    private lateinit var defaultLang: String
     private lateinit var binding: ActivityHomeBinding
     private val tagViewModel: TagViewModel by viewModels()
 
@@ -40,13 +36,6 @@ class HomeActivity : AppCompatActivity() {
             "APP_PREFERENCES",
             Context.MODE_PRIVATE
         )
-
-        defaultLang = if (Locale.getDefault().toLanguageTag() == "pl-PL")
-            "pl"
-        else
-            "en"
-
-        lang = sharedPreference.getString("APP_LANGUAGE", defaultLang) as String
 
         val homeViewModel: HomeViewModel by viewModels()
         val productViewModel: ProductViewModel by viewModels()
@@ -75,7 +64,6 @@ class HomeActivity : AppCompatActivity() {
             override fun onTabReselected(tab: TabLayout.Tab?) {
 
             }
-
         })
 
         binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
@@ -113,9 +101,7 @@ class HomeActivity : AppCompatActivity() {
                 }
 
                 else -> false
-
             }
-
         }
 
         binding.searchForProduct.setOnClickListener {
@@ -147,7 +133,6 @@ class HomeActivity : AppCompatActivity() {
                     }, j + 1
             )
         }
-
     }
 
     private fun changeFragment(fragment: Fragment, fragmentTitle: String, visibility: Int) {
@@ -158,27 +143,40 @@ class HomeActivity : AppCompatActivity() {
             .setTransition(TRANSIT_FRAGMENT_FADE)
             .replace(binding.fragmentContainer.id, fragment)
             .commit()
-
     }
 
-    override fun onBackPressed() {
+    override fun onBackPressed() {}
 
+    override fun onStart() {
+        super.onStart()
+
+        val isActivityAfterLangChange = sharedPreference.getBoolean("ACTIVITY_AFTER_LANGUAGE_CHANGE", false)
+        if(isActivityAfterLangChange){
+            with(sharedPreference.edit()){
+                putBoolean("ACTIVITY_AFTER_LANGUAGE_CHANGE", false)
+                apply()
+            }
+            TagTranslator().translate(tagViewModel, this)
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        val oldLang = lang
 
-        lang = sharedPreference.getString("APP_LANGUAGE", defaultLang) as String
-        if (oldLang != lang) {
-            TagTranslator().translate(tagViewModel, this)
+        val isLangChanged = sharedPreference.getBoolean("LANGUAGE_CHANGED", false)
+        if (isLangChanged) {
+            with(sharedPreference.edit()){
+                putBoolean("LANGUAGE_CHANGED", false)
+                putBoolean("ACTIVITY_AFTER_LANGUAGE_CHANGE", true)
+                apply()
+            }
             recreate()
             binding.bottomNavigation.selectedItemId = R.id.home_nav
         }
 
-        if(sharedPreference.getBoolean("THEME_HAS_CHANGED", false)){
+        if(sharedPreference.getBoolean("THEME_CHANGED", false)){
             with(sharedPreference.edit()) {
-                putBoolean("THEME_HAS_CHANGED", false)
+                putBoolean("THEME_CHANGED", false)
                 apply()
             }
             binding.bottomNavigation.selectedItemId = R.id.settings_nav
