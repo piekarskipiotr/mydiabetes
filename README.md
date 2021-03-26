@@ -53,7 +53,7 @@ fun proteinFatExchangersByCal(cal: Double, carbohydrates: Double): Double{
 ## 🛠 Technologies
 Project is created with **Kotlin** and using **Firebase**.
 
-📚 Libraries (already in use):
+📚 Libraries:
 * [CameraX](https://developer.android.com/training/camerax)
 * [Glide](https://github.com/bumptech/glide)
 * [Hilt](https://developer.android.com/training/dependency-injection/hilt-android)
@@ -81,5 +81,5 @@ Project is created with **Kotlin** and using **Firebase**.
 * Searching by image
 
 ## ☄ Download
-<a href="https://play.google.com/store/apps/developer?id=Bacon+Apps"><img src="assets/google_play_download.png" width="20%"/></a>
+<a href="https://play.google.com/store/apps/details?id=com.apps.bacon.mydiabetes"><img src="assets/google_play_download.png" width="20%"/></a>
 
