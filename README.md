@@ -1,10 +1,12 @@
 # 💙 MyDiabetes
 Application for diabetes that help them calculate carbohydrates and protein-fat exchangers.
 
- Home                      | Product Activity          | Calculator                | Search                    |     
-:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|
-![](assets/1.png)          |         ![](assets/2.png) |         ![](assets/3.png) | ![](assets/4.png)         |
-![](assets/1night.png)     |    ![](assets/2night.png) |    ![](assets/3night.png) | ![](assets/4night.png)    |
+<p float="left" align="center">
+	<img src="assets/1r.png" width="24%" />
+	<img src="assets/2r.png" width="24%" /> 
+	<img src="assets/3r.png" width="24%"/>
+	<img src="assets/4r.png" width="24%"/>
+</p>
 
 ## 🔍 Table of contents
 * [General info](#-general-info)
@@ -51,15 +53,15 @@ fun proteinFatExchangersByCal(cal: Double, carbohydrates: Double): Double{
 ## 🛠 Technologies
 Project is created with **Kotlin** and using **Firebase**.
 
-📚 Libraries (already in use):
+📚 Libraries:
 * [CameraX](https://developer.android.com/training/camerax)
 * [Glide](https://github.com/bumptech/glide)
 * [Hilt](https://developer.android.com/training/dependency-injection/hilt-android)
 * [Kotlin Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html)
-* [Lifecycle](https://developer.android.com/jetpack/androidx/releases/lifecycle)
 * [ML Kit](https://developers.google.com/ml-kit)
 * [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart)
 * [OkHttp](https://square.github.io/okhttp/)
+* [Paging 3](https://developer.android.com/topic/libraries/architecture/paging/v3-overview)
 * [Retrofit](https://square.github.io/retrofit/)
 * [ROOM](https://developer.android.com/jetpack/androidx/releases/room)
 
@@ -72,9 +74,12 @@ Project is created with **Kotlin** and using **Firebase**.
 * Saving meals
 * Creating a common database of products and meals by users
 
+### 🌙 We support dark theme!
+<img src="assets/3r_night.png" width="24%" />
+
 #### 🎯 TO DO:
 * Searching by image
 
 ## ☄ Download
-[Download demo apk](https://github.com/piekarskipiotr/MyDiabetes2/blob/master/app/app-debug.apk)
+<a href="https://play.google.com/store/apps/details?id=com.apps.bacon.mydiabetes"><img src="assets/google_play_download.png" width="20%"/></a>
 

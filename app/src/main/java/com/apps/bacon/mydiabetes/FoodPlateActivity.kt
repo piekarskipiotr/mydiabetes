@@ -185,7 +185,7 @@ class FoodPlateActivity : BaseActivity(), FoodPlateAdapter.OnProductClickListene
         }
 
         carbohydrateExchangers = Calculations().roundToOneDecimal(carbohydrateExchangers)
-        proteinFatExchangers = Calculations().roundToOneDecimal(carbohydrateExchangers)
+        proteinFatExchangers = Calculations().roundToOneDecimal(proteinFatExchangers)
         calories = Calculations().roundToOneDecimal(calories)
 
         pieChart(carbohydrateExchangers, proteinFatExchangers, calories)
