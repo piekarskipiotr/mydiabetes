@@ -115,6 +115,11 @@ class StaticMealActivity : BaseActivity(), ProductsAdapter.OnProductClickListene
                 val productReference =
                     database.child("Meal Errors/${staticMeal.name}/${System.currentTimeMillis()}/")
                 productReference.setValue(errorMassage)
+                Toast.makeText(
+                    this,
+                    resources.getString(R.string.sent),
+                    Toast.LENGTH_SHORT
+                ).show()
                 alertDialog.dismiss()
             } else {
                 Toast.makeText(

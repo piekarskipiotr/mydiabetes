@@ -148,9 +148,14 @@ class StaticProductActivity : BaseActivity() {
             }
 
             if (errorMassage != null) {
-                val productReference = database.child("Product Errors")
-                productReference.child(staticProduct.name).setValue(errorMassage)
-
+                val productReference = database.child("Product Errors/${staticProduct.name}/${System.currentTimeMillis()}/")
+                productReference.child(errorMassage)
+                Toast.makeText(
+                    this,
+                    resources.getString(R.string.sent),
+                    Toast.LENGTH_SHORT
+                ).show()
+                alertDialog.dismiss()
             } else {
                 Toast.makeText(
                     this,
