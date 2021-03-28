@@ -173,10 +173,13 @@ class FoodPlateActivity : BaseActivity(), FoodPlateAdapter.OnProductClickListene
     }
 
     private fun sumValues() {
+        carbohydrateExchangers = 0.0
+        proteinFatExchangers = 0.0
+        calories = 0.0
 
         for (i in 0 until foodPlateAdapter.itemCount) {
             carbohydrateExchangers += foodPlateAdapter.getCarbohydrateExchangers(i)
-            proteinFatExchangers += foodPlateAdapter.getProteinFat(i)
+            proteinFatExchangers += foodPlateAdapter.getProteinFatExchangers(i)
             calories += foodPlateAdapter.getCalories(i)!!
 
         }
