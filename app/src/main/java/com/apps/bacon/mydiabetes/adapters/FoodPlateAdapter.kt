@@ -23,6 +23,7 @@ class FoodPlateAdapter constructor(
     private val listener: OnProductClickListener
 ) : RecyclerView.Adapter<FoodPlateAdapter.ViewHolder>() {
     private var data: List<Product> = ArrayList()
+    private val dataC = mutableListOf<MutableList<Double>>()
 
     inner class ViewHolder(view: ProductItemFoodPlateBinding) : RecyclerView.ViewHolder(view.root),
         View.OnClickListener {
@@ -87,6 +88,19 @@ class FoodPlateAdapter constructor(
         holder.proteinFatExchangers.text = product.proteinFatExchangers.toString()
         holder.calories.text = product.calories.toString()
 
+        try {
+            dataC[position][0] = holder.carbohydrateExchangers.text.toString().toDouble()
+            dataC[position][1] = holder.proteinFatExchangers.text.toString().toDouble()
+            dataC[position][2] = holder.calories.text.toString().toDouble()
+        } catch (e: IndexOutOfBoundsException) {
+            val list = mutableListOf(
+                holder.carbohydrateExchangers.text.toString().toDouble(),
+                holder.proteinFatExchangers.text.toString().toDouble(),
+                holder.calories.text.toString().toDouble(),
+            )
+            dataC.add(position, list)
+        }
+
         holder.measure.onTextChanged {
             val value: String = when {
                 it.isNullOrEmpty() -> "0"
@@ -94,45 +108,50 @@ class FoodPlateAdapter constructor(
                 else -> it.toString()
             }
 
+            val calculatedCarbohydrateExchangers: Double
+            val calculatedProteinFatExchangers: Double
+            val calculatedCalories: Double
             if (product.weight == null) {
-                holder.carbohydrateExchangers.text = Calculations()
+                calculatedCarbohydrateExchangers = Calculations()
                     .carbohydrateExchangesByPieces(
                         product.carbohydrateExchangers,
                         product.pieces!!,
                         value.toInt()
                     )
-                    .toString()
-                holder.proteinFatExchangers.text = Calculations()
+                calculatedProteinFatExchangers = Calculations()
                     .proteinFatExchangersByPieces(
                         product.proteinFatExchangers, product.pieces!!, value.toInt()
                     )
-                    .toString()
-                holder.calories.text = Calculations()
+                calculatedCalories = Calculations()
                     .caloriesByPieces(
                         product.calories!!, product.pieces!!, value.toInt()
                     )
-                    .toString()
             } else {
-                holder.carbohydrateExchangers.text = Calculations()
+                calculatedCarbohydrateExchangers = Calculations()
                     .carbohydrateExchangesByWeight(
                         product.carbohydrateExchangers,
                         product.weight!!,
                         value.toDouble()
                     )
-                    .toString()
-                holder.proteinFatExchangers.text = Calculations()
+                calculatedProteinFatExchangers = Calculations()
                     .proteinFatExchangersByWeight(
                         product.proteinFatExchangers,
                         product.weight!!,
                         value.toDouble()
                     )
-                    .toString()
-                holder.calories.text = Calculations()
+                calculatedCalories = Calculations()
                     .caloriesByWeight(
                         product.calories!!, product.weight!!, value.toDouble()
                     )
-                    .toString()
             }
+
+            holder.carbohydrateExchangers.text = calculatedCarbohydrateExchangers.toString()
+            holder.proteinFatExchangers.text = calculatedProteinFatExchangers.toString()
+            holder.calories.text = calculatedCalories.toString()
+
+            dataC[position][0] = calculatedCarbohydrateExchangers
+            dataC[position][1] = calculatedProteinFatExchangers
+            dataC[position][2] = calculatedCalories
         }
     }
 
@@ -148,15 +167,27 @@ class FoodPlateAdapter constructor(
     }
 
     fun getCarbohydrateExchangers(position: Int): Double {
-        return data[position].carbohydrateExchangers
+        return try {
+            dataC[position][0]
+        } catch (e: IndexOutOfBoundsException) {
+            getProduct(position).carbohydrateExchangers
+        }
     }
 
     fun getProteinFatExchangers(position: Int): Double {
-        return data[position].proteinFatExchangers
+        return try {
+            dataC[position][1]
+        } catch (e: IndexOutOfBoundsException) {
+            getProduct(position).proteinFatExchangers
+        }
     }
 
     fun getCalories(position: Int): Double? {
-        return data[position].calories
+        return try {
+            dataC[position][2]
+        } catch (e: IndexOutOfBoundsException) {
+            getProduct(position).calories
+        }
     }
 
     fun getProduct(position: Int): Product {
