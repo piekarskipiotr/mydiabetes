@@ -32,9 +32,7 @@ class ChangeMealNameActivity : BaseActivity() {
                 binding.mealNameTextInput.text.isNullOrEmpty() -> binding.mealNameTextInputLayout.error =
                     errorEmptyMessage
                 mealViewModel.checkForMealExist(
-                    binding.mealNameTextInput.text.toString().trim().toLowerCase(
-                        Locale.ROOT
-                    ), currentName
+                    binding.mealNameTextInput.text.toString().trim().lowercase(), currentName
                 ) -> binding.mealNameTextInputLayout.error = errorAlreadyExistsNameMessage
                 binding.mealNameTextInput.text.toString().trim() == currentName -> onBackPressed()
                 else -> {

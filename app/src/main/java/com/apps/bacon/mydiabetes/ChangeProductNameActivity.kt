@@ -33,7 +33,7 @@ class ChangeProductNameActivity : BaseActivity() {
                 binding.productNameTextInput.text.isNullOrEmpty() -> binding.productNameTextInputLayout.error =
                     errorEmptyMessage
                 productViewModel.checkForProductExist(
-                    binding.productNameTextInput.text.toString().trim().toLowerCase(Locale.ROOT),
+                    binding.productNameTextInput.text.toString().trim().lowercase(),
                     currentName
                 ) -> binding.productNameTextInputLayout.error = errorAlreadyExistsNameMessage
                 binding.productNameTextInput.text.toString()

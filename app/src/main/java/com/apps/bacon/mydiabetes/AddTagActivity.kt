@@ -50,7 +50,7 @@ class AddTagActivity : BaseActivity() {
                     errorEmptyMessage
                 tagViewModel.checkForTagExist(
                     binding.tagNameTextInput.text.toString().trim()
-                        .toLowerCase(Locale.ROOT)
+                        .lowercase()
                 ) -> binding.tagNameTextInputLayout.error = errorAlreadyExistsNameMessage
                 else -> {
                     binding.tagNameTextInputLayout.error = null
