@@ -34,7 +34,6 @@ class MealRepository @Inject constructor(
 
     fun getPMJbyMealName(name: String) = database.productMealJoinDao().getPMJoinByMealName(name)
 
-
     suspend fun renamePMJMealName(meal: Meal, oldName: String, newName: String) =
         database.productMealJoinDao().renamePMJMealName(meal, oldName, newName)
 

@@ -19,31 +19,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyDiabetes">
-        <activity android:name=".StaticMealActivity" />
-        <activity android:name=".StaticProductActivity" />
-        <activity android:name=".ShareActivity" />
-        <activity android:name=".ChangeMealNameActivity" />
-        <activity android:name=".MealActivity" />
-        <activity android:name=".LanguageSettings" />
-        <activity android:name=".ThemeSettings" />
+        <activity android:name=".ui.stable.meal.StaticMealActivity" />
+        <activity android:name=".ui.stable.product.StaticProductActivity" />
+        <activity android:name=".ui.settings.share.ShareActivity" />
+        <activity android:name=".ui.change.meal.name.ChangeMealNameActivity" />
+        <activity android:name=".ui.meal.MealActivity" />
+        <activity android:name=".ui.settings.lang.LanguageSettings" />
+        <activity android:name=".ui.settings.theme.ThemeSettings" />
         <activity
-            android:name=".CameraActivity"
+            android:name=".ui.camera.CameraActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ScannerCameraActivity"
+            android:name=".ui.camera.ScannerCameraActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ProductBarcodeActivity" />
-        <activity android:name=".FoodPlateActivity" />
-        <activity android:name=".SearchActivity" />
-        <activity android:name=".ChangeProductNameActivity" />
-        <activity android:name=".AddTagActivity" />
-        <activity android:name=".ProductActivity" />
-        <activity android:name=".SaveProductActivity" />
+        <activity android:name=".ui.barcode.ProductBarcodeActivity" />
+        <activity android:name=".ui.foodplate.FoodPlateActivity" />
+        <activity android:name=".ui.search.SearchActivity" />
+        <activity android:name=".ui.change.product.name.ChangeProductNameActivity" />
+        <activity android:name=".ui.settings.add.tag.AddTagActivity" />
+        <activity android:name=".ui.product.ProductActivity" />
+        <activity android:name=".ui.save.product.SaveProductActivity" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".ui.home.HomeActivity"
             android:configChanges="orientation|screenSize" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.main.MainActivity"
             android:theme="@style/SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
